@@ -47,7 +47,6 @@ public class MapReader {
 		            	t.setTerritoryCoordinateX(columns[1]);
 		            	t.setTerritoryCoordinateY(columns[2]);
 		            	
-		            	//String columnsPart3 = columns[3];
 		            	List<String> tempNeighboursList = new ArrayList<String>();
 		            	tempNeighboursList.add(columns[3]);
 		            	t.setTerritoryNeighbours(tempNeighboursList);
