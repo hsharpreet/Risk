@@ -1,4 +1,4 @@
-package test;
+package game.risk.util;
 
 import java.util.List;
 
