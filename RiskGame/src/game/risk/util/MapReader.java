@@ -1,74 +1,65 @@
 package game.risk.util;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
-/**
- * This class reads the map into the java classes
- *
- */
 public class MapReader {
 
 	public static void main(String[] args) throws Exception {
-		
+		RiskMap riskMap = new MapReader().readMap();
+		System.out.println(riskMap.getMap());
+	}
+
+	public RiskMap readMap() throws Exception {
+
 		File inputFile = new File("World.map");
 		BufferedReader br = new BufferedReader(new FileReader(inputFile));
-		
-		//File outputFile = new File("Files/input/movies01.csv");
-		//BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
-		
+
 		String line = "";
-		
-		HashMap<String, String> map = new HashMap<String, String>();
+
+		HashMap<String, String> mapDetails = new HashMap<String, String>();
 		HashMap<String, String> continents = new HashMap<String, String>();
-		ArrayList<Territories> territories = new ArrayList<Territories>();
-		
-		while((line = br.readLine()) != null){
-			if(line.equalsIgnoreCase("[Map]")){
-		        while (!(line = br.readLine()).equalsIgnoreCase("") || line.startsWith("[")) {
-		            String[] columns = line.split("=");
-		            map.put(columns[0], columns[1]);
-		        }
-		        System.out.println(map);
-			}else if(line.equalsIgnoreCase("[Continents]")){
+		ArrayList<Territory> territories = new ArrayList<Territory>();
+
+		while ((line = br.readLine()) != null) {
+			if (line.equalsIgnoreCase("[Map]")) {
 				while (!(line = br.readLine()).equalsIgnoreCase("") || line.startsWith("[")) {
-		            String[] columns = line.split("=");
-		            continents.put(columns[0], columns[1]);
-		        }
-			}else if(line.equalsIgnoreCase("[Territories]")){
-				while ((line = br.readLine()) != null && line  != "") {
-		            String[] columns = line.split(",",4);
-		            for(int i=0; i< columns.length && columns.length>3;i++){
-		            	Territories t = new Territories();
-		            	t.setTerritoryName(columns[0]);
-		            	System.out.println("NAME: "+columns[0]);
-		            	t.setTerritoryCoordinateX(columns[1]);
-		            	t.setTerritoryCoordinateY(columns[2]);
-		            	
-		            	List<String> tempNeighboursList = new ArrayList<String>();
-		            	tempNeighboursList.add(columns[3]);
-		            	t.setTerritoryNeighbours(tempNeighboursList);
-		            	territories.add(t);
-		            	break;
-		            }
-		        }
-				break;
+					String[] columns = line.split("=");
+					mapDetails.put(columns[0], columns[1]);
+				}
+				System.out.println("map : " + mapDetails);
+			} else if (line.equalsIgnoreCase("[Continents]")) {
+				while (!(line = br.readLine()).equalsIgnoreCase("") || line.startsWith("[")) {
+					String[] columns = line.split("=");
+					continents.put(columns[0], columns[1]);
+				}
+			} else if (line.equalsIgnoreCase("[Territories]")) {
+				while ((line = br.readLine()) != null && line != "") {
+					String[] columns = line.split(",");
+					if (columns.length > 1) {
+						Territory territory = new Territory();
+						territory.setName(columns[0]);
+						territory.setCoordinateX(columns[1]);
+						territory.setCoordinateY(columns[2]);
+						territory.setContinent(columns[3]);
+						List<String> tempNeighboursList = new ArrayList<String>();
+						for (int i = 4; i < columns.length; i++)
+							tempNeighboursList.add(columns[i]);
+						territory.setNeighbouringTerritories(tempNeighboursList);
+						territories.add(territory);
+						System.out.println(territory);
+					}
+				}
+
 			}
 		}
-		/*System.out.println(map);
-		System.out.println(continents);
-		for(Territories t : territories){
-			System.out.print(t.getTerritoryName()+" ");
-		}*/
 		br.close();
-		//bw.close();
+		RiskMap riskMap = new RiskMap(mapDetails, continents, territories);
+		return riskMap;
 	}
 
 }
