@@ -9,6 +9,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+
+/**
+ * This class reads the map into the java classes
+ *
+ */
 public class MapReader {
 
 	public static void main(String[] args) throws Exception {
