@@ -7,9 +7,9 @@ public class RiskMap {
 	
 	HashMap<String, String> map ;
 	HashMap<String, String> continents ;
-	ArrayList<Territory> territories ;
+	HashMap<String, Territory> territories ;
 	
-	public RiskMap(HashMap<String, String> map, HashMap<String, String> continents, ArrayList<Territory> territories) {
+	public RiskMap(HashMap<String, String> map, HashMap<String, String> continents, HashMap<String, Territory> territories) {
 		super();
 		this.map = map;
 		this.continents = continents;
@@ -21,7 +21,7 @@ public class RiskMap {
 	public HashMap<String, String> getContinents() {
 		return continents;
 	}
-	public ArrayList<Territory> getTerritories() {
+	public HashMap<String, Territory> getTerritories() {
 		return territories;
 	}
 	

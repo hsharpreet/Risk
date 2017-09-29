@@ -8,10 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MapReader {
-
 	public static void main(String[] args) throws Exception {
+		System.out.println("MapReader main method...");
 		RiskMap riskMap = new MapReader().readMap();
 		System.out.println(riskMap.getMap());
+		System.out.println(riskMap.getTerritories().keySet());
 	}
 
 	public RiskMap readMap() throws Exception {
@@ -23,7 +24,8 @@ public class MapReader {
 
 		HashMap<String, String> mapDetails = new HashMap<String, String>();
 		HashMap<String, String> continents = new HashMap<String, String>();
-		ArrayList<Territory> territories = new ArrayList<Territory>();
+		HashMap<String, Territory> territories = new HashMap<String, Territory>();
+		
 
 		while ((line = br.readLine()) != null) {
 			if (line.equalsIgnoreCase("[Map]")) {
@@ -41,17 +43,17 @@ public class MapReader {
 				while ((line = br.readLine()) != null && line != "") {
 					String[] columns = line.split(",");
 					if (columns.length > 1) {
-						Territory territory = new Territory();
-						territory.setName(columns[0]);
-						territory.setCoordinateX(columns[1]);
-						territory.setCoordinateY(columns[2]);
-						territory.setContinent(columns[3]);
+						Territory territoryObj = new Territory();
+						territoryObj.setName(columns[0]);
+						territoryObj.setCoordinateX(columns[1]);
+						territoryObj.setCoordinateY(columns[2]);
+						territoryObj.setContinent(columns[3]);
 						List<String> tempNeighboursList = new ArrayList<String>();
 						for (int i = 4; i < columns.length; i++)
 							tempNeighboursList.add(columns[i]);
-						territory.setNeighbouringTerritories(tempNeighboursList);
-						territories.add(territory);
-						System.out.println(territory);
+						territoryObj.setNeighbouringTerritories(tempNeighboursList);
+						territories.put(territoryObj.getName(), territoryObj);
+						System.out.println(territoryObj);
 					}
 				}
 
