@@ -8,11 +8,12 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MapReader {
+	
 	public static void main(String[] args) throws Exception {
 		System.out.println("MapReader main method...");
 		RiskMap riskMap = new MapReader().readMap();
 		System.out.println(riskMap.getMap());
-		System.out.println(riskMap.getTerritories().keySet());
+		System.out.println(riskMap.getTerritories().keySet().size());
 	}
 
 	public RiskMap readMap() throws Exception {
