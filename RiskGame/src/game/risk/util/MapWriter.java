@@ -25,12 +25,17 @@ public class MapWriter {
 		FileOutputStream outStream = new FileOutputStream(outFile);
 		PrintWriter printWriter = new PrintWriter(outStream);
 		String thisLine = "";
-		while ((thisLine = br.readLine()) != null) {
-			if (thisLine.equalsIgnoreCase("[Territories]")) {
+		while ((thisLine = br.readLine()) != null) 
+		
+		{
+			printWriter.println(thisLine);
+			if (thisLine.equalsIgnoreCase("[Continents]")) 
+			
+			{
 				printWriter.println(newContinent);
 
 			}
-			printWriter.println(thisLine);
+			
 		}
 		printWriter.flush();
 		printWriter.close();
