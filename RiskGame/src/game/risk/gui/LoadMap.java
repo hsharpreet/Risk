@@ -18,9 +18,12 @@ public static void main(String[] args) throws Exception
 	
     JFrame f=new JFrame("MAP GUI");  
     
-    JButton b1,addContinent;
-    JLabel l1,l2;  
+    JButton addCountry,addContinent , addadjacentcountry , submitNewCountry ;
+    JLabel l1,l2 , newcountrynamelabel ,continentfornewcountry , adjacenttonewcountry;  
     JComboBox cb1,cb2;
+    JTextField newcountryname;
+    JComboBox selectContinentForNewCountry ; 
+    JComboBox selectAdjacentCountry;
    
     
     
@@ -31,32 +34,71 @@ public static void main(String[] args) throws Exception
     
         
     
-    b1=new JButton("Click Here");
+    addCountry=new JButton("+");
     addContinent=new JButton("+");
+    addadjacentcountry= new JButton("+");
+    submitNewCountry= new JButton("Submit date");
+    
     l1=new JLabel("Continents");  
     l2=new JLabel("Countries"); 
+    newcountrynamelabel= new JLabel("Enter Name");
+    continentfornewcountry = new JLabel("Continent");
+    adjacenttonewcountry = new JLabel("Select Link");
     cb1=new JComboBox(riskmap.getContinents().keySet().toArray());
     cb2=new JComboBox(riskmap.getTerritories().keySet().toArray());
+    newcountryname= new JTextField();
     
-   // b1.setBounds(155,210,100,35);
+    selectContinentForNewCountry = new JComboBox(riskmap.getContinents().keySet().toArray());
+    selectAdjacentCountry = new JComboBox(riskmap.getTerritories().keySet().toArray());
+    
+    addCountry.setBounds(640,80,30,20);
     addContinent.setBounds(230,80,30,20);
     l1.setBounds(40,48, 100,30); 
-    l2.setBounds(350,48, 100,30);
+    l2.setBounds(450,48, 100,30);
     cb1.setBounds(40, 80,190,20); 
-    cb2.setBounds(350, 50,190,120); 
+    cb2.setBounds(450, 80,190,20); 
     
+    newcountryname.setBounds(300,250,120,40);
+    selectContinentForNewCountry.setBounds(430 , 250, 120,40);
+    selectAdjacentCountry.setBounds(560 , 250 , 120 , 40);
     
-    f.add(cb1);  
-    f.add(cb2);
+    newcountrynamelabel.setBounds(300 , 200 , 120 , 40);
+    continentfornewcountry.setBounds(430 ,200,120,40 );
+    adjacenttonewcountry.setBounds(560 , 200 ,120 , 40);
+    addadjacentcountry.setBounds(690 , 255 , 20,20);
+    submitNewCountry.setBounds(430 , 320 , 120,50);
     f.add(l1);
     f.add(l2);
-    f.add(b1);
+    f.add(cb1);  
+    f.add(cb2);
+    
+    
     f.add(addContinent);
+    f.add(addCountry);
+    f.add(newcountryname);
+    f.add(selectContinentForNewCountry);
+    f.add(selectAdjacentCountry);
+    f.add(newcountrynamelabel);
+    f.add(continentfornewcountry);
+    f.add(adjacenttonewcountry);
+    f.add(addadjacentcountry);
+    f.add(submitNewCountry);
     
+    newcountryname.setVisible(false);
+    selectContinentForNewCountry.setVisible(false);
+    selectAdjacentCountry.setVisible(false);
+    newcountrynamelabel.setVisible(false);
+    continentfornewcountry.setVisible(false);
+    adjacenttonewcountry.setVisible(false);
+    addadjacentcountry.setVisible(false);
+    submitNewCountry.setVisible(false);
    
-    
+  
     addContinent.addActionListener(new ActionListener(){  
-    public void actionPerformed(ActionEvent e){  
+    	
+    public void actionPerformed(ActionEvent e){ 
+    	
+    	LoadMap loadmap = new LoadMap();
     	JTextField name = new JTextField();
     	JTextField value = new JTextField();
     	Object[] message = {
@@ -71,6 +113,7 @@ public static void main(String[] args) throws Exception
     	    MapWriter writeContinent = new MapWriter();
     	    try {
 				writeContinent.addContinent(name.getText(), value.getText());
+				
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -85,6 +128,59 @@ public static void main(String[] args) throws Exception
         }  
     });  
     
+    
+    addCountry.addActionListener(new ActionListener(){  
+    	
+        public void actionPerformed(ActionEvent e){ 
+        	
+       newcountryname.setVisible(true);
+       selectContinentForNewCountry.setVisible(true);
+       selectAdjacentCountry.setVisible(true);
+
+       newcountrynamelabel.setVisible(true);
+       continentfornewcountry.setVisible(true);
+       adjacenttonewcountry.setVisible(true);
+       addadjacentcountry.setVisible(true);
+       submitNewCountry.setVisible(true);
+        	
+            }  
+        });  
+    
+    
+ /*   addCountry.addActionListener(new ActionListener(){  
+    	
+        public void actionPerformed(ActionEvent e){ 
+        	
+        
+        	JTextField name_Country = new JTextField();
+        	JComboBox combobox_continents;
+        	JComboBox combobox_countries;
+        	
+     
+        	combobox_continents= new JComboBox(riskmap.getContinents().keySet().toArray());
+        	combobox_countries = new JComboBox(riskmap.getTerritories().keySet().toArray());
+        	Object[] message = {
+        	    "Name:", name_Country,
+        	    "Select Continent of new country:", combobox_continents,
+        	    "Select adjacent countries to new country:", combobox_countries
+        	};
+
+        	int option = JOptionPane.showConfirmDialog(f, message, "Continent Details", JOptionPane.OK_CANCEL_OPTION);
+        	if (option == JOptionPane.OK_OPTION) 
+        	
+        	{
+        	    MapWriter writeContinent = new MapWriter();
+
+        	} 
+        	
+        	else {
+        	    System.out.println("Action canceled");
+        	}
+
+            }  
+        });  */
+    
+    
     f.setSize(800,500);  
     f.setLayout(null);  
     f.setVisible(true);   
@@ -97,4 +193,7 @@ public static void main(String[] args) throws Exception
     
     f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 }  
+
+
+
 }  
