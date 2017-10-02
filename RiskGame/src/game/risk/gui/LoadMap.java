@@ -1,9 +1,12 @@
 package game.risk.gui;
 
 import java.awt.Color;
+import java.awt.List;
 import java.awt.event.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 
 import javax.swing.*;
 
@@ -24,6 +27,7 @@ public static void main(String[] args) throws Exception
     JTextField newcountryname;
     JComboBox selectContinentForNewCountry ; 
     JComboBox selectAdjacentCountry;
+    LinkedHashSet<String> adjacentCountriesToNewCountry = new LinkedHashSet<>();
    
     
     
@@ -37,7 +41,7 @@ public static void main(String[] args) throws Exception
     addCountry=new JButton("+");
     addContinent=new JButton("+");
     addadjacentcountry= new JButton("+");
-    submitNewCountry= new JButton("Submit date");
+    submitNewCountry= new JButton("Submit data");
     
     l1=new JLabel("Continents");  
     l2=new JLabel("Countries"); 
@@ -142,8 +146,80 @@ public static void main(String[] args) throws Exception
        adjacenttonewcountry.setVisible(true);
        addadjacentcountry.setVisible(true);
        submitNewCountry.setVisible(true);
+       
         	
             }  
+        });  
+    
+ addadjacentcountry.addActionListener(new ActionListener(){  
+    	
+        public void actionPerformed(ActionEvent e)
+        { 
+        
+        	if(!(newcountryname.getText().trim().isEmpty()))
+        	{
+        	adjacentCountriesToNewCountry.add((String) selectAdjacentCountry.getSelectedItem());
+        	
+       // 	System.out.println("country new------> "+newcountryname.getText());
+         //	System.out.println("adjacent country------> "+selectAdjacentCountry.getSelectedItem());
+         // System.out.println("list -- >" +adjacentCountriesToNewCountry.getItemCount());
+            
+        	
+         }  
+        
+        else
+        {
+        	JOptionPane.showMessageDialog(f,"Please fill something in country name");  
+        }
+        
+        
+        }
+        });  
+    
+      submitNewCountry.addActionListener(new ActionListener(){  
+    	
+        public void actionPerformed(ActionEvent e)
+        
+        { 
+        	
+        	MapWriter writeTerritory = new MapWriter();
+        	
+        	String newCountryEntry = "";
+        	String newCountryName = newcountryname.getText();
+        String continentOfNewCountry = (String) selectContinentForNewCountry.getSelectedItem();
+        
+        newCountryEntry = newCountryName+","+"0"+","+"0"+","+continentOfNewCountry;
+        
+        for (String temp : adjacentCountriesToNewCountry) 
+        {
+			newCountryEntry = newCountryEntry+","+temp;
+		}
+        
+        
+        System.out.println("entry--" +newCountryEntry);
+            
+        try {
+			writeTerritory.addTerritory(newCountryEntry);
+		} 
+        
+        catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        
+        JOptionPane.showMessageDialog(f,"Territory with continent "+continentOfNewCountry+" and specified links has been added");  
+        
+        newcountryname.setVisible(false);
+        selectContinentForNewCountry.setVisible(false);
+        selectAdjacentCountry.setVisible(false);
+
+        newcountrynamelabel.setVisible(false);
+        continentfornewcountry.setVisible(false);
+        adjacenttonewcountry.setVisible(false);
+        addadjacentcountry.setVisible(false);
+        submitNewCountry.setVisible(false);
+         }
+        
         });  
     
     

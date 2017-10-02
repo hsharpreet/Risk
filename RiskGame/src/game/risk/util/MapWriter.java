@@ -44,5 +44,34 @@ public class MapWriter {
 		outFile.renameTo(inputFile);
 
 	}
+	
+	public void addTerritory(String name) throws IOException {
+
+		String newTerritory = name;
+		File inputFile = new File("World.map");
+		BufferedReader br = new BufferedReader(new FileReader(inputFile));
+
+		File outFile = new File("temp.map");
+		FileOutputStream outStream = new FileOutputStream(outFile);
+		PrintWriter printWriter = new PrintWriter(outStream);
+		String thisLine = "";
+		while ((thisLine = br.readLine()) != null) 
+		
+		{
+			printWriter.println(thisLine);
+			if (thisLine.equalsIgnoreCase("[Territories]")) 
+			
+			{
+				printWriter.println(newTerritory);
+			}
+			
+		}
+		printWriter.flush();
+		printWriter.close();
+		br.close();
+		inputFile.delete();
+		outFile.renameTo(inputFile);
+
+	}
 
 }
