@@ -182,6 +182,9 @@ public static void main(String[] args) throws Exception
         
         { 
         	
+        	if(!(newcountryname.getText().trim().isEmpty()))
+        	{
+        	
         	MapWriter writeTerritory = new MapWriter();
         	
         	String newCountryEntry = "";
@@ -200,9 +203,13 @@ public static void main(String[] args) throws Exception
             
         try {
 			writeTerritory.addTerritory(newCountryEntry);
+			writeTerritory.addNewCountryLinkToTerritories(newcountryname.getText() , adjacentCountriesToNewCountry);
 		} 
         
         catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
@@ -219,6 +226,13 @@ public static void main(String[] args) throws Exception
         addadjacentcountry.setVisible(false);
         submitNewCountry.setVisible(false);
          }
+        	
+        	  else{
+        			JOptionPane.showMessageDialog(f,"Please fill something in country name");  
+        		  
+              }
+        }
+      
         
         });  
     

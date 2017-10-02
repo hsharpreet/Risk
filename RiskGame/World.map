@@ -17,10 +17,11 @@ Asia=7
 Australia=2
 
 [Territories]
-qqqqqqqqqqqqquuuuuuuuuuu,0,0,Europe,Western Australia,Siam,Alberta,North Africa
-aaaaaaaaabbbbbbbbccccc,0,0,Asia,Ural,Central America,Afghanistan
-territory_test,0,0,South America,Ural,Central America,Alberta
-Alaska,30,46,North America,Northwest Territory,Alberta,Kamchatka
+Testing link,0,0,Europe,Western Australia
+new link test,0,0,Asia,Alaska
+himanshu_tester,0,0,Africa,territory_test
+territory_test,0,0,South America,Ural,Central America,Alberta,himanshu_test,himanshu_tester
+Alaska,30,46,North America,Northwest Territory,Alberta,Kamchatka,new link test
 Northwest Territory,59,42,North America,Alaska,Alberta,Ontario,Greenland
 Alberta,58,67,North America,Alaska,Northwest Territory,Ontario,Western United States
 Greenland,121,30,North America,Northwest Territory,Ontario,Quebec,Iceland
@@ -65,7 +66,7 @@ Japan,322,104,Asia,Kamchatka,Mongolia
 
 Indonesia,292,159,Australia,Siam,New Guinea,Western Australia
 New Guinea,329,158,Australia,Indonesia,Western Australia,Eastern Australia
-Western Australia,313,188,Australia,Indonesia,New Guinea,Eastern Australia
+Western Australia,313,188,Australia,Indonesia,New Guinea,Eastern Australia,Testing link
 Eastern Australia,334,189,Australia,Western Australia,New Guinea
 
 
