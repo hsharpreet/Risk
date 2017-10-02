@@ -1,45 +1,50 @@
 package game.risk.gui;
 
-import java.awt.Color;
-import java.awt.List;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashSet;
 
-import javax.swing.*;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 import game.risk.util.MapReader;
 import game.risk.util.MapWriter;
 import game.risk.util.RiskMap;    
 public class LoadMap {  
+@SuppressWarnings("unchecked")
+
+
+
 public static void main(String[] args) throws Exception 
 
 {  
-	
-	
     JFrame f=new JFrame("MAP GUI");  
     
-    JButton addCountry,addContinent , addadjacentcountry , submitNewCountry ;
+    JButton addCountry,addContinent ,deleteContinent, addadjacentcountry , submitNewCountry ;
     JLabel l1,l2 , newcountrynamelabel ,continentfornewcountry , adjacenttonewcountry;  
     JComboBox cb1,cb2;
     JTextField newcountryname;
     JComboBox selectContinentForNewCountry ; 
     JComboBox selectAdjacentCountry;
     LinkedHashSet<String> adjacentCountriesToNewCountry = new LinkedHashSet<>();
-   
     
     
+  
     MapReader mapreader = new MapReader();
     RiskMap riskmap = mapreader.readMap();
     
     riskmap.getContinents();
     
-        
-    
+    DefaultComboBoxModel countryComboBoxModel= new DefaultComboBoxModel<>(riskmap.getContinents().keySet().toArray());
     addCountry=new JButton("+");
     addContinent=new JButton("+");
+    deleteContinent= new JButton("-");
     addadjacentcountry= new JButton("+");
     submitNewCountry= new JButton("Submit data");
     
@@ -48,7 +53,7 @@ public static void main(String[] args) throws Exception
     newcountrynamelabel= new JLabel("Enter Name");
     continentfornewcountry = new JLabel("Continent");
     adjacenttonewcountry = new JLabel("Select Link");
-    cb1=new JComboBox(riskmap.getContinents().keySet().toArray());
+    cb1=new JComboBox(countryComboBoxModel);
     cb2=new JComboBox(riskmap.getTerritories().keySet().toArray());
     newcountryname= new JTextField();
     
@@ -57,6 +62,7 @@ public static void main(String[] args) throws Exception
     
     addCountry.setBounds(640,80,30,20);
     addContinent.setBounds(230,80,30,20);
+    deleteContinent.setBounds(270, 80, 30, 20);
     l1.setBounds(40,48, 100,30); 
     l2.setBounds(450,48, 100,30);
     cb1.setBounds(40, 80,190,20); 
@@ -78,6 +84,7 @@ public static void main(String[] args) throws Exception
     
     
     f.add(addContinent);
+    f.add(deleteContinent);
     f.add(addCountry);
     f.add(newcountryname);
     f.add(selectContinentForNewCountry);
@@ -132,6 +139,30 @@ public static void main(String[] args) throws Exception
         }  
     });  
     
+    //deleteContinent Action on button click
+    deleteContinent.addActionListener(new ActionListener(){  
+        public void actionPerformed(ActionEvent e){ 
+        	int option = JOptionPane.showConfirmDialog(f, "All countries in this continent will also be deleted.Do you want to proceed?", "Delete Continent", JOptionPane.OK_CANCEL_OPTION);
+        	if (option == JOptionPane.OK_OPTION) 
+        	{ System.out.println();
+        	    MapWriter mapWriter = new MapWriter();
+        	    try {
+        	    	mapWriter.deleteContinent((String)cb1.getSelectedItem());
+        	    	System.out.println("Deleted Country "+cb1.getSelectedItem());
+        	    	countryComboBoxModel.removeElementAt(cb1.getSelectedIndex());
+    				
+    			} catch (IOException e1) {
+    				// TODO Auto-generated catch block
+    				e1.printStackTrace();
+    			}
+        	} 
+        	
+        	else {
+        	    System.out.println("Delete Country Action canceled");
+        	}
+            }  
+        });  
+        
     
     addCountry.addActionListener(new ActionListener(){  
     	

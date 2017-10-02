@@ -13,8 +13,10 @@ public class MapWriter {
 
 	public static void main(String[] args) throws IOException {
 		MapWriter writer = new MapWriter();
-		writer.addContinent("aman", "7");
-		System.out.println("updated new file");
+		/*writer.addContinent("aman", "7");
+		System.out.println("updated new file");*/
+		/*writer.deleteContinent("gurpreet");
+		System.out.println("updated new file");*/
 	}
 
 	public void addContinent(String name, String value) throws IOException {
@@ -45,6 +47,32 @@ public class MapWriter {
 		inputFile.delete();
 		outFile.renameTo(inputFile);
 
+	}
+	
+	/*
+	 * Method to delete continent from the map
+	 */
+	public void deleteContinent(String name) throws IOException {
+		File inputFile = new File("World.map");
+		BufferedReader br = new BufferedReader(new FileReader(inputFile));
+		File outFile = new File("temp.map");
+		FileOutputStream outStream = new FileOutputStream(outFile);
+		PrintWriter printWriter = new PrintWriter(outStream);
+		String thisLine = "";
+		
+		while ((thisLine = br.readLine()) != null) 
+		{
+			if (!thisLine.toLowerCase().contains(name.toLowerCase())) 
+			{
+				printWriter.println(thisLine);
+
+			}
+		}
+		printWriter.flush();
+		printWriter.close();
+		br.close();
+		inputFile.delete();
+		outFile.renameTo(inputFile);
 	}
 	
 	public void addTerritory(String name) throws IOException {
