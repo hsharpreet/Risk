@@ -7,7 +7,10 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+
+import javax.swing.text.AbstractDocument.BranchElement;
 
 public class MapWriter {
 
@@ -156,4 +159,173 @@ public class MapWriter {
 		outFile.renameTo(inputFile);
 		
 	}
+	
+public String deleteTerritory(String terittoryToDelete) throws Exception
+	
+	{
+	 String status = "OK";
+		String territoryToDelete = terittoryToDelete;
+		File inputFile = new File("World.map");
+		BufferedReader br = new BufferedReader(new FileReader(inputFile));
+		ArrayList<String> territoryList = new ArrayList<>();
+		File outFile = new File("temp.map");
+		FileOutputStream outStream = new FileOutputStream(outFile);
+		PrintWriter printWriter = new PrintWriter(outStream);
+		String thisLine = "";
+		while ((thisLine = br.readLine()) != null) 
+		
+		{
+			printWriter.println(thisLine);
+			
+			if (thisLine.equalsIgnoreCase("[Territories]")) 
+			
+			{
+				while ((thisLine = br.readLine()) != null && thisLine != "")
+			
+				{
+				String[] columns = thisLine.split(",");
+				
+				if(columns[0].equals(territoryToDelete))
+				{
+					
+					if(checkAdjacentTerritoryLinkBeforeDelete(thisLine))
+					{
+						for(int i=4 ; i<columns.length ; i++)
+						{
+							territoryList.add(columns[i]);	
+							System.out.println("list --"+columns[i]);
+						}
+					continue;
+					}
+					else
+					{
+				   status="ERROR";
+					}
+				}
+				printWriter.println(thisLine);
+			}
+			}
+		}
+		printWriter.flush();
+		printWriter.close();
+		br.close();
+		inputFile.delete();
+		outFile.renameTo(inputFile);
+		if(status.equals("OK"))
+		{
+			deleteLinksOfDeletedTerritoryFromOthers(territoryList , territoryToDelete);
+		}
+		return status;
+
 	}
+
+private void deleteLinksOfDeletedTerritoryFromOthers(ArrayList<String> territoryList , String territoryToDelete)throws Exception
+
+{
+	ArrayList<String>listOfTerritories = territoryList;
+	String territory = territoryToDelete;
+	
+	for(int i=0 ; i< listOfTerritories.size() ; i++)
+		
+	{
+		
+	File inputFile = new File("World.map");
+	BufferedReader br = new BufferedReader(new FileReader(inputFile));
+    File outFile = new File("temp.map");
+	FileOutputStream outStream = new FileOutputStream(outFile);
+	PrintWriter printWriter = new PrintWriter(outStream);
+	String thisLine = "";
+	while ((thisLine = br.readLine()) != null) 
+	
+	{
+		printWriter.println(thisLine);
+		
+		if (thisLine.equalsIgnoreCase("[Territories]")) 
+		
+		{
+			String modifiedLink ="";
+			while ((thisLine = br.readLine()) != null && thisLine != "")
+		
+			{
+				String[] columns = thisLine.split(",");
+				if(columns[0].equalsIgnoreCase(listOfTerritories.get(i)))
+				{
+				
+		         	for(int j = 0 ; j<columns.length ; j++)
+		         	{
+		         		if(j<4)
+		         		{
+		         			modifiedLink = modifiedLink.concat(columns[j]+",");
+		         			
+		         		}
+		         		if(j>=4)
+		         		{
+		         			if(columns[j].equalsIgnoreCase(territory))
+		         			{
+		         				
+		         			}
+		         			else
+		         			{
+		         				modifiedLink = modifiedLink.concat(columns[j]+",");
+		         			}
+		         		}
+		         		
+		         	}
+		         	printWriter.println(modifiedLink.substring(0, modifiedLink.length()-1));
+		      	}
+				else
+				{
+					printWriter.println(thisLine);
+				}
+			}
+		}
+	}
+	
+	printWriter.flush();
+    printWriter.close();
+	br.close();
+    inputFile.delete();
+	outFile.renameTo(inputFile);
+	}
+}
+
+public boolean checkAdjacentTerritoryLinkBeforeDelete(String thisLine) throws Exception
+{
+	String line = thisLine;
+	
+	
+	String[] columns = line.split(",");
+	
+	for(int i=4 ; i<columns.length ; i++)
+	{
+		
+	File inputFile = new File("World.map");
+	BufferedReader br = new BufferedReader(new FileReader(inputFile));
+
+	File outFile = new File("temp.map");
+	FileOutputStream outStream = new FileOutputStream(outFile);
+	PrintWriter printWriter = new PrintWriter(outStream);
+	while ((line = br.readLine()) != null) 
+	
+	{
+		if (line.equalsIgnoreCase("[Territories]")) 
+			
+		{
+			while ((line = br.readLine()) != null) 
+			{
+				
+			String[] column_adjacentTerritory = line.split(",");
+				if(columns[i].equals(column_adjacentTerritory[0]) && column_adjacentTerritory.length==5)
+			{
+					return false;
+			}
+		}
+		
+		}
+	
+     }
+
+	}
+	return true;
+	}
+}

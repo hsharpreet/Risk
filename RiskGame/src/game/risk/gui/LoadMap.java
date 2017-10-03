@@ -1,50 +1,49 @@
 package game.risk.gui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Color;
+import java.awt.List;
+import java.awt.event.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import game.risk.util.MapReader;
 import game.risk.util.MapWriter;
 import game.risk.util.RiskMap;    
 public class LoadMap {  
-@SuppressWarnings("unchecked")
-
-
-
 public static void main(String[] args) throws Exception 
 
 {  
+	
+	
     JFrame f=new JFrame("MAP GUI");  
     
-    JButton addCountry,addContinent ,deleteContinent, addadjacentcountry , submitNewCountry ;
+    JButton addCountry,addContinent ,deleteContinent, addadjacentcountry , submitNewCountry , deleteCountry ;
     JLabel l1,l2 , newcountrynamelabel ,continentfornewcountry , adjacenttonewcountry;  
     JComboBox cb1,cb2;
     JTextField newcountryname;
     JComboBox selectContinentForNewCountry ; 
     JComboBox selectAdjacentCountry;
     LinkedHashSet<String> adjacentCountriesToNewCountry = new LinkedHashSet<>();
+   
     
     
-  
     MapReader mapreader = new MapReader();
     RiskMap riskmap = mapreader.readMap();
     
     riskmap.getContinents();
     
-    DefaultComboBoxModel countryComboBoxModel= new DefaultComboBoxModel<>(riskmap.getContinents().keySet().toArray());
-    addCountry=new JButton("+");
+        
+    
+    addCountry=new JButton("ADD NEW COUNTRY");
+    deleteCountry=new JButton("DELETE SELECTED COUNTRY");
     addContinent=new JButton("+");
     deleteContinent= new JButton("-");
+    DefaultComboBoxModel continentComboBoxModel= new DefaultComboBoxModel<>(riskmap.getContinents().keySet().toArray());
+    
     addadjacentcountry= new JButton("+");
     submitNewCountry= new JButton("Submit data");
     
@@ -53,14 +52,15 @@ public static void main(String[] args) throws Exception
     newcountrynamelabel= new JLabel("Enter Name");
     continentfornewcountry = new JLabel("Continent");
     adjacenttonewcountry = new JLabel("Select Link");
-    cb1=new JComboBox(countryComboBoxModel);
+    cb1=new JComboBox(continentComboBoxModel);
     cb2=new JComboBox(riskmap.getTerritories().keySet().toArray());
     newcountryname= new JTextField();
     
     selectContinentForNewCountry = new JComboBox(riskmap.getContinents().keySet().toArray());
     selectAdjacentCountry = new JComboBox(riskmap.getTerritories().keySet().toArray());
     
-    addCountry.setBounds(640,80,30,20);
+    addCountry.setBounds(640,40,160,30);
+    deleteCountry.setBounds(640 ,70,160,30);
     addContinent.setBounds(230,80,30,20);
     deleteContinent.setBounds(270, 80, 30, 20);
     l1.setBounds(40,48, 100,30); 
@@ -94,6 +94,7 @@ public static void main(String[] args) throws Exception
     f.add(adjacenttonewcountry);
     f.add(addadjacentcountry);
     f.add(submitNewCountry);
+    f.add(deleteCountry);
     
     newcountryname.setVisible(false);
     selectContinentForNewCountry.setVisible(false);
@@ -116,11 +117,20 @@ public static void main(String[] args) throws Exception
     	    "Name:", name,
     	    "Value:", value
     	};
-
+    	
+    
+    	
     	int option = JOptionPane.showConfirmDialog(f, message, "Continent Details", JOptionPane.OK_CANCEL_OPTION);
     	if (option == JOptionPane.OK_OPTION) 
     	
     	{
+    		if(name.getText().trim().isEmpty() || value.getText().trim().isEmpty()) 
+        	{
+        		JOptionPane.showMessageDialog(f,"Field cannot be empty");
+        	
+        	}
+    		else
+    		{
     	    MapWriter writeContinent = new MapWriter();
     	    try {
 				writeContinent.addContinent(name.getText(), value.getText());
@@ -129,17 +139,16 @@ public static void main(String[] args) throws Exception
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-
+    		}
     	} 
     	
     	else {
     	    System.out.println("Action canceled");
     	}
-
-        }  
+    }
+         
     });  
     
-    //deleteContinent Action on button click
     deleteContinent.addActionListener(new ActionListener(){  
         public void actionPerformed(ActionEvent e){ 
         	int option = JOptionPane.showConfirmDialog(f, "All countries in this continent will also be deleted.Do you want to proceed?", "Delete Continent", JOptionPane.OK_CANCEL_OPTION);
@@ -149,7 +158,7 @@ public static void main(String[] args) throws Exception
         	    try {
         	    	mapWriter.deleteContinent((String)cb1.getSelectedItem());
         	    	System.out.println("Deleted Country "+cb1.getSelectedItem());
-        	    	countryComboBoxModel.removeElementAt(cb1.getSelectedIndex());
+        	    	continentComboBoxModel.removeElementAt(cb1.getSelectedIndex());
     				
     			} catch (IOException e1) {
     				// TODO Auto-generated catch block
@@ -161,8 +170,7 @@ public static void main(String[] args) throws Exception
         	    System.out.println("Delete Country Action canceled");
         	}
             }  
-        });  
-        
+        });
     
     addCountry.addActionListener(new ActionListener(){  
     	
@@ -266,6 +274,39 @@ public static void main(String[] args) throws Exception
       
         
         });  
+      
+      
+      deleteCountry.addActionListener(new ActionListener(){  
+      	
+    	    public void actionPerformed(ActionEvent e)
+    	    
+    	    { 
+    	    	String status;
+    	    	
+    	    	String terittoryToDelete = cb2.getSelectedItem().toString();
+    	    	
+    	    	MapWriter deleteTerritory = new MapWriter();
+    	    	
+    	    	try {
+			status = deleteTerritory.deleteTerritory(terittoryToDelete);
+			
+			if(status.equalsIgnoreCase("OK"))
+			{
+				JOptionPane.showMessageDialog(f,"Territory Deleted");  
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(f,"Action cannot be performed as some territory has just one link to this territory");  
+			}
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+    	    	
+    	    	
+
+    	        }  
+    	    });  
     
     
  /*   addCountry.addActionListener(new ActionListener(){  
