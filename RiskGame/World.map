@@ -6,10 +6,6 @@ wrap=yes
 scroll=horizontal
 
 [Continents]
-himanshu=123
-gurpreet=123
-repaint=1234
-test_repaint=213
 North America=5
 South America=2
 Africa=3
@@ -18,14 +14,6 @@ Asia=7
 Australia=2
 
 [Territories]
-RRRRRRRRRRRRRRRRR,0,0,South America,aaaaaaaaaaaaa
-QQQQQQQQQQQQQQ,0,0,South America,aaaaaaaaaaaaa
-aaaaaaaaaaaaa,0,0,himanshu ,xxyyzz,QQQQQQQQQQQQQQ,RRRRRRRRRRRRRRRRR
-himnshu,0,0,South America,Ural
-Testing link,0,0,Europe,Western Australia ,xxyyzz
-new link test,0,0,Asia,Alaska
-himanshu_tester,0,0,Africa,territory_test
-territory_test,0,0,South America,Ural,Central America,Alberta,himanshu_test,himanshu_tester
 Alaska,30,46,North America,Northwest Territory,Alberta,Kamchatka,new link test
 Northwest Territory,59,42,North America,Alaska,Alberta,Ontario,Greenland
 Alberta,58,67,North America,Alaska,Northwest Territory,Ontario,Western United States

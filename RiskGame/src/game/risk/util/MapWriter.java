@@ -328,4 +328,79 @@ public boolean checkAdjacentTerritoryLinkBeforeDelete(String thisLine) throws Ex
 	}
 	return true;
 	}
+
+public void assignNewContinent(String selectedItem , String territory)
+
+{
+	try
+	{
+	String newContinent = selectedItem;
+	String territorySelected = territory;
+	File inputFile = new File("World.map");
+	BufferedReader br = new BufferedReader(new FileReader(inputFile));
+
+	File outFile = new File("temp.map");
+	FileOutputStream outStream = new FileOutputStream(outFile);
+	PrintWriter printWriter = new PrintWriter(outStream);
+	String thisLine = "";
+	while ((thisLine = br.readLine() )!=null )
+		
+	
+	{
+		printWriter.println(thisLine);
+		if (thisLine.equalsIgnoreCase("[Territories]")) 
+		
+		{
+		String newLine = "";
+			while ((thisLine = br.readLine()) != null && thisLine != "")
+			{
+			
+				String[] columns = thisLine.split(",");
+				
+				if(columns.length>5)
+				{
+				if (columns[0].equals(territorySelected))
+				{
+					
+					columns[3] = newContinent;
+					
+					for(int i = 0 ;i <columns.length ; i++)
+					{
+						
+						newLine=newLine.concat(columns[i]+",");
+						
+					}
+					newLine = newLine.substring(0,newLine.length()-1);
+					
+					printWriter.println(newLine);
+					System.out.println("hiiiii "+newContinent+"------"+newLine);
+				}
+				else
+				{
+					printWriter.println(thisLine);
+
+				}
+				}
+				else
+				{
+					printWriter.println(thisLine);
+				}
+			//printWriter.println(newTerritory);
+			}
+			
+		}
+		
+	}
+	printWriter.flush();
+	printWriter.close();
+	br.close();
+	inputFile.delete();
+	outFile.renameTo(inputFile);
+	}
+	catch(Exception e)
+	{
+		e.printStackTrace();
+	}
+	
+}
 }
