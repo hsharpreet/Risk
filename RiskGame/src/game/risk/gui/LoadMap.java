@@ -21,12 +21,12 @@ public static void main(String[] args) throws Exception
 	
     JFrame f=new JFrame("MAP GUI");  
     
-    JButton addCountry,addContinent ,deleteContinent, addadjacentcountry , submitNewCountry , deleteCountry ,changeContinent ,assignNewContinent  ;
-    JLabel l1,l2 , newcountrynamelabel ,continentfornewcountry , adjacenttonewcountry ,selectedTerritoryToModify , selectNewContinentToAssign;  
+    JButton addCountry,addContinent ,deleteContinent, addadjacentcountry , submitNewCountry , deleteCountry ,changeContinent ,assignNewContinent, viewCountriesOfContinent   ;
+    JLabel l1,l2 , newcountrynamelabel ,continentfornewcountry , adjacenttonewcountry ,selectedTerritoryToModify , presentContinent, selectNewContinentToAssign , continentSelected , countriesOfSelectedContinent;  
     JComboBox cb1,cb2;
-    JTextField newcountryname , territorySelected;
+    JTextField newcountryname , territorySelected  , presentContinentField , selectedContinentField;
     JComboBox selectContinentForNewCountry ; 
-    JComboBox selectAdjacentCountry , selectModifiedContinentCB;
+    JComboBox selectAdjacentCountry , selectModifiedContinentCB , countriesOfSelectedContinentCB;
     LinkedHashSet<String> adjacentCountriesToNewCountry = new LinkedHashSet<>();
    
     
@@ -43,6 +43,7 @@ public static void main(String[] args) throws Exception
     changeContinent=new JButton("Change Continent");
     addContinent=new JButton("+");
     deleteContinent= new JButton("-");
+    viewCountriesOfContinent = new JButton("View Countries");
     DefaultComboBoxModel continentComboBoxModel= new DefaultComboBoxModel<>(riskmap.getContinents().keySet().toArray());
     
     addadjacentcountry= new JButton("+");
@@ -55,13 +56,20 @@ public static void main(String[] args) throws Exception
     continentfornewcountry = new JLabel("Continent");
     adjacenttonewcountry = new JLabel("Select Link");
     selectedTerritoryToModify = new JLabel("Selected Country");
-    selectNewContinentToAssign = new JLabel("Select Continent to assign");
+    selectNewContinentToAssign = new JLabel("Select New Continent");
+    presentContinent = new JLabel("Present Continent");
+    continentSelected = new JLabel("Selected Continent");
+    countriesOfSelectedContinent = new JLabel("Countries Present");
+    
     cb1=new JComboBox(continentComboBoxModel);
     cb2=new JComboBox(riskmap.getTerritories().keySet().toArray());
     selectModifiedContinentCB= new JComboBox(riskmap.getContinents().keySet().toArray());
+    countriesOfSelectedContinentCB=new JComboBox<>();
     
     newcountryname= new JTextField();
     territorySelected = new JTextField();
+    presentContinentField = new JTextField();
+    selectedContinentField = new JTextField();
     
     
     selectContinentForNewCountry = new JComboBox(riskmap.getContinents().keySet().toArray());
@@ -72,7 +80,13 @@ public static void main(String[] args) throws Exception
     changeContinent.setBounds(640,100,160,30);
     assignNewContinent.setBounds(560,320,120,40);
     addContinent.setBounds(230,80,30,20);
+    viewCountriesOfContinent.setBounds(220,110 ,150,30);
     deleteContinent.setBounds(270, 80, 30, 20);
+    continentSelected.setBounds(40,250 , 150,20);
+    countriesOfSelectedContinent.setBounds(200 , 250 , 150 ,20);
+    selectedContinentField.setBounds(40, 280 , 150 ,20);
+    countriesOfSelectedContinentCB.setBounds(200 ,280 , 150 ,20);
+    
     l1.setBounds(40,48, 100,30); 
     l2.setBounds(450,48, 100,30);
     cb1.setBounds(40, 80,190,20); 
@@ -83,9 +97,11 @@ public static void main(String[] args) throws Exception
     selectAdjacentCountry.setBounds(560 , 250 , 120 , 40);
     
     territorySelected.setBounds(430 ,250,120,40);
-    selectModifiedContinentCB.setBounds(560 , 250 , 120 , 40);
+    selectModifiedContinentCB.setBounds(680 , 250 , 120 , 40);
     selectedTerritoryToModify.setBounds(430 , 200, 120,40 );
-    selectNewContinentToAssign.setBounds(560 , 200 ,120 , 40);
+    selectNewContinentToAssign.setBounds(680 , 200 ,120 , 40);
+    presentContinent.setBounds(560,200,120,40);
+    presentContinentField.setBounds(560 , 250,120,40);
     
     newcountrynamelabel.setBounds(300 , 200 , 120 , 40);
     continentfornewcountry.setBounds(430 ,200,120,40 );
@@ -116,6 +132,13 @@ public static void main(String[] args) throws Exception
     f.add(selectedTerritoryToModify);
     f.add(selectNewContinentToAssign);
     f.add(assignNewContinent);
+    f.add(presentContinent);
+    f.add(presentContinentField);
+    f.add(viewCountriesOfContinent);
+    f.add(continentSelected);
+    f.add(countriesOfSelectedContinent);
+    f.add(selectedContinentField);
+    f.add(countriesOfSelectedContinentCB);
     
     newcountryname.setVisible(false);
     selectContinentForNewCountry.setVisible(false);
@@ -130,6 +153,15 @@ public static void main(String[] args) throws Exception
     selectedTerritoryToModify.setVisible(false);
     selectNewContinentToAssign.setVisible(false);
     assignNewContinent.setVisible(false);
+    selectContinentForNewCountry.setVisible(false);
+    presentContinent.setVisible(false);
+    
+    presentContinentField.setVisible(false);
+    continentSelected.setVisible(false);
+    countriesOfSelectedContinent.setVisible(false);
+    selectedContinentField.setVisible(false);
+    countriesOfSelectedContinentCB.setVisible(false);
+    
    
   
     addContinent.addActionListener(new ActionListener(){  
@@ -207,6 +239,8 @@ public static void main(String[] args) throws Exception
             selectedTerritoryToModify.setVisible(false);
             selectNewContinentToAssign.setVisible(false);
             assignNewContinent.setVisible(false);
+            presentContinent.setVisible(false);
+            presentContinentField.setVisible(false);
         	
        newcountryname.setVisible(true);
        selectContinentForNewCountry.setVisible(true);
@@ -365,11 +399,13 @@ public static void main(String[] args) throws Exception
         selectedTerritoryToModify.setVisible(true);
   	    selectNewContinentToAssign.setVisible(true);
   	    assignNewContinent.setVisible(true);
+    	    presentContinent.setVisible(true);
+        presentContinentField.setVisible(true);
   	    
   	    	territorySelected.setText(cb2.getSelectedItem().toString());
   	    	territorySelected.setFocusable(false);
-  	    	
-        	    	
+ 	    presentContinentField.setText(mp.getPresentContinent(territorySelected.getText()));
+ 	    presentContinentField.setFocusable(false);
   	        }  
   	    });  
     
@@ -382,9 +418,11 @@ public static void main(String[] args) throws Exception
         	MapWriter mp = new MapWriter();
         	territorySelected.setText(cb2.getSelectedItem().toString());
     	    	territorySelected.setFocusable(false);
-    	    	
-          try {
+       
+    	    	try 
+          {
   			mp.assignNewContinent((String) selectModifiedContinentCB.getSelectedItem() ,territorySelected.getText());
+  			
   		} catch (Exception e1) {
   			// TODO Auto-generated catch block
   			e1.printStackTrace();
@@ -395,6 +433,48 @@ public static void main(String[] args) throws Exception
           
           
           });  
+      
+      viewCountriesOfContinent.addActionListener(new ActionListener(){  
+    	  ArrayList countriesListData = new ArrayList<String>();
+          public void actionPerformed(ActionEvent e)
+          { 
+          
+        	    continentSelected.setVisible(true);
+        	    countriesOfSelectedContinent.setVisible(true);
+        	    selectedContinentField.setVisible(true);
+        	    countriesOfSelectedContinentCB.setVisible(true);  
+        	    
+        	    selectedContinentField.setText(cb1.getSelectedItem().toString());
+        	    selectedContinentField.setFocusable(false);
+        	  
+        	MapWriter mp = new MapWriter();
+       
+    	    	try 
+          {
+  			ArrayList countriesListData = new ArrayList<String>();
+  			countriesListData.clear();
+  			countriesOfSelectedContinentCB.removeAllItems();
+  			countriesListData = mp.getCountriesOfContinent(cb1.getSelectedItem().toString());
+  			
+  			for(int i = 0 ; i<countriesListData.size() ; i++)
+  			{
+  				countriesOfSelectedContinentCB.addItem(countriesListData.get(i));
+  			}
+  			
+  			System.out.println(countriesListData.size());
+  			
+  		} catch (Exception e1) {
+  			// TODO Auto-generated catch block
+  			e1.printStackTrace();
+  		}
+    	    	
+    	    	
+    	        }  
+          
+          
+          });  
+      
+      
     
  /*   addCountry.addActionListener(new ActionListener(){  
     	

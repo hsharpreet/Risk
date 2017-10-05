@@ -357,7 +357,7 @@ public void assignNewContinent(String selectedItem , String territory)
 			
 				String[] columns = thisLine.split(",");
 				
-				if(columns.length>5)
+				if(columns.length>=5)
 				{
 				if (columns[0].equals(territorySelected))
 				{
@@ -401,6 +401,108 @@ public void assignNewContinent(String selectedItem , String territory)
 	{
 		e.printStackTrace();
 	}
+	
+}
+
+public String getPresentContinent(String text)
+
+{
+	try
+	{
+	String presentContinent = text;
+	File inputFile = new File("World.map");
+	BufferedReader br = new BufferedReader(new FileReader(inputFile));
+
+	File outFile = new File("temp.map");
+	FileOutputStream outStream = new FileOutputStream(outFile);
+	String thisLine = "";
+	while ((thisLine = br.readLine() )!=null )
+		
+	
+	{
+		
+		if (thisLine.equalsIgnoreCase("[Territories]")) 
+		
+		{
+		String newLine = "";
+			while ((thisLine = br.readLine()) != null && thisLine != " ")
+			{
+			
+				String[] columns = thisLine.split(",");
+				
+				
+				if (columns[0].equals(text))
+				{
+					return columns[3];
+					
+				}
+				
+			//printWriter.println(newTerritory);
+			}
+			
+		}
+		
+	}
+	br.close();
+	inputFile.delete();
+	outFile.renameTo(inputFile);
+	}
+	catch(Exception e)
+	{
+		e.printStackTrace();
+	}
+	
+	return null;
+}
+
+public ArrayList getCountriesOfContinent(String selectedContinent) 
+
+{
+	String continent = selectedContinent;
+	ArrayList<String> countriesList = new ArrayList<String>();
+	try
+	{
+	File inputFile = new File("World.map");
+	BufferedReader br = new BufferedReader(new FileReader(inputFile));
+
+	File outFile = new File("temp.map");
+	FileOutputStream outStream = new FileOutputStream(outFile);
+	String thisLine = "";
+	while ((thisLine = br.readLine() )!=null )
+		
+	
+	{
+		
+		if (thisLine.equalsIgnoreCase("[Territories]")) 
+		
+		{
+			
+			
+			while ((thisLine = br.readLine()) != null && thisLine != " ")
+			{
+			
+				String[] columns = thisLine.split(",");
+				
+				if(columns.length >=5)
+				{
+				if (columns[3].equals(continent))
+				{
+					countriesList.add(columns[0]);
+				
+				}//printWriter.println(newTerritory);
+			}
+			}
+		}
+		
+	}
+	br.close();
+	
+	}
+	catch(Exception e)
+	{
+		e.printStackTrace();
+	}
+	return countriesList;
 	
 }
 }
