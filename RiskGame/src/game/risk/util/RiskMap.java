@@ -3,6 +3,8 @@ package game.risk.util;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import game.risk.model.Territory;
+
 public class RiskMap {
 	
 	HashMap<String, String> map ;
