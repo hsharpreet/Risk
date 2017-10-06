@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import game.risk.model.Territory;
+
 public class MapReader {
 	
 	public static void main(String[] args) throws Exception {
