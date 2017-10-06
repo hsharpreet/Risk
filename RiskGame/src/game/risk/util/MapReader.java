@@ -11,14 +11,17 @@ public class MapReader {
 	
 	public static void main(String[] args) throws Exception {
 		System.out.println("MapReader main method...");
-		RiskMap riskMap = new MapReader().readMap();
+		RiskMap riskMap = new MapReader().readMap("World.map");
 		System.out.println(riskMap.getMap());
 		System.out.println(riskMap.getTerritories().keySet().size());
 	}
 
-	public RiskMap readMap() throws Exception {
+	public RiskMap readMap(String MapFile) throws Exception {
 
-		File inputFile = new File("World.map");
+		if(MapFile.equalsIgnoreCase("") || MapFile.equals(null)){
+			MapFile = "World.map";
+		}
+		File inputFile = new File(MapFile);
 		BufferedReader br = new BufferedReader(new FileReader(inputFile));
 
 		String line = "";

@@ -32,7 +32,7 @@ public static void main(String[] args) throws Exception
     
     
     MapReader mapreader = new MapReader();
-    RiskMap riskmap = mapreader.readMap();
+    RiskMap riskmap = mapreader.readMap("World.map");
     
     riskmap.getContinents();
     
