@@ -77,7 +77,7 @@ public class Territory {
 		StringBuffer territoryInformation = new StringBuffer();
 		territoryInformation.append(getName()).append(",").
 		append(getCoordinateX()).append(",").append(getCoordinateY()).append(",")
-				.append(getCoordinateY()).append(",").append(getNeighbouringTerritories().toString());
+				.append(getContinent()).append(",").append(getNeighbouringTerritories().toString());
 		return territoryInformation.toString();
 	}
 }
