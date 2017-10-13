@@ -254,11 +254,11 @@ public class RiskGame {
 			listOfAssignedTerritories = DistributeCountries.getCountriesPerPlayer(TOTAL_PLAYERS, 
 					 new ArrayList<Territory>(territories.values()));
 			
-			RiskGameConstants.SET_NO_OF_CONTINETS = continents.size();
-			RiskGameConstants.SET_NO_OF_TERRITORIES = territories.size();
+			SET_NO_OF_CONTINETS = continents.size();
+			SET_NO_OF_TERRITORIES = territories.size();
 			//ArrayList<Territory> Territories = new ArrayList<Territory>();
 			ArrayList<Player> players  = new ArrayList<Player>();
-			for(int i=0;i<RiskGameConstants.TOTAL_PLAYERS; i++){
+			for(int i=0;i<TOTAL_PLAYERS; i++){
 				
 				if(i ==0){
 					Player human = new Player();
