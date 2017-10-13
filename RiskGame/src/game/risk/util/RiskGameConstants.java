@@ -10,5 +10,6 @@ public class RiskGameConstants {
 	public static final String MAP = "";
 	public static final String GAME_NAME = "Risk: ";
 	public static final String NO_OF_COMPUTERS = "Select no. of computers?";
+
 	
 }
