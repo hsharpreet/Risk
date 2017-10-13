@@ -1,12 +1,13 @@
 package game.risk.model;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Player {
 	
 	private String name;
 	private int noOfArmies;
-	private HashMap<Territory, Integer> territorAndArmies ;//= new HashMap<String, String>();
+	private Map<Territory, Integer> territorAndArmies ;//= new HashMap<String, String>();
 	private boolean turn;
 	private boolean isComputer;
 	
@@ -23,10 +24,10 @@ public class Player {
 		this.noOfArmies = noOfArmies;
 	}
 	
-	public HashMap<Territory, Integer> getTerritorAndArmies() {
+	public Map<Territory, Integer> getTerritorAndArmies() {
 		return territorAndArmies;
 	}
-	public void setTerritorAndArmies(HashMap<Territory, Integer> territorAndArmies) {
+	public void setTerritorAndArmies(Map<Territory, Integer> territorAndArmies) {
 		this.territorAndArmies = territorAndArmies;
 	}
 	public boolean isTurn() {
