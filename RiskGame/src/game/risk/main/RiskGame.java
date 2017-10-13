@@ -278,7 +278,7 @@ public class RiskGame {
 			for(int i=1 ; i<players.size();i++){
 			
 			 Player player = (Player) players.get(i);
-			 
+			
 			 //p.setTerritorAndArmies(listOfAssignedTerritories);
 			}
 			gameDriver.setListPlayer(players);
