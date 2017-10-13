@@ -13,6 +13,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -27,12 +28,14 @@ import javax.swing.Timer;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
+import game.risk.model.DistributeCountries;
 import game.risk.model.GameDriver;
 import game.risk.model.Player;
 import game.risk.model.Territory;
 import game.risk.util.MapReader;
 import game.risk.util.RiskGameConstants;
 import game.risk.util.RiskMap;
+
 
 public class RiskGame {
 
@@ -241,27 +244,34 @@ public class RiskGame {
 	
 	public JPanel thirdPanel(String SELECTED_MAP, int TOTAL_PLAYERS){
 		MapReader mapreader = new MapReader();
-		 List<Territory> listOfAssignedTerritories = null;
+		Map<Integer, List<Territory>> listOfAssignedTerritories = null;
 	    try {
 			RiskMap riskMap = mapreader.readMap(SELECTED_MAP);
 			//HashMap<String, String> map = riskMap.getMap();
 			HashMap<String, String> continents = riskMap.getContinents();
 			HashMap<String, Territory> territories = riskMap.getTerritories();
 			
-			listOfAssignedTerritories = getCountriesList(TOTAL_PLAYERS, 
-					 territories);
+			listOfAssignedTerritories = DistributeCountries.getCountriesPerPlayer(RiskGameConstants.TOTAL_PLAYERS, 
+					 (List<Territory>) territories.values());
 			
-			SET_NO_OF_CONTINETS = continents.size();
-			SET_NO_OF_TERRITORIES = territories.size();
+			RiskGameConstants.SET_NO_OF_CONTINETS = continents.size();
+			RiskGameConstants.SET_NO_OF_TERRITORIES = territories.size();
 			//ArrayList<Territory> Territories = new ArrayList<Territory>();
 			ArrayList<Player> players  = new ArrayList<Player>();
-			for(int i=0;i<=SELECTED_NO_OF_COMPUTERS; i++){
+			for(int i=0;i<RiskGameConstants.TOTAL_PLAYERS; i++){
 				
 				if(i ==0){
 					Player human = new Player();
 					human.setName("H");
 					human.setComputer(false);
 					human.setNoOfArmies(noOfArmiesIntially());
+					Map<Territory,Integer> territoriesAndArmies = new HashMap<Territory, Integer>();
+					int sizeOfTerritoriesPerPlayer = listOfAssignedTerritories.get(i+1).size();
+					for(Territory t : listOfAssignedTerritories.get(i+1)){
+						territoriesAndArmies.put(t, 1);
+					}
+					human.setTerritorAndArmies(territoriesAndArmies);
+					human.setNoOfArmies(human.getNoOfArmies()-sizeOfTerritoriesPerPlayer);
 					//gameDriver.setPlayer(human);
 					players.add(human);
 				}
@@ -270,6 +280,13 @@ public class RiskGame {
 					comp.setName("C"+i);
 					comp.setComputer(true);
 					comp.setNoOfArmies(noOfArmiesIntially());
+					Map<Territory,Integer> territoriesAndArmies = new HashMap<Territory, Integer>();
+					int sizeOfTerritoriesPerPlayer = listOfAssignedTerritories.get(i+1).size();
+					for(Territory t : listOfAssignedTerritories.get(i+1)){
+						territoriesAndArmies.put(t, 1);
+					}
+					comp.setTerritorAndArmies(territoriesAndArmies);
+					comp.setNoOfArmies(comp.getNoOfArmies()-sizeOfTerritoriesPerPlayer);
 					players.add(comp);
 				}
 				
