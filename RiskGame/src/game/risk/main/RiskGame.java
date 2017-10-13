@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -25,7 +24,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
 import game.risk.model.DistributeCountries;
@@ -224,23 +222,21 @@ public class RiskGame {
 		return middleSecondPanel; 
 	}
 	
-	public int noOfArmiesIntially(){
-		int temp = 0;
+	public int noOfArmiesPerPlayrIntially(){
+		int noOfArmiesPerPlayer = 0;
 		if(TOTAL_PLAYERS == 2){
-			temp = 40;
+			noOfArmiesPerPlayer = 40;
 		} else if(TOTAL_PLAYERS == 3){
-			temp = 35;
+			noOfArmiesPerPlayer = 35;
 		} else if(TOTAL_PLAYERS == 4){
-			temp = 30;
+			noOfArmiesPerPlayer = 30;
 		} else if(TOTAL_PLAYERS == 5){
-			temp = 25;
+			noOfArmiesPerPlayer = 25;
 		}
 		
-		return temp;
+		return noOfArmiesPerPlayer;
 		
 	}
-	
-	
 	
 	public JPanel thirdPanel(String SELECTED_MAP, int TOTAL_PLAYERS){
 		MapReader mapreader = new MapReader();
@@ -258,19 +254,21 @@ public class RiskGame {
 			SET_NO_OF_TERRITORIES = territories.size();
 			//ArrayList<Territory> Territories = new ArrayList<Territory>();
 			ArrayList<Player> players  = new ArrayList<Player>();
+			int noOfArmiesPerPlayerIntial = noOfArmiesPerPlayrIntially();
 			for(int i=0;i<TOTAL_PLAYERS; i++){
 				
 				if(i ==0){
 					Player human = new Player();
 					human.setName("H");
 					human.setComputer(false);
-					human.setNoOfArmies(noOfArmiesIntially());
+					human.setNoOfArmies(noOfArmiesPerPlayerIntial);
 					Map<Territory,Integer> territoriesAndArmies = new HashMap<Territory, Integer>();
 					int sizeOfTerritoriesPerPlayer = listOfAssignedTerritories.get(1).size();
 					for(Territory t : listOfAssignedTerritories.get(i+1)){
 						territoriesAndArmies.put(t, 1);
 					}
 					human.setTerritorAndArmies(territoriesAndArmies);
+					human.setTerritorAndArmiesColor(RiskGameConstants.colorArray[0]);
 					human.setNoOfArmies(human.getNoOfArmies()-sizeOfTerritoriesPerPlayer);
 					//gameDriver.setPlayer(human);
 					players.add(human);
@@ -279,7 +277,8 @@ public class RiskGame {
 					Player comp = new Player();
 					comp.setName("C"+i);
 					comp.setComputer(true);
-					comp.setNoOfArmies(noOfArmiesIntially());
+					comp.setNoOfArmies(noOfArmiesPerPlayerIntial);
+					comp.setTerritorAndArmiesColor(RiskGameConstants.colorArray[i]);
 					Map<Territory,Integer> territoriesAndArmies = new HashMap<Territory, Integer>();
 					int sizeOfTerritoriesPerPlayer = listOfAssignedTerritories.get(i+1).size();
 					for(Territory t : listOfAssignedTerritories.get(i+1)){
@@ -291,8 +290,13 @@ public class RiskGame {
 				}
 				
 			}
-			
 			gameDriver.setListPlayer(players);
+			for(int i=1 ; i<players.size();i++){
+				Player player = (Player) players.get(i);
+				ArrayList<JButton> listOfButtons = new ArrayList<JButton>();
+				
+			}
+			
 			
 			if(TOTAL_PLAYERS > 1 && TOTAL_PLAYERS <6){
 				for(;;){
@@ -342,6 +346,38 @@ public class RiskGame {
 		return tempButton;
 	}
 
+	private static JButton territoryJButton(String name, int font) {
+		JButton tempButton = new JButton(name);
+		int number =10 ;
+	    
+	   
+	    ArrayList<JButton> listOfButtons = null;
+		for (int i=0; i < number; i++) 
+	    
+	    {
+	        JButton button = new JButton();
+	        listOfButtons.add(button);
+	    }
+		int x=10;
+		int y=10;
+	    for(int j = 1 ; j<listOfButtons.size() ; j++)
+	    {
+	    
+	    	listOfButtons.get(j).setBounds(x, y, 40, 40);
+	    //	x=x+10 ;
+	    	y=y+50;
+	    	
+	    	listOfButtons.get(j).setText(""+j);
+	    listOfButtons.get(j).setBackground(Color.RED);
+	   // 	listOfButtons.get(j).setOpaque(true);   
+	    //listOfButtons.get(j).setBorder(new LineBorder(Color.BLUE, 4));
+	    	listOfButtons.get(j).setFont(new Font("Helvetica", Font.BOLD, j));
+
+	    }
+	   
+		return tempButton;
+	}
+	
 	private static JPanel customHeaderAndFooterPanel(){
         JPanel result = new JPanel();
         result.setBorder(new EmptyBorder(50, 10, 10, 10));
