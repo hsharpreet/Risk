@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import game.risk.model.Territory;
 
@@ -18,6 +19,11 @@ public class MapReader {
 		System.out.println(riskMap.getTerritories().keySet().size());
 	}
 
+	public static Map<String, List<Territory>> continetAndItsCountries(){
+		Map<String, List<Territory>> continetAndItsCountries = new HashMap<String, List<Territory>>();
+		
+		return null;
+	}
 	public RiskMap readMap(String MapFile) throws Exception {
 
 		if(MapFile.equalsIgnoreCase("") || MapFile.equals(null)){
