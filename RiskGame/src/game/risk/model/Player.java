@@ -1,5 +1,6 @@
 package game.risk.model;
 
+import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +11,14 @@ public class Player {
 	private Map<Territory, Integer> territorAndArmies ;//= new HashMap<String, String>();
 	private boolean turn;
 	private boolean isComputer;
+	private Color territorAndArmiesColor;
 	
+	public Color getTerritorAndArmiesColor() {
+		return territorAndArmiesColor;
+	}
+	public void setTerritorAndArmiesColor(Color territorAndArmiesColor) {
+		this.territorAndArmiesColor = territorAndArmiesColor;
+	}
 	public String getName() {
 		return name;
 	}
