@@ -251,8 +251,8 @@ public class RiskGame {
 			HashMap<String, String> continents = riskMap.getContinents();
 			HashMap<String, Territory> territories = riskMap.getTerritories();
 			
-			listOfAssignedTerritories = DistributeCountries.getCountriesPerPlayer(RiskGameConstants.TOTAL_PLAYERS, 
-					 (List<Territory>) territories.values());
+			listOfAssignedTerritories = DistributeCountries.getCountriesPerPlayer(TOTAL_PLAYERS, 
+					 new ArrayList<Territory>(territories.values()));
 			
 			RiskGameConstants.SET_NO_OF_CONTINETS = continents.size();
 			RiskGameConstants.SET_NO_OF_TERRITORIES = territories.size();
