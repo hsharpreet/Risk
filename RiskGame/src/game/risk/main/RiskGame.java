@@ -266,7 +266,7 @@ public class RiskGame {
 					human.setComputer(false);
 					human.setNoOfArmies(noOfArmiesIntially());
 					Map<Territory,Integer> territoriesAndArmies = new HashMap<Territory, Integer>();
-					int sizeOfTerritoriesPerPlayer = listOfAssignedTerritories.get(i+1).size();
+					int sizeOfTerritoriesPerPlayer = listOfAssignedTerritories.get(1).size();
 					for(Territory t : listOfAssignedTerritories.get(i+1)){
 						territoriesAndArmies.put(t, 1);
 					}
@@ -292,12 +292,6 @@ public class RiskGame {
 				
 			}
 			
-			for(int i=1 ; i<players.size();i++){
-			
-			 Player player = (Player) players.get(i);
-			
-			 //p.setTerritorAndArmies(listOfAssignedTerritories);
-			}
 			gameDriver.setListPlayer(players);
 			
 			if(TOTAL_PLAYERS > 1 && TOTAL_PLAYERS <6){
@@ -314,10 +308,6 @@ public class RiskGame {
 		return null;
 	}	
 	
-	private List<Territory> getCountriesList(int TOTAL_PLAYERS, HashMap<String,Territory> territories) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public static void main(String[] args) {
 		RiskGame riskGame = new RiskGame();
