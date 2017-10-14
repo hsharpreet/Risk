@@ -2,6 +2,7 @@ package game.risk.main;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -23,8 +24,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import game.risk.model.DistributeCountries;
 import game.risk.model.GameDriver;
@@ -49,10 +53,14 @@ public class RiskGame {
 	private static int SET_NO_OF_TERRITORIES;
 	private static int TOTAL_PLAYERS;
 	
+	private static JLabel status;
+	private static JPanel middleStartPanel;
+	
 	public RiskGame() {
 		jFrame = new JFrame("RISK");
 		gameDriver = new GameDriver();
-
+		status = customJLabel("STATUS", 30, Color.BLACK);
+		middleStartPanel = customHeaderAndFooterPanel();
 	}
 	
 	public ArrayList<String> getMapFiles(String folderPath){
@@ -86,6 +94,12 @@ public class RiskGame {
 	
 	public static JPanel footerPanel(){
 		JPanel footerPanel = customHeaderAndFooterPanel();
+		//status.setLayout(new BorderLayout());//.CENTER);
+		status.setHorizontalAlignment(JLabel.CENTER);
+		status.setVerticalAlignment(JLabel.CENTER);
+		status.setHorizontalAlignment(SwingConstants.RIGHT);
+status.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		footerPanel.add(status, BorderLayout.CENTER);
 		footerPanel.setPreferredSize(new Dimension(600, 40));
         footerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		return footerPanel;
@@ -100,7 +114,7 @@ public class RiskGame {
         jFrame.getContentPane().add(footerPanel(), BorderLayout.SOUTH);
         jFrame.pack();
 
-        jFrame.setSize(600,600);  
+        jFrame.setSize(800,800);  
         //jFrame.setLayout(new GridBagLayout());
         jFrame.setVisible(true);
         jFrame.setResizable(false);
@@ -109,7 +123,7 @@ public class RiskGame {
     }
 
 	public JPanel startPanel(ArrayList<String> files){
-		JPanel middleStartPanel = customHeaderAndFooterPanel();
+		middleStartPanel = customHeaderAndFooterPanel();
 		DefaultListModel<String> tempList = new DefaultListModel<>(); 
 		for(String temp: files){
 			tempList.addElement(temp);  
@@ -143,7 +157,7 @@ public class RiskGame {
 					middleStartPanel.removeAll();
 					middleStartPanel.revalidate();
 					middleStartPanel.repaint();
-					middleStartPanel.add(secondPanel(SELECTED_MAP));
+					middleStartPanel = secondPanel(SELECTED_MAP);
 				}else{
 					warning.setVisible(true);
 					Timer timer = new Timer(3000, new ActionListener() {
@@ -168,13 +182,13 @@ public class RiskGame {
 	}
 	
 	public JPanel secondPanel(String mapSeleted){
-		JPanel middleSecondPanel = customHeaderAndFooterPanel();
+		//middleStartPanel = customHeaderAndFooterPanel();
 		
-		middleSecondPanel.add(customJLabel(RiskGameConstants.NO_OF_COMPUTERS, 20, Color.BLACK));
+		middleStartPanel.add(customJLabel(RiskGameConstants.NO_OF_COMPUTERS, 20, Color.BLACK));
 		
 		String noOfPlayers[]={"1", "2", "3", "4"};        
 	    JComboBox cb=new JComboBox(noOfPlayers);    
-	    middleSecondPanel.add(cb);        
+	    middleStartPanel.add(cb);        
 		
 		JPanel temp = customHeaderAndFooterPanel();
 		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -192,13 +206,13 @@ public class RiskGame {
 					computersSeleted = Integer.parseInt((String) cb.getSelectedItem());
 					SELECTED_NO_OF_COMPUTERS = computersSeleted;
 					System.out.println(computersSeleted);
-					middleSecondPanel.removeAll();
-					middleSecondPanel.revalidate();
-					middleSecondPanel.repaint();
+					middleStartPanel.removeAll();
+					middleStartPanel.revalidate();
+					middleStartPanel.repaint();
 					
 					TOTAL_PLAYERS = SELECTED_NO_OF_COMPUTERS + NO_OF_HUMAN;
 					
-					middleSecondPanel.add(thirdPanel(SELECTED_MAP, TOTAL_PLAYERS));
+					middleStartPanel = thirdPanel(SELECTED_MAP, TOTAL_PLAYERS);
 				}else{
 					Timer timer = new Timer(3000, new ActionListener() {
 			            @Override
@@ -218,8 +232,8 @@ public class RiskGame {
 			}
 		});
 		temp.setVisible(true);
-		middleSecondPanel.add(temp);
-		return middleSecondPanel; 
+		middleStartPanel.add(temp);
+		return middleStartPanel; 
 	}
 	
 	public int noOfArmiesPerPlayrIntially(){
@@ -239,6 +253,7 @@ public class RiskGame {
 	}
 	
 	public JPanel thirdPanel(String SELECTED_MAP, int TOTAL_PLAYERS){
+		//middleStartPanel = customHeaderAndFooterPanel();
 		MapReader mapreader = new MapReader();
 		Map<Integer, List<Territory>> listOfAssignedTerritories = null;
 	    try {
@@ -262,15 +277,21 @@ public class RiskGame {
 					human.setName("H");
 					human.setComputer(false);
 					human.setNoOfArmies(noOfArmiesPerPlayerIntial);
+					human.setTerritorAndArmiesColor(RiskGameConstants.colorArray[0]);
 					Map<Territory,Integer> territoriesAndArmies = new HashMap<Territory, Integer>();
 					int sizeOfTerritoriesPerPlayer = listOfAssignedTerritories.get(1).size();
-					for(Territory t : listOfAssignedTerritories.get(i+1)){
+					ArrayList<Territory> onlyTerritories  = new ArrayList<Territory>();
+					for(Territory t : listOfAssignedTerritories.get(1)){
 						territoriesAndArmies.put(t, 1);
+						onlyTerritories.add(t);
 					}
+					int territoriesAndArmiesNo = listOfAssignedTerritories.size();
+					territoryJButton(middleStartPanel, onlyTerritories, human);
+					
 					human.setTerritorAndArmies(territoriesAndArmies);
 					human.setTerritorAndArmiesColor(RiskGameConstants.colorArray[0]);
 					human.setNoOfArmies(human.getNoOfArmies()-sizeOfTerritoriesPerPlayer);
-					//gameDriver.setPlayer(human);
+					//gameDriver.setPlayer(human);m
 					players.add(human);
 				}
 				else{
@@ -281,9 +302,14 @@ public class RiskGame {
 					comp.setTerritorAndArmiesColor(RiskGameConstants.colorArray[i]);
 					Map<Territory,Integer> territoriesAndArmies = new HashMap<Territory, Integer>();
 					int sizeOfTerritoriesPerPlayer = listOfAssignedTerritories.get(i+1).size();
-					for(Territory t : listOfAssignedTerritories.get(i+1)){
+					
+					ArrayList<Territory> onlyTerritoriesForComp  = new ArrayList<Territory>();
+					for(Territory t : listOfAssignedTerritories.get(i)){
 						territoriesAndArmies.put(t, 1);
+						onlyTerritoriesForComp.add(t);
 					}
+					
+					territoryJButton(middleStartPanel, onlyTerritoriesForComp, comp);
 					comp.setTerritorAndArmies(territoriesAndArmies);
 					comp.setNoOfArmies(comp.getNoOfArmies()-sizeOfTerritoriesPerPlayer);
 					players.add(comp);
@@ -291,25 +317,19 @@ public class RiskGame {
 				
 			}
 			gameDriver.setListPlayer(players);
-			for(int i=1 ; i<players.size();i++){
+			/*for(int i=0 ; i<players.size();i++){
 				Player player = (Player) players.get(i);
-				ArrayList<JButton> listOfButtons = new ArrayList<JButton>();
+				//int territorrySize = player.getTerritorAndArmies().size();
+				//ArrayList<JButton> listOfButtons = new ArrayList<JButton>();
 				
-			}
-			
-			
-			if(TOTAL_PLAYERS > 1 && TOTAL_PLAYERS <6){
-				for(;;){
-					
-				}
-			}else{
-				throw new Exception("TOTAL_PLAYERS >1 or <6? "+TOTAL_PLAYERS);
-			}
+			}*/
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+	    middleStartPanel.setVisible(true);   
+	    middleStartPanel.setLayout(new FlowLayout()); 
+		return middleStartPanel;
 	}	
 	
 
@@ -346,42 +366,57 @@ public class RiskGame {
 		return tempButton;
 	}
 
-	private static JButton territoryJButton(String name, int font) {
-		JButton tempButton = new JButton(name);
-		int number =10 ;
-	    
-	   
-	    ArrayList<JButton> listOfButtons = null;
-		for (int i=0; i < number; i++) 
-	    
-	    {
-	        JButton button = new JButton();
-	        listOfButtons.add(button);
-	    }
-		int x=10;
-		int y=10;
-	    for(int j = 1 ; j<listOfButtons.size() ; j++)
-	    {
-	    
-	    	listOfButtons.get(j).setBounds(x, y, 40, 40);
-	    //	x=x+10 ;
-	    	y=y+50;
-	    	
-	    	listOfButtons.get(j).setText(""+j);
-	    listOfButtons.get(j).setBackground(Color.RED);
-	   // 	listOfButtons.get(j).setOpaque(true);   
-	    //listOfButtons.get(j).setBorder(new LineBorder(Color.BLUE, 4));
-	    	listOfButtons.get(j).setFont(new Font("Helvetica", Font.BOLD, j));
+	private static void territoryJButton(JPanel panel, ArrayList<Territory> onlyTerritories, Player p) {
+		
+		JButton button;
+		JLabel label;
+		for(int k=0; k<onlyTerritories.size();k++){
+			//territoryJButton(human.getName(), human.getTerritorAndArmiesColor());
+			button = customJButton(p.getName(), 10);
+	        //button.setText("BUTTON"+i);
+	        button.setOpaque(true);  
+	     	button.setBackground(p.getTerritorAndArmiesColor());
+	        button.setForeground(p.getTerritorAndArmiesColor());
+	        button.setFocusPainted(true);
+	        button.setFont(new Font("Tahoma", Font.BOLD, 12));
+	            button.setMinimumSize(new Dimension(3,3));
+	        label = customJLabel(onlyTerritories.get(k).getName(), 10, p.getTerritorAndArmiesColor());
+	        label.setVisible(true);
+	       // label.setFont(new Font("Tahoma", Font.BOLD, 10));
+	       // label.setBounds(x, y-15, 60, 20);
+	        //label.setForeground(Color.BLACK);
+	        label.setOpaque(false);  
+	        //label.setBackground(Color.red);
+	        button.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					System.out.println(e.getActionCommand());
+					
+				}
+			});
+	        JPanel jp = new JPanel();
+	        jp.setVisible(true);
+	        jp.setLayout(new GridLayout(2, 1));
+	        jp.add(label);
+	        jp.add(button);
+	        
+	        middleStartPanel.add(jp);
+		}
+		
+		JSeparator separator = new JSeparator();
+		 separator.setBorder(new LineBorder(Color.GRAY));
+		 separator.setPreferredSize(new Dimension(800, 1));
+		 separator.setOrientation(SwingConstants.HORIZONTAL);
+		 middleStartPanel.add(new JSeparator());
+		
 
-	    }
-	   
-		return tempButton;
 	}
 	
 	private static JPanel customHeaderAndFooterPanel(){
         JPanel result = new JPanel();
         result.setBorder(new EmptyBorder(50, 10, 10, 10));
-        result.setPreferredSize(new Dimension(600, 40));
+        result.setPreferredSize(new Dimension(800, 40));
         result.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
 
         return result;
