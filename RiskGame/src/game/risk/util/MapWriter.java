@@ -340,8 +340,43 @@ public class MapWriter {
 		return countriesList;
 	}
 
-	public ArrayList getLinksOfCountry(String string) {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList getLinksOfCountry(String countryName) 
+	{
+		try
+		{
+		ArrayList<String> links = new ArrayList<>();	
+			
+		String countrySelected = countryName;
+		File inputFile = new File(mapFileName);
+		BufferedReader br = new BufferedReader(new FileReader(inputFile));
+		File outFile = new File("temp.map");
+		FileOutputStream outStream = new FileOutputStream(outFile);
+		String thisLine = "";
+		while ((thisLine = br.readLine()) != null) {
+			if (thisLine.equalsIgnoreCase("[Territories]")) {
+				
+				while ((thisLine = br.readLine()) != null && thisLine != " ") {
+					String[] columns = thisLine.split(",");
+					if (columns[0].equals(countryName)) 
+					
+					{
+						for(int i = 4; i<columns.length ; i++)
+						{
+							links.add(columns[i]);
+						}
+					}
+					
+					// printWriter.println(newTerritory);
+				}
+				return links;
+			}
+		}
+		br.close();
+		inputFile.delete();
+		outFile.renameTo(inputFile);
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	return null;
 	}
 }

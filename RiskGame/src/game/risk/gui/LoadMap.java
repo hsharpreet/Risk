@@ -556,11 +556,11 @@ public static void main(String[] args) throws Exception
 			ArrayList countriesLink = new ArrayList<String>();
 			countriesLink.clear();
 			linksOfSelectedCountryCB.removeAllItems();
-			//countriesLink = mp.getLinksOfCountry(cb2.getSelectedItem().toString());
+			countriesLink = mp.getLinksOfCountry(cb2.getSelectedItem().toString());
 			
 			for(int i = 0 ; i<countriesLink.size() ; i++)
 			{
-		//		countriesOfSelectedContinentCB.addItem(countriesLink.get(i));
+			linksOfSelectedCountryCB.addItem(countriesLink.get(i));
 			}
 			
 			System.out.println(countriesLink.size());
