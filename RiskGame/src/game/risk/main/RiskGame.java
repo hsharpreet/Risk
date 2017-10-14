@@ -372,20 +372,23 @@ status.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		JLabel label;
 		for(int k=0; k<onlyTerritories.size();k++){
 			//territoryJButton(human.getName(), human.getTerritorAndArmiesColor());
-			button = customJButton(p.getName(), 10);
+			button = customJButton(p.getName(), 12);
 	        //button.setText("BUTTON"+i);
-	        button.setOpaque(true);  
-	     	button.setBackground(p.getTerritorAndArmiesColor());
-	        button.setForeground(p.getTerritorAndArmiesColor());
+	        button.setOpaque(true);
+	     	
+	        button.setForeground(new Color(Color.HSBtoRGB((float) Math.random(),(float)0.5,(float)0.5)));
 	        button.setFocusPainted(true);
-	        button.setFont(new Font("Tahoma", Font.BOLD, 12));
-	            button.setMinimumSize(new Dimension(3,3));
+	        //button.setFont(new Font("Tahoma", Font.BOLD, 12));
+	        //button.setMinimumSize(new Dimension(3,3));
+	        
 	        label = customJLabel(onlyTerritories.get(k).getName(), 10, p.getTerritorAndArmiesColor());
 	        label.setVisible(true);
+	        label.setOpaque(false);  
+	        
 	       // label.setFont(new Font("Tahoma", Font.BOLD, 10));
 	       // label.setBounds(x, y-15, 60, 20);
 	        //label.setForeground(Color.BLACK);
-	        label.setOpaque(false);  
+	        
 	        //label.setBackground(Color.red);
 	        button.addActionListener(new ActionListener() {
 				
@@ -395,6 +398,7 @@ status.setAlignmentX(Component.RIGHT_ALIGNMENT);
 					
 				}
 			});
+	        
 	        JPanel jp = new JPanel();
 	        jp.setVisible(true);
 	        jp.setLayout(new GridLayout(2, 1));
