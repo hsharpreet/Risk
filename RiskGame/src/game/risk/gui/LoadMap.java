@@ -13,7 +13,17 @@ import javax.swing.*;
 import game.risk.util.MapReader;
 import game.risk.util.MapWriter;
 import game.risk.util.RiskMap;    
-public class LoadMap {  
+/**
+ * A java class to Load the Map 
+ * @author Simran
+ *
+ */
+public class LoadMap {
+/**
+ * The Main method.	
+ * @param args
+ * @throws Exception
+ */
 public static void main(String[] args) throws Exception 
 
 {  
@@ -37,7 +47,7 @@ public static void main(String[] args) throws Exception
     riskmap.getContinents();
     
         
-    
+    //Creating the GUI
     addCountry=new JButton("ADD NEW COUNTRY");
     deleteCountry=new JButton("DELETE SELECTED COUNTRY");
     changeContinent=new JButton("Change Continent");
@@ -84,7 +94,7 @@ public static void main(String[] args) throws Exception
     
     selectContinentForNewCountry = new JComboBox(riskmap.getContinents().keySet().toArray());
     selectAdjacentCountry = new JComboBox(riskmap.getTerritories().keySet().toArray());
-    
+    // Setting the coordinates
     addCountry.setBounds(640,40,160,30);
     deleteCountry.setBounds(640 ,70,160,30);
     changeContinent.setBounds(640,100,160,30);
@@ -198,9 +208,9 @@ public static void main(String[] args) throws Exception
     
     
    
-  
+    // Method to add continent
     addContinent.addActionListener(new ActionListener(){  
-    	
+   
     public void actionPerformed(ActionEvent e){ 
     	
     	LoadMap loadmap = new LoadMap();
@@ -241,7 +251,7 @@ public static void main(String[] args) throws Exception
     }
          
     });  
-    
+    // Method to delete the continent
     deleteContinent.addActionListener(new ActionListener(){  
         public void actionPerformed(ActionEvent e){ 
         	int option = JOptionPane.showConfirmDialog(f, "All countries in this continent will also be deleted.Do you want to proceed?", "Delete Continent", JOptionPane.OK_CANCEL_OPTION);
@@ -264,7 +274,7 @@ public static void main(String[] args) throws Exception
         	}
             }  
         });
-    
+    //  Method to add country
     addCountry.addActionListener(new ActionListener(){  
     	
         public void actionPerformed(ActionEvent e){ 
@@ -289,7 +299,7 @@ public static void main(String[] args) throws Exception
         	
             }  
         });  
-    
+    // Method to add adjacent countries
  addadjacentcountry.addActionListener(new ActionListener(){  
     	
         public void actionPerformed(ActionEvent e)
@@ -314,7 +324,7 @@ public static void main(String[] args) throws Exception
         
         }
         });  
-    
+    // Method to submit new country
       submitNewCountry.addActionListener(new ActionListener(){  
     	
         public void actionPerformed(ActionEvent e)
@@ -375,7 +385,7 @@ public static void main(String[] args) throws Exception
         
         });  
       
-      
+      // Method to delete country
       deleteCountry.addActionListener(new ActionListener(){  
       	
     	    public void actionPerformed(ActionEvent e)
@@ -407,7 +417,7 @@ public static void main(String[] args) throws Exception
 
     	        }  
     	    });  
-      
+      //Method to change continent
       changeContinent.addActionListener(new ActionListener(){  
         	
   	    public void actionPerformed(ActionEvent e)
@@ -450,7 +460,7 @@ public static void main(String[] args) throws Exception
   	        }  
   	    });  
     
-      
+      // Method to assign new continent
       assignNewContinent.addActionListener(new ActionListener(){  
       	
           public void actionPerformed(ActionEvent e)
@@ -474,7 +484,7 @@ public static void main(String[] args) throws Exception
           
           
           });  
-      
+      // Method to view countries of continents
       viewCountriesOfContinent.addActionListener(new ActionListener(){  
     	  ArrayList countriesListData = new ArrayList<String>();
           public void actionPerformed(ActionEvent e)
