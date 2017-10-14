@@ -14,16 +14,18 @@ import game.risk.util.MapReader;
 import game.risk.util.MapWriter;
 import game.risk.util.RiskMap;    
 public class LoadMap {  
+	
+	
 public static void main(String[] args) throws Exception 
 
 {  
-	
-	
+	//initializes
+    String MAP_FILE_NAME= "World.map";
     JFrame f=new JFrame("MAP GUI");  
     
     JButton addCountry,addContinent ,deleteContinent, addadjacentcountry , submitNewCountry , deleteCountry ,changeContinent ,assignNewContinent, viewCountriesOfContinent   ;
-    JLabel l1,l2 , newcountrynamelabel ,continentfornewcountry , adjacenttonewcountry ,selectedTerritoryToModify , presentContinent, selectNewContinentToAssign , continentSelected , countriesOfSelectedContinent;  
-    JComboBox cb1,cb2;
+    JLabel continentLabel,countryLabel , newcountrynamelabel ,continentfornewcountry , adjacenttonewcountry ,selectedTerritoryToModify , presentContinent, selectNewContinentToAssign , continentSelected , countriesOfSelectedContinent;  
+    JComboBox continentsComboBox,countryComboBox;
     JTextField newcountryname , territorySelected  , presentContinentField , selectedContinentField;
     JComboBox selectContinentForNewCountry ; 
     JComboBox selectAdjacentCountry , selectModifiedContinentCB , countriesOfSelectedContinentCB;
@@ -32,7 +34,7 @@ public static void main(String[] args) throws Exception
     
     
     MapReader mapreader = new MapReader();
-    RiskMap riskmap = mapreader.readMap("World.map");
+    RiskMap riskmap = mapreader.readMap(MAP_FILE_NAME);
     
     riskmap.getContinents();
     
@@ -44,14 +46,13 @@ public static void main(String[] args) throws Exception
     addContinent=new JButton("+");
     deleteContinent= new JButton("-");
     viewCountriesOfContinent = new JButton("View Countries");
-    DefaultComboBoxModel continentComboBoxModel= new DefaultComboBoxModel<>(riskmap.getContinents().keySet().toArray());
     
     addadjacentcountry= new JButton("+");
     submitNewCountry= new JButton("Submit data");
     assignNewContinent= new JButton("Assign new continent");
     
-    l1=new JLabel("Continents");  
-    l2=new JLabel("Countries"); 
+    continentLabel=new JLabel("Continents");  
+    countryLabel=new JLabel("Countries"); 
     newcountrynamelabel= new JLabel("Enter Name");
     continentfornewcountry = new JLabel("Continent");
     adjacenttonewcountry = new JLabel("Select Link");
@@ -61,8 +62,10 @@ public static void main(String[] args) throws Exception
     continentSelected = new JLabel("Selected Continent");
     countriesOfSelectedContinent = new JLabel("Countries Present");
     
-    cb1=new JComboBox(continentComboBoxModel);
-    cb2=new JComboBox(riskmap.getTerritories().keySet().toArray());
+    DefaultComboBoxModel continentComboBoxModel= new DefaultComboBoxModel<>(riskmap.getContinents().keySet().toArray());
+    continentsComboBox=new JComboBox(continentComboBoxModel);
+    DefaultComboBoxModel countriesComboBoxModel = new DefaultComboBoxModel<>(riskmap.getTerritories().keySet().toArray());
+    countryComboBox=new JComboBox(countriesComboBoxModel);
     selectModifiedContinentCB= new JComboBox(riskmap.getContinents().keySet().toArray());
     countriesOfSelectedContinentCB=new JComboBox<>();
     
@@ -72,7 +75,7 @@ public static void main(String[] args) throws Exception
     selectedContinentField = new JTextField();
     
     
-    selectContinentForNewCountry = new JComboBox(riskmap.getContinents().keySet().toArray());
+    selectContinentForNewCountry = new JComboBox(continentComboBoxModel);
     selectAdjacentCountry = new JComboBox(riskmap.getTerritories().keySet().toArray());
     
     addCountry.setBounds(640,40,160,30);
@@ -87,10 +90,10 @@ public static void main(String[] args) throws Exception
     selectedContinentField.setBounds(40, 280 , 150 ,20);
     countriesOfSelectedContinentCB.setBounds(200 ,280 , 150 ,20);
     
-    l1.setBounds(40,48, 100,30); 
-    l2.setBounds(450,48, 100,30);
-    cb1.setBounds(40, 80,190,20); 
-    cb2.setBounds(450, 80,190,20); 
+    continentLabel.setBounds(40,48, 100,30); 
+    countryLabel.setBounds(450,48, 100,30);
+    continentsComboBox.setBounds(40, 80,190,20); 
+    countryComboBox.setBounds(450, 80,190,20); 
     
     newcountryname.setBounds(300,250,120,40);
     selectContinentForNewCountry.setBounds(430 , 250, 120,40);
@@ -108,10 +111,10 @@ public static void main(String[] args) throws Exception
     adjacenttonewcountry.setBounds(560 , 200 ,120 , 40);
     addadjacentcountry.setBounds(690 , 255 , 20,20);
     submitNewCountry.setBounds(430 , 320 , 120,50);
-    f.add(l1);
-    f.add(l2);
-    f.add(cb1);  
-    f.add(cb2);
+    f.add(continentLabel);
+    f.add(countryLabel);
+    f.add(continentsComboBox);  
+    f.add(countryComboBox);
     
     
     f.add(addContinent);
@@ -189,9 +192,10 @@ public static void main(String[] args) throws Exception
         	}
     		else
     		{
-    	    MapWriter writeContinent = new MapWriter();
+    	    MapWriter writeContinent = new MapWriter(MAP_FILE_NAME);
     	    try {
 				writeContinent.addContinent(name.getText(), value.getText());
+				continentComboBoxModel.addElement(name.getText());
 				
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
@@ -212,11 +216,11 @@ public static void main(String[] args) throws Exception
         	int option = JOptionPane.showConfirmDialog(f, "All countries in this continent will also be deleted.Do you want to proceed?", "Delete Continent", JOptionPane.OK_CANCEL_OPTION);
         	if (option == JOptionPane.OK_OPTION) 
         	{ System.out.println();
-        	    MapWriter mapWriter = new MapWriter();
+        	    MapWriter mapWriter = new MapWriter(MAP_FILE_NAME);
         	    try {
-        	    	mapWriter.deleteContinent((String)cb1.getSelectedItem());
-        	    	System.out.println("Deleted Country "+cb1.getSelectedItem());
-        	    	continentComboBoxModel.removeElementAt(cb1.getSelectedIndex());
+        	    	mapWriter.deleteContinent((String)continentsComboBox.getSelectedItem());
+        	    	System.out.println("Deleted Country "+continentsComboBox.getSelectedItem());
+        	    	continentComboBoxModel.removeElementAt(continentsComboBox.getSelectedIndex());
     				
     			} catch (IOException e1) {
     				// TODO Auto-generated catch block
@@ -289,7 +293,7 @@ public static void main(String[] args) throws Exception
         	if(!(newcountryname.getText().trim().isEmpty()))
         	{
         	
-        	MapWriter writeTerritory = new MapWriter();
+        	MapWriter writeTerritory = new MapWriter(MAP_FILE_NAME);
         	
         	String newCountryEntry = "";
         	String newCountryName = newcountryname.getText();
@@ -348,9 +352,9 @@ public static void main(String[] args) throws Exception
     	    { 
     	    	String status;
     	    	
-    	    	String terittoryToDelete = cb2.getSelectedItem().toString();
+    	    	String terittoryToDelete = countryComboBox.getSelectedItem().toString();
     	    	
-    	    	MapWriter deleteTerritory = new MapWriter();
+    	    	MapWriter deleteTerritory = new MapWriter(MAP_FILE_NAME);
     	    	
     	    	try {
 			status = deleteTerritory.deleteTerritory(terittoryToDelete);
@@ -380,9 +384,9 @@ public static void main(String[] args) throws Exception
   	    { 
   	    	String status;
   	    	
-  	    	String terittorySelected = cb2.getSelectedItem().toString();
+  	    	String terittorySelected = countryComboBox.getSelectedItem().toString();
   	    	
-  	    	MapWriter mp = new MapWriter();
+  	    	MapWriter mp = new MapWriter(MAP_FILE_NAME);
   	    	
   	    	
   	    newcountryname.setVisible(false);
@@ -402,7 +406,7 @@ public static void main(String[] args) throws Exception
     	    presentContinent.setVisible(true);
         presentContinentField.setVisible(true);
   	    
-  	    	territorySelected.setText(cb2.getSelectedItem().toString());
+  	    	territorySelected.setText(countryComboBox.getSelectedItem().toString());
   	    	territorySelected.setFocusable(false);
  	    presentContinentField.setText(mp.getPresentContinent(territorySelected.getText()));
  	    presentContinentField.setFocusable(false);
@@ -415,8 +419,8 @@ public static void main(String[] args) throws Exception
           public void actionPerformed(ActionEvent e)
           { 
           
-        	MapWriter mp = new MapWriter();
-        	territorySelected.setText(cb2.getSelectedItem().toString());
+        	MapWriter mp = new MapWriter(MAP_FILE_NAME);
+        	territorySelected.setText(countryComboBox.getSelectedItem().toString());
     	    	territorySelected.setFocusable(false);
        
     	    	try 
@@ -444,17 +448,17 @@ public static void main(String[] args) throws Exception
         	    selectedContinentField.setVisible(true);
         	    countriesOfSelectedContinentCB.setVisible(true);  
         	    
-        	    selectedContinentField.setText(cb1.getSelectedItem().toString());
+        	    selectedContinentField.setText(continentsComboBox.getSelectedItem().toString());
         	    selectedContinentField.setFocusable(false);
         	  
-        	MapWriter mp = new MapWriter();
+        	MapWriter mp = new MapWriter(MAP_FILE_NAME);
        
     	    	try 
           {
   			ArrayList countriesListData = new ArrayList<String>();
   			countriesListData.clear();
   			countriesOfSelectedContinentCB.removeAllItems();
-  			countriesListData = mp.getCountriesOfContinent(cb1.getSelectedItem().toString());
+  			countriesListData = mp.getCountriesOfContinent(continentsComboBox.getSelectedItem().toString());
   			
   			for(int i = 0 ; i<countriesListData.size() ; i++)
   			{
