@@ -14,27 +14,25 @@ import game.risk.util.MapReader;
 import game.risk.util.MapWriter;
 import game.risk.util.RiskMap;    
 public class LoadMap {  
-	
-	
 public static void main(String[] args) throws Exception 
 
 {  
-	//initializes
-    String MAP_FILE_NAME= "World.map";
+	
+	String MAP_FILE_NAME = "World.map";
     JFrame f=new JFrame("MAP GUI");  
     
-    JButton addCountry,addContinent ,deleteContinent, addadjacentcountry , submitNewCountry , deleteCountry ,changeContinent ,assignNewContinent, viewCountriesOfContinent   ;
-    JLabel continentLabel,countryLabel , newcountrynamelabel ,continentfornewcountry , adjacenttonewcountry ,selectedTerritoryToModify , presentContinent, selectNewContinentToAssign , continentSelected , countriesOfSelectedContinent;  
-    JComboBox continentsComboBox,countryComboBox;
-    JTextField newcountryname , territorySelected  , presentContinentField , selectedContinentField;
+    JButton addCountry,addContinent ,deleteContinent, addadjacentcountry , submitNewCountry , deleteCountry ,changeContinent ,assignNewContinent, viewCountriesOfContinent , deleteCountryLink , deleteSelectedLinkOfCountry ,countrySelectedToShowLinksToDeleteButton ;
+    JLabel l1,l2 , newcountrynamelabel ,continentfornewcountry , adjacenttonewcountry ,selectedTerritoryToModify , presentContinent, selectNewContinentToAssign , continentSelected , countriesOfSelectedContinent ,countrySelectedToShowLinksToDeleteLabel , linksOfSelectedCountryLabel;  
+    JComboBox cb1,cb2;
+    JTextField newcountryname , territorySelected  , presentContinentField , selectedContinentField , countrySelectedToShowLinksToDeleteTF ;
     JComboBox selectContinentForNewCountry ; 
-    JComboBox selectAdjacentCountry , selectModifiedContinentCB , countriesOfSelectedContinentCB;
+    JComboBox selectAdjacentCountry , selectModifiedContinentCB , countriesOfSelectedContinentCB , linksOfSelectedCountryCB;
     LinkedHashSet<String> adjacentCountriesToNewCountry = new LinkedHashSet<>();
    
     
     
     MapReader mapreader = new MapReader();
-    RiskMap riskmap = mapreader.readMap(MAP_FILE_NAME);
+    RiskMap riskmap = mapreader.readMap("World.map");
     
     riskmap.getContinents();
     
@@ -43,16 +41,19 @@ public static void main(String[] args) throws Exception
     addCountry=new JButton("ADD NEW COUNTRY");
     deleteCountry=new JButton("DELETE SELECTED COUNTRY");
     changeContinent=new JButton("Change Continent");
+    deleteCountryLink = new JButton("Delete Link");
     addContinent=new JButton("+");
     deleteContinent= new JButton("-");
     viewCountriesOfContinent = new JButton("View Countries");
+    DefaultComboBoxModel continentComboBoxModel= new DefaultComboBoxModel<>(riskmap.getContinents().keySet().toArray());
+    
     
     addadjacentcountry= new JButton("+");
     submitNewCountry= new JButton("Submit data");
     assignNewContinent= new JButton("Assign new continent");
     
-    continentLabel=new JLabel("Continents");  
-    countryLabel=new JLabel("Countries"); 
+    l1=new JLabel("Continents");  
+    l2=new JLabel("Countries"); 
     newcountrynamelabel= new JLabel("Enter Name");
     continentfornewcountry = new JLabel("Continent");
     adjacenttonewcountry = new JLabel("Select Link");
@@ -62,10 +63,9 @@ public static void main(String[] args) throws Exception
     continentSelected = new JLabel("Selected Continent");
     countriesOfSelectedContinent = new JLabel("Countries Present");
     
-    DefaultComboBoxModel continentComboBoxModel= new DefaultComboBoxModel<>(riskmap.getContinents().keySet().toArray());
-    continentsComboBox=new JComboBox(continentComboBoxModel);
-    DefaultComboBoxModel countriesComboBoxModel = new DefaultComboBoxModel<>(riskmap.getTerritories().keySet().toArray());
-    countryComboBox=new JComboBox(countriesComboBoxModel);
+    
+    cb1=new JComboBox(continentComboBoxModel);
+    cb2=new JComboBox(riskmap.getTerritories().keySet().toArray());
     selectModifiedContinentCB= new JComboBox(riskmap.getContinents().keySet().toArray());
     countriesOfSelectedContinentCB=new JComboBox<>();
     
@@ -74,8 +74,15 @@ public static void main(String[] args) throws Exception
     presentContinentField = new JTextField();
     selectedContinentField = new JTextField();
     
+    countrySelectedToShowLinksToDeleteLabel = new JLabel("Selected Country");
+    countrySelectedToShowLinksToDeleteTF = new JTextField();
+    countrySelectedToShowLinksToDeleteButton = new JButton("Delete Link");
+    linksOfSelectedCountryLabel = new JLabel("Links Of Country");
+    linksOfSelectedCountryCB = new JComboBox<>();
+   
     
-    selectContinentForNewCountry = new JComboBox(continentComboBoxModel);
+    
+    selectContinentForNewCountry = new JComboBox(riskmap.getContinents().keySet().toArray());
     selectAdjacentCountry = new JComboBox(riskmap.getTerritories().keySet().toArray());
     
     addCountry.setBounds(640,40,160,30);
@@ -89,11 +96,12 @@ public static void main(String[] args) throws Exception
     countriesOfSelectedContinent.setBounds(200 , 250 , 150 ,20);
     selectedContinentField.setBounds(40, 280 , 150 ,20);
     countriesOfSelectedContinentCB.setBounds(200 ,280 , 150 ,20);
+    deleteCountryLink.setBounds(640 , 130 , 160 ,30);
     
-    continentLabel.setBounds(40,48, 100,30); 
-    countryLabel.setBounds(450,48, 100,30);
-    continentsComboBox.setBounds(40, 80,190,20); 
-    countryComboBox.setBounds(450, 80,190,20); 
+    l1.setBounds(40,48, 100,30); 
+    l2.setBounds(450,48, 100,30);
+    cb1.setBounds(40, 80,190,20); 
+    cb2.setBounds(450, 80,190,20); 
     
     newcountryname.setBounds(300,250,120,40);
     selectContinentForNewCountry.setBounds(430 , 250, 120,40);
@@ -111,10 +119,18 @@ public static void main(String[] args) throws Exception
     adjacenttonewcountry.setBounds(560 , 200 ,120 , 40);
     addadjacentcountry.setBounds(690 , 255 , 20,20);
     submitNewCountry.setBounds(430 , 320 , 120,50);
-    f.add(continentLabel);
-    f.add(countryLabel);
-    f.add(continentsComboBox);  
-    f.add(countryComboBox);
+    
+    countrySelectedToShowLinksToDeleteLabel.setBounds(430 , 200, 120,40 );
+    countrySelectedToShowLinksToDeleteTF.setBounds(430 ,250,120,40);
+    countrySelectedToShowLinksToDeleteButton.setBounds(430 , 320 , 120,50);
+    linksOfSelectedCountryCB.setBounds(560 , 250 , 120 , 40);
+    linksOfSelectedCountryLabel.setBounds(560,200,120,40);
+     
+    
+    f.add(l1);
+    f.add(l2);
+    f.add(cb1);  
+    f.add(cb2);
     
     
     f.add(addContinent);
@@ -142,6 +158,14 @@ public static void main(String[] args) throws Exception
     f.add(countriesOfSelectedContinent);
     f.add(selectedContinentField);
     f.add(countriesOfSelectedContinentCB);
+    f.add(deleteCountryLink);
+    
+    f.add(countrySelectedToShowLinksToDeleteButton);
+    f.add(countrySelectedToShowLinksToDeleteTF);
+    f.add(countrySelectedToShowLinksToDeleteLabel);
+    f.add(linksOfSelectedCountryCB);
+    f.add(linksOfSelectedCountryLabel);
+    
     
     newcountryname.setVisible(false);
     selectContinentForNewCountry.setVisible(false);
@@ -164,6 +188,14 @@ public static void main(String[] args) throws Exception
     countriesOfSelectedContinent.setVisible(false);
     selectedContinentField.setVisible(false);
     countriesOfSelectedContinentCB.setVisible(false);
+    
+    countrySelectedToShowLinksToDeleteButton.setVisible(false);
+    countrySelectedToShowLinksToDeleteTF.setVisible(false);
+    countrySelectedToShowLinksToDeleteLabel.setVisible(false);
+    linksOfSelectedCountryCB.setVisible(false);
+    linksOfSelectedCountryLabel.setVisible(false);
+    
+    
     
    
   
@@ -195,7 +227,6 @@ public static void main(String[] args) throws Exception
     	    MapWriter writeContinent = new MapWriter(MAP_FILE_NAME);
     	    try {
 				writeContinent.addContinent(name.getText(), value.getText());
-				continentComboBoxModel.addElement(name.getText());
 				
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
@@ -218,9 +249,9 @@ public static void main(String[] args) throws Exception
         	{ System.out.println();
         	    MapWriter mapWriter = new MapWriter(MAP_FILE_NAME);
         	    try {
-        	    	mapWriter.deleteContinent((String)continentsComboBox.getSelectedItem());
-        	    	System.out.println("Deleted Country "+continentsComboBox.getSelectedItem());
-        	    	continentComboBoxModel.removeElementAt(continentsComboBox.getSelectedIndex());
+        	    	mapWriter.deleteContinent((String)cb1.getSelectedItem());
+        	    	System.out.println("Deleted Country "+cb1.getSelectedItem());
+        	    	continentComboBoxModel.removeElementAt(cb1.getSelectedIndex());
     				
     			} catch (IOException e1) {
     				// TODO Auto-generated catch block
@@ -352,7 +383,7 @@ public static void main(String[] args) throws Exception
     	    { 
     	    	String status;
     	    	
-    	    	String terittoryToDelete = countryComboBox.getSelectedItem().toString();
+    	    	String terittoryToDelete = cb2.getSelectedItem().toString();
     	    	
     	    	MapWriter deleteTerritory = new MapWriter(MAP_FILE_NAME);
     	    	
@@ -384,7 +415,7 @@ public static void main(String[] args) throws Exception
   	    { 
   	    	String status;
   	    	
-  	    	String terittorySelected = countryComboBox.getSelectedItem().toString();
+  	    	String terittorySelected = cb2.getSelectedItem().toString();
   	    	
   	    	MapWriter mp = new MapWriter(MAP_FILE_NAME);
   	    	
@@ -397,6 +428,12 @@ public static void main(String[] args) throws Exception
   	    adjacenttonewcountry.setVisible(false);
   	    addadjacentcountry.setVisible(false);
   	    submitNewCountry.setVisible(false);
+  	     
+  	    countrySelectedToShowLinksToDeleteButton.setVisible(false);
+	    countrySelectedToShowLinksToDeleteTF.setVisible(false);
+	    countrySelectedToShowLinksToDeleteLabel.setVisible(false);
+	    linksOfSelectedCountryCB.setVisible(false);
+	    linksOfSelectedCountryLabel.setVisible(false);
   	    	
   	    	territorySelected.setVisible(true);
         selectModifiedContinentCB.setVisible(true);
@@ -406,7 +443,7 @@ public static void main(String[] args) throws Exception
     	    presentContinent.setVisible(true);
         presentContinentField.setVisible(true);
   	    
-  	    	territorySelected.setText(countryComboBox.getSelectedItem().toString());
+  	    	territorySelected.setText(cb2.getSelectedItem().toString());
   	    	territorySelected.setFocusable(false);
  	    presentContinentField.setText(mp.getPresentContinent(territorySelected.getText()));
  	    presentContinentField.setFocusable(false);
@@ -420,7 +457,7 @@ public static void main(String[] args) throws Exception
           { 
           
         	MapWriter mp = new MapWriter(MAP_FILE_NAME);
-        	territorySelected.setText(countryComboBox.getSelectedItem().toString());
+        	territorySelected.setText(cb2.getSelectedItem().toString());
     	    	territorySelected.setFocusable(false);
        
     	    	try 
@@ -448,7 +485,7 @@ public static void main(String[] args) throws Exception
         	    selectedContinentField.setVisible(true);
         	    countriesOfSelectedContinentCB.setVisible(true);  
         	    
-        	    selectedContinentField.setText(continentsComboBox.getSelectedItem().toString());
+        	    selectedContinentField.setText(cb1.getSelectedItem().toString());
         	    selectedContinentField.setFocusable(false);
         	  
         	MapWriter mp = new MapWriter(MAP_FILE_NAME);
@@ -458,7 +495,7 @@ public static void main(String[] args) throws Exception
   			ArrayList countriesListData = new ArrayList<String>();
   			countriesListData.clear();
   			countriesOfSelectedContinentCB.removeAllItems();
-  			countriesListData = mp.getCountriesOfContinent(continentsComboBox.getSelectedItem().toString());
+  			countriesListData = mp.getCountriesOfContinent(cb1.getSelectedItem().toString());
   			
   			for(int i = 0 ; i<countriesListData.size() ; i++)
   			{
@@ -477,6 +514,68 @@ public static void main(String[] args) throws Exception
           
           
           });  
+      
+      deleteCountryLink.addActionListener(new ActionListener(){  
+    	 
+          public void actionPerformed(ActionEvent e)
+         
+          { 
+        	  
+        	  
+        	    newcountryname.setVisible(false);
+        	    selectContinentForNewCountry.setVisible(false);
+        	    selectAdjacentCountry.setVisible(false);
+        	    newcountrynamelabel.setVisible(false);
+        	    continentfornewcountry.setVisible(false);
+        	    adjacenttonewcountry.setVisible(false);
+        	    addadjacentcountry.setVisible(false);
+        	    submitNewCountry.setVisible(false);
+        	    	
+        	    	territorySelected.setVisible(false);
+            selectModifiedContinentCB.setVisible(false);
+            selectedTerritoryToModify.setVisible(false);
+        	    selectNewContinentToAssign.setVisible(false);
+        	    assignNewContinent.setVisible(false);
+            presentContinent.setVisible(false);
+            presentContinentField.setVisible(false);
+            
+         	
+            countrySelectedToShowLinksToDeleteButton.setVisible(true);
+      	    countrySelectedToShowLinksToDeleteTF.setVisible(true);
+      	    countrySelectedToShowLinksToDeleteLabel.setVisible(true);
+      	    linksOfSelectedCountryCB.setVisible(true);
+      	    linksOfSelectedCountryLabel.setVisible(true);
+      	    
+      		countrySelectedToShowLinksToDeleteTF.setText(cb2.getSelectedItem().toString());
+      	    	countrySelectedToShowLinksToDeleteTF.setFocusable(false);
+        	  
+      	  	MapWriter mp = new MapWriter(MAP_FILE_NAME);
+            
+	    	try 
+      {
+			ArrayList countriesLink = new ArrayList<String>();
+			countriesLink.clear();
+			linksOfSelectedCountryCB.removeAllItems();
+			//countriesLink = mp.getLinksOfCountry(cb2.getSelectedItem().toString());
+			
+			for(int i = 0 ; i<countriesLink.size() ; i++)
+			{
+			//	countriesOfSelectedContinentCB.addItem(countriesLink.get(i));
+			}
+			
+			System.out.println(countriesLink.size());
+			
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	    	
+      	    	
+          } 
+          
+          });  
+      
+      
       
       
     
@@ -502,7 +601,7 @@ public static void main(String[] args) throws Exception
         	if (option == JOptionPane.OK_OPTION) 
         	
         	{
-        	    MapWriter writeContinent = new MapWriter();
+        	    MapWriter writeContinent = new MapWriter(MAP_FILE_NAME);
 
         	} 
         	

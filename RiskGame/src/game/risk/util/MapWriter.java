@@ -339,4 +339,9 @@ public class MapWriter {
 		}
 		return countriesList;
 	}
+
+	public ArrayList getLinksOfCountry(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
