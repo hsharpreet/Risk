@@ -532,7 +532,7 @@ public static void main(String[] args) throws Exception
           });  
       
       deleteCountryLink.addActionListener(new ActionListener(){  
-     	 
+      	 
           public void actionPerformed(ActionEvent e)
          
           { 
@@ -591,6 +591,39 @@ public static void main(String[] args) throws Exception
           
           });  
       
+      countrySelectedToShowLinksToDeleteButton.addActionListener(new ActionListener(){  
+     	 
+          public void actionPerformed(ActionEvent e)
+         
+          { 
+      //  	System.out.println("hiiiiiiiiiiiiiii");
+      	  	MapWriter mp = new MapWriter(MAP_FILE_NAME);
+            
+       
+    	    	try 
+          {
+  			String s =mp.deleteLink((String) linksOfSelectedCountryCB.getSelectedItem() , countrySelectedToShowLinksToDeleteTF.getText());
+  			
+  			if(s.equalsIgnoreCase("OK"))
+			{
+				JOptionPane.showMessageDialog(f,"Territory link Deleted");  
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(f,"Action cannot be performed as some territory has just one link to this territory or this territory just have one link");  
+			}
+
+  			
+  		} catch (Exception e1) {
+  			// TODO Auto-generated catch block
+  			e1.printStackTrace();
+  		}
+	    	
+      	    	
+          } 
+          
+          });  
+
       
       
       
