@@ -13,6 +13,7 @@ public class RiskGameConstants {
 	public static final String GAME_NAME = "Risk: ";
 	public static final String NO_OF_COMPUTERS = "Select no. of computers?";
 
-	public static Color[] colorArray = {Color.RED, Color.YELLOW, Color.BLACK, Color.BLUE, Color.GREEN};
+	public static final String FOLDER_FOR_MAPS_PATH = "Maps";
+	public static Color[] colorArray = {Color.RED, Color.DARK_GRAY, Color.BLUE, Color.GREEN, Color.MAGENTA};
 	
 }
