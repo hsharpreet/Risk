@@ -17,6 +17,9 @@ public class RiskMap {
 		this.continents = continents;
 		this.territories = territories;
 	}
+	public RiskMap() {
+		// TODO Auto-generated constructor stub
+	}
 	public HashMap<String, String> getMap() {
 		return map;
 	}
