@@ -19,11 +19,52 @@ public class MapReader {
 		System.out.println(riskMap.getTerritories().keySet().size());
 	}
 
-	public static Map<String, List<Territory>> continetAndItsCountries(){
-		Map<String, List<Territory>> continetAndItsCountries = new HashMap<String, List<Territory>>();
+	public static Map<String, ArrayList<String>> continetAndItsCountries(String path){
+		MapReader mapReader = new MapReader();
+		MapWriter mapWriter = new MapWriter(path);
+		RiskMap riskmap;
+		Map<String, ArrayList<String>> continetAndItsCountries = new HashMap<String, ArrayList<String>>();
+		try {
+			riskmap = mapReader.readMap(path);
+			String[] continents ;
+			continents = (String[]) riskmap.getContinents().keySet().toArray();
+			
+			for(int i = 0 ; i <continents.length ; i++){
+				continetAndItsCountries.put(continents[i], mapReader.getCountriesOfContinent(continents[i], path));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		return null;
+		return continetAndItsCountries;
 	}
+	
+	public ArrayList<String> getCountriesOfContinent(String selectedContinent, String path) {
+		ArrayList<String> countriesList = new ArrayList<String>();
+		try {
+			File inputFile = new File(path);
+			BufferedReader br = new BufferedReader(new FileReader(inputFile));
+			File outFile = new File("temp.map");
+			String thisLine = "";
+			while ((thisLine = br.readLine()) != null) {
+				if (thisLine.equalsIgnoreCase("[Territories]")) {
+					while ((thisLine = br.readLine()) != null && thisLine != " ") {
+						String[] columns = thisLine.split(",");
+						if (columns.length >= 5) {
+							if (columns[3].equals(selectedContinent)){
+								countriesList.add(columns[0]);
+							} 
+						}
+					}
+				}
+			}
+			br.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return countriesList;
+	}
+	
 	public RiskMap readMap(String MapFile) throws Exception {
 
 		if(MapFile.equalsIgnoreCase("") || MapFile.equals(null)){
@@ -74,6 +115,37 @@ public class MapReader {
 		br.close();
 		RiskMap riskMap = new RiskMap(mapDetails, continents, territories);
 		return riskMap;
+	}
+	
+	public ArrayList getLinksOfCountry(String countryName, File path){
+		ArrayList<String> links = new ArrayList<>();
+		try{	
+			String countrySelected = countryName;
+			File inputFile = new File(path.getName());
+			BufferedReader br = new BufferedReader(new FileReader(inputFile));
+			String thisLine = "";
+			while ((thisLine = br.readLine()) != null) {
+				if (thisLine.equalsIgnoreCase("[Territories]")) {
+					
+					while ((thisLine = br.readLine()) != null && thisLine != " ") {
+						String[] columns = thisLine.split(",");
+						if (columns[0].equals(countryName)){
+							for(int i = 4; i<columns.length ; i++)
+							{
+								links.add(columns[i]);
+							}
+						}
+						
+						// printWriter.println(newTerritory);
+					}
+					//return links;
+				}
+			}
+			br.close();
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	return links;
 	}
 
 }
