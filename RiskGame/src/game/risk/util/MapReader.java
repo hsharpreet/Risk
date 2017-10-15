@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import game.risk.model.Territory;
 
@@ -16,7 +17,8 @@ public class MapReader {
 		System.out.println("MapReader main method...");
 		RiskMap riskMap = new MapReader().readMap("World.map");
 		System.out.println(riskMap.getMap());
-		System.out.println(riskMap.getTerritories().keySet().size());
+		//System.out.println(riskMap.getTerritories().keySet().size());
+		//new MapReader().getContinentOfACountry("", "World.map");
 	}
 
 	public static Map<String, ArrayList<String>> continetAndItsCountries(String path){
@@ -26,11 +28,10 @@ public class MapReader {
 		Map<String, ArrayList<String>> continetAndItsCountries = new HashMap<String, ArrayList<String>>();
 		try {
 			riskmap = mapReader.readMap(path);
-			String[] continents ;
-			continents = (String[]) riskmap.getContinents().keySet().toArray();
+			Object[] continents = riskmap.getContinents().keySet().toArray();
 			
 			for(int i = 0 ; i <continents.length ; i++){
-				continetAndItsCountries.put(continents[i], mapReader.getCountriesOfContinent(continents[i], path));
+				continetAndItsCountries.put(continents[i].toString(), mapReader.getCountriesOfContinent(continents[i].toString(), path));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -63,6 +64,20 @@ public class MapReader {
 			e.printStackTrace();
 		}
 		return countriesList;
+	}
+	
+	public String getContinentOfACountry(String country, String path) {
+		Map<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
+		map = continetAndItsCountries(path);
+		String continent = "";
+		
+		for(Entry<String, ArrayList<String>> e: map.entrySet()){
+		    if(e.getValue().contains(country)){
+		    	continent = e.getKey();
+		    }
+		}
+		
+		return continent;
 	}
 	
 	public RiskMap readMap(String MapFile) throws Exception {

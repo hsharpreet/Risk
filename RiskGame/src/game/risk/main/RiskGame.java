@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -55,11 +56,12 @@ public class RiskGame {
 	
 	private static JLabel status;
 	private static JPanel middleStartPanel;
+	private static File filePath;
 	
 	public RiskGame() {
 		jFrame = new JFrame("RISK");
 		gameDriver = new GameDriver();
-		status = customJLabel("STATUS", 30, Color.BLACK);
+		status = customJLabel("", 30, Color.BLACK);
 		middleStartPanel = customHeaderAndFooterPanel();
 	}
 	
@@ -153,7 +155,7 @@ status.setAlignmentX(Component.RIGHT_ALIGNMENT);
 					mapSeleted = listOfMaps.getSelectedValue();
 					
 					SELECTED_MAP = mapSeleted+".map";
-					
+					filePath = new File(RiskGameConstants.FOLDER_FOR_MAPS_PATH+"/"+SELECTED_MAP);
 					middleStartPanel.removeAll();
 					middleStartPanel.revalidate();
 					middleStartPanel.repaint();
@@ -231,12 +233,14 @@ status.setAlignmentX(Component.RIGHT_ALIGNMENT);
 				System.exit(0);
 			}
 		});
+		
+		status.setText("Set computers");
 		temp.setVisible(true);
 		middleStartPanel.add(temp);
 		return middleStartPanel; 
 	}
 	
-	public int noOfArmiesPerPlayrIntially(){
+	public int defaultNoOfArmiesPerPlayerIntially(){
 		int noOfArmiesPerPlayer = 0;
 		if(TOTAL_PLAYERS == 2){
 			noOfArmiesPerPlayer = 40;
@@ -269,49 +273,49 @@ status.setAlignmentX(Component.RIGHT_ALIGNMENT);
 			SET_NO_OF_TERRITORIES = territories.size();
 			//ArrayList<Territory> Territories = new ArrayList<Territory>();
 			ArrayList<Player> players  = new ArrayList<Player>();
-			int noOfArmiesPerPlayerIntial = noOfArmiesPerPlayrIntially();
-			for(int i=0;i<TOTAL_PLAYERS; i++){
+			int noOfArmiesPerPlayerIntial = defaultNoOfArmiesPerPlayerIntially();
+			for(int i=1;i<=TOTAL_PLAYERS; i++){
 				
-				if(i ==0){
+				if(i ==1){
 					Player human = new Player();
 					human.setName("H");
 					human.setComputer(false);
-					human.setNoOfArmies(noOfArmiesPerPlayerIntial);
+					human.setTotalNoOfArmies(noOfArmiesPerPlayerIntial);
 					human.setTerritorAndArmiesColor(RiskGameConstants.colorArray[0]);
 					Map<Territory,Integer> territoriesAndArmies = new HashMap<Territory, Integer>();
-					int sizeOfTerritoriesPerPlayer = listOfAssignedTerritories.get(1).size();
-					ArrayList<Territory> onlyTerritories  = new ArrayList<Territory>();
-					for(Territory t : listOfAssignedTerritories.get(1)){
+					//int sizeOfTerritoriesPerPlayer = listOfAssignedTerritories.get(1).size();
+					ArrayList<Territory> allTerritoriesPerPlayer  = new ArrayList<Territory>();
+					for(Territory t : listOfAssignedTerritories.get(i)){
 						territoriesAndArmies.put(t, 1);
-						onlyTerritories.add(t);
+						allTerritoriesPerPlayer.add(t);
 					}
-					int territoriesAndArmiesNo = listOfAssignedTerritories.size();
-					territoryJButton(middleStartPanel, onlyTerritories, human);
+					int noOfAssignedArmiesOnTerritoriesIntially = listOfAssignedTerritories.size();
+					territoryJButton(allTerritoriesPerPlayer, human);
 					
 					human.setTerritorAndArmies(territoriesAndArmies);
 					human.setTerritorAndArmiesColor(RiskGameConstants.colorArray[0]);
-					human.setNoOfArmies(human.getNoOfArmies()-sizeOfTerritoriesPerPlayer);
-					//gameDriver.setPlayer(human);m
+					human.setCurrentNoOfArmies(human.getTotalNoOfArmies()-noOfAssignedArmiesOnTerritoriesIntially);
+					//gameDriver.setPlayer(human);
 					players.add(human);
 				}
 				else{
 					Player comp = new Player();
-					comp.setName("C"+i);
+					comp.setName("C"+(i-1));
 					comp.setComputer(true);
-					comp.setNoOfArmies(noOfArmiesPerPlayerIntial);
-					comp.setTerritorAndArmiesColor(RiskGameConstants.colorArray[i]);
+					comp.setTotalNoOfArmies(noOfArmiesPerPlayerIntial);
+					comp.setTerritorAndArmiesColor(RiskGameConstants.colorArray[i-1]);
 					Map<Territory,Integer> territoriesAndArmies = new HashMap<Territory, Integer>();
-					int sizeOfTerritoriesPerPlayer = listOfAssignedTerritories.get(i+1).size();
+					//int sizeOfTerritoriesPerPlayer = listOfAssignedTerritories.get(i).size();
 					
-					ArrayList<Territory> onlyTerritoriesForComp  = new ArrayList<Territory>();
+					ArrayList<Territory> allTerritoriesPerComp  = new ArrayList<Territory>();
 					for(Territory t : listOfAssignedTerritories.get(i)){
 						territoriesAndArmies.put(t, 1);
-						onlyTerritoriesForComp.add(t);
+						allTerritoriesPerComp.add(t);
 					}
-					
-					territoryJButton(middleStartPanel, onlyTerritoriesForComp, comp);
+					int noOfAssignedArmiesOnTerritoriesIntially = listOfAssignedTerritories.size();
+					territoryJButton(allTerritoriesPerComp, comp);
 					comp.setTerritorAndArmies(territoriesAndArmies);
-					comp.setNoOfArmies(comp.getNoOfArmies()-sizeOfTerritoriesPerPlayer);
+					comp.setCurrentNoOfArmies(comp.getTotalNoOfArmies()-noOfAssignedArmiesOnTerritoriesIntially);
 					players.add(comp);
 				}
 				
@@ -327,6 +331,8 @@ status.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	    status.setText("UPDATE");
+	    
 	    middleStartPanel.setVisible(true);   
 	    middleStartPanel.setLayout(new FlowLayout()); 
 		return middleStartPanel;
@@ -336,8 +342,7 @@ status.setAlignmentX(Component.RIGHT_ALIGNMENT);
 	public static void main(String[] args) {
 		RiskGame riskGame = new RiskGame();
 		JPanel middlePanel = customHeaderAndFooterPanel();
-		String folderPath = "Maps";
-		ArrayList<String> files = riskGame.getMapFiles(folderPath);
+		ArrayList<String> files = riskGame.getMapFiles(RiskGameConstants.FOLDER_FOR_MAPS_PATH);
 		Boolean mapAvailable = (files.size()>0)? true: false;
 		
 		if(mapAvailable){
@@ -365,56 +370,70 @@ status.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		
 		return tempButton;
 	}
+	
+	
 
-	private static void territoryJButton(JPanel panel, ArrayList<Territory> onlyTerritories, Player p) {
+	private static void territoryJButton(ArrayList<Territory> onlyTerritories, Player p) {
 		
 		JButton button;
 		JLabel label;
+		JLabel label2;
+		JLabel label3;
 		for(int k=0; k<onlyTerritories.size();k++){
 			//territoryJButton(human.getName(), human.getTerritorAndArmiesColor());
-			button = customJButton(p.getName(), 12);
+			button = customJButton(onlyTerritories.get(k).getName(), 12);
 	        //button.setText("BUTTON"+i);
 	        button.setOpaque(true);
 	     	
-	        button.setForeground(new Color(Color.HSBtoRGB((float) Math.random(),(float)0.5,(float)0.5)));
+	        button.setForeground((new Color((int) (Math.random() * (double) (0xFFFFFF)))));
 	        button.setFocusPainted(true);
 	        //button.setFont(new Font("Tahoma", Font.BOLD, 12));
 	        //button.setMinimumSize(new Dimension(3,3));
 	        
-	        label = customJLabel(onlyTerritories.get(k).getName(), 10, p.getTerritorAndArmiesColor());
+	        label = customJLabel(p.getName(), 10, p.getTerritorAndArmiesColor());
 	        label.setVisible(true);
 	        label.setOpaque(false);  
 	        
+	        label2 = customJLabel("-1"+new MapReader().getContinentOfACountry(onlyTerritories.get(k).getName(), 
+	        		filePath.getName()), 10, p.getTerritorAndArmiesColor());
+	        label2.setVisible(true);
+	        label2.setOpaque(false);  
 	       // label.setFont(new Font("Tahoma", Font.BOLD, 10));
 	       // label.setBounds(x, y-15, 60, 20);
 	        //label.setForeground(Color.BLACK);
 	        
 	        //label.setBackground(Color.red);
+	        label3 = customJLabel(" - 1", 10, p.getTerritorAndArmiesColor());
+	        JPanel jp2 = new JPanel();
+	        jp2.setVisible(true);
+	        jp2.setLayout(new FlowLayout());
+	        jp2.add(label);
+	        jp2.add(label2);
+	        
+	        JPanel jp = new JPanel();
+	        jp.setVisible(true);
+	        jp.setLayout(new BoxLayout(jp, BoxLayout.PAGE_AXIS));
+
+	        //jp.setLayout(new GridLayout(3,1));
+	        jp.add(jp2);
+	        jp.add(label2);
+	        jp.add(button);
+	        jp.setBorder(BorderFactory.createMatteBorder(5, 1, 1, 1, Color.BLACK));
+	        jp.setOpaque(true);
+	        
 	        button.addActionListener(new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					System.out.println(e.getActionCommand());
-					
+					/*JLabel c = (JLabel)jp.getComponent(1);
+					System.out.println(c.getText());
+					c.setText("haaaaaaaaaa");*/
 				}
 			});
 	        
-	        JPanel jp = new JPanel();
-	        jp.setVisible(true);
-	        jp.setLayout(new GridLayout(2, 1));
-	        jp.add(label);
-	        jp.add(button);
-	        
 	        middleStartPanel.add(jp);
 		}
-		
-		JSeparator separator = new JSeparator();
-		 separator.setBorder(new LineBorder(Color.GRAY));
-		 separator.setPreferredSize(new Dimension(800, 1));
-		 separator.setOrientation(SwingConstants.HORIZONTAL);
-		 middleStartPanel.add(new JSeparator());
-		
-
 	}
 	
 	private static JPanel customHeaderAndFooterPanel(){

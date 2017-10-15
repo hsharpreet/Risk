@@ -379,4 +379,177 @@ public class MapWriter {
 	}
 	return null;
 	}
+	
+	public String deleteLink(String link , String country)
+	{
+		String status = "OK";
+		try
+		{
+			ArrayList<String> al = new ArrayList<>();
+			al.add(link);
+			
+		String countrySelected = country;
+		File inputFile = new File(mapFileName);
+		BufferedReader br = new BufferedReader(new FileReader(inputFile));
+		File outFile = new File("temp.map");
+		FileOutputStream outStream = new FileOutputStream(outFile);
+		PrintWriter printWriter = new PrintWriter(outStream);
+
+		String thisLine = "";
+		while ((thisLine = br.readLine()) != null) 
+		{
+			printWriter.println(thisLine);
+			if (thisLine.equalsIgnoreCase("[Territories]")) {
+				
+				while ((thisLine = br.readLine()) != null && thisLine != " ") {
+					String[] columns = thisLine.split(",");
+					String newLine = "";
+					int a = 1;
+					if (columns[0].equals(country)) 
+					
+					{
+						a=0 ;
+						if(columns.length<6)
+						{
+							status = "ERROR";
+							return status;
+						}
+						for(int i = 4; i<columns.length ; i++)
+						{
+						if(checkLinkToDelete(link) == true)
+						{
+							//System.out.println("hiii");
+						}
+						else
+						{
+							status = "ERROR";
+						}
+						}
+						
+						
+					}
+					
+					 printWriter.println(thisLine);
+					
+				}
+				//printWriter.println(thisLine);
+			}
+		}
+		printWriter.flush();
+		printWriter.close();
+		br.close();
+		inputFile.delete();
+		outFile.renameTo(inputFile);
+		
+		if (status.equals("OK")) {
+			deleteLinksOfmodifiedTerritory(al, country);
+		}
+		return status;
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+		return status;
+	
+	}
+
+	private void deleteLinksOfmodifiedTerritory(ArrayList<String> link, String country)throws Exception
+	
+	{
+		ArrayList<String> link_name = link;
+		String country_name = country;
+		
+			File inputFile = new File(mapFileName);
+			BufferedReader br = new BufferedReader(new FileReader(inputFile));
+			File outFile = new File("temp.map");
+			FileOutputStream outStream = new FileOutputStream(outFile);
+			PrintWriter printWriter = new PrintWriter(outStream);
+			String thisLine = "";
+			while ((thisLine = br.readLine()) != null) {
+				printWriter.println(thisLine);
+				if (thisLine.equalsIgnoreCase("[Territories]")) 
+				{
+					String modifiedLink = "";
+					while ((thisLine = br.readLine()) != null && thisLine != "") {
+						String[] columns = thisLine.split(",");
+						
+						if (columns[0].equalsIgnoreCase(link_name.get(0))) {
+							for (int j = 0; j < columns.length; j++) {
+								if (j < 4) {
+									modifiedLink = modifiedLink.concat(columns[j] + ",");
+								}
+								if (j >= 4) {
+									if (columns[j].equalsIgnoreCase(country_name)) {
+
+									} else {
+										modifiedLink = modifiedLink.concat(columns[j] + ",");
+									}
+								}
+							}
+							printWriter.println(modifiedLink.substring(0, modifiedLink.length() - 1));
+						} 
+						
+						else if (columns[0].equalsIgnoreCase(country_name)) {
+							for (int j = 0; j < columns.length; j++) {
+								if (j < 4) {
+									modifiedLink = modifiedLink.concat(columns[j] + ",");
+								}
+								if (j >= 4) {
+									if (columns[j].equalsIgnoreCase(link_name.get(0))) {
+
+									} else {
+										modifiedLink = modifiedLink.concat(columns[j] + ",");
+									}
+								}
+							}
+							printWriter.println(modifiedLink.substring(0, modifiedLink.length() - 1));
+						} 
+						
+						
+						
+						else {
+							printWriter.println(thisLine);
+						}
+						modifiedLink = "";
+					}
+				}
+			}
+			printWriter.flush();
+			printWriter.close();
+			br.close();
+			inputFile.delete();
+			outFile.renameTo(inputFile);
+		
+
+		
+	}
+
+	private boolean checkLinkToDelete(String link) throws Exception
+	
+	{
+		String linked_country = link;
+		
+		String line="";
+   // 	System.out.println("here link --" +link+"-----------thisline---");
+		File inputFile = new File(mapFileName);
+			BufferedReader br = new BufferedReader(new FileReader(inputFile));
+			File outFile = new File("temp.map");
+			FileOutputStream outStream = new FileOutputStream(outFile);
+			PrintWriter printWriter = new PrintWriter(outStream);
+			while ((line = br.readLine()) != null) {
+				if (line.equalsIgnoreCase("[Territories]")) {
+					while ((line = br.readLine()) != null) {
+						String[] column_adjacentTerritory = line.split(",");
+						if (linked_country.equals(column_adjacentTerritory[0]) && column_adjacentTerritory.length > 5) {
+				       // 	System.out.println(line);
+							return true;
+						}
+					}
+				}
+			}
+		
+		return false;
+	}
+	
+
+	
 }

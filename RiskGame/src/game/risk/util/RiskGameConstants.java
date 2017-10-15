@@ -10,10 +10,11 @@ public class RiskGameConstants {
 	public static final String TERRITORY = "";
 	public static final String CONTINENTS = "";
 	public static final String MAP = "";
-	public static final String GAME_NAME = "Risk: ";
+	public static final String GAME_NAME = "Risk ";
 	public static final String NO_OF_COMPUTERS = "Select no. of computers?";
 
 	public static final String FOLDER_FOR_MAPS_PATH = "Maps";
-	public static Color[] colorArray = {Color.RED, Color.DARK_GRAY, Color.BLUE, Color.GREEN, Color.MAGENTA};
+	public static Color[] colorArray = {Color.RED, Color.DARK_GRAY, 
+			Color.BLUE, Color.GREEN, Color.MAGENTA};
 	
 }
