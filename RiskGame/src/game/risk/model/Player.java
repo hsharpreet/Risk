@@ -7,7 +7,8 @@ import java.util.Map;
 public class Player {
 	
 	private String name;
-	private int noOfArmies;
+	private int totalNoOfArmies;
+	private int currentNoOfArmies;
 	private Map<Territory, Integer> territorAndArmies ;//= new HashMap<String, String>();
 	private boolean turn;
 	private boolean isComputer;
@@ -25,13 +26,19 @@ public class Player {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getNoOfArmies() {
-		return noOfArmies;
+	public int getTotalNoOfArmies() {
+		return totalNoOfArmies;
 	}
-	public void setNoOfArmies(int noOfArmies) {
-		this.noOfArmies = noOfArmies;
+	public void setTotalNoOfArmies(int totalNoOfArmies) {
+		this.totalNoOfArmies = totalNoOfArmies;
 	}
 	
+	public int getCurrentNoOfArmies() {
+		return currentNoOfArmies;
+	}
+	public void setCurrentNoOfArmies(int currentNoOfArmies) {
+		this.currentNoOfArmies = currentNoOfArmies;
+	}
 	public Map<Territory, Integer> getTerritorAndArmies() {
 		return territorAndArmies;
 	}
