@@ -382,6 +382,7 @@ public class MapWriter {
 	
 	public String deleteLink(String link , String country)
 	{
+		Validation validate = new Validation();
 		String status = "OK";
 		try
 		{
@@ -416,7 +417,7 @@ public class MapWriter {
 						}
 						for(int i = 4; i<columns.length ; i++)
 						{
-						if(checkLinkToDelete(link) == true)
+						if(validate.validateLinkToDelete(link , mapFileName) == true)
 						{
 							//System.out.println("hiii");
 						}
@@ -521,33 +522,6 @@ public class MapWriter {
 	
 	}
 
-	private boolean checkLinkToDelete(String link) throws Exception
-	
-	{
-		String linked_country = link;
-		
-		String line="";
-   // 	System.out.println("here link --" +link+"-----------thisline---");
-		File inputFile = new File(mapFileName);
-			BufferedReader br = new BufferedReader(new FileReader(inputFile));
-			File outFile = new File("temp.map");
-			FileOutputStream outStream = new FileOutputStream(outFile);
-			PrintWriter printWriter = new PrintWriter(outStream);
-			while ((line = br.readLine()) != null) {
-				if (line.equalsIgnoreCase("[Territories]")) {
-					while ((line = br.readLine()) != null) {
-						String[] column_adjacentTerritory = line.split(",");
-						if (linked_country.equals(column_adjacentTerritory[0]) && column_adjacentTerritory.length > 5) {
-				       // 	System.out.println(line);
-							return true;
-						}
-					}
-				}
-			}
-		
-		return false;
-	}
-
 	public String addLink(String selectedItem, String text)throws Exception
 	
 	{
@@ -569,7 +543,7 @@ public class MapWriter {
 				while ((thisLine = br.readLine()) != null && thisLine != "") {
 					String[] columns = thisLine.split(",");
 					if (columns[0].equalsIgnoreCase(country)) {
-						if(validate.validateAddLink(country , link , mapFileName)==true )
+						if(validate.validateAddLink(country , link , mapFileName)==true && validate.validateAddLinkAddingItself(country, link, mapFileName)==true)
 						{
 						 modifiedLink = modifiedLink.concat(thisLine + ","+link);
 						 printWriter.println(modifiedLink);
