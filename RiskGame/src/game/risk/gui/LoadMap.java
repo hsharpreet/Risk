@@ -31,7 +31,7 @@ public static void main(String[] args) throws Exception
 	String MAP_FILE_NAME = "World.map";
     JFrame f=new JFrame("MAP GUI");  
     
-    JButton addCountry,addContinent ,deleteContinent, addadjacentcountry , submitNewCountry , deleteCountry ,changeContinent ,assignNewContinent, viewCountriesOfContinent , deleteCountryLink , deleteSelectedLinkOfCountry ,countrySelectedToShowLinksToDeleteButton ;
+    JButton addCountry,addContinent ,deleteContinent, addadjacentcountry , submitNewCountry , deleteCountry ,changeContinent ,assignNewContinent, viewCountriesOfContinent , deleteCountryLink , deleteSelectedLinkOfCountry ,countrySelectedToShowLinksToDeleteButton , addCountryLink , countrySelectedToShowLinksToAddButton;
     JLabel continentLabel,countryLabel , newcountrynamelabel ,continentfornewcountry , adjacenttonewcountry ,selectedTerritoryToModify , presentContinent, selectNewContinentToAssign , continentSelected , countriesOfSelectedContinent ,countrySelectedToShowLinksToDeleteLabel , linksOfSelectedCountryLabel;  
     JComboBox continentsComboBox,countryComboBox;
     JTextField newcountryname , territorySelected  , presentContinentField , selectedContinentField , countrySelectedToShowLinksToDeleteTF ;
@@ -52,6 +52,7 @@ public static void main(String[] args) throws Exception
     deleteCountry=new JButton("DELETE SELECTED COUNTRY");
     changeContinent=new JButton("Change Continent");
     deleteCountryLink = new JButton("Delete Link");
+    addCountryLink = new JButton("Add Link");
     addContinent=new JButton("+");
     deleteContinent= new JButton("-");
     viewCountriesOfContinent = new JButton("View Countries");    
@@ -86,7 +87,8 @@ public static void main(String[] args) throws Exception
     countrySelectedToShowLinksToDeleteLabel = new JLabel("Selected Country");
     countrySelectedToShowLinksToDeleteTF = new JTextField();
     countrySelectedToShowLinksToDeleteButton = new JButton("Delete Link");
-    linksOfSelectedCountryLabel = new JLabel("Links Of Country");
+    countrySelectedToShowLinksToAddButton = new JButton("Add Link");
+    linksOfSelectedCountryLabel = new JLabel("Link to Modify");
     linksOfSelectedCountryCB = new JComboBox<>();
    
     
@@ -106,6 +108,8 @@ public static void main(String[] args) throws Exception
     selectedContinentField.setBounds(40, 280 , 150 ,20);
     countriesOfSelectedContinentCB.setBounds(200 ,280 , 150 ,20);
     deleteCountryLink.setBounds(640 , 130 , 160 ,30);
+    addCountryLink.setBounds(640 , 160 , 160 , 30);
+    
     
     continentLabel.setBounds(40,48, 100,30); 
     countryLabel.setBounds(450,48, 100,30);
@@ -134,6 +138,7 @@ public static void main(String[] args) throws Exception
     countrySelectedToShowLinksToDeleteButton.setBounds(430 , 320 , 120,50);
     linksOfSelectedCountryCB.setBounds(560 , 250 , 120 , 40);
     linksOfSelectedCountryLabel.setBounds(560,200,120,40);
+    countrySelectedToShowLinksToAddButton.setBounds(430 , 320 , 120,50);
      
     
     f.add(continentLabel);
@@ -168,6 +173,8 @@ public static void main(String[] args) throws Exception
     f.add(selectedContinentField);
     f.add(countriesOfSelectedContinentCB);
     f.add(deleteCountryLink);
+    f.add(addCountryLink);
+    f.add(countrySelectedToShowLinksToAddButton);
     
     f.add(countrySelectedToShowLinksToDeleteButton);
     f.add(countrySelectedToShowLinksToDeleteTF);
@@ -203,8 +210,7 @@ public static void main(String[] args) throws Exception
     countrySelectedToShowLinksToDeleteLabel.setVisible(false);
     linksOfSelectedCountryCB.setVisible(false);
     linksOfSelectedCountryLabel.setVisible(false);
-    
-    
+    countrySelectedToShowLinksToAddButton.setVisible(false);
     
    
     // Method to add continent
@@ -555,7 +561,8 @@ public static void main(String[] args) throws Exception
             presentContinent.setVisible(false);
             presentContinentField.setVisible(false);
             
-         	
+            countrySelectedToShowLinksToAddButton.setVisible(false);
+            
             countrySelectedToShowLinksToDeleteButton.setVisible(true);
       	    countrySelectedToShowLinksToDeleteTF.setVisible(true);
       	    countrySelectedToShowLinksToDeleteLabel.setVisible(true);
@@ -579,7 +586,7 @@ public static void main(String[] args) throws Exception
 			linksOfSelectedCountryCB.addItem(countriesLink.get(i));
 			}
 			
-			System.out.println(countriesLink.size());
+			//System.out.println(countriesLink.size());
 			
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
@@ -606,6 +613,7 @@ public static void main(String[] args) throws Exception
   			
   			if(s.equalsIgnoreCase("OK"))
 			{
+  				
 				JOptionPane.showMessageDialog(f,"Territory link Deleted");  
 			}
 			else
@@ -624,8 +632,95 @@ public static void main(String[] args) throws Exception
           
           });  
 
-      
-      
+      addCountryLink.addActionListener(new ActionListener(){  
+       	 
+          public void actionPerformed(ActionEvent e)
+         
+          { 
+        	  
+        	  
+        	    newcountryname.setVisible(false);
+        	    selectContinentForNewCountry.setVisible(false);
+        	    selectAdjacentCountry.setVisible(false);
+        	    newcountrynamelabel.setVisible(false);
+        	    continentfornewcountry.setVisible(false);
+        	    adjacenttonewcountry.setVisible(false);
+        	    addadjacentcountry.setVisible(false);
+        	    submitNewCountry.setVisible(false);
+        	    	
+        	    	territorySelected.setVisible(false);
+            selectModifiedContinentCB.setVisible(false);
+            selectedTerritoryToModify.setVisible(false);
+        	    selectNewContinentToAssign.setVisible(false);
+        	    assignNewContinent.setVisible(false);
+            presentContinent.setVisible(false);
+            presentContinentField.setVisible(false);
+            
+           countrySelectedToShowLinksToDeleteButton.setVisible(false);
+         	
+            //countrySelectedToShowLinksToDeleteButton.setVisible(true);
+            countrySelectedToShowLinksToAddButton.setVisible(true);
+      	    countrySelectedToShowLinksToDeleteTF.setVisible(true);
+      	    countrySelectedToShowLinksToDeleteLabel.setVisible(true);
+      	    linksOfSelectedCountryCB.setVisible(true);
+      	    linksOfSelectedCountryLabel.setVisible(true);
+      	    
+      	    
+      		countrySelectedToShowLinksToDeleteTF.setText(countryComboBox.getSelectedItem().toString());
+      	    	countrySelectedToShowLinksToDeleteTF.setFocusable(false);
+        	  
+      	  	MapWriter mp = new MapWriter(MAP_FILE_NAME);
+            
+	    	try 
+      {
+			for(int i = 0 ; i < riskmap.getTerritories().keySet().toArray().length ; i++)
+			{
+			linksOfSelectedCountryCB.addItem(riskmap.getTerritories().keySet().toArray()[i]);
+			}
+		
+      } catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	    	
+      	    	
+          } 
+          
+          });  
+     
+      countrySelectedToShowLinksToAddButton.addActionListener(new ActionListener(){  
+      	 
+          public void actionPerformed(ActionEvent e)
+         
+          { 
+      //  	System.out.println("hiiiiiiiiiiiiiii");
+      	  	MapWriter mw = new MapWriter(MAP_FILE_NAME);
+            
+       
+    	    	try 
+          {
+  			String s =mw.addLink((String) linksOfSelectedCountryCB.getSelectedItem() , countrySelectedToShowLinksToDeleteTF.getText());
+  			
+  			if(s.equalsIgnoreCase("OK"))
+			{
+  				mw.addLink(countrySelectedToShowLinksToDeleteTF.getText() , (String) linksOfSelectedCountryCB.getSelectedItem() );
+				JOptionPane.showMessageDialog(f,"Territory link Deleted");  
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(f,"Action cannot be performed as some territory has just one link to this territory or this territory just have one link");  
+			}
+
+  			
+  		} catch (Exception e1) {
+  			// TODO Auto-generated catch block
+  			e1.printStackTrace();
+  		}
+	    	
+      	    	
+          } 
+          
+          });  
       
     
  /*   addCountry.addActionListener(new ActionListener(){  
