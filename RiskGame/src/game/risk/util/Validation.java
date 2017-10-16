@@ -49,7 +49,7 @@ public boolean validateAddLinkAddingItself(String countryName , String linkName 
 	BufferedReader br = new BufferedReader(new FileReader(inputFile));
 	String thisLine = "";
 	while ((thisLine = br.readLine()) != null) {
-		if (thisLine.equalsIgnoreCase("[Territories]")) 
+	   if (thisLine.equalsIgnoreCase("[Territories]")) 
 		{
 			while ((thisLine = br.readLine()) != null && thisLine != "") {
 				String[] columns = thisLine.split(",");
@@ -62,6 +62,31 @@ public boolean validateAddLinkAddingItself(String countryName , String linkName 
 		}
 	}
 	return true;
+}
+public boolean validateLinkToDelete(String link , String mapFileName) throws Exception
+{
+    String linked_country = link;
+    String mapFile = mapFileName;
+    String line="";
+    // System.out.println("here link --" +link+"-----------thisline---");
+    File inputFile = new File(mapFile);
+    BufferedReader br = new BufferedReader(new FileReader(inputFile));
+    File outFile = new File("temp.map");
+    FileOutputStream outStream = new FileOutputStream(outFile);
+    PrintWriter printWriter = new PrintWriter(outStream);
+    while ((line = br.readLine()) != null) {
+    	if (line.equalsIgnoreCase("[Territories]")) {
+    		while ((line = br.readLine()) != null) {
+    			String[] column_adjacentTerritory = line.split(",");
+    			if (linked_country.equals(column_adjacentTerritory[0]) && column_adjacentTerritory.length > 5)
+    			{
+    				// System.out.println(line);
+    				return true;
+    			}
+}
+    	}
+    }
+return false;
 }
 
 }
