@@ -33,14 +33,23 @@ public class Validation
 
 	}
 
-	public boolean validateLinkToDelete(String neighbouringCountry , String thisLine) throws Exception {
-	
-		String[] column_adjacentTerritory = thisLine.split(",");
-					if (neighbouringCountry.equals(column_adjacentTerritory[0]) && column_adjacentTerritory.length > 5) {
-							return true;
+	public boolean validateLinkToDelete(String link, String mapFileName) throws Exception {
+		String linked_country = link;
+		String mapFile = mapFileName;
+		String line = "";
+		File inputFile = new File(mapFile);
+		BufferedReader br = new BufferedReader(new FileReader(inputFile));
+		while ((line = br.readLine()) != null) {
+			if (line.equalsIgnoreCase("[Territories]")) {
+				while ((line = br.readLine()) != null) {
+					String[] column_adjacentTerritory = line.split(",");
+					if (linked_country.equals(column_adjacentTerritory[0]) && column_adjacentTerritory.length > 5) {
+						
+						return true;
 					}
-				
-		
+				}
+			}
+		}
 		return false;
 	}
 

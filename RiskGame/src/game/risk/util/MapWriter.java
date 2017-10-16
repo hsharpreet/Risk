@@ -417,7 +417,7 @@ public class MapWriter {
 						}
 						for(int i = 4; i<columns.length ; i++)
 						{
-						if(validate.validateLinkToDelete(link , thisLine) == true)
+						if(validate.validateLinkToDelete(link , mapFileName) == true)
 						{
 							//System.out.println("hiii");
 						}
