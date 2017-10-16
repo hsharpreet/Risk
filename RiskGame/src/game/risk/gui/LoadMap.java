@@ -734,9 +734,13 @@ public static void main(String[] args) throws Exception
   				mw.addLink(countrySelectedToShowLinksToDeleteTF.getText() , (String) linksOfSelectedCountryCB.getSelectedItem() );
 				JOptionPane.showMessageDialog(f,"Territory link added");  
 			}
-			else
+			else if(s.equalsIgnoreCase("ERROR_LinkAlreadyExists"))
 			{
 				JOptionPane.showMessageDialog(f,"Link already present");  
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(f,"Cannot add itself as adjacent country");  
 			}
 
   			
@@ -751,39 +755,7 @@ public static void main(String[] args) throws Exception
           });  
       
     
- /*   addCountry.addActionListener(new ActionListener(){  
-    	
-        public void actionPerformed(ActionEvent e){ 
-        	
-        
-        	JTextField name_Country = new JTextField();
-        	JComboBox combobox_continents;
-        	JComboBox combobox_countries;
-        	
-     
-        	combobox_continents= new JComboBox(riskmap.getContinents().keySet().toArray());
-        	combobox_countries = new JComboBox(riskmap.getTerritories().keySet().toArray());
-        	Object[] message = {
-        	    "Name:", name_Country,
-        	    "Select Continent of new country:", combobox_continents,
-        	    "Select adjacent countries to new country:", combobox_countries
-        	};
-
-        	int option = JOptionPane.showConfirmDialog(f, message, "Continent Details", JOptionPane.OK_CANCEL_OPTION);
-        	if (option == JOptionPane.OK_OPTION) 
-        	
-        	{
-        	    MapWriter writeContinent = new MapWriter(MAP_FILE_NAME);
-
-        	} 
-        	
-        	else {
-        	    System.out.println("Action canceled");
-        	}
-
-            }  
-        });  */
-    
+ 
     
     f.setSize(800,500);  
     f.setLayout(null);  

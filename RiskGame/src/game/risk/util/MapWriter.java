@@ -417,7 +417,7 @@ public class MapWriter {
 						}
 						for(int i = 4; i<columns.length ; i++)
 						{
-						if(validate.validateLinkToDelete(link , mapFileName) == true)
+						if(validate.validateLinkToDelete(link , thisLine) == true)
 						{
 							//System.out.println("hiii");
 						}
@@ -543,15 +543,19 @@ public class MapWriter {
 				while ((thisLine = br.readLine()) != null && thisLine != "") {
 					String[] columns = thisLine.split(",");
 					if (columns[0].equalsIgnoreCase(country)) {
-						if(validate.validateAddLink(country , link , mapFileName)==true && validate.validateAddLinkAddingItself(country, link, mapFileName)==true)
+						if(validate.validateAddLink(country , link  ,thisLine)==false )
 						{
-						 modifiedLink = modifiedLink.concat(thisLine + ","+link);
-						 printWriter.println(modifiedLink);
+						 return "ERROR_LinkAlreadyExists";
 							}
-					
+						else if(validate.validateAddLinkAddingItself(country, link, thisLine)==false)
+						{
+							return "ERROR_AddingItselfInLink";
+						}
 					else
 					{
-						return "ERROR";
+					     	modifiedLink = modifiedLink.concat(thisLine + ","+link);
+						 printWriter.println(modifiedLink);
+						
 					}
 					}
 					else
