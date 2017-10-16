@@ -518,9 +518,7 @@ public class MapWriter {
 			br.close();
 			inputFile.delete();
 			outFile.renameTo(inputFile);
-		
-
-		
+	
 	}
 
 	private boolean checkLinkToDelete(String link) throws Exception
@@ -549,7 +547,54 @@ public class MapWriter {
 		
 		return false;
 	}
-	
 
+	public String addLink(String selectedItem, String text)throws Exception
 	
+	{
+		Validation validate = new Validation();
+		// TODO Auto-generated method stub
+		String link = selectedItem;
+		String country = text;
+		File inputFile = new File(mapFileName);
+		BufferedReader br = new BufferedReader(new FileReader(inputFile));
+		File outFile = new File("temp.map");
+		FileOutputStream outStream = new FileOutputStream(outFile);
+		PrintWriter printWriter = new PrintWriter(outStream);
+		String thisLine = "";
+		while ((thisLine = br.readLine()) != null) {
+			printWriter.println(thisLine);
+			if (thisLine.equalsIgnoreCase("[Territories]")) 
+			{
+				String modifiedLink = "";
+				while ((thisLine = br.readLine()) != null && thisLine != "") {
+					String[] columns = thisLine.split(",");
+					if (columns[0].equalsIgnoreCase(country)) {
+						if(validate.validateAddLink(country , link , mapFileName)==true)
+						{
+						 modifiedLink = modifiedLink.concat(thisLine + ","+link);
+						 printWriter.println(modifiedLink);
+							}
+					
+					else
+					{
+						return "ERROR";
+					}
+					}
+					else
+					{
+						 printWriter.println(thisLine);
+					}
+						}
+						
+					} 
+				}
+		
+		printWriter.flush();
+		printWriter.close();
+		br.close();
+		inputFile.delete();
+		outFile.renameTo(inputFile);
+			
+	return "OK";	
+}
 }
