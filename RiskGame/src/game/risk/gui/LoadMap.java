@@ -704,11 +704,11 @@ public static void main(String[] args) throws Exception
   			if(s.equalsIgnoreCase("OK"))
 			{
   				mw.addLink(countrySelectedToShowLinksToDeleteTF.getText() , (String) linksOfSelectedCountryCB.getSelectedItem() );
-				JOptionPane.showMessageDialog(f,"Territory link Deleted");  
+				JOptionPane.showMessageDialog(f,"Territory link added");  
 			}
 			else
 			{
-				JOptionPane.showMessageDialog(f,"Action cannot be performed as some territory has just one link to this territory or this territory just have one link");  
+				JOptionPane.showMessageDialog(f,"Link already present");  
 			}
 
   			

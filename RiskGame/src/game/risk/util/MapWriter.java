@@ -551,6 +551,7 @@ public class MapWriter {
 	public String addLink(String selectedItem, String text)throws Exception
 	
 	{
+		Validation validate = new Validation();
 		// TODO Auto-generated method stub
 		String link = selectedItem;
 		String country = text;
@@ -568,10 +569,17 @@ public class MapWriter {
 				while ((thisLine = br.readLine()) != null && thisLine != "") {
 					String[] columns = thisLine.split(",");
 					if (columns[0].equalsIgnoreCase(country)) {
-						
-							modifiedLink = modifiedLink.concat(thisLine + ","+link);
+						if(validate.validateAddLink(country , link , mapFileName)==true)
+						{
+						 modifiedLink = modifiedLink.concat(thisLine + ","+link);
 						 printWriter.println(modifiedLink);
 							}
+					
+					else
+					{
+						return "ERROR";
+					}
+					}
 					else
 					{
 						 printWriter.println(thisLine);
