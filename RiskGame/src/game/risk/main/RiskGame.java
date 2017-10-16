@@ -456,7 +456,7 @@ status.setAlignmentX(Component.RIGHT_ALIGNMENT);
 	        //button.setMinimumSize(new Dimension(3,3));
 	        
 	        label = customJLabel(p.getName(), 10, p.getTerritorAndArmiesColor());
-	        label.setVisible(true);
+	        label.setVisible(true);//setting the visibility
 	        label.setOpaque(false);  
 	        
 	        label2 = customJLabel("-1"+new MapReader().getContinentOfACountry(onlyTerritories.get(k).getName(), 
