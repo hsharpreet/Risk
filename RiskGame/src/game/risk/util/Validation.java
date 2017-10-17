@@ -59,7 +59,6 @@ public class Validation
 	{
 		Validation validate= new Validation();
 		String status = "OK";
-			//ArrayList<String> territoryList = new ArrayList<>();
 		String thisLine = "";
 		for(int j= 0 ; j<countriesListData.size() ; j++)
 		{
@@ -75,7 +74,6 @@ public class Validation
 						if (validate.checkAdjacentTerritoryLinkBeforeDelete(thisLine , mapFileName)) {
 							continue;
 						} else {
-							System.out.println("error---"+columns[0]);
 							status = "ERROR";
 						}
 					}
@@ -86,11 +84,6 @@ public class Validation
 			br.close();
 		}
 		
-		if (status.equals("OK")) {
-		//	deleteLinksOfDeletedTerritoryFromOthers(territoryList, territoryToDelete);
-		}
-		
-		System.out.println("status----"+status);
 		return status;
 
 		
@@ -100,7 +93,6 @@ public class Validation
 	//This method checks before deleting a territory that all its adjacent territories does not have just 1 adjacent territory i.e the one we wish to delete
 	public boolean checkAdjacentTerritoryLinkBeforeDelete(String thisLine ,  String mapFileName) throws Exception {
 		String line = thisLine;
-		System.out.println(thisLine);
 		String[] columns = line.split(",");
 		for (int i = 4; i < columns.length; i++) {
 			File inputFile = new File(mapFileName);

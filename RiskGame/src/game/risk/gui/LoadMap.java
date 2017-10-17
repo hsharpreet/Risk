@@ -264,12 +264,12 @@ public static void main(String[] args) throws Exception
     /**
      * A method to delete continent
      */
-    deleteContinent.addActionListener(new ActionListener(){  
+        deleteContinent.addActionListener(new ActionListener(){  
         public void actionPerformed(ActionEvent e){ 
         String status;
         	int option = JOptionPane.showConfirmDialog(f, "All countries in this continent will also be deleted.Do you want to proceed?", "Delete Continent", JOptionPane.OK_CANCEL_OPTION);
         	if (option == JOptionPane.OK_OPTION)// if user selects ok option 
-        	{ System.out.println();
+        	{ //System.out.println();
         	    MapWriter mapWriter = new MapWriter(MAP_FILE_NAME);//Delete continent from the file
             Validation validate = new Validation();
             
@@ -279,8 +279,12 @@ public static void main(String[] args) throws Exception
         	    	status =validate.checkTerritoriesBeforeDeletingContinent(countriesListData ,MAP_FILE_NAME);
         	    	if(status.equals("OK"))
         	    	{
+        	    for(int i=0 ; i <countriesListData.size() ; i++)
+        	    {
+        	    	mapWriter.deleteTerritoriesOfContinentDeleted(countriesListData.get(i));
+        	    }
         	    	mapWriter.deleteContinent((String)continentsComboBox.getSelectedItem());
-        	    	System.out.println("Deleted continent "+continentsComboBox.getSelectedItem());
+        	   // 	System.out.println("Deleted continent "+continentsComboBox.getSelectedItem());
         	    	continentComboBoxModel.removeElementAt(continentsComboBox.getSelectedIndex());
         	    	for(String country: countriesListData){
         	    		countriesComboBoxModel.removeElement(country);

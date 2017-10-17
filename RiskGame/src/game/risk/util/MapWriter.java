@@ -555,5 +555,43 @@ public class MapWriter {
 	return "OK";	
 }
 
-	
-}
+	public void deleteTerritoriesOfContinentDeleted(String terittoryToDelete) throws Exception {
+		Validation validate= new Validation();
+		String status = "OK";
+		String territoryToDelete = terittoryToDelete;
+		File inputFile = new File(mapFileName);
+		BufferedReader br = new BufferedReader(new FileReader(inputFile));
+		ArrayList<String> territoryList = new ArrayList<>();
+		File outFile = new File("temp.map");
+		FileOutputStream outStream = new FileOutputStream(outFile);
+		PrintWriter printWriter = new PrintWriter(outStream);
+		String thisLine = "";
+		while ((thisLine = br.readLine()) != null) {
+			printWriter.println(thisLine);
+			if (thisLine.equalsIgnoreCase("[Territories]")) {
+				while ((thisLine = br.readLine()) != null && thisLine != "") {
+					String[] columns = thisLine.split(",");
+					if (columns[0].equals(territoryToDelete)) {
+						
+							for (int i = 4; i < columns.length; i++) {
+								territoryList.add(columns[i]);
+							}
+							continue;
+					}
+					printWriter.println(thisLine);
+				}
+			}
+		}
+		printWriter.flush();
+		printWriter.close();
+		br.close();
+		inputFile.delete();
+		outFile.renameTo(inputFile);
+		
+		deleteLinksOfDeletedTerritoryFromOthers(territoryList, territoryToDelete);
+		
+		
+
+	}
+
+	}
