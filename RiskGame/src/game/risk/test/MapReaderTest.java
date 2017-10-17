@@ -13,13 +13,15 @@ import game.risk.util.MapReader;
 import game.risk.util.RiskMap;
 
 /**
- * @author admin
+ * Class to test MapReader
+ * @author Team
  *
  */
 
 public class MapReaderTest {
 
 	/**
+	 * Method which will run before every test method
 	 * @throws java.lang.Exception
 	 */
 	
@@ -28,7 +30,10 @@ public class MapReaderTest {
 		
 		
 	}
-	
+	/**
+	 * Method to test ContinentInCountries method
+	 * @throws Exception
+	 */
 	@Test
 	public void testReadMapWithInvalidContinentInCountries() throws Exception {
    MapReader mapReader = new MapReader();
@@ -38,7 +43,10 @@ public class MapReaderTest {
    assertNull(riskMap);
    
 	}
-
+    /**
+     * A method to test the functionality if countries have no neighbors 
+     * @throws Exception
+     */
 	@Test
 	public void testReadMapCountrieswithNoNeighbours() throws Exception {
    MapReader mapReader = new MapReader();
@@ -48,7 +56,10 @@ public class MapReaderTest {
    assertNull(riskMap);
    
 	}
-	
+	/**
+	 * Method to test Read map countries with asymmetric neighbors
+	 * @throws Exception
+	 */
 	@Test
 	public void testReadMapCountrieswithAsymmetricNeighbours() throws Exception {
    MapReader mapReader = new MapReader();
@@ -58,7 +69,9 @@ public class MapReaderTest {
    assertNull(riskMap);
    
 	}
-	
+	/**
+	 * Method to test GetContinentofACountry 
+	 */
 	@Test
 	public void testGetContinentOfACountry_validCountry() {
 		System.out.println("\ntestGetContinentOfACountry_validCountry.........");
@@ -70,7 +83,9 @@ public class MapReaderTest {
    assertNotNull(continent);
    
 	}
-
+   /**
+    * Method to test GetContinentofACountry
+    */
 	@Test
 	public void testGetContinentOfACountry_InvalidCountry() {
 		System.out.println("\ntestGetContinentOfACountry_InvalidCountry.........");
