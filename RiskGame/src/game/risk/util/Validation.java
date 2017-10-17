@@ -84,11 +84,8 @@ public class Validation
 			br.close();
 		}
 		
-		return status;
-
-		
+		return status;	
 	}
-	
 	
 	//This method checks before deleting a territory that all its adjacent territories does not have just 1 adjacent territory i.e the one we wish to delete
 	public boolean checkAdjacentTerritoryLinkBeforeDelete(String thisLine ,  String mapFileName) throws Exception {
@@ -102,6 +99,8 @@ public class Validation
 					while ((line = br.readLine()) != null) {
 						String[] column_adjacentTerritory = line.split(",");
 						if (columns[i].equals(column_adjacentTerritory[0]) && column_adjacentTerritory.length == 5) {
+		//this check is to allow to delete territory even if length is 5 because the only adjacent country of this country is also to be deleted since they are of same continent
+							if(!(columns[3].equals(column_adjacentTerritory[3])))
 							return false;
 						}
 					}
