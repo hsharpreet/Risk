@@ -12,7 +12,8 @@ import javax.swing.*;
 
 import game.risk.util.MapReader;
 import game.risk.util.MapWriter;
-import game.risk.util.RiskMap;    
+import game.risk.util.RiskMap;
+import game.risk.util.Validation;    
 /**
  * A java class to Load the Map 
  * @author Himanshu Amanpreet
@@ -265,24 +266,39 @@ public static void main(String[] args) throws Exception
      */
     deleteContinent.addActionListener(new ActionListener(){  
         public void actionPerformed(ActionEvent e){ 
+        String status;
         	int option = JOptionPane.showConfirmDialog(f, "All countries in this continent will also be deleted.Do you want to proceed?", "Delete Continent", JOptionPane.OK_CANCEL_OPTION);
         	if (option == JOptionPane.OK_OPTION)// if user selects ok option 
         	{ System.out.println();
         	    MapWriter mapWriter = new MapWriter(MAP_FILE_NAME);//Delete continent from the file
-
+            Validation validate = new Validation();
+            
         	    try {
         	    	ArrayList<String> countriesListData = mapWriter.getCountriesOfContinent(continentsComboBox.getSelectedItem().toString());
+        	  
+        	    	status =validate.checkTerritoriesBeforeDeletingContinent(countriesListData ,MAP_FILE_NAME);
+        	    	if(status.equals("OK"))
+        	    	{
         	    	mapWriter.deleteContinent((String)continentsComboBox.getSelectedItem());
         	    	System.out.println("Deleted continent "+continentsComboBox.getSelectedItem());
         	    	continentComboBoxModel.removeElementAt(continentsComboBox.getSelectedIndex());
         	    	for(String country: countriesListData){
         	    		countriesComboBoxModel.removeElement(country);
         	    	}
-    				
+        	    	}
+        	    	
+        	    	else
+        	    	{
+        	    	 	JOptionPane.showMessageDialog(f,"Cannot proceed : Deletion of some country will lead to invalid map");
+        	    	}
     			} catch (IOException e1) {
     				// TODO Auto-generated catch block
     				e1.printStackTrace();
-    			}
+    			} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+    			
         	} 
         	
         	else {
