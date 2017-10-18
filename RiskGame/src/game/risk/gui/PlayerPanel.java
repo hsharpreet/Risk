@@ -95,6 +95,23 @@ public class PlayerPanel extends javax.swing.JPanel
         }
 
     }
+    
+    public class NeighbourListModel extends AbstractListModel
+    {
+
+        @Override
+        public int getSize()
+        {
+            return neighbours.size();
+        }
+
+        @Override
+        public Object getElementAt(int index)
+        {
+            return neighbours.get(index);
+        }
+
+    }
 
 
    
