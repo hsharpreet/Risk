@@ -77,7 +77,7 @@ public static void main(String[] args) throws Exception
     continentsComboBox=new JComboBox(continentComboBoxModel);
     DefaultComboBoxModel countriesComboBoxModel = new DefaultComboBoxModel<>(riskmap.getTerritories().keySet().toArray());
     countryComboBox=new JComboBox(countriesComboBoxModel);
-    selectModifiedContinentCB= new JComboBox(riskmap.getContinents().keySet().toArray());
+    selectModifiedContinentCB= new JComboBox(continentComboBoxModel);
     countriesOfSelectedContinentCB=new JComboBox<>();
     
     newcountryname= new JTextField();
