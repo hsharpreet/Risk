@@ -1,7 +1,6 @@
 
 package game.risk.gui;
 
-import game.risk.main.RiskGame;
 import game.risk.model.Territory;
 import java.util.ArrayList;
 import java.util.List;
