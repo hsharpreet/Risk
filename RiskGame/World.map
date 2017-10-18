@@ -6,16 +6,15 @@ wrap=yes
 scroll=horizontal
 
 [Continents]
-test=123
+Asia=7
 North America=5
 South America=2
 Africa=3
 Europe=5
-Asia=7
 Australia=2
 
 [Territories]
-Alaska,30,46,North America,Northwest Territory,Alberta,Kamchatka,new link test
+Alaska,30,46,North America,Northwest Territory,Alberta,Kamchatka
 Northwest Territory,59,42,North America,Alaska,Alberta,Ontario,Greenland
 Alberta,58,67,North America,Alaska,Northwest Territory,Ontario,Western United States
 Greenland,121,30,North America,Northwest Territory,Ontario,Quebec,Iceland
