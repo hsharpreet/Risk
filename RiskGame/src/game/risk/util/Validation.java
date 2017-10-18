@@ -6,10 +6,23 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-
+/**
+ * Class to validate MapWriter
+ * @author Team
+ *
+ */
 public class Validation
 
 {
+	/**
+	 * Method to validate add link method
+	 * @param countryName the name of the country
+	 * @param linkName the name of the link
+	 * @param thisLine 
+	 * @return true if the link can be added
+	 * @return false if the link cannot be added
+	 * @throws Exception
+	 */
 	public boolean validateAddLink(String countryName, String linkName, String thisLine) throws Exception {
 		String country = countryName;
 		String link = linkName;
@@ -25,7 +38,15 @@ public class Validation
 
 		return true;
 	}
-
+/**
+ * Method to validate that a country cannot select itself to add as link
+ * @param countryName the name of the country
+ * @param linkName the name of the link
+ * @param thisLine
+ * @return false if country can add itself as link
+ * @return true if country cannot add itself as link
+ * @throws Exception
+ */
 	public boolean validateAddLinkAddingItself(String countryName, String linkName, String thisLine) throws Exception {
 		if (countryName.equals(linkName)) {
 			return false;
