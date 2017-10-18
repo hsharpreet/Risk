@@ -269,7 +269,7 @@ public static void main(String[] args) throws Exception
         String status;
         	int option = JOptionPane.showConfirmDialog(f, "All countries in this continent will also be deleted.Do you want to proceed?", "Delete Continent", JOptionPane.OK_CANCEL_OPTION);
         	if (option == JOptionPane.OK_OPTION)// if user selects ok option 
-        	{ //System.out.println();
+        	{ 
         	    MapWriter mapWriter = new MapWriter(MAP_FILE_NAME);//Delete continent from the file
             Validation validate = new Validation();
             
@@ -284,7 +284,6 @@ public static void main(String[] args) throws Exception
         	    	mapWriter.deleteTerritoriesOfContinentDeleted(countriesListData.get(i));
         	    }
         	    	mapWriter.deleteContinent((String)continentsComboBox.getSelectedItem());
-        	   // 	System.out.println("Deleted continent "+continentsComboBox.getSelectedItem());
         	    	continentComboBoxModel.removeElementAt(continentsComboBox.getSelectedIndex());
         	    	for(String country: countriesListData){
         	    		countriesComboBoxModel.removeElement(country);
@@ -362,12 +361,6 @@ public static void main(String[] args) throws Exception
         	if(!(newcountryname.getText().trim().isEmpty()))//if user adds a country
         	{
         	adjacentCountriesToNewCountry.add((String) selectAdjacentCountry.getSelectedItem());
-        	
-       // 	System.out.println("country new------> "+newcountryname.getText());
-         //	System.out.println("adjacent country------> "+selectAdjacentCountry.getSelectedItem());
-         // System.out.println("list -- >" +adjacentCountriesToNewCountry.getItemCount());
-            
-        	
          }  
         
         else
@@ -653,8 +646,6 @@ public static void main(String[] args) throws Exception
 			linksOfSelectedCountryCB.addItem(countriesLink.get(i));
 			}
 			
-			//System.out.println(countriesLink.size());
-			
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -672,7 +663,7 @@ public static void main(String[] args) throws Exception
           public void actionPerformed(ActionEvent e)
          
           { 
-      //  	System.out.println("hiiiiiiiiiiiiiii");
+     
       	  	MapWriter mp = new MapWriter(MAP_FILE_NAME);
             
        
@@ -765,7 +756,6 @@ public static void main(String[] args) throws Exception
           public void actionPerformed(ActionEvent e)
          
           { 
-      //  	System.out.println("hiiiiiiiiiiiiiii");
       	  	MapWriter mw = new MapWriter(MAP_FILE_NAME);
             
        
