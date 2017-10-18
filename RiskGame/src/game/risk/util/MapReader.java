@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import game.risk.model.Territory;
 
 /**
@@ -190,4 +189,72 @@ public class MapReader {
 	return links;
 	}
 
+	//New Function
+    public static RiskMap readMapFile(String mapFilePath)
+    {
+        try
+        {
+            RiskMap riskMap = null;
+
+            FileReader fr = new FileReader(mapFilePath);
+            BufferedReader br = new BufferedReader(fr);
+            HashMap<String, String> continents = new HashMap<>();
+            HashMap<String, Territory> territories = new HashMap<>();
+
+            while (true)
+            {
+                String s = br.readLine();
+                if (s == null)
+                {
+                    break;
+                } else if (s.equalsIgnoreCase("[Continents]"))
+                {
+
+                    while (true)
+                    {
+                        String continentEntryLine = br.readLine();
+                        if (continentEntryLine.equals(""))
+                        {
+                            break;
+                        }
+                        String columns[] = continentEntryLine.split("=");
+                        continents.put(columns[0], columns[1]);
+                    }
+                } else if (s.equalsIgnoreCase("[Territories]"))
+                {
+                    while (true)
+                    {
+                        String territoryEntryLine = br.readLine();
+                        if (territoryEntryLine == null)
+                        {
+                            break;
+                        } else if (territoryEntryLine.trim().isEmpty())
+                        {
+                            continue;
+                        }
+                        String columns[] = territoryEntryLine.split(",");
+                        Territory territoryObject = new Territory();
+                        territoryObject.setName(columns[0]);
+                        territoryObject.setCoordinateX(columns[1]);
+                        territoryObject.setCoordinateY(columns[2]);
+                        territoryObject.setContinent(columns[3]);
+                        List<String> neighbouringTerritories = new ArrayList<>();
+                        for (int i = 4; i < columns.length; i++)
+                        {
+                            neighbouringTerritories.add(columns[i]);
+                        }
+                        territoryObject.setNeighbouringTerritories(neighbouringTerritories);
+                        territories.put(territoryObject.getName(), territoryObject);
+                    }
+                }
+            }
+            riskMap = new RiskMap(continents, territories);
+            return riskMap;
+
+        } catch (Exception ex)
+        {
+            ex.printStackTrace();
+            return null;
+        }
+    }
 }
