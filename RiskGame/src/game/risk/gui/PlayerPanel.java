@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package game.risk.gui;
 
 import game.risk.main.RiskGame;
@@ -115,7 +111,7 @@ public class PlayerPanel extends javax.swing.JPanel
     }
     
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+   
     private void initComponents()
     {
 //Declaration of buttons 
@@ -204,28 +200,13 @@ public class PlayerPanel extends javax.swing.JPanel
         btFortification.setText("Fortification");
         add(btFortification);
         btFortification.setBounds(250, 290, 110, 30);
-    }// </editor-fold>//GEN-END:initComponents
+    }
     
     
-    private void btPlaceInfantryActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btPlaceInfantryActionPerformed
-    {//GEN-HEADEREND:event_btPlaceInfantryActionPerformed
-//        if (infantriesAvailable > 0)
-//        {
-//            int index = jtCountriesAndArmies.getSelectedRow();
-//            if (index == -1)
-//            {
-//                JOptionPane.showMessageDialog(this, "Select terriotary first");
-//            } 
-//            else
-//            {
-//                list.get(index).infantries++;
-//                infantriesAvailable--;
-//                lbAvailableArmies.setText("Available Infantries : " + infantriesAvailable);
-//                tm.fireTableDataChanged();
-//                btPlaceInfantry.setEnabled(false);
-//            }
-//        }
-    }//GEN-LAST:event_btPlaceInfantryActionPerformed
+    private void btPlaceInfantryActionPerformed(java.awt.event.ActionEvent evt)
+    {
+
+    }
     
     public class CurrentGameStatics
     {
@@ -240,7 +221,7 @@ public class PlayerPanel extends javax.swing.JPanel
         }
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration
     public javax.swing.JButton btFortification;
     public javax.swing.JButton btOk;
     public javax.swing.JButton btPlaceInfantry;
@@ -254,7 +235,7 @@ public class PlayerPanel extends javax.swing.JPanel
     public javax.swing.JLabel lbPlayer;
     public javax.swing.JLabel lbTotalArmies;
     public javax.swing.JList<String> lsNeighbour;
-    // End of variables declaration//GEN-END:variables
+    
 }
 
 
