@@ -53,6 +53,49 @@ public class PlayerPanel extends javax.swing.JPanel
         });
 
     }
+    
+    public class CurrentGameStaticsTableModel extends AbstractTableModel
+    {
+
+        String columnNames[] =
+        {
+            "Territory", "Continent", "Infantries"
+        };
+
+        public String getColumnName(int index)
+        {
+            return columnNames[index];
+        }
+
+        @Override
+        public int getRowCount()
+        {
+            return list.size();
+        }
+
+        @Override
+        public int getColumnCount()
+        {
+            return columnNames.length;
+        }
+
+        @Override
+        public Object getValueAt(int rowIndex, int columnIndex)
+        {
+            if (columnIndex == 0)
+            {
+                return list.get(rowIndex).territory.getName();
+            } else if (columnIndex == 1)
+            {
+                return list.get(rowIndex).territory.getContinent();
+            } else
+            {
+                return list.get(rowIndex).infantries;
+            }
+        }
+
+    }
+
 
    
 }
