@@ -14,7 +14,7 @@ Asia=7
 Australia=2
 
 [Territories]
-Alaska,30,46,North America,Northwest Territory,Alberta,Kamchatka,new link test
+Alaska,30,46,North America,Northwest Territory,Alberta,Kamchatka
 Northwest Territory,59,42,North America,Alaska,Alberta,Ontario,Greenland
 Alberta,58,67,North America,Alaska,Northwest Territory,Ontario,Western United States
 Greenland,121,30,North America,Northwest Territory,Ontario,Quebec,Iceland
@@ -22,6 +22,7 @@ Ontario,80,72,North America,Northwest Territory,Alberta,Greenland,Quebec,Western
 Quebec,106,75,North America,Greenland,Ontario,Eastern United States
 Western United States,59,95,North America,Alberta,Ontario,Eastern United States,Central America
 Eastern United States,84,97,North America,Ontario,Quebec,Western United States,Central America
+Central America,75,123,North America,Western United States,Eastern United States,Venezuala
 
 Venezuala,94,146,South America,Central America,Peru,Brazil
 Peru,91,168,South America,Venezuala,Brazil,Argentina
@@ -44,6 +45,8 @@ Southern Europe,184,102,Europe,Northern Europe,Ukraine,Middle East,Egypt,North A
 Ukraine,202,84,Europe,Ural,Afghanistan,Middle East,Southern Europe,Northern Europe,Scandinavia
 
 Middle East,206,123,Asia,Ukraine,Afghanistan,India,Southern Europe,Egypt,East Africa
+Ural,243,64,Asia,Siberia,China,Afghanistan,Ukraine
+Afghanistan,230,108,Asia,Ural,China,India,Middle East,Ukraine
 India,242,128,Asia,China,Siam,Afghanistan,Middle East
 Siberia,274,68,Asia,Yatusk,Irkutsk,Mongolia,China,Ural
 China,269,112,Asia,Ural,Siberia,Mongolia,Siam,India,Afghanistan
@@ -56,6 +59,7 @@ Japan,322,104,Asia,Kamchatka,Mongolia
 
 Indonesia,292,159,Australia,Siam,New Guinea,Western Australia
 New Guinea,329,158,Australia,Indonesia,Western Australia,Eastern Australia
+Western Australia,313,188,Australia,Indonesia,New Guinea,Eastern Australia
 Eastern Australia,334,189,Australia,Western Australia,New Guinea
 
 

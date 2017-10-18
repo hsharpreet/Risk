@@ -39,9 +39,13 @@ import game.risk.util.MapReader;
 import game.risk.util.RiskGameConstants;
 import game.risk.util.RiskMap;
 
-
+/**
+ * A class to control the game
+ * @author Team
+ *
+ */
 public class RiskGame {
-
+  // Declaration
 	private static String mapSeleted = "";
 	private static int computersSeleted = 0;
 	private static JFrame jFrame = null;
@@ -57,14 +61,20 @@ public class RiskGame {
 	private static JLabel status;
 	private static JPanel middleStartPanel;
 	private static File filePath;
-	
+	/**
+	 * constructor
+	 */
 	public RiskGame() {
 		jFrame = new JFrame("RISK");
 		gameDriver = new GameDriver();
 		status = customJLabel("", 30, Color.BLACK);
 		middleStartPanel = customHeaderAndFooterPanel();
 	}
-	
+	/**
+	 * Method to chech files in folder
+	 * @param folderPath
+	 * 
+	 */
 	public ArrayList<String> getMapFiles(String folderPath){
 		ArrayList<String> files = new ArrayList<String>();
 		File folder = new File(folderPath);
@@ -83,8 +93,13 @@ public class RiskGame {
 		  
 		return files;
 	} 
-	
+	/**
+	 * a method for header panel
+	 * @param status
+	 * 
+	 */
 	public static JPanel headerPanel(String status){
+		//setting the header panel
 		JPanel headerPanel = customHeaderAndFooterPanel();
 		headerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 	        
@@ -93,8 +108,12 @@ public class RiskGame {
         headerPanel.add(customJLabel(status, 20, Color.BLACK));
 		return headerPanel;
 	}
-	
+	/**
+	 * Method for footerpanel
+	 * @return
+	 */
 	public static JPanel footerPanel(){
+		// setting the footer panel
 		JPanel footerPanel = customHeaderAndFooterPanel();
 		//status.setLayout(new BorderLayout());//.CENTER);
 		status.setHorizontalAlignment(JLabel.CENTER);
@@ -106,9 +125,13 @@ status.setAlignmentX(Component.RIGHT_ALIGNMENT);
         footerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		return footerPanel;
 	}
-	
+	/**
+	 * Method to set the game panels
+	 * @param middlePanel a Jpanel
+	 * @param status Status of the panal
+	 */
 	public void setGamePanels(JPanel middlePanel, String status){
-        
+        // setting the middle panel
         middlePanel.setLayout(new GridLayout(0,1));
         
         jFrame.getContentPane().add(headerPanel(status), BorderLayout.NORTH);
@@ -118,13 +141,19 @@ status.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
         jFrame.setSize(800,800);  
         //jFrame.setLayout(new GridBagLayout());
+        //setting the visibility
         jFrame.setVisible(true);
         jFrame.setResizable(false);
         jFrame.setLocationRelativeTo(null);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-
+/**
+ * Method to set the start panel
+ * @param files
+ * @return a Jpanel
+ */
 	public JPanel startPanel(ArrayList<String> files){
+		// setting the middle start panel
 		middleStartPanel = customHeaderAndFooterPanel();
 		DefaultListModel<String> tempList = new DefaultListModel<>(); 
 		for(String temp: files){
@@ -142,12 +171,14 @@ status.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		
 		JPanel temp = customHeaderAndFooterPanel();
 		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
-		
+		// setting the ok button
 		JButton okButton = customJButton(RiskGameConstants.OK, 15);
 		temp.add(okButton); 
 		JButton cancelButton = customJButton(RiskGameConstants.CANCEL, 15);
 		temp.add(cancelButton); 
-		
+		/**
+		 * Method to select the map
+		 */
 		okButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -172,7 +203,9 @@ status.setAlignmentX(Component.RIGHT_ALIGNMENT);
 				}
 			}
 		});
-		
+		/**
+		 * Method for cancel button
+		 */
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -182,7 +215,11 @@ status.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		middleStartPanel.add(temp);
 		return middleStartPanel; 
 	}
-	
+	/**
+	 * Method for second panel
+	 * @param mapSeleted map selected by the user
+	 * @return a Jpanel
+	 */
 	public JPanel secondPanel(String mapSeleted){
 		//middleStartPanel = customHeaderAndFooterPanel();
 		
@@ -194,7 +231,7 @@ status.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		
 		JPanel temp = customHeaderAndFooterPanel();
 		temp.setLayout(new FlowLayout(FlowLayout.CENTER));
-		
+		// setting the button
 		JButton okButton = customJButton(RiskGameConstants.OK, 15);
 		temp.add(okButton); 
 		JButton cancelButton = customJButton(RiskGameConstants.CANCEL, 15);
@@ -226,7 +263,9 @@ status.setAlignmentX(Component.RIGHT_ALIGNMENT);
 				}
 			}
 		});
-		
+		/**
+		 * Method for cancel button
+		 */
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -239,7 +278,10 @@ status.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		middleStartPanel.add(temp);
 		return middleStartPanel; 
 	}
-	
+	/**
+	 * Method for setting default number of armies randomly for players 
+	 * @return an integer storing the number of armies
+	 */
 	public int defaultNoOfArmiesPerPlayerIntially(){
 		int noOfArmiesPerPlayer = 0;
 		if(TOTAL_PLAYERS == 2){
@@ -255,7 +297,12 @@ status.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		return noOfArmiesPerPlayer;
 		
 	}
-	
+	/**
+	 * Method for setting third panel
+	 * @param SELECTED_MAP map selected by user
+	 * @param TOTAL_PLAYERS number pf players
+	 * @return a Jpanel
+	 */
 	public JPanel thirdPanel(String SELECTED_MAP, int TOTAL_PLAYERS){
 		//middleStartPanel = customHeaderAndFooterPanel();
 		MapReader mapreader = new MapReader();
@@ -269,15 +316,15 @@ status.setAlignmentX(Component.RIGHT_ALIGNMENT);
 			listOfAssignedTerritories = DistributeCountries.getCountriesPerPlayer(TOTAL_PLAYERS, 
 					 new ArrayList<Territory>(territories.values()));
 			
-			SET_NO_OF_CONTINETS = continents.size();
-			SET_NO_OF_TERRITORIES = territories.size();
+			SET_NO_OF_CONTINETS = continents.size();//number of continents
+			SET_NO_OF_TERRITORIES = territories.size();//number of continents
 			//ArrayList<Territory> Territories = new ArrayList<Territory>();
-			ArrayList<Player> players  = new ArrayList<Player>();
+			ArrayList<Player> players  = new ArrayList<Player>();//list of players
 			int noOfArmiesPerPlayerIntial = defaultNoOfArmiesPerPlayerIntially();
 			for(int i=1;i<=TOTAL_PLAYERS; i++){
 				
 				if(i ==1){
-					Player human = new Player();
+					Player human = new Player();// setting territories and armies for human user
 					human.setName("H");
 					human.setComputer(false);
 					human.setTotalNoOfArmies(noOfArmiesPerPlayerIntial);
@@ -299,7 +346,7 @@ status.setAlignmentX(Component.RIGHT_ALIGNMENT);
 					players.add(human);
 				}
 				else{
-					Player comp = new Player();
+					Player comp = new Player();// setting territories and armies for computer player
 					comp.setName("C"+(i-1));
 					comp.setComputer(true);
 					comp.setTotalNoOfArmies(noOfArmiesPerPlayerIntial);
@@ -338,15 +385,18 @@ status.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		return middleStartPanel;
 	}	
 	
-
+/**
+ * The main method
+ * @param args
+ */
 	public static void main(String[] args) {
-		RiskGame riskGame = new RiskGame();
+		RiskGame riskGame = new RiskGame();// an object of RiskGame class
 		JPanel middlePanel = customHeaderAndFooterPanel();
 		ArrayList<String> files = riskGame.getMapFiles(RiskGameConstants.FOLDER_FOR_MAPS_PATH);
 		Boolean mapAvailable = (files.size()>0)? true: false;
 		
 		if(mapAvailable){
-			middlePanel = riskGame.startPanel(files);
+			middlePanel = riskGame.startPanel(files);// setting the map
 			riskGame.setGamePanels(middlePanel, "Map Selection");
 		}else{
 			middlePanel.add(customJLabel("NO MAPS AVAILABLE, Check folder", 20, Color.RED));
@@ -355,14 +405,25 @@ status.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		//riskGame.setGamePanels(middlePanel, "Map Selection");
 		
 	}
-
+/**
+ * Method for custom label 
+ * @param name name of the label
+ * @param font font for the label
+ * @param color color of the label
+ * @return a Jpanel
+ */
 	private static JLabel customJLabel(String name, int font, Color color) {
 		JLabel tempLabel = new JLabel(name);
 		tempLabel.setFont(new Font("Helvetica", Font.BOLD, font));
 		tempLabel.setForeground(color);
 		return tempLabel;
 	}
-
+/**
+ * A method for creating custom button
+ * @param name name of the button
+ * @param font font of the button
+ * @return a Jbutton
+ */
 	private static JButton customJButton(String name, int font) {
 		JButton tempButton = new JButton(name);
 		tempButton.setSize(10,10);
@@ -372,14 +433,18 @@ status.setAlignmentX(Component.RIGHT_ALIGNMENT);
 	}
 	
 	
-
+/**
+ * Method for creating a button for territory
+ * @param onlyTerritories territories of player
+ * @param p the player
+ */
 	private static void territoryJButton(ArrayList<Territory> onlyTerritories, Player p) {
 		
 		JButton button;
 		JLabel label;
 		JLabel label2;
 		JLabel label3;
-		for(int k=0; k<onlyTerritories.size();k++){
+		for(int k=0; k<onlyTerritories.size();k++){// setting the display
 			//territoryJButton(human.getName(), human.getTerritorAndArmiesColor());
 			button = customJButton(onlyTerritories.get(k).getName(), 12);
 	        //button.setText("BUTTON"+i);
@@ -391,7 +456,7 @@ status.setAlignmentX(Component.RIGHT_ALIGNMENT);
 	        //button.setMinimumSize(new Dimension(3,3));
 	        
 	        label = customJLabel(p.getName(), 10, p.getTerritorAndArmiesColor());
-	        label.setVisible(true);
+	        label.setVisible(true);//setting the visibility
 	        label.setOpaque(false);  
 	        
 	        label2 = customJLabel("-1"+new MapReader().getContinentOfACountry(onlyTerritories.get(k).getName(), 
@@ -435,7 +500,10 @@ status.setAlignmentX(Component.RIGHT_ALIGNMENT);
 	        middleStartPanel.add(jp);
 		}
 	}
-	
+	/**
+	 * Method for custom header and footer
+	 * @return a Jpanel
+	 */
 	private static JPanel customHeaderAndFooterPanel(){
         JPanel result = new JPanel();
         result.setBorder(new EmptyBorder(50, 10, 10, 10));

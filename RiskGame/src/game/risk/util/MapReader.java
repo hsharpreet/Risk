@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 
 import game.risk.model.Territory;
 
+
 public class MapReader {
 	
 	public static void main(String[] args) throws Exception {
@@ -128,8 +129,8 @@ public class MapReader {
 			}
 		}
 		br.close();
-		RiskMap riskMap = new RiskMap(mapDetails, continents, territories);
-		return riskMap;
+		boolean isValidMap = new ValidateMapReader().isMapValid(continents, territories);
+		return isValidMap?new RiskMap(mapDetails, continents, territories): null;
 	}
 	
 	public ArrayList getLinksOfCountry(String countryName, File path){

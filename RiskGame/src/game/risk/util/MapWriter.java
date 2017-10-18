@@ -127,6 +127,7 @@ public class MapWriter {
 	}
 
 	public String deleteTerritory(String terittoryToDelete) throws Exception {
+		Validation validate= new Validation();
 		String status = "OK";
 		String territoryToDelete = terittoryToDelete;
 		File inputFile = new File(mapFileName);
@@ -142,7 +143,7 @@ public class MapWriter {
 				while ((thisLine = br.readLine()) != null && thisLine != "") {
 					String[] columns = thisLine.split(",");
 					if (columns[0].equals(territoryToDelete)) {
-						if (checkAdjacentTerritoryLinkBeforeDelete(thisLine)) {
+						if (validate.checkAdjacentTerritoryLinkBeforeDelete(thisLine , mapFileName)) {
 							for (int i = 4; i < columns.length; i++) {
 								territoryList.add(columns[i]);
 								System.out.println("list --" + columns[i]);
@@ -213,28 +214,6 @@ public class MapWriter {
 		}
 	}
 
-	public boolean checkAdjacentTerritoryLinkBeforeDelete(String thisLine) throws Exception {
-		String line = thisLine;
-		String[] columns = line.split(",");
-		for (int i = 4; i < columns.length; i++) {
-			File inputFile = new File(mapFileName);
-			BufferedReader br = new BufferedReader(new FileReader(inputFile));
-			File outFile = new File("temp.map");
-			FileOutputStream outStream = new FileOutputStream(outFile);
-			PrintWriter printWriter = new PrintWriter(outStream);
-			while ((line = br.readLine()) != null) {
-				if (line.equalsIgnoreCase("[Territories]")) {
-					while ((line = br.readLine()) != null) {
-						String[] column_adjacentTerritory = line.split(",");
-						if (columns[i].equals(column_adjacentTerritory[0]) && column_adjacentTerritory.length == 5) {
-							return false;
-						}
-					}
-				}
-			}
-		}
-		return true;
-	}
 
 	public void assignNewContinent(String selectedItem, String territory) {
 		try {
@@ -382,6 +361,7 @@ public class MapWriter {
 	
 	public String deleteLink(String link , String country)
 	{
+		Validation validate = new Validation();
 		String status = "OK";
 		try
 		{
@@ -416,7 +396,7 @@ public class MapWriter {
 						}
 						for(int i = 4; i<columns.length ; i++)
 						{
-						if(checkLinkToDelete(link) == true)
+						if(validate.validateLinkToDelete(link , mapFileName) == true)
 						{
 							//System.out.println("hiii");
 						}
@@ -518,38 +498,100 @@ public class MapWriter {
 			br.close();
 			inputFile.delete();
 			outFile.renameTo(inputFile);
-		
-
-		
+	
 	}
 
-	private boolean checkLinkToDelete(String link) throws Exception
+	public String addLink(String selectedItem, String text)throws Exception
 	
 	{
-		String linked_country = link;
-		
-		String line="";
-   // 	System.out.println("here link --" +link+"-----------thisline---");
+		Validation validate = new Validation();
+		// TODO Auto-generated method stub
+		String link = selectedItem;
+		String country = text;
 		File inputFile = new File(mapFileName);
-			BufferedReader br = new BufferedReader(new FileReader(inputFile));
-			File outFile = new File("temp.map");
-			FileOutputStream outStream = new FileOutputStream(outFile);
-			PrintWriter printWriter = new PrintWriter(outStream);
-			while ((line = br.readLine()) != null) {
-				if (line.equalsIgnoreCase("[Territories]")) {
-					while ((line = br.readLine()) != null) {
-						String[] column_adjacentTerritory = line.split(",");
-						if (linked_country.equals(column_adjacentTerritory[0]) && column_adjacentTerritory.length > 5) {
-				       // 	System.out.println(line);
-							return true;
+		BufferedReader br = new BufferedReader(new FileReader(inputFile));
+		File outFile = new File("temp.map");
+		FileOutputStream outStream = new FileOutputStream(outFile);
+		PrintWriter printWriter = new PrintWriter(outStream);
+		String thisLine = "";
+		while ((thisLine = br.readLine()) != null) {
+			printWriter.println(thisLine);
+			if (thisLine.equalsIgnoreCase("[Territories]")) 
+			{
+				String modifiedLink = "";
+				while ((thisLine = br.readLine()) != null && thisLine != "") {
+					String[] columns = thisLine.split(",");
+					if (columns[0].equalsIgnoreCase(country)) {
+						if(validate.validateAddLink(country , link  ,thisLine)==false )
+						{
+						 return "ERROR_LinkAlreadyExists";
+							}
+						else if(validate.validateAddLinkAddingItself(country, link, thisLine)==false)
+						{
+							return "ERROR_AddingItselfInLink";
 						}
+					else
+					{
+					     	modifiedLink = modifiedLink.concat(thisLine + ","+link);
+						 printWriter.println(modifiedLink);
+						
 					}
+					}
+					else
+					{
+						 printWriter.println(thisLine);
+					}
+						}
+						
+					} 
+				}
+		
+		printWriter.flush();
+		printWriter.close();
+		br.close();
+		inputFile.delete();
+		outFile.renameTo(inputFile);
+			
+	return "OK";	
+}
+
+	public void deleteTerritoriesOfContinentDeleted(String terittoryToDelete) throws Exception {
+		Validation validate= new Validation();
+		String status = "OK";
+		String territoryToDelete = terittoryToDelete;
+		File inputFile = new File(mapFileName);
+		BufferedReader br = new BufferedReader(new FileReader(inputFile));
+		ArrayList<String> territoryList = new ArrayList<>();
+		File outFile = new File("temp.map");
+		FileOutputStream outStream = new FileOutputStream(outFile);
+		PrintWriter printWriter = new PrintWriter(outStream);
+		String thisLine = "";
+		while ((thisLine = br.readLine()) != null) {
+			printWriter.println(thisLine);
+			if (thisLine.equalsIgnoreCase("[Territories]")) {
+				while ((thisLine = br.readLine()) != null && thisLine != "") {
+					String[] columns = thisLine.split(",");
+					if (columns[0].equals(territoryToDelete)) {
+						
+							for (int i = 4; i < columns.length; i++) {
+								territoryList.add(columns[i]);
+							}
+							continue;
+					}
+					printWriter.println(thisLine);
 				}
 			}
+		}
+		printWriter.flush();
+		printWriter.close();
+		br.close();
+		inputFile.delete();
+		outFile.renameTo(inputFile);
 		
-		return false;
-	}
-	
+		deleteLinksOfDeletedTerritoryFromOthers(territoryList, territoryToDelete);
+		
+		
 
-	
-}
+	}
+
+	}
