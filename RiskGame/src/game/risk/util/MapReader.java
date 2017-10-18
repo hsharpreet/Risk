@@ -102,7 +102,7 @@ public class MapReader {
 		return continent;
 	}
 	/**
-	 * Method to readMap
+	 * Method to readMap for MapEditor
 	 * @param MapFile The map file
 	 * @throws Exception
 	 */
@@ -195,10 +195,15 @@ public class MapReader {
 	}
 
 	//New Function
+	/**
+	 * Method to readMapFile for Game play
+	 * @param mapFilePath path of file
+	 * @return null
+	 */
     public static RiskMap readMapFile(String mapFilePath)
     {
         try
-        {
+        {   //declaration 
             RiskMap riskMap = null;
 
             FileReader fr = new FileReader(mapFilePath);
@@ -216,7 +221,7 @@ public class MapReader {
                 {
 
                     while (true)
-                    {
+                    {// writing the continents in the file
                         String continentEntryLine = br.readLine();
                         if (continentEntryLine.equals(""))
                         {
@@ -228,7 +233,7 @@ public class MapReader {
                 } else if (s.equalsIgnoreCase("[Territories]"))
                 {
                     while (true)
-                    {
+                    {// writing the territories in the file
                         String territoryEntryLine = br.readLine();
                         if (territoryEntryLine == null)
                         {
