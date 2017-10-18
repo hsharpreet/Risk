@@ -54,28 +54,6 @@ public class Validation
 		return false;
 	}
 	
-	//This method checks before deleting a territory that all its adjacent territories does not have just 1 adjacent territory i.e the one we wish to delete
-		public boolean checkAdjacentTerritoryLinkBeforeDelete(String thisLine ,  String mapFileName) throws Exception {
-			String line = thisLine;
-			String[] columns = line.split(",");
-			for (int i = 4; i < columns.length; i++) {
-				File inputFile = new File(mapFileName);
-				BufferedReader br = new BufferedReader(new FileReader(inputFile));
-				while ((line = br.readLine()) != null) {
-					if (line.equalsIgnoreCase("[Territories]")) {
-						while ((line = br.readLine()) != null) {
-							String[] column_adjacentTerritory = line.split(",");
-							if (columns[i].equals(column_adjacentTerritory[0]) && column_adjacentTerritory.length == 5) {
-			//this check is to allow to delete territory even if length is 5 because the only adjacent country of this country is also to be deleted since they are of same continent
-								if(!(columns[3].equals(column_adjacentTerritory[3])))
-								return false;
-							}
-						}
-					}
-				}
-			}
-			return true;
-		}
 	
 	//this function is called on delete continent option to check that countries to be deleted after deleting continent will not leave map as invalid
 	public String  checkTerritoriesBeforeDeletingContinent(ArrayList<String> countriesListData , String mapFileName) throws Exception
@@ -110,6 +88,28 @@ public class Validation
 		return status;	
 	}
 	
-	
+	//This method checks before deleting a territory that all its adjacent territories does not have just 1 adjacent territory i.e the one we wish to delete
+			public boolean checkAdjacentTerritoryLinkBeforeDelete(String thisLine ,  String mapFileName) throws Exception {
+				String line = thisLine;
+				String[] columns = line.split(",");
+				for (int i = 4; i < columns.length; i++) {
+					File inputFile = new File(mapFileName);
+					BufferedReader br = new BufferedReader(new FileReader(inputFile));
+					while ((line = br.readLine()) != null) {
+						if (line.equalsIgnoreCase("[Territories]")) {
+							while ((line = br.readLine()) != null) {
+								String[] column_adjacentTerritory = line.split(",");
+								if (columns[i].equals(column_adjacentTerritory[0]) && column_adjacentTerritory.length == 5) {
+				//this check is to allow to delete territory even if length is 5 because the only adjacent country of this country is also to be deleted since they are of same continent
+									if(!(columns[3].equals(column_adjacentTerritory[3])))
+									return false;
+								}
+							}
+						}
+					}
+				}
+				return true;
+			}
+		
 
 }
