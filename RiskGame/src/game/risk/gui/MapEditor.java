@@ -54,11 +54,11 @@ public static void main(String[] args) throws Exception
     changeContinent=new JButton("Change Continent");
     deleteCountryLink = new JButton("Delete Link");
     addCountryLink = new JButton("Add Link");
-    addContinent=new JButton("ADD");
-    deleteContinent= new JButton("DELETE");
+    addContinent=new JButton("Add");
+    deleteContinent= new JButton("Delete");
     viewCountriesOfContinent = new JButton("View Countries");    
     
-    addadjacentcountry= new JButton("+");
+    addadjacentcountry= new JButton("Add");
     submitNewCountry= new JButton("Submit data");
     assignNewContinent= new JButton("Assign new continent");
     
@@ -131,7 +131,7 @@ public static void main(String[] args) throws Exception
     newcountrynamelabel.setBounds(300 , 200 , 120 , 40);
     continentfornewcountry.setBounds(430 ,200,120,40 );
     adjacenttonewcountry.setBounds(560 , 200 ,120 , 40);
-    addadjacentcountry.setBounds(690 , 255 , 20,20);
+    addadjacentcountry.setBounds(690 , 250 , 60,40);
     submitNewCountry.setBounds(430 , 320 , 120,50);
     
     countrySelectedToShowLinksToDeleteLabel.setBounds(430 , 200, 120,40 );
@@ -791,7 +791,7 @@ public static void main(String[] args) throws Exception
     
  
     
-    f.setSize(800,500);  
+    f.setSize(900,500);  
     f.setLayout(null);  
     f.setVisible(true);   
     
