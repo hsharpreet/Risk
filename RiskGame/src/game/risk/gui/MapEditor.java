@@ -103,7 +103,7 @@ public static void main(String[] args) throws Exception
     assignNewContinent.setBounds(560,320,120,40);
     addContinent.setBounds(230,80,60,20);
     viewCountriesOfContinent.setBounds(220,110 ,150,30);
-    deleteContinent.setBounds(290, 80, 90, 20);
+    deleteContinent.setBounds(292, 80, 90, 20);
     continentSelected.setBounds(40,250 , 150,20);
     countriesOfSelectedContinent.setBounds(200 , 250 , 150 ,20);
     selectedContinentField.setBounds(40, 280 , 150 ,20);
