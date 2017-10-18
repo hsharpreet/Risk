@@ -49,8 +49,8 @@ public static void main(String[] args) throws Exception
     
         
     //Creating the GUI
-    addCountry=new JButton("ADD NEW COUNTRY");
-    deleteCountry=new JButton("DELETE SELECTED COUNTRY");
+    addCountry=new JButton("Add New Country");
+    deleteCountry=new JButton("Delete Selected Country");
     changeContinent=new JButton("Change Continent");
     deleteCountryLink = new JButton("Delete Link");
     addCountryLink = new JButton("Add Link");
@@ -256,7 +256,7 @@ public static void main(String[] args) throws Exception
     	} 
     	
     	else {
-    	    System.out.println("Action canceled");
+    	    System.out.println("Action Canceled");
     	}
     }
          
@@ -305,7 +305,7 @@ public static void main(String[] args) throws Exception
         	} 
         	
         	else {
-        	    System.out.println("Delete Country Action canceled");// if user does not press ok
+        	    System.out.println("Delete Country Action canceled");// if user does not press OK
         	}
             }  
         });
