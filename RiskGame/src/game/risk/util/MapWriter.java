@@ -9,28 +9,41 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 
-
+/**
+ * Class to write in the World.map file
+ * @author Team
+ *
+ */
 public class MapWriter {
 
-	String mapFileName = "World.map";
+	String mapFileName = "World.map";//the map file
 
 	public MapWriter(String mapFileName) {
 		this.mapFileName = mapFileName;
 	}
-
+/**
+ * The main method
+ * @param args
+ * @throws IOException
+ */
 	public static void main(String[] args) throws IOException {
 		MapWriter writer = new MapWriter("World.map");
 	}
-
+/**
+ * Method to add continent in the file
+ * @param name the name of the continent
+ * @param value the value of the armies which a player receives during reenforcement if he owns all the countries of the continent
+ * @throws IOException
+ */
 	public void addContinent(String name, String value) throws IOException {
 		String newContinent = name + "=" + value;
 		File inputFile = new File(mapFileName);
 		BufferedReader br = new BufferedReader(new FileReader(inputFile));
-		File outFile = new File("temp.map");
+		File outFile = new File("temp.map");// the file path
 		FileOutputStream outStream = new FileOutputStream(outFile);
 		PrintWriter printWriter = new PrintWriter(outStream);
 		String thisLine = "";
-		while ((thisLine = br.readLine()) != null) {
+		while ((thisLine = br.readLine()) != null) {//writing the continents
 			printWriter.println(thisLine);
 			if (thisLine.equalsIgnoreCase("[Continents]")) {
 				printWriter.println(newContinent);
@@ -48,11 +61,15 @@ public class MapWriter {
 	 * Method to delete continent from the map
 	 * 
 	 */
-
+/**
+ * Method to delete continent
+ * @param name the name of the continents
+ * @throws IOException
+ */
 	public void deleteContinent(String name) throws IOException {
-		File inputFile = new File(mapFileName);
+		File inputFile = new File(mapFileName);// file path to read from
 		BufferedReader br = new BufferedReader(new FileReader(inputFile));
-		File outFile = new File("temp.map");
+		File outFile = new File("temp.map");//file path to write
 		FileOutputStream outStream = new FileOutputStream(outFile);
 		PrintWriter printWriter = new PrintWriter(outStream);
 		String thisLine = "";
@@ -67,12 +84,16 @@ public class MapWriter {
 		inputFile.delete();
 		outFile.renameTo(inputFile);
 	}
-
+/**
+ * Method to add territory
+ * @param name the name of the territory
+ * @throws IOException
+ */
 	public void addTerritory(String name) throws IOException {
 		String newTerritory = name;
-		File inputFile = new File(mapFileName);
+		File inputFile = new File(mapFileName);// file path to read from
 		BufferedReader br = new BufferedReader(new FileReader(inputFile));
-		File outFile = new File("temp.map");
+		File outFile = new File("temp.map");//file path to write
 		FileOutputStream outStream = new FileOutputStream(outFile);
 		PrintWriter printWriter = new PrintWriter(outStream);
 		String thisLine = "";
@@ -91,13 +112,18 @@ public class MapWriter {
 		inputFile.delete();
 		outFile.renameTo(inputFile);
 	}
-
+  /**
+   * Method to add new country link to territories
+   * @param newCountryEntry the entry of new country 
+   * @param adjacentCountriesToNewCountry the adjacent countries of the new country
+   * @throws Exception 
+   */
 	public void addNewCountryLinkToTerritories(String newCountryEntry,
 			LinkedHashSet<String> adjacentCountriesToNewCountry) throws Exception{
 		String newTerritory = newCountryEntry;
-		File inputFile = new File(mapFileName);
+		File inputFile = new File(mapFileName);// file path to read from
 		BufferedReader br = new BufferedReader(new FileReader(inputFile));
-		File outFile = new File("temp.map");
+		File outFile = new File("temp.map");//file path to write
 		FileOutputStream outStream = new FileOutputStream(outFile);
 		PrintWriter printWriter = new PrintWriter(outStream);
 		String thisLine = "";
@@ -125,21 +151,26 @@ public class MapWriter {
 		inputFile.delete();
 		outFile.renameTo(inputFile);
 	}
-
+/**
+ * Method to delete territory
+ * @param terittoryToDelete the territory to be deleted
+ * @return status status of the process
+ * @throws Exception
+ */
 	public String deleteTerritory(String terittoryToDelete) throws Exception {
 		Validation validate= new Validation();
 		String status = "OK";
 		String territoryToDelete = terittoryToDelete;
-		File inputFile = new File(mapFileName);
+		File inputFile = new File(mapFileName);// file path to read from
 		BufferedReader br = new BufferedReader(new FileReader(inputFile));
 		ArrayList<String> territoryList = new ArrayList<>();
-		File outFile = new File("temp.map");
+		File outFile = new File("temp.map");//file path to write
 		FileOutputStream outStream = new FileOutputStream(outFile);
 		PrintWriter printWriter = new PrintWriter(outStream);
 		String thisLine = "";
 		while ((thisLine = br.readLine()) != null) {
 			printWriter.println(thisLine);
-			if (thisLine.equalsIgnoreCase("[Territories]")) {
+			if (thisLine.equalsIgnoreCase("[Territories]")) {//reading the file to delete the territory
 				while ((thisLine = br.readLine()) != null && thisLine != "") {
 					String[] columns = thisLine.split(",");
 					if (columns[0].equals(territoryToDelete)) {
@@ -168,21 +199,26 @@ public class MapWriter {
 		return status;
 
 	}
-
+/**
+ * Method to delete links of the deleted territory from others 
+ * @param territoryList the list of the territories
+ * @param territoryToDelete the territory to be deleted
+ * @throws Exception
+ */
 	private void deleteLinksOfDeletedTerritoryFromOthers(ArrayList<String> territoryList, String territoryToDelete)
 			throws Exception {
 		ArrayList<String> listOfTerritories = territoryList;
 		String territory = territoryToDelete;
 		for (int i = 0; i < listOfTerritories.size(); i++) {
-			File inputFile = new File(mapFileName);
+			File inputFile = new File(mapFileName);//file path to read 
 			BufferedReader br = new BufferedReader(new FileReader(inputFile));
-			File outFile = new File("temp.map");
+			File outFile = new File("temp.map");//file path to write
 			FileOutputStream outStream = new FileOutputStream(outFile);
 			PrintWriter printWriter = new PrintWriter(outStream);
 			String thisLine = "";
 			while ((thisLine = br.readLine()) != null) {
 				printWriter.println(thisLine);
-				if (thisLine.equalsIgnoreCase("[Territories]")) {
+				if (thisLine.equalsIgnoreCase("[Territories]")) {//reading the file to delete the link
 					String modifiedLink = "";
 					while ((thisLine = br.readLine()) != null && thisLine != "") {
 						String[] columns = thisLine.split(",");
@@ -214,7 +250,11 @@ public class MapWriter {
 		}
 	}
 
-
+/**
+ * Method to assign new continent to the territory
+ * @param selectedItem the selected continent
+ * @param territory the territory to which the continent has to be assigned
+ */
 	public void assignNewContinent(String selectedItem, String territory) {
 		try {
 			String newContinent = selectedItem;
@@ -258,13 +298,17 @@ public class MapWriter {
 			e.printStackTrace();
 		}
 	}
-
+/**
+ * Method to get the present continent
+ * @param text the present continent
+ * @return the continent
+ */
 	public String getPresentContinent(String text) {
 		try {
 			String presentContinent = text;
-			File inputFile = new File(mapFileName);
+			File inputFile = new File(mapFileName);//file path to read
 			BufferedReader br = new BufferedReader(new FileReader(inputFile));
-			File outFile = new File("temp.map");
+			File outFile = new File("temp.map");//file path to write
 			FileOutputStream outStream = new FileOutputStream(outFile);
 			String thisLine = "";
 			while ((thisLine = br.readLine()) != null) {
@@ -287,7 +331,11 @@ public class MapWriter {
 		}
 		return null;
 	}
-
+/**
+ * Method to get Countries of the continents
+ * @param selectedContinent the continent whose countries will be read 
+ * @return countriesList the list of the countries
+ */
 	public ArrayList getCountriesOfContinent(String selectedContinent) {
 		String continent = selectedContinent;
 		ArrayList<String> countriesList = new ArrayList<String>();
@@ -318,7 +366,11 @@ public class MapWriter {
 		}
 		return countriesList;
 	}
-
+/**
+ * Method to get the Links of the country
+ * @param countryName the name of the country whose link will be read from the file
+ * @return Links
+ */
 	public ArrayList getLinksOfCountry(String countryName) 
 	{
 		try
@@ -358,10 +410,17 @@ public class MapWriter {
 	}
 	return null;
 	}
-	
+	/**
+	 * Method to delete the link 
+	 * @param link the link to be deleted
+	 * @param country the country whose link has to be deleted
+	 * @return status
+	 */
+	  
+	 
 	public String deleteLink(String link , String country)
 	{
-		Validation validate = new Validation();
+		Validation validate = new Validation();// object of vaidation class
 		String status = "OK";
 		try
 		{
@@ -369,9 +428,9 @@ public class MapWriter {
 			al.add(link);
 			
 		String countrySelected = country;
-		File inputFile = new File(mapFileName);
+		File inputFile = new File(mapFileName);// file path to read
 		BufferedReader br = new BufferedReader(new FileReader(inputFile));
-		File outFile = new File("temp.map");
+		File outFile = new File("temp.map");// file path to write
 		FileOutputStream outStream = new FileOutputStream(outFile);
 		PrintWriter printWriter = new PrintWriter(outStream);
 
@@ -431,16 +490,21 @@ public class MapWriter {
 		return status;
 	
 	}
-
+/**
+ * Method to delete links of modified territory
+ * @param link an array list of links
+ * @param country the country whose link will be deleted
+ * @throws Exception
+ */
 	private void deleteLinksOfmodifiedTerritory(ArrayList<String> link, String country)throws Exception
 	
 	{
 		ArrayList<String> link_name = link;
 		String country_name = country;
 		
-			File inputFile = new File(mapFileName);
+			File inputFile = new File(mapFileName);//file path to read from
 			BufferedReader br = new BufferedReader(new FileReader(inputFile));
-			File outFile = new File("temp.map");
+			File outFile = new File("temp.map");//file path to write to
 			FileOutputStream outStream = new FileOutputStream(outFile);
 			PrintWriter printWriter = new PrintWriter(outStream);
 			String thisLine = "";
@@ -450,7 +514,7 @@ public class MapWriter {
 				{
 					String modifiedLink = "";
 					while ((thisLine = br.readLine()) != null && thisLine != "") {
-						String[] columns = thisLine.split(",");
+						String[] columns = thisLine.split(",");//splitting the element of the array
 						
 						if (columns[0].equalsIgnoreCase(link_name.get(0))) {
 							for (int j = 0; j < columns.length; j++) {
@@ -500,7 +564,13 @@ public class MapWriter {
 			outFile.renameTo(inputFile);
 	
 	}
-
+/**
+ * Method to add link
+ * @param selectedItem the selected link 
+ * @param text the country to which the link will be added
+ * @return the status of the process
+ * @throws Exception
+ */
 	public String addLink(String selectedItem, String text)throws Exception
 	
 	{
@@ -508,9 +578,9 @@ public class MapWriter {
 		// TODO Auto-generated method stub
 		String link = selectedItem;
 		String country = text;
-		File inputFile = new File(mapFileName);
+		File inputFile = new File(mapFileName);//file to read from
 		BufferedReader br = new BufferedReader(new FileReader(inputFile));
-		File outFile = new File("temp.map");
+		File outFile = new File("temp.map");//file to write to
 		FileOutputStream outStream = new FileOutputStream(outFile);
 		PrintWriter printWriter = new PrintWriter(outStream);
 		String thisLine = "";
@@ -554,15 +624,19 @@ public class MapWriter {
 			
 	return "OK";	
 }
-
+/**
+ * Method to delete territories of the deleted continent
+ * @param terittoryToDelete the territory to be deleted
+ * @throws Exception
+ */
 	public void deleteTerritoriesOfContinentDeleted(String terittoryToDelete) throws Exception {
 		Validation validate= new Validation();
 		String status = "OK";
 		String territoryToDelete = terittoryToDelete;
-		File inputFile = new File(mapFileName);
+		File inputFile = new File(mapFileName);// file path to read from
 		BufferedReader br = new BufferedReader(new FileReader(inputFile));
 		ArrayList<String> territoryList = new ArrayList<>();
-		File outFile = new File("temp.map");
+		File outFile = new File("temp.map");// file path to write to
 		FileOutputStream outStream = new FileOutputStream(outFile);
 		PrintWriter printWriter = new PrintWriter(outStream);
 		String thisLine = "";
@@ -570,8 +644,8 @@ public class MapWriter {
 			printWriter.println(thisLine);
 			if (thisLine.equalsIgnoreCase("[Territories]")) {
 				while ((thisLine = br.readLine()) != null && thisLine != "") {
-					String[] columns = thisLine.split(",");
-					if (columns[0].equals(territoryToDelete)) {
+					String[] columns = thisLine.split(",");//splitting the element
+					if (columns[0].equals(territoryToDelete)) {//deleting the territory
 						
 							for (int i = 4; i < columns.length; i++) {
 								territoryList.add(columns[i]);
