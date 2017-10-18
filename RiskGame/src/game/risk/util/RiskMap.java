@@ -14,10 +14,10 @@ public class RiskMap {
 	HashMap<String, String> continents ;
 	HashMap<String, Territory> territories ;
 	/**
-	 * 
+	 * A constructor
 	 * @param map a hashMap for MAP
-	 * @param continents a map for continents
-	 * @param territories a map for territories
+	 * @param continents a hashMap for continents
+	 * @param territories a hashMap for territories
 	 */
 	public RiskMap(HashMap<String, String> map, HashMap<String, String> continents, HashMap<String, Territory> territories) {
 		super();
@@ -25,7 +25,11 @@ public class RiskMap {
 		this.continents = continents;
 		this.territories = territories;
 	}
-	
+	/**
+	 * A constructor
+	 * @param continents a hashMap of continents
+	 * @param territories a hashMap of territories
+	 */
 	public RiskMap(HashMap<String, String> continents, HashMap<String, Territory> territories) {
 		super();
 		this.continents = continents;
