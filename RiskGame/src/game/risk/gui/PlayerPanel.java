@@ -38,6 +38,7 @@ public class PlayerPanel extends javax.swing.JPanel
         jtCountriesAndArmies.getSelectionModel().addListSelectionListener(new ListSelectionListener()
         {
             @Override
+            
             public void valueChanged(ListSelectionEvent e)
             {
                 if (e.getValueIsAdjusting())
@@ -117,7 +118,7 @@ public class PlayerPanel extends javax.swing.JPanel
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents()
     {
-
+//Declaration of buttons 
         lbPlayer = new javax.swing.JLabel();
         lbTotalArmies = new javax.swing.JLabel();
         lbAvailableArmies = new javax.swing.JLabel();
