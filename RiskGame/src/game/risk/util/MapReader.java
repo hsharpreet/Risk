@@ -111,7 +111,7 @@ public class MapReader {
 		if(MapFile.equalsIgnoreCase("") || MapFile.equals(null)){
 			MapFile = "World.map";
 		}
-		File inputFile = new File(MapFile);
+		File inputFile = new File(MapFile);// reading the file
 		BufferedReader br = new BufferedReader(new FileReader(inputFile));
 
 		String line = "";
@@ -121,19 +121,19 @@ public class MapReader {
 		HashMap<String, Territory> territories = new HashMap<String, Territory>();
 		
 
-		while ((line = br.readLine()) != null) {
+		while ((line = br.readLine()) != null) {//writing the map details
 			if (line.equalsIgnoreCase("[Map]")) {
 				while (!(line = br.readLine()).equalsIgnoreCase("") || line.startsWith("[")) {
 					String[] columns = line.split("=");
 					mapDetails.put(columns[0], columns[1]);
 				}
 				System.out.println("map : " + mapDetails);
-			} else if (line.equalsIgnoreCase("[Continents]")) {
+			} else if (line.equalsIgnoreCase("[Continents]")) {//writing the continents in file
 				while (!(line = br.readLine()).equalsIgnoreCase("") || line.startsWith("[")) {
 					String[] columns = line.split("=");
 					continents.put(columns[0], columns[1]);
 				}
-			} else if (line.equalsIgnoreCase("[Territories]")) {
+			} else if (line.equalsIgnoreCase("[Territories]")) {// writing the territories in file
 				while ((line = br.readLine()) != null && line != "") {
 					String[] columns = line.split(",");
 					if (columns.length > 1) {
@@ -157,11 +157,16 @@ public class MapReader {
 		boolean isValidMap = new ValidateMapReader().isMapValid(continents, territories);
 		return isValidMap?new RiskMap(mapDetails, continents, territories): null;
 	}
-	
+	/**
+	 * Method to get the links of the country
+	 * @param countryName the name of the country
+	 * @param path the path of the file
+	 * @return links array list of links
+	 */
 	public ArrayList getLinksOfCountry(String countryName, File path){
 		ArrayList<String> links = new ArrayList<>();
 		try{	
-			String countrySelected = countryName;
+			String countrySelected = countryName;//reading the file
 			File inputFile = new File(path.getName());
 			BufferedReader br = new BufferedReader(new FileReader(inputFile));
 			String thisLine = "";
