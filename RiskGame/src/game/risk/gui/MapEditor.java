@@ -54,8 +54,8 @@ public static void main(String[] args) throws Exception
     changeContinent=new JButton("Change Continent");
     deleteCountryLink = new JButton("Delete Link");
     addCountryLink = new JButton("Add Link");
-    addContinent=new JButton("+");
-    deleteContinent= new JButton("-");
+    addContinent=new JButton("ADD");
+    deleteContinent= new JButton("DELETE");
     viewCountriesOfContinent = new JButton("View Countries");    
     
     addadjacentcountry= new JButton("+");
@@ -101,9 +101,9 @@ public static void main(String[] args) throws Exception
     deleteCountry.setBounds(640 ,70,160,30);
     changeContinent.setBounds(640,100,160,30);
     assignNewContinent.setBounds(560,320,120,40);
-    addContinent.setBounds(230,80,30,20);
+    addContinent.setBounds(230,80,60,20);
     viewCountriesOfContinent.setBounds(220,110 ,150,30);
-    deleteContinent.setBounds(270, 80, 30, 20);
+    deleteContinent.setBounds(290, 80, 90, 20);
     continentSelected.setBounds(40,250 , 150,20);
     countriesOfSelectedContinent.setBounds(200 , 250 , 150 ,20);
     selectedContinentField.setBounds(40, 280 , 150 ,20);
@@ -486,7 +486,7 @@ public static void main(String[] args) throws Exception
   	    	
   	    	MapWriter mp = new MapWriter(MAP_FILE_NAME);
   	    	
-  	    	 // setting up the visibility of teh components		
+  	    	 // setting up the visibility of the components		
   	    newcountryname.setVisible(false);
   	    selectContinentForNewCountry.setVisible(false);
   	    selectAdjacentCountry.setVisible(false);
