@@ -38,7 +38,15 @@ public class Validation
 
 		return true;
 	}
-
+/**
+ * Method to validate that a country cannot select itself to add as link
+ * @param countryName the name of the country
+ * @param linkName the name of the link
+ * @param thisLine
+ * @return false if country can add itself as link
+ * @return true if country cannot add itself as link
+ * @throws Exception
+ */
 	public boolean validateAddLinkAddingItself(String countryName, String linkName, String thisLine) throws Exception {
 		if (countryName.equals(linkName)) {
 			return false;
