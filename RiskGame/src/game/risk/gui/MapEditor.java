@@ -19,7 +19,7 @@ import game.risk.util.Validation;
  * @author Himanshu Amanpreet
  *
  */
-public class LoadMap {
+public class MapEditor {
 /**
  * The Main method.	
  * @param args
@@ -221,7 +221,7 @@ public static void main(String[] args) throws Exception
    
     public void actionPerformed(ActionEvent e){ 
     	
-    	LoadMap loadmap = new LoadMap();
+    	MapEditor loadmap = new MapEditor();
     	JTextField name = new JTextField();
     	JTextField value = new JTextField();
     	Object[] message = {
