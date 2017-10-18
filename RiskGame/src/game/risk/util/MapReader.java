@@ -102,7 +102,11 @@ public class MapReader {
 		
 		return continent;
 	}
-	
+	/**
+	 * Method to readMap
+	 * @param MapFile The map file
+	 * @throws Exception
+	 */
 	public RiskMap readMap(String MapFile) throws Exception {
 
 		if(MapFile.equalsIgnoreCase("") || MapFile.equals(null)){
