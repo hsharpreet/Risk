@@ -258,8 +258,9 @@ public class MapReader {
                     }
                 }
             }
-            riskMap = new RiskMap(continents, territories);
-            return riskMap;
+            
+            boolean isValid = new ValidateMapReader().isMapValid(continents, territories);
+            return isValid ? new RiskMap(continents, territories): null;
 
         } catch (Exception ex)
         {
