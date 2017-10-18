@@ -6,6 +6,7 @@ wrap=yes
 scroll=horizontal
 
 [Continents]
+test=123
 North America=5
 South America=2
 Africa=3
