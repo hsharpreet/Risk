@@ -54,7 +54,14 @@ public class Validation
 		return true;
 
 	}
-
+/**
+ * Method to validate that the links delete which are selected to delete
+ * @param link the link to be deleted
+ * @param mapFileName the name of the map file
+ * @return true if the link delete
+ * @return false if the link do not delete
+ * @throws Exception
+ */
 	public boolean validateLinkToDelete(String link, String mapFileName) throws Exception {
 		String linked_country = link;
 		String mapFile = mapFileName;
@@ -76,7 +83,14 @@ public class Validation
 	}
 	
 	
-	//this function is called on delete continent option to check that countries to be deleted after deleting continent will not leave map as invalid
+	
+	/**
+	 * Method to check delete continent option to check that countries to be deleted after deleting continent will not leave map as invalid
+	 * @param countriesListData the list of countries
+	 * @param mapFileName the file name
+	 * @return status the status of the process
+	 * @throws Exception
+	 */
 	public String  checkTerritoriesBeforeDeletingContinent(ArrayList<String> countriesListData , String mapFileName) throws Exception
 	{
 		Validation validate= new Validation();
