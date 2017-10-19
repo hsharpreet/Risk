@@ -4,6 +4,10 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import game.risk.gui.MapEditor;
+import game.risk.util.MapReader;
+import game.risk.util.MapWriter;
+import game.risk.util.RiskMap;
 import game.risk.util.Validation;
 
 public class ValidationTest {
@@ -89,6 +93,7 @@ public class ValidationTest {
 		
 		assertFalse(result);
 	}
+	
 	
 	
 }
