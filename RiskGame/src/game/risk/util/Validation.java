@@ -123,8 +123,15 @@ public class Validation
 		return status;	
 	}
 	
-	//This method checks before deleting a territory that all its adjacent territories does not have just 1 adjacent territory i.e the one we wish to delete
-			public boolean checkAdjacentTerritoryLinkBeforeDelete(String thisLine ,  String mapFileName) throws Exception {
+	
+	/** Method to check before deleting a territory that all its adjacent territories does not have just 1 adjacent territory i.e the one we wish to delete
+	 * @param thisLine 
+	 * @param mapFileName
+	 * @return false if adjacent territories have more than 1 adjacent territory
+	 * @return true if adjacent territories have just 1 adjacent territory
+	 * @throws Exception
+	 */
+	public boolean checkAdjacentTerritoryLinkBeforeDelete(String thisLine ,  String mapFileName) throws Exception {
 				String line = thisLine;
 				String[] columns = line.split(",");
 				for (int i = 4; i < columns.length; i++) {
