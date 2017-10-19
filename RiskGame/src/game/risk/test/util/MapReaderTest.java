@@ -22,6 +22,7 @@ public class MapReaderTest {
 
 	/**
 	 * Method which will run before every test method
+	 * 
 	 * @throws java.lang.Exception
 	 */
 	
