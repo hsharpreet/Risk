@@ -31,7 +31,7 @@ public static void main(String[] args) throws Exception
 
 {  
 	
-	String MAP_FILE_NAME = "WorldDeleteInvalid3.map";
+	String MAP_FILE_NAME = "World.map";
     JFrame f=new JFrame("MAP GUI");  
     // Declaration
     JButton addCountry,addContinent ,deleteContinent, addadjacentcountry , submitNewCountry , deleteCountry ,changeContinent ,assignNewContinent, viewCountriesOfContinent , deleteCountryLink , deleteSelectedLinkOfCountry ,countrySelectedToShowLinksToDeleteButton , addCountryLink , countrySelectedToShowLinksToAddButton;
