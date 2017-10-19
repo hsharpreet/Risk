@@ -274,7 +274,7 @@ public static void main(String[] args) throws Exception
             Validation validate = new Validation();
             
         	    try {
-        	    	ArrayList<String> countriesListData = mapWriter.getCountriesOfContinent(continentsComboBox.getSelectedItem().toString());
+        	    	ArrayList<String> countriesListData = mapreader.getCountriesOfContinent(continentsComboBox.getSelectedItem().toString(),MAP_FILE_NAME);
         	  
         	    	status =validate.checkTerritoriesBeforeDeletingContinent(countriesListData ,MAP_FILE_NAME);
         	    	if(status.equals("OK"))
@@ -512,7 +512,7 @@ public static void main(String[] args) throws Exception
   	    
   	    	territorySelected.setText(countryComboBox.getSelectedItem().toString());
   	    	territorySelected.setFocusable(false);
- 	    presentContinentField.setText(mp.getPresentContinent(territorySelected.getText()));
+ 	    presentContinentField.setText(riskmap.getTerritories().get(territorySelected.getText()).getContinent());
  	    presentContinentField.setFocusable(false);
   	        }  
   	    });  
@@ -575,7 +575,7 @@ public static void main(String[] args) throws Exception
   			ArrayList countriesListData = new ArrayList<String>();// display countries from array list.
   			countriesListData.clear();
   			countriesOfSelectedContinentCB.removeAllItems();
-  			countriesListData = mp.getCountriesOfContinent(continentsComboBox.getSelectedItem().toString());
+  			countriesListData = mapreader.getCountriesOfContinent(continentsComboBox.getSelectedItem().toString(), MAP_FILE_NAME);
   			
   			for(int i = 0 ; i<countriesListData.size() ; i++)
   			{
@@ -636,10 +636,10 @@ public static void main(String[] args) throws Exception
             
 	    	try 
       {
-			ArrayList countriesLink = new ArrayList<String>();
+		    java.util.List<String> countriesLink = new ArrayList<String>();
 			countriesLink.clear();
 			linksOfSelectedCountryCB.removeAllItems();
-			countriesLink = mp.getLinksOfCountry(countryComboBox.getSelectedItem().toString());
+			countriesLink = riskmap.getTerritories().get(countryComboBox.getSelectedItem().toString()).getNeighbouringTerritories();
 			
 			for(int i = 0 ; i<countriesLink.size() ; i++)
 			{
