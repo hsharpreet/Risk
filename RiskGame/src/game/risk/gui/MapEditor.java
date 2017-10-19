@@ -38,7 +38,7 @@ public static void loadMap(String file)throws Exception
 	String MAP_FILE_NAME = file;
     JFrame f=new JFrame("MAP GUI");  
     // Declaration
-    JButton addCountry,addContinent ,deleteContinent, addadjacentcountry , submitNewCountry , deleteCountry ,changeContinent ,assignNewContinent, viewCountriesOfContinent , deleteCountryLink , deleteSelectedLinkOfCountry ,countrySelectedToShowLinksToDeleteButton , addCountryLink , countrySelectedToShowLinksToAddButton;
+    JButton addCountry,addContinent ,deleteContinent, addadjacentcountry , submitNewCountry , deleteCountry ,changeContinent ,assignNewContinent, viewCountriesOfContinent , deleteCountryLink , deleteSelectedLinkOfCountry ,countrySelectedToShowLinksToDeleteButton , addCountryLink , countrySelectedToShowLinksToAddButton , saveMap;
     JLabel continentLabel,countryLabel , newcountrynamelabel ,continentfornewcountry , adjacenttonewcountry ,selectedTerritoryToModify , presentContinent, selectNewContinentToAssign , continentSelected , countriesOfSelectedContinent ,countrySelectedToShowLinksToDeleteLabel , linksOfSelectedCountryLabel;  
     JComboBox continentsComboBox,countryComboBox;
     JTextField newcountryname , territorySelected  , presentContinentField , selectedContinentField , countrySelectedToShowLinksToDeleteTF ;
@@ -96,6 +96,7 @@ public static void loadMap(String file)throws Exception
     countrySelectedToShowLinksToDeleteButton = new JButton("Delete Link");
     countrySelectedToShowLinksToAddButton = new JButton("Add Link");
     linksOfSelectedCountryLabel = new JLabel("Link to Modify");
+    saveMap = new JButton("Go Back");
     linksOfSelectedCountryCB = new JComboBox<>();
    
     
@@ -146,6 +147,7 @@ public static void loadMap(String file)throws Exception
     linksOfSelectedCountryCB.setBounds(560 , 250 , 120 , 40);
     linksOfSelectedCountryLabel.setBounds(560,200,120,40);
     countrySelectedToShowLinksToAddButton.setBounds(430 , 320 , 120,50);
+    saveMap.setBounds(450 , 400 , 80 ,30);
      
  // appending the components 
     f.add(continentLabel);
@@ -188,6 +190,7 @@ public static void loadMap(String file)throws Exception
     f.add(countrySelectedToShowLinksToDeleteLabel);
     f.add(linksOfSelectedCountryCB);
     f.add(linksOfSelectedCountryLabel);
+    f.add(saveMap);
     
  // setting the visibility of the components
     newcountryname.setVisible(false);
@@ -796,7 +799,14 @@ public static void loadMap(String file)throws Exception
           
           });  
       
-    
+      saveMap.addActionListener(new ActionListener(){  
+      	
+          public void actionPerformed(ActionEvent e){ 
+          	// setting the visibility of components
+           	
+        	f.dispose();
+              }  
+          });  
  
     
     f.setSize(900,500);  
