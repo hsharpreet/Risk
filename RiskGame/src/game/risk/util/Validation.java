@@ -55,7 +55,7 @@ public class Validation
 
 	}
 /**
- * Method to validate that the links delete which are selected to delete
+ * Method to validate whether territory could be deleted if neighbouring countries are more than 1
  * @param link the link to be deleted
  * @param mapFileName the name of the map file
  * @return true if the link delete
@@ -72,6 +72,7 @@ public class Validation
 			if (line.equalsIgnoreCase("[Territories]")) {
 				while ((line = br.readLine()) != null) {
 					String[] column_adjacentTerritory = line.split(",");
+					//if neighbouring countries are more than 1 
 					if (linked_country.equals(column_adjacentTerritory[0]) && column_adjacentTerritory.length > 5) {
 						
 						return true;

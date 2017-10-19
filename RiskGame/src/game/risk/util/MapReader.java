@@ -35,7 +35,6 @@ public class MapReader {
      */
 	public static Map<String, ArrayList<String>> continetAndItsCountries(String path){
 		MapReader mapReader = new MapReader();//an object of MapReader
-		MapWriter mapWriter = new MapWriter(path);// an object of mapWriter
 		RiskMap riskmap;
 		Map<String, ArrayList<String>> continetAndItsCountries = new HashMap<String, ArrayList<String>>();
 		try {
@@ -62,7 +61,6 @@ public class MapReader {
 		try {
 			File inputFile = new File(path);// Code to read from temp.map
 			BufferedReader br = new BufferedReader(new FileReader(inputFile));
-			File outFile = new File("temp.map");
 			String thisLine = "";
 			while ((thisLine = br.readLine()) != null) {
 				if (thisLine.equalsIgnoreCase("[Territories]")) {
