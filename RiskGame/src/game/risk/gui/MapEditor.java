@@ -31,7 +31,11 @@ public static void main(String[] args) throws Exception
 
 {  
 	
-	String MAP_FILE_NAME = "World.map";
+}
+public static void loadMap(String file)throws Exception
+{
+	
+	String MAP_FILE_NAME = file;
     JFrame f=new JFrame("MAP GUI");  
     // Declaration
     JButton addCountry,addContinent ,deleteContinent, addadjacentcountry , submitNewCountry , deleteCountry ,changeContinent ,assignNewContinent, viewCountriesOfContinent , deleteCountryLink , deleteSelectedLinkOfCountry ,countrySelectedToShowLinksToDeleteButton , addCountryLink , countrySelectedToShowLinksToAddButton;
@@ -805,7 +809,7 @@ public static void main(String[] args) throws Exception
     
 
     
-    f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 }  
 
 

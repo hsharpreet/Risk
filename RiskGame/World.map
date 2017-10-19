@@ -6,6 +6,7 @@ wrap=yes
 scroll=horizontal
 
 [Continents]
+hhhssss=223
 North America=5
 South America=2
 Africa=3
@@ -45,7 +46,7 @@ Southern Europe,184,102,Europe,Northern Europe,Ukraine,Middle East,Egypt,North A
 Ukraine,202,84,Europe,Ural,Afghanistan,Middle East,Southern Europe,Northern Europe,Scandinavia
 
 Middle East,206,123,Asia,Ukraine,Afghanistan,India,Southern Europe,Egypt,East Africa
-Ural,243,64,Asia,Siberia,China,Afghanistan,Ukraine
+Ural,243,64,hhhssss,Siberia,China,Afghanistan,Ukraine
 Afghanistan,230,108,Asia,Ural,China,India,Middle East,Ukraine
 India,242,128,Asia,China,Siam,Afghanistan,Middle East
 Siberia,274,68,Asia,Yatusk,Irkutsk,Mongolia,China,Ural

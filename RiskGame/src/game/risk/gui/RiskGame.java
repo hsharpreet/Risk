@@ -60,6 +60,7 @@ public class RiskGame extends javax.swing.JFrame
         jLabel1 = new javax.swing.JLabel();
         cbPlayerCount = new javax.swing.JComboBox<>();
         btLoad = new javax.swing.JButton();
+        btMapEditor = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jpPlayground = new javax.swing.JPanel();
 
@@ -88,12 +89,35 @@ public class RiskGame extends javax.swing.JFrame
 
         cbPlayerCount.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2", "3", "4", "5","6" }));
 
+        btMapEditor.setText("Edit Map");
+        btMapEditor.addActionListener(new ActionListener(){  
+        	 
+            public void actionPerformed(ActionEvent e)
+           
+            { 
+       MapEditor editor = new MapEditor();
+       try {
+    	  
+		editor.loadMap(tfMapFile.getText());
+	} catch (Exception e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+            } 
+            
+            }); 
+        
         btLoad.setText("Load");
         btLoad.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                btLoadActionPerformed(evt);
+            	
+            	if(tfMapFile.getText().endsWith(".map") || tfMapFile.getText().endsWith(".MAP")){
+					btLoadActionPerformed(evt);
+				}else{
+					JOptionPane.showMessageDialog(jpPlayground, "Map File could not read. Try again !");
+				}
             }
         });
 
@@ -102,20 +126,22 @@ public class RiskGame extends javax.swing.JFrame
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(tfMapFile, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addComponent(btBrowse, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(58, 58, 58)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(cbPlayerCount, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59)
-                .addComponent(btLoad, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(312, 312, 312))
-        );
+                    .addGap(9, 9, 9)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(10, 10, 10)
+                    .addComponent(tfMapFile, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(12, 12, 12)
+                    .addComponent(btBrowse, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(58, 58, 58)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(10, 10, 10)
+                    .addComponent(cbPlayerCount, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(59, 59, 59)
+                    .addComponent(btLoad, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(59, 59, 59)
+                    .addComponent(btMapEditor, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(59, 59, 59) )
+            );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -126,7 +152,9 @@ public class RiskGame extends javax.swing.JFrame
                     .addComponent(btBrowse, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbPlayerCount, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btLoad, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btLoad, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btMapEditor, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+               
                 .addGap(15, 15, 15))
         );
 
@@ -537,6 +565,7 @@ public class RiskGame extends javax.swing.JFrame
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btBrowse;
     private javax.swing.JButton btLoad;
+    private javax.swing.JButton btMapEditor;
     private javax.swing.JComboBox<String> cbPlayerCount;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
