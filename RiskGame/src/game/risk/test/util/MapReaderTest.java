@@ -69,34 +69,6 @@ public class MapReaderTest {
    assertNull(riskMap);
    
 	}
-	/**
-	 * Method to test GetContinentofACountry 
-	 */
-	@Test
-	public void testGetContinentOfACountry_validCountry() {
-		System.out.println("\ntestGetContinentOfACountry_validCountry.........");
-   MapReader mapReader = new MapReader();
-   String path = "World.map";
-   String country =  "Alberta";
-   String continent = mapReader.getContinentOfACountry(country, path);
-   assertEquals("North America", continent);
-   assertNotNull(continent);
-   
-	}
-   /**
-    * Method to test GetContinentofACountry
-    */
-	@Test
-	public void testGetContinentOfACountry_InvalidCountry() {
-		System.out.println("\ntestGetContinentOfACountry_InvalidCountry.........");
-   MapReader mapReader = new MapReader();
-   String path = "World.map";
-   String country =  "hello";
-   String continent = mapReader.getContinentOfACountry(country, path);
-   System.out.println("testGetContinentOfACountry_InvalidCountry"+continent);
-   assertTrue(continent.isEmpty());
-   
-	}
 
 
 }
