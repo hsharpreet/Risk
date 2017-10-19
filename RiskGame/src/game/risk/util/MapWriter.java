@@ -277,7 +277,6 @@ public class MapWriter {
 								}
 								newLine = newLine.substring(0, newLine.length() - 1);
 								printWriter.println(newLine);
-								System.out.println(newContinent + "------" + newLine);
 							} else {
 								printWriter.println(thisLine);
 							}

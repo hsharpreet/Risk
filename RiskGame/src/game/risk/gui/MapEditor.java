@@ -546,7 +546,7 @@ public static void loadMap(String file)throws Exception
     	    	try 
           {
   			mp.assignNewContinent((String) selectModifiedContinentCB.getSelectedItem() ,territorySelected.getText());
-  			
+  			JOptionPane.showMessageDialog(f,"Territory "+territorySelected.getText()+" is assigned new continent "+selectModifiedContinentCB.getSelectedItem());
   		} catch (Exception e1) {
   			// TODO Auto-generated catch block
   			e1.printStackTrace();
