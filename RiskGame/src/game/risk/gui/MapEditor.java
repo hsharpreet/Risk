@@ -18,13 +18,15 @@ import game.risk.util.RiskMap;
 import game.risk.util.Validation;    
 /**
  * A java class to Load the Map 
- * @author Himanshu Amanpreet
+ * @author Himanshu Amanpreet 
  *
  */
 public class MapEditor {
 /**
  * The Main method.	
  * @param args
+ * 
+ * 
  * @throws Exception
  */
 public static void main(String[] args) throws Exception 
