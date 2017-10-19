@@ -32,7 +32,7 @@ public class MapReaderTest {
 		
 	}
 	/**
-	 * Method to test ContinentInCountries method
+	 * Method to test ContinentInCountries method for invalid continents in the countries
 	 * @throws Exception
 	 */
 	@Test
@@ -45,7 +45,7 @@ public class MapReaderTest {
    
 	}
     /**
-     * A method to test the functionality if countries have no neighbors 
+     * A method to test the functionality of the method if countries have no neighbors 
      * @throws Exception
      */
 	@Test
@@ -58,7 +58,7 @@ public class MapReaderTest {
    
 	}
 	/**
-	 * Method to test Read map countries with asymmetric neighbors
+	 * Method to test Read map countries if the country has asymmetric neighbors
 	 * @throws Exception
 	 */
 	@Test

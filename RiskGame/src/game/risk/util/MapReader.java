@@ -30,7 +30,7 @@ public class MapReader {
 	}
     
 	/**
-	 * Method to get Countries of the continents
+	 * Method to get Countries of the continents from the file 
 	 * @param selectedContinent the continent whose countries have to be listed 
 	 * @param path the path of the file
 	 * @return countriesList list of the countries of the continents
@@ -127,7 +127,7 @@ public class MapReader {
 		return isValidMap?new RiskMap(mapDetails, continents, territories): null;
 	}
 	/**
-	 * Method to get the links of the country
+	 * Method to get the links of the countries from the file 
 	 * @param countryName the name of the country
 	 * @param path the path of the file
 	 * @return links array list of links
@@ -237,7 +237,13 @@ public class MapReader {
             return null;
         }
     }
-    
+    /**
+     * Method to get the territory by taking name from the user
+     * @param name the name from the user
+     * @param territoryList the hashMap consisting of territories
+     * @return t the territory if the territory is found
+     * @return null if the territory is not found
+     */
 	public Territory getTerritoryByName(String name, Map<String,Territory> territoryList){
 		for(Territory t : territoryList.values()){
 			if(t.getName().equalsIgnoreCase(name)){

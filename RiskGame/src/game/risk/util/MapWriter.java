@@ -30,7 +30,7 @@ public class MapWriter {
 		MapWriter writer = new MapWriter("World.map");
 	}
 /**
- * Method to add continent in the file
+ * Method to add continent in the file with its name and the number of armies
  * @param name the name of the continent
  * @param value the value of the armies which a player receives during reenforcement if he owns all the countries of the continent
  * @throws IOException
@@ -56,13 +56,9 @@ public class MapWriter {
 		outFile.renameTo(inputFile);
 	}
 
-	/*
-	 * 
-	 * Method to delete continent from the map
-	 * 
-	 */
+
 /**
- * Method to delete continent
+ * Method to delete continent by writing it into temp.map from world.map
  * @param name the name of the continents
  * @throws IOException
  */
@@ -113,7 +109,7 @@ public class MapWriter {
 		outFile.renameTo(inputFile);
 	}
   /**
-   * Method to add new country link to territories
+   * Method to add new country neighbors to territories
    * @param newCountryEntry the entry of new country 
    * @param adjacentCountriesToNewCountry the adjacent countries of the new country
    * @throws Exception 
@@ -152,7 +148,7 @@ public class MapWriter {
 		outFile.renameTo(inputFile);
 	}
 /**
- * Method to delete territory
+ * Method to delete territory from world.map
  * @param territoryToDelete the territory to be deleted
  * @return status status of the process
  * @throws Exception
@@ -198,7 +194,7 @@ public class MapWriter {
 
 	}
 /**
- * Method to delete links of the deleted territory from others 
+ * Method to delete neighbors of the deleted territory from the file 
  * @param territoryList the list of the territories
  * @param territoryToDelete the territory to be deleted
  * @throws Exception
@@ -299,7 +295,7 @@ public class MapWriter {
 
 
 	/**
-	 * Method to delete the link 
+	 * Method to delete the neighbor 
 	 * @param link the link to be deleted
 	 * @param country the country whose link has to be deleted
 	 * @return status
@@ -308,7 +304,7 @@ public class MapWriter {
 	 
 	public String deleteLink(String link , String country)
 	{
-		Validation validate = new Validation();// object of vaidation class
+		Validation validate = new Validation();// object of validation class
 		String status = "OK";
 		try
 		{
@@ -379,7 +375,7 @@ public class MapWriter {
 	
 	}
 /**
- * Method to delete links of modified territory
+ * Method to delete neighbors of modified territory
  * @param link an array list of links
  * @param country the country whose link will be deleted
  * @throws Exception
@@ -453,7 +449,7 @@ public class MapWriter {
 	
 	}
 /**
- * Method to add link
+ * Method to add neighbors if the neighbor does not exist already
  * @param selectedItem the selected link 
  * @param text the country to which the link will be added
  * @return the status of the process
