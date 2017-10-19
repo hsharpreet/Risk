@@ -6,6 +6,10 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import game.risk.model.Territory;
 /**
  * Class to validate MapWriter
  * @author Team
@@ -92,38 +96,25 @@ public class Validation
 	 * @return status the status of the process
 	 * @throws Exception
 	 */
-	public String  checkTerritoriesBeforeDeletingContinent(ArrayList<String> countriesListData , String mapFileName) throws Exception
-	{
-		Validation validate= new Validation();
-		String status = "OK";
-		String thisLine = "";
-		for(int j= 0 ; j<countriesListData.size() ; j++)
-		{
-			File inputFile = new File(mapFileName);
-			BufferedReader br = new BufferedReader(new FileReader(inputFile));	
-	      
-			while ((thisLine = br.readLine()) != null) {
-			
-			if (thisLine.equalsIgnoreCase("[Territories]")) {
-				while ((thisLine = br.readLine()) != null && thisLine != "") {
-					String[] columns = thisLine.split(",");
-					if (columns[0].equals(countriesListData.get(j))) {
-						if (validate.checkAdjacentTerritoryLinkBeforeDelete(thisLine , mapFileName)) {
-							continue;
-						} else {
-							status = "ERROR";
-						}
-					}
-					
+	public boolean checkTerritoriesBeforeDeletingContinent(String continent, String mapFile) throws Exception {
+		MapReader mapReader = new MapReader();
+		RiskMap riskMap = mapReader.readMap(mapFile);
+		Map<String, Territory> territoryListForContinent = mapReader.getTerritoriesOfContinent(continent, mapFile);
+		for (Territory territory : territoryListForContinent.values()) {
+			for (String neighbour : territory.getNeighbouringTerritories()) {
+				Territory neighbourTerritory = mapReader.getTerritoryByName(neighbour, riskMap.getTerritories());
+				neighbourTerritory.getNeighbouringTerritories().removeAll(territoryListForContinent.keySet());
+				if (!neighbourTerritory.getContinent().equalsIgnoreCase(continent)
+						&& neighbourTerritory.getNeighbouringTerritories().size() == 0) {
+					return false;
 				}
 			}
+
 		}
-			br.close();
-		}
-		
-		return status;	
+		return true;
 	}
 	
+
 	
 	/** Method to check before deleting a territory that all its adjacent territories does not have just 1 adjacent territory i.e the one we wish to delete
 	 * @param thisLine 
@@ -132,27 +123,19 @@ public class Validation
 	 * @return true if adjacent territories have just 1 adjacent territory
 	 * @throws Exception
 	 */
-	public boolean checkAdjacentTerritoryLinkBeforeDelete(String thisLine ,  String mapFileName) throws Exception {
-				String line = thisLine;
-				String[] columns = line.split(",");
-				for (int i = 4; i < columns.length; i++) {
-					File inputFile = new File(mapFileName);
-					BufferedReader br = new BufferedReader(new FileReader(inputFile));
-					while ((line = br.readLine()) != null) {
-						if (line.equalsIgnoreCase("[Territories]")) {
-							while ((line = br.readLine()) != null) {
-								String[] column_adjacentTerritory = line.split(",");
-								if (columns[i].equals(column_adjacentTerritory[0]) && column_adjacentTerritory.length == 5) {
-				//this check is to allow to delete territory even if length is 5 because the only adjacent country of this country is also to be deleted since they are of same continent
-									if(!(columns[3].equals(column_adjacentTerritory[3])))
-									return false;
-								}
-							}
-						}
-					}
-				}
-				return true;
+	public boolean checkAdjacentTerritoryLinkBeforeDelete(String territoryToBeDeleted, String mapFileName)
+			throws Exception {
+		MapReader mapReader = new MapReader();
+		RiskMap riskMap = mapReader.readMap(mapFileName);
+		Territory territory = mapReader.getTerritoryByName(territoryToBeDeleted, riskMap.getTerritories());
+		for (String neighbour : territory.getNeighbouringTerritories()) {
+			Territory neighbourTerritory = mapReader.getTerritoryByName(neighbour, riskMap.getTerritories());
+			neighbourTerritory.getNeighbouringTerritories().remove(territoryToBeDeleted);
+			if (neighbourTerritory.getNeighbouringTerritories().size() == 0) {
+				return false;
 			}
-		
-
+		}
+		return true;
+	}
+			
 }

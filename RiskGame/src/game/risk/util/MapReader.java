@@ -28,47 +28,36 @@ public class MapReader {
 		//System.out.println(riskMap.getTerritories().keySet().size());
 		//new MapReader().getContinentOfACountry("", "World.map");
 	}
-    /**
-     * Method to store continents and its countries in a hashMap
-     * @param path the path of the file
-     * @return continentsAndItsCountries
-     */
-	public static Map<String, ArrayList<String>> continetAndItsCountries(String path){
-		MapReader mapReader = new MapReader();//an object of MapReader
-		RiskMap riskmap;
-		Map<String, ArrayList<String>> continetAndItsCountries = new HashMap<String, ArrayList<String>>();
-		try {
-			riskmap = mapReader.readMap(path);
-			Object[] continents = riskmap.getContinents().keySet().toArray();
-			
-			for(int i = 0 ; i <continents.length ; i++){
-				continetAndItsCountries.put(continents[i].toString(), mapReader.getCountriesOfContinent(continents[i].toString(), path));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return continetAndItsCountries;
-	}
+    
 	/**
 	 * Method to get Countries of the continents
 	 * @param selectedContinent the continent whose countries have to be listed 
 	 * @param path the path of the file
 	 * @return countriesList list of the countries of the continents
 	 */
-	public ArrayList<String> getCountriesOfContinent(String selectedContinent, String path) {
-		ArrayList<String> countriesList = new ArrayList<String>();
+	public Map<String, Territory> getTerritoriesOfContinent(String selectedContinent, String path) {
+		HashMap<String, Territory> territories = new HashMap<String, Territory>();
 		try {
 			File inputFile = new File(path);// Code to read from temp.map
 			BufferedReader br = new BufferedReader(new FileReader(inputFile));
 			String thisLine = "";
+			
 			while ((thisLine = br.readLine()) != null) {
 				if (thisLine.equalsIgnoreCase("[Territories]")) {
 					while ((thisLine = br.readLine()) != null && thisLine != " ") {
 						String[] columns = thisLine.split(",");
 						if (columns.length >= 5) {
 							if (columns[3].equals(selectedContinent)){
-								countriesList.add(columns[0]);
+								Territory territoryObj = new Territory();
+								territoryObj.setName(columns[0]);
+								territoryObj.setCoordinateX(columns[1]);
+								territoryObj.setCoordinateY(columns[2]);
+								territoryObj.setContinent(columns[3]);
+								List<String> tempNeighboursList = new ArrayList<String>();
+								for (int i = 4; i < columns.length; i++)
+									tempNeighboursList.add(columns[i]);
+								territoryObj.setNeighbouringTerritories(tempNeighboursList);
+								territories.put(territoryObj.getName(), territoryObj);
 							} 
 						}
 					}
@@ -78,27 +67,9 @@ public class MapReader {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return countriesList;
+		return territories;
 	}
-	/**
-	 * A method to get Continent of a country
-	 * @param country country whose continent has to be found
-	 * @param path path of the file
-	 * @return continent 
-	 */
-	public String getContinentOfACountry(String country, String path) {
-		Map<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
-		map = continetAndItsCountries(path);
-		String continent = "";
-		
-		for(Entry<String, ArrayList<String>> e: map.entrySet()){
-		    if(e.getValue().contains(country)){
-		    	continent = e.getKey();
-		    }
-		}
-		
-		return continent;
-	}
+
 	/**
 	 * Method to readMap for MapEditor
 	 * @param MapFile The map file
@@ -266,4 +237,13 @@ public class MapReader {
             return null;
         }
     }
+    
+	public Territory getTerritoryByName(String name, Map<String,Territory> territoryList){
+		for(Territory t : territoryList.values()){
+			if(t.getName().equalsIgnoreCase(name)){
+				return t;
+			}
+		}
+		return null;
+	}
 }

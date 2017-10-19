@@ -153,14 +153,16 @@ public class MapWriter {
 	}
 /**
  * Method to delete territory
- * @param terittoryToDelete the territory to be deleted
+ * @param territoryToDelete the territory to be deleted
  * @return status status of the process
  * @throws Exception
  */
-	public String deleteTerritory(String terittoryToDelete) throws Exception {
+	public String deleteTerritory(String territoryToDelete) throws Exception {
 		Validation validate= new Validation();
 		String status = "OK";
-		String territoryToDelete = terittoryToDelete;
+		if(!validate.checkAdjacentTerritoryLinkBeforeDelete(territoryToDelete, mapFileName)){
+			return "ERROR";
+		}
 		File inputFile = new File(mapFileName);// file path to read from
 		BufferedReader br = new BufferedReader(new FileReader(inputFile));
 		ArrayList<String> territoryList = new ArrayList<>();
@@ -174,15 +176,11 @@ public class MapWriter {
 				while ((thisLine = br.readLine()) != null && thisLine != "") {
 					String[] columns = thisLine.split(",");
 					if (columns[0].equals(territoryToDelete)) {
-						if (validate.checkAdjacentTerritoryLinkBeforeDelete(thisLine , mapFileName)) {
-							for (int i = 4; i < columns.length; i++) {
-								territoryList.add(columns[i]);
-								System.out.println("list --" + columns[i]);
-							}
-							continue;
-						} else {
-							status = "ERROR";
+						for (int i = 4; i < columns.length; i++) {
+							territoryList.add(columns[i]);
+							System.out.println("list --" + columns[i]);
 						}
+						continue;
 					}
 					printWriter.println(thisLine);
 				}

@@ -7,9 +7,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 
 import javax.swing.*;
 
+import game.risk.model.Territory;
 import game.risk.util.MapReader;
 import game.risk.util.MapWriter;
 import game.risk.util.RiskMap;
@@ -29,7 +31,7 @@ public static void main(String[] args) throws Exception
 
 {  
 	
-	String MAP_FILE_NAME = "World.map";
+	String MAP_FILE_NAME = "WorldDeleteInvalid3.map";
     JFrame f=new JFrame("MAP GUI");  
     // Declaration
     JButton addCountry,addContinent ,deleteContinent, addadjacentcountry , submitNewCountry , deleteCountry ,changeContinent ,assignNewContinent, viewCountriesOfContinent , deleteCountryLink , deleteSelectedLinkOfCountry ,countrySelectedToShowLinksToDeleteButton , addCountryLink , countrySelectedToShowLinksToAddButton;
@@ -43,7 +45,7 @@ public static void main(String[] args) throws Exception
     
     
     MapReader mapreader = new MapReader();// creating object of class MapReader
-    RiskMap riskmap = mapreader.readMap("World.map");
+    RiskMap riskmap = mapreader.readMap(MAP_FILE_NAME);
     
     riskmap.getContinents();// call to get the continents.
     
@@ -264,51 +266,54 @@ public static void main(String[] args) throws Exception
     /**
      * A method to delete continent
      */
-        deleteContinent.addActionListener(new ActionListener(){  
-        public void actionPerformed(ActionEvent e){ 
-        String status;
-        	int option = JOptionPane.showConfirmDialog(f, "All countries in this continent will also be deleted.Do you want to proceed?", "Delete Continent", JOptionPane.OK_CANCEL_OPTION);
-        	if (option == JOptionPane.OK_OPTION)// if user selects ok option 
-        	{ 
-        	    MapWriter mapWriter = new MapWriter(MAP_FILE_NAME);//Delete continent from the file
-            Validation validate = new Validation();
-            
-        	    try {
-        	    	ArrayList<String> countriesListData = mapreader.getCountriesOfContinent(continentsComboBox.getSelectedItem().toString(),MAP_FILE_NAME);
-        	  
-        	    	status =validate.checkTerritoriesBeforeDeletingContinent(countriesListData ,MAP_FILE_NAME);
-        	    	if(status.equals("OK"))
-        	    	{
-        	    for(int i=0 ; i <countriesListData.size() ; i++)
-        	    {
-        	    	mapWriter.deleteTerritoriesOfContinentDeleted(countriesListData.get(i));
-        	    }
-        	    	mapWriter.deleteContinent((String)continentsComboBox.getSelectedItem());
-        	    	continentComboBoxModel.removeElementAt(continentsComboBox.getSelectedIndex());
-        	    	for(String country: countriesListData){
-        	    		countriesComboBoxModel.removeElement(country);
-        	    	}
-        	    	}
-        	    	
-        	    	else
-        	    	{
-        	    	 	JOptionPane.showMessageDialog(f,"Cannot proceed : Deletion of some country will lead to invalid map");
-        	    	}
-    			} catch (IOException e1) {
-    				// TODO Auto-generated catch block
-    				e1.printStackTrace();
-    			} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+		deleteContinent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				boolean status;
+				int option = JOptionPane.showConfirmDialog(f,
+						"All countries in this continent will also be deleted.Do you want to proceed?",
+						"Delete Continent", JOptionPane.OK_CANCEL_OPTION);
+				if (option == JOptionPane.OK_OPTION)// if user selects ok option
+				{
+					MapWriter mapWriter = new MapWriter(MAP_FILE_NAME);
+					Validation validate = new Validation();
+
+					try {
+						String continentSelected = continentsComboBox.getSelectedItem().toString();
+						Map<String, Territory> territoriesList = mapreader.getTerritoriesOfContinent(continentSelected,
+								MAP_FILE_NAME);
+
+						status = validate.checkTerritoriesBeforeDeletingContinent(continentSelected, MAP_FILE_NAME);
+						if (status) {
+							for (Territory territoryToDelete : territoriesList.values()) {
+								mapWriter.deleteTerritoriesOfContinentDeleted(territoryToDelete.getName());
+							}
+							mapWriter.deleteContinent((String) continentsComboBox.getSelectedItem());
+							continentComboBoxModel.removeElementAt(continentsComboBox.getSelectedIndex());
+							for (Territory territoryToDelete : territoriesList.values()) {
+								countriesComboBoxModel.removeElement(territoryToDelete.getName());
+							}
+						}
+
+						else {
+							JOptionPane.showMessageDialog(f,
+									"Cannot proceed : Deletion of some country will lead to invalid map");
+						}
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
 				}
-    			
-        	} 
-        	
-        	else {
-        	    System.out.println("Delete Country Action canceled");// if user does not press OK
-        	}
-            }  
-        });
+
+				else {
+					// if user does not press OK
+					System.out.println("Delete Country Action canceled");
+				}
+			}
+		});
     /**
      * A method to add country
      */
@@ -572,14 +577,13 @@ public static void main(String[] args) throws Exception
        
     	    	try 
           {
-  			ArrayList countriesListData = new ArrayList<String>();// display countries from array list.
-  			countriesListData.clear();
+  			Map<String,Territory> countriesListData ;// display countries from array list.
   			countriesOfSelectedContinentCB.removeAllItems();
-  			countriesListData = mapreader.getCountriesOfContinent(continentsComboBox.getSelectedItem().toString(), MAP_FILE_NAME);
+  			countriesListData = mapreader.getTerritoriesOfContinent(continentsComboBox.getSelectedItem().toString(), MAP_FILE_NAME);
   			
-  			for(int i = 0 ; i<countriesListData.size() ; i++)
+  			for(Territory territory : countriesListData.values())
   			{
-  				countriesOfSelectedContinentCB.addItem(countriesListData.get(i));
+  				countriesOfSelectedContinentCB.addItem(territory.getName());
   			}
   			
   			System.out.println(countriesListData.size());
