@@ -1,4 +1,4 @@
-package game.risk.test.util;
+package game.risk.model.validation;
 
 import static org.junit.Assert.*;
 
@@ -8,7 +8,7 @@ import game.risk.gui.MapEditor;
 import game.risk.model.MapReader;
 import game.risk.model.MapWriter;
 import game.risk.model.RiskMap;
-import game.risk.util.ValidateMapWriter;
+import game.risk.model.validation.ValidateMapWriter;
 
 /**
  * Class to test Validation.java

@@ -1,4 +1,4 @@
-package game.risk.util;
+package game.risk.model.validation;
 
 import java.io.BufferedReader;
 import java.io.File;

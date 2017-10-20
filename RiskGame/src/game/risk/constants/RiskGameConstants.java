@@ -1,4 +1,4 @@
-package game.risk.util;
+package game.risk.constants;
 
 import java.awt.Color;
 

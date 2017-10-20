@@ -9,7 +9,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 
-import game.risk.util.ValidateMapWriter;
+import game.risk.model.validation.ValidateMapWriter;
 
 /**
  * Class to write in the World.map file
