@@ -2,11 +2,7 @@ package game.risk.util;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import game.risk.model.RiskMap;
@@ -36,7 +32,6 @@ public class ValidateMapWriter
 	public boolean validateAddLink(String countryName, String linkName, String thisLine) throws Exception {
 		String country = countryName;
 		String link = linkName;
-		String line = thisLine;
 		String[] columns = thisLine.split(",");
 		if (columns[0].equalsIgnoreCase(country)) {
 			for (int j = 4; j < columns.length; j++) {
@@ -156,6 +151,15 @@ public class ValidateMapWriter
 		return true;
 	}
 	
+	/**
+	 * Method to check whether a neighbouring territory can be deleted from a given territory
+	 * @param territory
+	 * @param link
+	 * @param mapFileName
+	 * @return true if the territory link can be deleted from neighbour and neighbour link can be deleted from territory
+	 * @return false if territory link cannot be deleted if only single link exist in neighbouring territory
+	 * @throws Exception
+	 */
 	public boolean checkTerritoryLinkBeforeDeleteLink(String territory,String link, String mapFileName)
 			throws Exception {
 		MapReader mapReader = new MapReader();
