@@ -70,7 +70,7 @@ public class MapEditor {
 
 		addAdjacentCountry = new JButton("Add");
 		submitNewCountry = new JButton("Submit data");
-		assignNewContinent = new JButton("Assign new continent");
+		assignNewContinent = new JButton("Change continent");
 
 		continentLabel = new JLabel("Continents");
 		countryLabel = new JLabel("Countries");
@@ -111,14 +111,14 @@ public class MapEditor {
 		addCountry.setBounds(770, 143, 160, 30);
 		deleteCountry.setBounds(770, 23, 160, 30);
 		changeContinent.setBounds(770, 53, 160, 30);
-		assignNewContinent.setBounds(560, 320, 120, 30);
-		addContinent.setBounds(230, 83, 170, 30);
-		viewCountriesOfContinent.setBounds(230, 53, 170, 30);
-		deleteContinent.setBounds(230, 23, 170, 30);
-		continentSelected.setBounds(40, 250, 150, 30);
-		countriesOfSelectedContinent.setBounds(200, 250, 150, 30);
-		selectedContinentField.setBounds(40, 280, 150, 30);
-		countriesOfSelectedContinentCB.setBounds(200, 280, 150, 30);
+		assignNewContinent.setBounds(670, 300, 120, 30);
+		addContinent.setBounds(230, 83, 180, 30);
+		viewCountriesOfContinent.setBounds(230, 53, 180, 30);
+		deleteContinent.setBounds(230, 23, 180, 30);
+		continentSelected.setBounds(40, 200, 150, 30);
+		countriesOfSelectedContinent.setBounds(200, 200, 150, 30);
+		selectedContinentField.setBounds(40, 225, 150, 30);
+		countriesOfSelectedContinentCB.setBounds(200, 225, 150, 30);
 		deleteCountryLink.setBounds(770, 83, 160, 30);
 		addCountryLink.setBounds(770, 113, 160, 30);
 
@@ -127,29 +127,29 @@ public class MapEditor {
 		continentsComboBox.setBounds(40, 24, 190, 30);
 		countryComboBox.setBounds(580, 24, 190, 30);
 
-		newcountryname.setBounds(300, 250, 120, 30);
-		selectContinentForNewCountry.setBounds(430, 250, 120, 30);
-		selectAdjacentCountry.setBounds(560, 250, 120, 30);
+		newcountryname.setBounds(460, 225, 120, 30);
+		selectContinentForNewCountry.setBounds(590, 225, 120, 30);
+		selectAdjacentCountry.setBounds(720, 225, 120, 30);
 
-		territorySelected.setBounds(430, 250, 120, 30);
-		selectModifiedContinentCB.setBounds(680, 250, 120, 30);
-		selectedTerritoryToModify.setBounds(430, 200, 120, 30);
-		selectNewContinentToAssign.setBounds(680, 200, 120, 30);
-		presentContinent.setBounds(560, 200, 120, 30);
-		presentContinentField.setBounds(560, 250, 120, 30);
+		territorySelected.setBounds(540, 225, 120, 30);
+		selectModifiedContinentCB.setBounds(810, 225, 120, 30);
+		selectedTerritoryToModify.setBounds(540, 200, 120, 30);
+		selectNewContinentToAssign.setBounds(810, 200, 120, 30);
+		presentContinent.setBounds(670, 200, 120, 30);
+		presentContinentField.setBounds(670, 225, 120, 30);
 
-		newCountryNameLabel.setBounds(300, 200, 120, 30);
-		continentForNewCountry.setBounds(430, 200, 120, 30);
-		adjacentToNewCountry.setBounds(560, 200, 120, 30);
-		addAdjacentCountry.setBounds(690, 250, 60, 30);
-		submitNewCountry.setBounds(430, 320, 120, 30);
+		newCountryNameLabel.setBounds(460, 200, 120, 30);
+		continentForNewCountry.setBounds(590, 200, 120, 30);
+		adjacentToNewCountry.setBounds(720, 200, 120, 30);
+		addAdjacentCountry.setBounds(870, 225, 60, 30);
+		submitNewCountry.setBounds(590, 300, 120, 30);
 
-		countrySelectedToShowLinksToDeleteLabel.setBounds(430, 200, 120, 30);
-		countrySelectedToShowLinksToDeleteTF.setBounds(430, 250, 120, 30);
-		countrySelectedToShowLinksToDeleteButton.setBounds(430, 320, 120, 30);
-		linksOfSelectedCountryCB.setBounds(560, 250, 120, 30);
-		linksOfSelectedCountryLabel.setBounds(560, 200, 120, 30);
-		countrySelectedToShowLinksToAddButton.setBounds(430, 320, 120, 30);
+		countrySelectedToShowLinksToDeleteLabel.setBounds(670, 200, 120, 30);
+		countrySelectedToShowLinksToDeleteTF.setBounds(670, 225, 120, 30);
+		countrySelectedToShowLinksToDeleteButton.setBounds(730, 300, 120, 30);
+		linksOfSelectedCountryCB.setBounds(810, 225, 120, 30);
+		linksOfSelectedCountryLabel.setBounds(810, 200, 120, 30);
+		countrySelectedToShowLinksToAddButton.setBounds(730, 300, 120, 30);
 		saveMap.setBounds(450, 400, 80, 30);
 
 		// appending the components
