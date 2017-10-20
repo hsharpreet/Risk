@@ -17,7 +17,7 @@ import game.risk.model.Territory;
  * @author Team
  *
  */
-public class Validation
+public class ValidateMapWriter
 
 {
 	/**

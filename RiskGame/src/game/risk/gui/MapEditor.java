@@ -15,7 +15,7 @@ import game.risk.model.Territory;
 import game.risk.util.MapReader;
 import game.risk.util.MapWriter;
 import game.risk.util.RiskMap;
-import game.risk.util.Validation;
+import game.risk.util.ValidateMapWriter;
 
 /**
  * A java class to Load the Map
@@ -291,7 +291,7 @@ public class MapEditor {
 				if (option == JOptionPane.OK_OPTION)// if user selects ok option
 				{
 					MapWriter mapWriter = new MapWriter(mapFile);
-					Validation validate = new Validation();
+					ValidateMapWriter validate = new ValidateMapWriter();
 
 					try {
 						String continentSelected = continentsComboBox.getSelectedItem().toString();

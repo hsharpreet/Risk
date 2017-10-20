@@ -8,7 +8,7 @@ import game.risk.gui.MapEditor;
 import game.risk.util.MapReader;
 import game.risk.util.MapWriter;
 import game.risk.util.RiskMap;
-import game.risk.util.Validation;
+import game.risk.util.ValidateMapWriter;
 
 /**
  * Class to test Validation.java
@@ -16,7 +16,7 @@ import game.risk.util.Validation;
  * @author Team
  *
  */
-public class ValidationTest {
+public class ValidateMapWriterTest {
 	/**
 	 * Method to test the Addlink method for adding a neighboring country which
 	 * already exists as the neighboring country
@@ -29,7 +29,7 @@ public class ValidationTest {
 		String country = "Alaska";
 		String neighbouringCountry = "Alberta";
 
-		Validation validateMapWriter = new Validation();
+		ValidateMapWriter validateMapWriter = new ValidateMapWriter();
 		boolean result = validateMapWriter.validateAddLink(country, neighbouringCountry, thisLine);
 
 		assertFalse(result);
@@ -47,7 +47,7 @@ public class ValidationTest {
 		String country = "Alaska";
 		String neighbouringCountry = "India";
 
-		Validation validateMapWriter = new Validation();
+		ValidateMapWriter validateMapWriter = new ValidateMapWriter();
 		boolean result = validateMapWriter.validateAddLink(country, neighbouringCountry, thisLine);
 
 		assertTrue(result);
@@ -65,7 +65,7 @@ public class ValidationTest {
 		String country = "Alaska";
 		String neighbouringCountry = "Alaska";
 
-		Validation validateMapWriter = new Validation();
+		ValidateMapWriter validateMapWriter = new ValidateMapWriter();
 		boolean result = validateMapWriter.validateAddLinkAddingItself(country, neighbouringCountry, thisLine);
 
 		assertFalse(result);
@@ -83,7 +83,7 @@ public class ValidationTest {
 		String country = "Alaska";
 		String neighbouringCountry = "India";
 
-		Validation validateMapWriter = new Validation();
+		ValidateMapWriter validateMapWriter = new ValidateMapWriter();
 		boolean result = validateMapWriter.validateAddLinkAddingItself(country, neighbouringCountry, thisLine);
 
 		assertTrue(result);
@@ -101,7 +101,7 @@ public class ValidationTest {
 		String countryLink = "Argentina";
 		String mapFile = "World_TerritoryWithOneNeighbour.map";
 
-		Validation validateMapWriter = new Validation();
+		ValidateMapWriter validateMapWriter = new ValidateMapWriter();
 		boolean result = validateMapWriter.validateLinkToDelete(countryLink, mapFile);
 
 		assertFalse(result);
@@ -118,7 +118,7 @@ public class ValidationTest {
 
 		String mapFile = "WorldDeleteInvalid.map";
 
-		Validation validateMapWriter = new Validation();
+		ValidateMapWriter validateMapWriter = new ValidateMapWriter();
 		boolean result = validateMapWriter.checkTerritoriesBeforeDeletingContinent("hello", mapFile);
 
 		assertFalse(result);
@@ -135,7 +135,7 @@ public class ValidationTest {
 
 		String mapFile = "WorldDeleteInvalid2.map";
 
-		Validation validateMapWriter = new Validation();
+		ValidateMapWriter validateMapWriter = new ValidateMapWriter();
 		boolean result = validateMapWriter.checkAdjacentTerritoryLinkBeforeDelete("test1", mapFile);
 
 		assertFalse(result);
@@ -146,7 +146,7 @@ public class ValidationTest {
 
 		String mapFile = "WorldDeleteInvalid3.map";
 
-		Validation validateMapWriter = new Validation();
+		ValidateMapWriter validateMapWriter = new ValidateMapWriter();
 		boolean result = validateMapWriter.checkTerritoryLinkBeforeDeleteLink("test1","test2", mapFile);
 
 		assertFalse(result);

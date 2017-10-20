@@ -167,7 +167,7 @@ public class MapWriter {
 	 * @throws Exception
 	 */
 	public String deleteTerritory(String territoryToDelete) throws Exception {
-		Validation validate = new Validation();
+		ValidateMapWriter validate = new ValidateMapWriter();
 		String status = "OK";
 		if (!validate.checkAdjacentTerritoryLinkBeforeDelete(territoryToDelete, mapFileName)) {
 			return "ERROR";
@@ -323,7 +323,7 @@ public class MapWriter {
 	 */
 
 	public String deleteLink(String link, String country) {
-		Validation validate = new Validation();// object of validation class
+		ValidateMapWriter validate = new ValidateMapWriter();// object of validation class
 		String status = "OK";
 		try {
 			ArrayList<String> al = new ArrayList<>();
@@ -430,7 +430,7 @@ public class MapWriter {
 	public String addLink(String selectedItem, String text) throws Exception
 
 	{
-		Validation validate = new Validation();
+		ValidateMapWriter validate = new ValidateMapWriter();
 		// TODO Auto-generated method stub
 		String link = selectedItem;
 		String country = text;
@@ -481,7 +481,7 @@ public class MapWriter {
 	 * @throws Exception
 	 */
 	public void deleteTerritoriesOfContinentDeleted(String terittoryToDelete) throws Exception {
-		Validation validate = new Validation();
+		ValidateMapWriter validate = new ValidateMapWriter();
 		String status = "OK";
 		String territoryToDelete = terittoryToDelete;
 		File inputFile = new File(mapFileName);// file path to read from
