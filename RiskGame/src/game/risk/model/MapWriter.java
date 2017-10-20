@@ -1,4 +1,4 @@
-package game.risk.util;
+package game.risk.model;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
+
+import game.risk.util.ValidateMapWriter;
 
 /**
  * Class to write in the World.map file

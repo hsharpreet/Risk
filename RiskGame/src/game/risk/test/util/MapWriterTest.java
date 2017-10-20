@@ -5,9 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import game.risk.model.MapReader;
+import game.risk.model.MapWriter;
 import game.risk.model.RiskMap;
-import game.risk.util.MapReader;
-import game.risk.util.MapWriter;
 
 /**
  * Class to test all the methods of MapWriter

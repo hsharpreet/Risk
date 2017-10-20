@@ -1,4 +1,4 @@
-package game.risk.util;
+package game.risk.model;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,8 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import game.risk.model.RiskMap;
-import game.risk.model.Territory;
+import game.risk.util.ValidateMapReader;
 
 /**
  * Class to read the Map

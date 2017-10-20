@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.Map;
 
+import game.risk.model.MapReader;
 import game.risk.model.RiskMap;
 import game.risk.model.Territory;
 

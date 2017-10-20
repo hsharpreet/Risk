@@ -11,10 +11,10 @@ import java.util.Map;
 
 import javax.swing.*;
 
+import game.risk.model.MapReader;
+import game.risk.model.MapWriter;
 import game.risk.model.RiskMap;
 import game.risk.model.Territory;
-import game.risk.util.MapReader;
-import game.risk.util.MapWriter;
 import game.risk.util.ValidateMapWriter;
 
 /**
