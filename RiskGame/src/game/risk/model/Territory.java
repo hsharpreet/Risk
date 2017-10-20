@@ -112,7 +112,6 @@ public class Territory {
 
 	/**
 	 * Method to append the territory information in the file
-	 * 
 	 */
 	@Override
 	public String toString() {

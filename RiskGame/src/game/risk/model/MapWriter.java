@@ -201,7 +201,6 @@ public class MapWriter {
 
 	/**
 	 * Method to delete neighbors of the deleted territory from the file
-	 * 
 	 * @param territoryList
 	 *            the list of the territories
 	 * @param territoryToDelete

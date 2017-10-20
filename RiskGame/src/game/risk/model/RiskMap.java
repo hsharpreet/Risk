@@ -6,7 +6,6 @@ import java.util.HashMap;
  * A class which stores information about the map, continents and continents
  * 
  * @author Team
- *
  */
 public class RiskMap {
 	// Declaration
