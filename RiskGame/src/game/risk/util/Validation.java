@@ -59,7 +59,7 @@ public class Validation
 
 	}
 /**
- * Method to validate whether territory could be deleted if neighbouring countries are more than 1
+ * Method to validate whether territory could be deleted if neighboring countries are more than 1
  * @param link the link to be deleted
  * @param mapFileName the name of the map file
  * @return true if the link delete
