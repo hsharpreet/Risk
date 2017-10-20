@@ -24,43 +24,37 @@ import game.risk.util.Validation;
  *
  */
 public class MapEditor {
-	/**
-	 * The Main method.
-	 * 
-	 * @param args
-	 * 
-	 * 
-	 * @throws Exception
-	 */
-	public static void main(String[] args) throws Exception
-
-	{
-
-	}
 
 	public static void loadMap(String file) throws Exception {
 
 		String MAP_FILE_NAME = file;
 		JFrame mapEditorFrame = new JFrame("MAP GUI");
+
+		
 		// Declaration
-		JButton addCountry, addContinent, deleteContinent, addadjacentcountry, submitNewCountry, deleteCountry,
-				changeContinent, assignNewContinent, viewCountriesOfContinent, deleteCountryLink,
-				deleteSelectedLinkOfCountry, countrySelectedToShowLinksToDeleteButton, addCountryLink,
-				countrySelectedToShowLinksToAddButton, saveMap;
-		JLabel continentLabel, countryLabel, newcountrynamelabel, continentfornewcountry, adjacenttonewcountry,
+		JButton addCountry, addContinent, deleteContinent, addAdjacentCountry, submitNewCountry, deleteCountry,
+		changeContinent, assignNewContinent, viewCountriesOfContinent, deleteCountryLink,
+		deleteSelectedLinkOfCountry, countrySelectedToShowLinksToDeleteButton, addCountryLink,
+		countrySelectedToShowLinksToAddButton, saveMap;
+
+		
+		JLabel continentLabel, countryLabel, newCountryNameLabel, continentForNewCountry, adjacentToNewCountry,
 				selectedTerritoryToModify, presentContinent, selectNewContinentToAssign, continentSelected,
 				countriesOfSelectedContinent, countrySelectedToShowLinksToDeleteLabel, linksOfSelectedCountryLabel;
-		JComboBox continentsComboBox, countryComboBox;
+
+		
 		JTextField newcountryname, territorySelected, presentContinentField, selectedContinentField,
 				countrySelectedToShowLinksToDeleteTF;
-		JComboBox selectContinentForNewCountry;
-		JComboBox selectAdjacentCountry, selectModifiedContinentCB, countriesOfSelectedContinentCB,
-				linksOfSelectedCountryCB;
+
+		
+		JComboBox selectContinentForNewCountry, selectAdjacentCountry, selectModifiedContinentCB, countriesOfSelectedContinentCB,
+				linksOfSelectedCountryCB, continentsComboBox, countryComboBox;
+		
 		LinkedHashSet<String> adjacentCountriesToNewCountry = new LinkedHashSet<>();
 
-		MapReader mapreader = new MapReader();// creating object of class
+		MapReader mapReader = new MapReader();// creating object of class
 												// MapReader
-		RiskMap riskmap = mapreader.readMap(MAP_FILE_NAME);
+		RiskMap riskmap = mapReader.readMap(MAP_FILE_NAME);
 
 		riskmap.getContinents();// call to get the continents.
 
@@ -70,19 +64,19 @@ public class MapEditor {
 		changeContinent = new JButton("Change Continent");
 		deleteCountryLink = new JButton("Delete Neighbour");
 		addCountryLink = new JButton("Add Neighbour");
-		addContinent = new JButton("Add Continents");
-		deleteContinent = new JButton("Delete Continents");
-		viewCountriesOfContinent = new JButton("View Countries");
+		addContinent = new JButton("Add New Continent");
+		deleteContinent = new JButton("Delete Selected Continent");
+		viewCountriesOfContinent = new JButton("View Countries Of Continent");
 
-		addadjacentcountry = new JButton("Add");
+		addAdjacentCountry = new JButton("Add");
 		submitNewCountry = new JButton("Submit data");
 		assignNewContinent = new JButton("Assign new continent");
 
 		continentLabel = new JLabel("Continents");
 		countryLabel = new JLabel("Countries");
-		newcountrynamelabel = new JLabel("Enter Name");
-		continentfornewcountry = new JLabel("Continent");
-		adjacenttonewcountry = new JLabel("Select Link");
+		newCountryNameLabel = new JLabel("Enter Name");
+		continentForNewCountry = new JLabel("Continent");
+		adjacentToNewCountry = new JLabel("Select Link");
 		selectedTerritoryToModify = new JLabel("Selected Country");
 		selectNewContinentToAssign = new JLabel("Select New Continent");
 		presentContinent = new JLabel("Present Continent");
@@ -114,48 +108,48 @@ public class MapEditor {
 		selectContinentForNewCountry = new JComboBox(continentComboBoxModel);
 		selectAdjacentCountry = new JComboBox(riskmap.getTerritories().keySet().toArray());
 		// Setting the coordinates
-		addCountry.setBounds(770, 40, 160, 30);
-		deleteCountry.setBounds(770, 70, 160, 30);
-		changeContinent.setBounds(770, 100, 160, 30);
-		assignNewContinent.setBounds(560, 320, 120, 40);
-		addContinent.setBounds(230, 80, 125, 20);
-		viewCountriesOfContinent.setBounds(220, 110, 150, 30);
-		deleteContinent.setBounds(360, 80, 135, 20);
-		continentSelected.setBounds(40, 250, 150, 20);
-		countriesOfSelectedContinent.setBounds(200, 250, 150, 20);
-		selectedContinentField.setBounds(40, 280, 150, 25);
-		countriesOfSelectedContinentCB.setBounds(200, 280, 150, 25);
-		deleteCountryLink.setBounds(770, 130, 160, 30);
-		addCountryLink.setBounds(770, 160, 160, 30);
+		addCountry.setBounds(770, 143, 160, 30);
+		deleteCountry.setBounds(770, 23, 160, 30);
+		changeContinent.setBounds(770, 53, 160, 30);
+		assignNewContinent.setBounds(560, 320, 120, 30);
+		addContinent.setBounds(230, 83, 170, 30);
+		viewCountriesOfContinent.setBounds(230, 53, 170, 30);
+		deleteContinent.setBounds(230, 23, 170, 30);
+		continentSelected.setBounds(40, 250, 150, 30);
+		countriesOfSelectedContinent.setBounds(200, 250, 150, 30);
+		selectedContinentField.setBounds(40, 280, 150, 30);
+		countriesOfSelectedContinentCB.setBounds(200, 280, 150, 30);
+		deleteCountryLink.setBounds(770, 83, 160, 30);
+		addCountryLink.setBounds(770, 113, 160, 30);
 
-		continentLabel.setBounds(40, 48, 100, 30);
-		countryLabel.setBounds(580, 48, 100, 30);
-		continentsComboBox.setBounds(40, 80, 190, 20);
-		countryComboBox.setBounds(580, 78, 190, 20);
+		continentLabel.setBounds(40, 0, 100, 30);
+		countryLabel.setBounds(580, 0, 100, 30);
+		continentsComboBox.setBounds(40, 24, 190, 30);
+		countryComboBox.setBounds(580, 24, 190, 30);
 
-		newcountryname.setBounds(300, 250, 120, 40);
-		selectContinentForNewCountry.setBounds(430, 250, 120, 40);
-		selectAdjacentCountry.setBounds(560, 250, 120, 40);
+		newcountryname.setBounds(300, 250, 120, 30);
+		selectContinentForNewCountry.setBounds(430, 250, 120, 30);
+		selectAdjacentCountry.setBounds(560, 250, 120, 30);
 
-		territorySelected.setBounds(430, 250, 120, 40);
-		selectModifiedContinentCB.setBounds(680, 250, 120, 40);
-		selectedTerritoryToModify.setBounds(430, 200, 120, 40);
-		selectNewContinentToAssign.setBounds(680, 200, 120, 40);
-		presentContinent.setBounds(560, 200, 120, 40);
-		presentContinentField.setBounds(560, 250, 120, 40);
+		territorySelected.setBounds(430, 250, 120, 30);
+		selectModifiedContinentCB.setBounds(680, 250, 120, 30);
+		selectedTerritoryToModify.setBounds(430, 200, 120, 30);
+		selectNewContinentToAssign.setBounds(680, 200, 120, 30);
+		presentContinent.setBounds(560, 200, 120, 30);
+		presentContinentField.setBounds(560, 250, 120, 30);
 
-		newcountrynamelabel.setBounds(300, 200, 120, 40);
-		continentfornewcountry.setBounds(430, 200, 120, 40);
-		adjacenttonewcountry.setBounds(560, 200, 120, 40);
-		addadjacentcountry.setBounds(690, 250, 60, 40);
-		submitNewCountry.setBounds(430, 320, 120, 50);
+		newCountryNameLabel.setBounds(300, 200, 120, 30);
+		continentForNewCountry.setBounds(430, 200, 120, 30);
+		adjacentToNewCountry.setBounds(560, 200, 120, 30);
+		addAdjacentCountry.setBounds(690, 250, 60, 30);
+		submitNewCountry.setBounds(430, 320, 120, 30);
 
-		countrySelectedToShowLinksToDeleteLabel.setBounds(430, 200, 120, 40);
-		countrySelectedToShowLinksToDeleteTF.setBounds(430, 250, 120, 40);
-		countrySelectedToShowLinksToDeleteButton.setBounds(430, 320, 120, 50);
-		linksOfSelectedCountryCB.setBounds(560, 250, 120, 40);
-		linksOfSelectedCountryLabel.setBounds(560, 200, 120, 40);
-		countrySelectedToShowLinksToAddButton.setBounds(430, 320, 120, 50);
+		countrySelectedToShowLinksToDeleteLabel.setBounds(430, 200, 120, 30);
+		countrySelectedToShowLinksToDeleteTF.setBounds(430, 250, 120, 30);
+		countrySelectedToShowLinksToDeleteButton.setBounds(430, 320, 120, 30);
+		linksOfSelectedCountryCB.setBounds(560, 250, 120, 30);
+		linksOfSelectedCountryLabel.setBounds(560, 200, 120, 30);
+		countrySelectedToShowLinksToAddButton.setBounds(430, 320, 120, 30);
 		saveMap.setBounds(450, 400, 80, 30);
 
 		// appending the components
@@ -170,10 +164,10 @@ public class MapEditor {
 		mapEditorFrame.add(newcountryname);
 		mapEditorFrame.add(selectContinentForNewCountry);
 		mapEditorFrame.add(selectAdjacentCountry);
-		mapEditorFrame.add(newcountrynamelabel);
-		mapEditorFrame.add(continentfornewcountry);
-		mapEditorFrame.add(adjacenttonewcountry);
-		mapEditorFrame.add(addadjacentcountry);
+		mapEditorFrame.add(newCountryNameLabel);
+		mapEditorFrame.add(continentForNewCountry);
+		mapEditorFrame.add(adjacentToNewCountry);
+		mapEditorFrame.add(addAdjacentCountry);
 		mapEditorFrame.add(submitNewCountry);
 		mapEditorFrame.add(deleteCountry);
 		mapEditorFrame.add(changeContinent);
@@ -204,10 +198,10 @@ public class MapEditor {
 		newcountryname.setVisible(false);
 		selectContinentForNewCountry.setVisible(false);
 		selectAdjacentCountry.setVisible(false);
-		newcountrynamelabel.setVisible(false);
-		continentfornewcountry.setVisible(false);
-		adjacenttonewcountry.setVisible(false);
-		addadjacentcountry.setVisible(false);
+		newCountryNameLabel.setVisible(false);
+		continentForNewCountry.setVisible(false);
+		adjacentToNewCountry.setVisible(false);
+		addAdjacentCountry.setVisible(false);
 		submitNewCountry.setVisible(false);
 		territorySelected.setVisible(false);
 		selectModifiedContinentCB.setVisible(false);
@@ -294,7 +288,7 @@ public class MapEditor {
 
 					try {
 						String continentSelected = continentsComboBox.getSelectedItem().toString();
-						Map<String, Territory> territoriesList = mapreader.getTerritoriesOfContinent(continentSelected,
+						Map<String, Territory> territoriesList = mapReader.getTerritoriesOfContinent(continentSelected,
 								MAP_FILE_NAME);
 
 						status = validate.checkTerritoriesBeforeDeletingContinent(continentSelected, MAP_FILE_NAME);
@@ -358,10 +352,10 @@ public class MapEditor {
 				newcountryname.setVisible(true);
 				selectContinentForNewCountry.setVisible(true);
 				selectAdjacentCountry.setVisible(true);
-				newcountrynamelabel.setVisible(true);
-				continentfornewcountry.setVisible(true);
-				adjacenttonewcountry.setVisible(true);
-				addadjacentcountry.setVisible(true);
+				newCountryNameLabel.setVisible(true);
+				continentForNewCountry.setVisible(true);
+				adjacentToNewCountry.setVisible(true);
+				addAdjacentCountry.setVisible(true);
 				submitNewCountry.setVisible(true);
 
 			}
@@ -369,7 +363,7 @@ public class MapEditor {
 		/**
 		 * a method to add adjacent countries tothe world.map
 		 */
-		addadjacentcountry.addActionListener(new ActionListener() {
+		addAdjacentCountry.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 
@@ -433,10 +427,10 @@ public class MapEditor {
 					selectContinentForNewCountry.setVisible(false);
 					selectAdjacentCountry.setVisible(false);
 
-					newcountrynamelabel.setVisible(false);
-					continentfornewcountry.setVisible(false);
-					adjacenttonewcountry.setVisible(false);
-					addadjacentcountry.setVisible(false);
+					newCountryNameLabel.setVisible(false);
+					continentForNewCountry.setVisible(false);
+					adjacentToNewCountry.setVisible(false);
+					addAdjacentCountry.setVisible(false);
 					submitNewCountry.setVisible(false);
 				}
 
@@ -501,10 +495,10 @@ public class MapEditor {
 				newcountryname.setVisible(false);
 				selectContinentForNewCountry.setVisible(false);
 				selectAdjacentCountry.setVisible(false);
-				newcountrynamelabel.setVisible(false);
-				continentfornewcountry.setVisible(false);
-				adjacenttonewcountry.setVisible(false);
-				addadjacentcountry.setVisible(false);
+				newCountryNameLabel.setVisible(false);
+				continentForNewCountry.setVisible(false);
+				adjacentToNewCountry.setVisible(false);
+				addAdjacentCountry.setVisible(false);
 				submitNewCountry.setVisible(false);
 
 				countrySelectedToShowLinksToDeleteButton.setVisible(false);
@@ -564,10 +558,10 @@ public class MapEditor {
 				newcountryname.setVisible(false);
 				selectContinentForNewCountry.setVisible(false);
 				selectAdjacentCountry.setVisible(false);
-				newcountrynamelabel.setVisible(false);
-				continentfornewcountry.setVisible(false);
-				adjacenttonewcountry.setVisible(false);
-				addadjacentcountry.setVisible(false);
+				newCountryNameLabel.setVisible(false);
+				continentForNewCountry.setVisible(false);
+				adjacentToNewCountry.setVisible(false);
+				addAdjacentCountry.setVisible(false);
 				submitNewCountry.setVisible(false);
 
 				continentSelected.setVisible(true);
@@ -583,7 +577,7 @@ public class MapEditor {
 				try {
 					Map<String, Territory> countriesListData;// display countries from array list.
 					countriesOfSelectedContinentCB.removeAllItems();
-					countriesListData = mapreader
+					countriesListData = mapReader
 							.getTerritoriesOfContinent(continentsComboBox.getSelectedItem().toString(), MAP_FILE_NAME);
 
 					for (Territory territory : countriesListData.values()) {
@@ -613,10 +607,10 @@ public class MapEditor {
 				newcountryname.setVisible(false);
 				selectContinentForNewCountry.setVisible(false);
 				selectAdjacentCountry.setVisible(false);
-				newcountrynamelabel.setVisible(false);
-				continentfornewcountry.setVisible(false);
-				adjacenttonewcountry.setVisible(false);
-				addadjacentcountry.setVisible(false);
+				newCountryNameLabel.setVisible(false);
+				continentForNewCountry.setVisible(false);
+				adjacentToNewCountry.setVisible(false);
+				addAdjacentCountry.setVisible(false);
 				submitNewCountry.setVisible(false);
 
 				territorySelected.setVisible(false);
@@ -707,10 +701,10 @@ public class MapEditor {
 				newcountryname.setVisible(false);
 				selectContinentForNewCountry.setVisible(false);
 				selectAdjacentCountry.setVisible(false);
-				newcountrynamelabel.setVisible(false);
-				continentfornewcountry.setVisible(false);
-				adjacenttonewcountry.setVisible(false);
-				addadjacentcountry.setVisible(false);
+				newCountryNameLabel.setVisible(false);
+				continentForNewCountry.setVisible(false);
+				adjacentToNewCountry.setVisible(false);
+				addAdjacentCountry.setVisible(false);
 				submitNewCountry.setVisible(false);
 
 				territorySelected.setVisible(false);
