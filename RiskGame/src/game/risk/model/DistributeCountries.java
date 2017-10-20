@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 /**
- * A java class to distribute countries to players
+ * A java class to randomly distribute countries to players
+ * 
  * @author team
  *
  */
@@ -13,21 +15,24 @@ public class DistributeCountries {
 
 	static int c = 0;
 	static Map<Integer, List<Territory>> countriesPerPlayer = new HashMap<>();
-/**
- * A method to get countries per player
- * @param noOfPlayers the number of players playing the game
- * @param totalTerritories the number of total territories
- * @return null
- * 
- */
+
+	/**
+	 * A method to get countries per player
+	 * 
+	 * @param noOfPlayers
+	 *            the number of players playing the game
+	 * @param totalTerritories
+	 *            the number of total territories
+	 * @return null
+	 * 
+	 */
 	public static Map<Integer, List<Territory>> getCountriesPerPlayer(int noOfPlayers,
 			List<Territory> totalTerritories) {
 		if (totalTerritories == null || totalTerritories.isEmpty()) {
 			return null;
 		}
-		
-		  
-		// assigning random values to players 
+
+		// assigning random values to players
 		loadCountriesPerPlayerWithEmptyValues(noOfPlayers);
 		if (noOfPlayers == 2) {
 			random2(totalTerritories);
@@ -43,19 +48,24 @@ public class DistributeCountries {
 		}
 		return countriesPerPlayer;
 	}
-    /**
-     * Method to load players with empty values
-     * @param noOfPlayers 
-     */
+
+	/**
+	 * Method to load players with empty values
+	 * 
+	 * @param noOfPlayers
+	 */
 	private static void loadCountriesPerPlayerWithEmptyValues(int noOfPlayers) {
 		for (int i = 1; i <= noOfPlayers; i++) {
 			countriesPerPlayer.put(i, new ArrayList<>());
 		}
 	}
-    /**
-     * Method to assign random territories to players if value of players is 2
-     * @param totalTerritories number of territories
-     */
+
+	/**
+	 * Method to assign random territories to players if number of players are 2
+	 * 
+	 * @param totalTerritories
+	 *            number of territories
+	 */
 	public static void random2(List<Territory> totalTerritories) {
 		int select = (int) (Math.random() * totalTerritories.size());
 		if (totalTerritories.size() != 0) {
@@ -74,11 +84,14 @@ public class DistributeCountries {
 		}
 
 	}
+
 	/**
-     * Method to assign random territories to players if value of players is 3
-     * @param totalTerritories number of territories
-     */
-	 
+	 * Method to assign random territories to players if number of players are 3
+	 * 
+	 * @param totalTerritories
+	 *            number of territories
+	 */
+
 	public static void random3(List<Territory> totalTerritories) {
 		int select = (int) (Math.random() * totalTerritories.size());
 
@@ -102,10 +115,13 @@ public class DistributeCountries {
 		}
 
 	}
+
 	/**
-     * Method to assign random territories to players if value of players is 4
-     * @param totalTerritories number of territories
-     */
+	 * Method to assign random territories to players if number of players are 4
+	 * 
+	 * @param totalTerritories
+	 *            number of territories
+	 */
 
 	public static void random4(List<Territory> totalTerritories) {
 		int select = (int) (Math.random() * totalTerritories.size());
@@ -134,10 +150,13 @@ public class DistributeCountries {
 		}
 
 	}
+
 	/**
-     * Method to assign random territories to players if value of players is 5
-     * @param totalTerritories number of territories
-     */
+	 * Method to assign random territories to players if number of players are 5
+	 * 
+	 * @param totalTerritories
+	 *            number of territories
+	 */
 	public static void random5(List<Territory> totalTerritories) {
 		int select = (int) (Math.random() * totalTerritories.size());
 
