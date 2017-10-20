@@ -19,20 +19,10 @@ import game.risk.model.validation.ValidateMapWriter;
  */
 public class MapWriter {
 
-	String mapFileName = "World.map";// the map file
+	String mapFileName;// the map file
 
 	public MapWriter(String mapFileName) {
 		this.mapFileName = mapFileName;
-	}
-
-	/**
-	 * The main method
-	 * 
-	 * @param args
-	 * @throws IOException
-	 */
-	public static void main(String[] args) throws IOException {
-		MapWriter writer = new MapWriter("World.map");
 	}
 
 	/**
@@ -353,9 +343,7 @@ public class MapWriter {
 	 *            the country whose link will be deleted
 	 * @throws Exception
 	 */
-	private void deleteLinksOfmodifiedTerritory(ArrayList<String> link, String country) throws Exception
-
-	{
+	private void deleteLinksOfmodifiedTerritory(ArrayList<String> link, String country) throws Exception{
 		ArrayList<String> link_name = link;
 		String country_name = country;
 
@@ -429,11 +417,8 @@ public class MapWriter {
 	 * @return the status of the process
 	 * @throws Exception
 	 */
-	public String addLink(String selectedItem, String text) throws Exception
-
-	{
+	public String addLink(String selectedItem, String text) throws Exception{
 		ValidateMapWriter validate = new ValidateMapWriter();
-		// TODO Auto-generated method stub
 		String link = selectedItem;
 		String country = text;
 		File inputFile = new File(mapFileName);// file to read from

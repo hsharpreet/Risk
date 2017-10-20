@@ -18,17 +18,7 @@ import game.risk.model.validation.ValidateMapReader;
  *
  */
 public class MapReader {
-	/**
-	 * The main method
-	 * 
-	 * @param args
-	 * @throws Exception
-	 */
-	public static void main(String[] args) throws Exception {
-		RiskMap riskMap = new MapReader().readMap("World.map");// Object to read world.map
-		
-	}
-
+	
 	/**
 	 * Method to get Countries of the continents from the file
 	 * 
@@ -157,10 +147,7 @@ public class MapReader {
 								links.add(columns[i]);
 							}
 						}
-
-						// printWriter.println(newTerritory);
 					}
-					// return links;
 				}
 			}
 			br.close();
@@ -179,7 +166,7 @@ public class MapReader {
 	 * @return null
 	 */
 	public static RiskMap readMapFile(String mapFilePath) {
-		try { // declaration
+		try { 
 			RiskMap riskMap = null;
 
 			FileReader fr = new FileReader(mapFilePath);

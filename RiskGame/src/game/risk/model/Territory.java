@@ -16,7 +16,6 @@ public class Territory {
 	private String continent;
 	private List<String> neighbouringTerritories;
 
-	//
 	/**
 	 * Method to get name of the territory
 	 * 
@@ -25,8 +24,7 @@ public class Territory {
 	public String getName() {
 		return name;
 	}
-
-	//
+	
 	/**
 	 * Method to set name of the territory in the class attribute
 	 * 

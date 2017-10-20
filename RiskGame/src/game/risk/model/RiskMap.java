@@ -47,13 +47,6 @@ public class RiskMap {
 	}
 
 	/**
-	 * A constructor
-	 */
-	public RiskMap() {
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
 	 * Method to get Map and store it into a hashMap
 	 * 
 	 * @return map
