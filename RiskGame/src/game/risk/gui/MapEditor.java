@@ -68,10 +68,10 @@ public class MapEditor {
 		addCountry = new JButton("Add New Country");
 		deleteCountry = new JButton("Delete Selected Country");
 		changeContinent = new JButton("Change Continent");
-		deleteCountryLink = new JButton("Delete Link");
-		addCountryLink = new JButton("Add Link");
-		addContinent = new JButton("Add");
-		deleteContinent = new JButton("Delete");
+		deleteCountryLink = new JButton("Delete Neighbour");
+		addCountryLink = new JButton("Add Neighbour");
+		addContinent = new JButton("Add Continents");
+		deleteContinent = new JButton("Delete Continents");
 		viewCountriesOfContinent = new JButton("View Countries");
 
 		addadjacentcountry = new JButton("Add");
@@ -114,24 +114,24 @@ public class MapEditor {
 		selectContinentForNewCountry = new JComboBox(continentComboBoxModel);
 		selectAdjacentCountry = new JComboBox(riskmap.getTerritories().keySet().toArray());
 		// Setting the coordinates
-		addCountry.setBounds(640, 40, 160, 30);
-		deleteCountry.setBounds(640, 70, 160, 30);
-		changeContinent.setBounds(640, 100, 160, 30);
+		addCountry.setBounds(770, 40, 160, 30);
+		deleteCountry.setBounds(770, 70, 160, 30);
+		changeContinent.setBounds(770, 100, 160, 30);
 		assignNewContinent.setBounds(560, 320, 120, 40);
-		addContinent.setBounds(230, 80, 60, 20);
+		addContinent.setBounds(230, 80, 125, 20);
 		viewCountriesOfContinent.setBounds(220, 110, 150, 30);
-		deleteContinent.setBounds(292, 80, 90, 20);
+		deleteContinent.setBounds(360, 80, 135, 20);
 		continentSelected.setBounds(40, 250, 150, 20);
 		countriesOfSelectedContinent.setBounds(200, 250, 150, 20);
-		selectedContinentField.setBounds(40, 280, 150, 20);
-		countriesOfSelectedContinentCB.setBounds(200, 280, 150, 20);
-		deleteCountryLink.setBounds(640, 130, 160, 30);
-		addCountryLink.setBounds(640, 160, 160, 30);
+		selectedContinentField.setBounds(40, 280, 150, 25);
+		countriesOfSelectedContinentCB.setBounds(200, 280, 150, 25);
+		deleteCountryLink.setBounds(770, 130, 160, 30);
+		addCountryLink.setBounds(770, 160, 160, 30);
 
 		continentLabel.setBounds(40, 48, 100, 30);
-		countryLabel.setBounds(450, 48, 100, 30);
+		countryLabel.setBounds(580, 48, 100, 30);
 		continentsComboBox.setBounds(40, 80, 190, 20);
-		countryComboBox.setBounds(450, 80, 190, 20);
+		countryComboBox.setBounds(580, 78, 190, 20);
 
 		newcountryname.setBounds(300, 250, 120, 40);
 		selectContinentForNewCountry.setBounds(430, 250, 120, 40);
@@ -792,7 +792,7 @@ public class MapEditor {
 			}
 		});
 
-		mapEditorFrame.setSize(900, 500);
+		mapEditorFrame.setSize(1000, 600);
 		mapEditorFrame.setLayout(null);
 		mapEditorFrame.setVisible(true);
 
