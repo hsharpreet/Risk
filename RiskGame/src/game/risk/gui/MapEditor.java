@@ -37,11 +37,11 @@ public class MapEditor {
 	
 	public MapEditor(String mapFile){
 		this.mapFile = mapFile;
+		
 		mapReader = new MapReader();
 		try {
 			riskMap = mapReader.readMap(mapFile);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -51,9 +51,7 @@ public class MapEditor {
 	 * @throws Exception
 	 */
 	public void loadMap() throws Exception {
-
 		JFrame mapEditorFrame = new JFrame("MAP GUI");
-
 		
 		// Declaration
 		JButton addCountry, addContinent, deleteContinent, addAdjacentCountry, submitNewCountry, deleteCountry,
@@ -244,7 +242,6 @@ public class MapEditor {
 		 * A method to add continent to the file.
 		 */
 		addContinent.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
 				JTextField name = new JTextField();
 				JTextField value = new JTextField();
@@ -286,6 +283,7 @@ public class MapEditor {
 			}
 
 		});
+		
 		/**
 		 * A method to delete continent from the file which also deletes all the
 		 * countries in the continent
@@ -338,11 +336,11 @@ public class MapEditor {
 									}
 			}
 		});
+		
 		/**
 		 * A method to add country to the file World.map
 		 */
 		addCountry.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
 				// setting the visibility of components
 
@@ -379,11 +377,11 @@ public class MapEditor {
 
 			}
 		});
+		
 		/**
 		 * a method to add adjacent countries tothe world.map
 		 */
 		addAdjacentCountry.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
 
 				if (!(newcountryname.getText().trim().isEmpty()))// if user adds a country
@@ -398,15 +396,13 @@ public class MapEditor {
 
 			}
 		});
+		
 		/**
 		 * A method which adds a new country with selected continent and at
 		 * least one adjacent country .
 		 */
 		submitNewCountry.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e)
-
-			{
+			public void actionPerformed(ActionEvent e){
 
 				if (!(newcountryname.getText().trim().isEmpty())) {
 
@@ -468,7 +464,6 @@ public class MapEditor {
 		 */
 
 		deleteCountry.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
 				String status;
 
@@ -496,15 +491,13 @@ public class MapEditor {
 
 			}
 		});
+		
 		/**
 		 * A method which displays the country selected, present continent and
 		 * drop down of the new continent which user wants to select
 		 */
 		changeContinent.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e)
-
-			{ // changing the continent
+			public void actionPerformed(ActionEvent e){ // changing the continent
 				String status;
 
 				String terittorySelected = countryComboBox.getSelectedItem().toString();
@@ -547,7 +540,6 @@ public class MapEditor {
 		 * method.
 		 */
 		assignNewContinent.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
 				// changes to the file to assign new country
 				MapWriter mp = new MapWriter(mapFile);
@@ -573,6 +565,7 @@ public class MapEditor {
 			}
 
 		});
+		
 		/**
 		 * A method to list out all the countries of the continents
 		 */
@@ -610,23 +603,20 @@ public class MapEditor {
 						countriesOfSelectedContinentCB.addItem(territory.getName());
 					}
 
-				
 				} catch (Exception e1) {
-					
+
 					e1.printStackTrace();
 				}
 
 			}
 
 		});
+		
 		/**
 		 * A method to delete the neighbors of the countries
 		 */
 		deleteCountryLink.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e)
-
-			{
+			public void actionPerformed(ActionEvent e){
 
 				// Setting up the visibility of the components.
 				newcountryname.setVisible(false);
@@ -678,15 +668,13 @@ public class MapEditor {
 			}
 
 		});
+		
 		/**
 		 * A method to show neighbors of selected countries to be deleted if
 		 * territory does not have any link to any other territory.
 		 */
 		countrySelectedToShowLinksToDeleteButton.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e)
-
-			{
+			public void actionPerformed(ActionEvent e){
 
 				MapWriter mp = new MapWriter(mapFile);
 
@@ -719,15 +707,12 @@ public class MapEditor {
 			}
 
 		});
+		
 		/**
 		 * A method to add neighbors to the country.
 		 */
-
 		addCountryLink.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e)
-
-			{
+			public void actionPerformed(ActionEvent e) {
 
 				// Setting up the visibility of the components
 				newcountryname.setVisible(false);
@@ -769,21 +754,19 @@ public class MapEditor {
 					}
 
 				} catch (Exception e1) {
-					
+
 					e1.printStackTrace();
 				}
 
 			}
 
 		});
+		
 		/**
 		 * Method to create a button to show neighbors of the selected country
 		 */
 		countrySelectedToShowLinksToAddButton.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e)
-
-			{
+			public void actionPerformed(ActionEvent e){
 				MapWriter mw = new MapWriter(mapFile);
 
 				try {
@@ -811,10 +794,8 @@ public class MapEditor {
 		});
 
 		saveMap.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
 				// setting the visibility of components
-
 				mapEditorFrame.dispose();
 			}
 		});
@@ -826,7 +807,6 @@ public class MapEditor {
 		mapEditorFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
-
 	/**
 	 * Method to get RiskMap object
 	 * @return RiskMap object of RiskMap after reading the map file
@@ -834,6 +814,5 @@ public class MapEditor {
 	public RiskMap getRiskMap() {
 		return riskMap;
 	}
-
 
 }
