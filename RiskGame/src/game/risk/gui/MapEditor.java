@@ -41,7 +41,7 @@ public class MapEditor {
 	public static void loadMap(String file) throws Exception {
 
 		String MAP_FILE_NAME = file;
-		JFrame f = new JFrame("MAP GUI");
+		JFrame mapEditorFrame = new JFrame("MAP GUI");
 		// Declaration
 		JButton addCountry, addContinent, deleteContinent, addadjacentcountry, submitNewCountry, deleteCountry,
 				changeContinent, assignNewContinent, viewCountriesOfContinent, deleteCountryLink,
@@ -58,7 +58,8 @@ public class MapEditor {
 				linksOfSelectedCountryCB;
 		LinkedHashSet<String> adjacentCountriesToNewCountry = new LinkedHashSet<>();
 
-		MapReader mapreader = new MapReader();// creating object of class MapReader
+		MapReader mapreader = new MapReader();// creating object of class
+												// MapReader
 		RiskMap riskmap = mapreader.readMap(MAP_FILE_NAME);
 
 		riskmap.getContinents();// call to get the continents.
@@ -158,46 +159,46 @@ public class MapEditor {
 		saveMap.setBounds(450, 400, 80, 30);
 
 		// appending the components
-		f.add(continentLabel);
-		f.add(countryLabel);
-		f.add(continentsComboBox);
-		f.add(countryComboBox);
+		mapEditorFrame.add(continentLabel);
+		mapEditorFrame.add(countryLabel);
+		mapEditorFrame.add(continentsComboBox);
+		mapEditorFrame.add(countryComboBox);
 
-		f.add(addContinent);
-		f.add(deleteContinent);
-		f.add(addCountry);
-		f.add(newcountryname);
-		f.add(selectContinentForNewCountry);
-		f.add(selectAdjacentCountry);
-		f.add(newcountrynamelabel);
-		f.add(continentfornewcountry);
-		f.add(adjacenttonewcountry);
-		f.add(addadjacentcountry);
-		f.add(submitNewCountry);
-		f.add(deleteCountry);
-		f.add(changeContinent);
-		f.add(territorySelected);
-		f.add(selectModifiedContinentCB);
-		f.add(selectedTerritoryToModify);
-		f.add(selectNewContinentToAssign);
-		f.add(assignNewContinent);
-		f.add(presentContinent);
-		f.add(presentContinentField);
-		f.add(viewCountriesOfContinent);
-		f.add(continentSelected);
-		f.add(countriesOfSelectedContinent);
-		f.add(selectedContinentField);
-		f.add(countriesOfSelectedContinentCB);
-		f.add(deleteCountryLink);
-		f.add(addCountryLink);
-		f.add(countrySelectedToShowLinksToAddButton);
+		mapEditorFrame.add(addContinent);
+		mapEditorFrame.add(deleteContinent);
+		mapEditorFrame.add(addCountry);
+		mapEditorFrame.add(newcountryname);
+		mapEditorFrame.add(selectContinentForNewCountry);
+		mapEditorFrame.add(selectAdjacentCountry);
+		mapEditorFrame.add(newcountrynamelabel);
+		mapEditorFrame.add(continentfornewcountry);
+		mapEditorFrame.add(adjacenttonewcountry);
+		mapEditorFrame.add(addadjacentcountry);
+		mapEditorFrame.add(submitNewCountry);
+		mapEditorFrame.add(deleteCountry);
+		mapEditorFrame.add(changeContinent);
+		mapEditorFrame.add(territorySelected);
+		mapEditorFrame.add(selectModifiedContinentCB);
+		mapEditorFrame.add(selectedTerritoryToModify);
+		mapEditorFrame.add(selectNewContinentToAssign);
+		mapEditorFrame.add(assignNewContinent);
+		mapEditorFrame.add(presentContinent);
+		mapEditorFrame.add(presentContinentField);
+		mapEditorFrame.add(viewCountriesOfContinent);
+		mapEditorFrame.add(continentSelected);
+		mapEditorFrame.add(countriesOfSelectedContinent);
+		mapEditorFrame.add(selectedContinentField);
+		mapEditorFrame.add(countriesOfSelectedContinentCB);
+		mapEditorFrame.add(deleteCountryLink);
+		mapEditorFrame.add(addCountryLink);
+		mapEditorFrame.add(countrySelectedToShowLinksToAddButton);
 
-		f.add(countrySelectedToShowLinksToDeleteButton);
-		f.add(countrySelectedToShowLinksToDeleteTF);
-		f.add(countrySelectedToShowLinksToDeleteLabel);
-		f.add(linksOfSelectedCountryCB);
-		f.add(linksOfSelectedCountryLabel);
-		f.add(saveMap);
+		mapEditorFrame.add(countrySelectedToShowLinksToDeleteButton);
+		mapEditorFrame.add(countrySelectedToShowLinksToDeleteTF);
+		mapEditorFrame.add(countrySelectedToShowLinksToDeleteLabel);
+		mapEditorFrame.add(linksOfSelectedCountryCB);
+		mapEditorFrame.add(linksOfSelectedCountryLabel);
+		mapEditorFrame.add(saveMap);
 
 		// setting the visibility of the components
 		newcountryname.setVisible(false);
@@ -241,22 +242,44 @@ public class MapEditor {
 				JTextField value = new JTextField();
 				Object[] message = { "Name:", name, "Value:", value };
 
-				int option = JOptionPane.showConfirmDialog(f, message, "Continent Details",
+				int option = JOptionPane.showConfirmDialog(mapEditorFrame, message, "Continent Details",
 						JOptionPane.OK_CANCEL_OPTION);
 				if (option == JOptionPane.OK_OPTION)
 
 				{ // if user selects ok option
+					// if user selects ok option
 					if (name.getText().trim().isEmpty() || value.getText().trim().isEmpty()) {
-						JOptionPane.showMessageDialog(f, "Field cannot be empty");// if field value is empty show this
-																					// message
+						JOptionPane.showMessageDialog(mapEditorFrame, "Field cannot be empty.");// if
+																								// field
+																								// value
+																								// or
+																								// name
+																								// is
+																								// empty
+																								// show
+																								// this
+																								// message
+
+					}
+					// if field value is not a number.
+					else if (!value.getText().matches("-?\\d+(\\.\\d+)?")) {
+						JOptionPane.showMessageDialog(mapEditorFrame, "Value should be a number.");
 
 					} else {
-						MapWriter writeContinent = new MapWriter(MAP_FILE_NAME);// if field value not empty write field
-																				// value in file
+						MapWriter writeContinent = new MapWriter(MAP_FILE_NAME);// if
+																				// field
+																				// value
+																				// not
+																				// empty
+																				// write
+																				// field
+																				// value
+																				// in
+																				// file
 						try {
 							writeContinent.addContinent(name.getText(), value.getText());
 							continentComboBoxModel.addElement(name.getText());
-							JOptionPane.showMessageDialog(f, "Continent Added Sucessfully");
+							JOptionPane.showMessageDialog(mapEditorFrame, "Continent Added Sucessfully");
 
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
@@ -272,12 +295,13 @@ public class MapEditor {
 
 		});
 		/**
-		 * A method to delete continent from the file which also deletes all the countries in the continent
+		 * A method to delete continent from the file which also deletes all the
+		 * countries in the continent
 		 */
 		deleteContinent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean status;
-				int option = JOptionPane.showConfirmDialog(f,
+				int option = JOptionPane.showConfirmDialog(mapEditorFrame,
 						"All countries in this continent will also be deleted.Do you want to proceed?",
 						"Delete Continent", JOptionPane.OK_CANCEL_OPTION);
 				if (option == JOptionPane.OK_OPTION)// if user selects ok option
@@ -303,7 +327,7 @@ public class MapEditor {
 						}
 
 						else {
-							JOptionPane.showMessageDialog(f,
+							JOptionPane.showMessageDialog(mapEditorFrame,
 									"Cannot proceed : Deletion of some country will lead to invalid map");
 						}
 					} catch (IOException e1) {
@@ -368,20 +392,26 @@ public class MapEditor {
 
 			public void actionPerformed(ActionEvent e) {
 
-				if (!(newcountryname.getText().trim().isEmpty()))// if user adds a country
+				if (!(newcountryname.getText().trim().isEmpty()))// if user adds
+																	// a country
 				{
 					adjacentCountriesToNewCountry.add((String) selectAdjacentCountry.getSelectedItem());
 				}
 
 				else {
-					JOptionPane.showMessageDialog(f, "Please fill something in country name");// if the field is empty
-																								// show this message.
+					JOptionPane.showMessageDialog(mapEditorFrame, "Please fill something in country name");// if
+																											// the
+																											// field
+																											// is
+																											// empty
+					// show this message.
 				}
 
 			}
 		});
 		/**
-		 *  A method which adds a new country with selected continent and at least one adjacent country .
+		 * A method which adds a new country with selected continent and at
+		 * least one adjacent country .
 		 */
 		submitNewCountry.addActionListener(new ActionListener() {
 
@@ -391,7 +421,10 @@ public class MapEditor {
 
 				if (!(newcountryname.getText().trim().isEmpty())) {
 
-					MapWriter writeTerritory = new MapWriter(MAP_FILE_NAME);// Adding country to file
+					MapWriter writeTerritory = new MapWriter(MAP_FILE_NAME);// Adding
+																			// country
+																			// to
+																			// file
 
 					String newCountryEntry = "";
 					String newCountryName = newcountryname.getText();
@@ -420,7 +453,7 @@ public class MapEditor {
 						e1.printStackTrace();
 					}
 
-					JOptionPane.showMessageDialog(f, "Territory with continent " + continentOfNewCountry
+					JOptionPane.showMessageDialog(mapEditorFrame, "Territory with continent " + continentOfNewCountry
 							+ " and specified links has been added");
 					// setting up the visibility
 					newcountryname.setVisible(false);
@@ -435,8 +468,12 @@ public class MapEditor {
 				}
 
 				else {
-					JOptionPane.showMessageDialog(f, "Please fill something in country name"); // if field is empty show
-																								// this message.
+					JOptionPane.showMessageDialog(mapEditorFrame, "Please fill something in country name"); // if
+																											// field
+																											// is
+																											// empty
+																											// show
+					// this message.
 
 				}
 			}
@@ -444,13 +481,15 @@ public class MapEditor {
 		});
 
 		/**
-		 * A method to delete country from the file if there is no link to any territory
+		 * A method to delete country from the file if there is no link to any
+		 * territory
 		 * 
 		 */
 
 		deleteCountry.addActionListener(new ActionListener() {
 
-			public void actionPerformed(ActionEvent e)// Deleting the country from the file
+			public void actionPerformed(ActionEvent e)// Deleting the country
+														// from the file
 
 			{
 				String status;
@@ -463,10 +502,11 @@ public class MapEditor {
 					status = deleteTerritory.deleteTerritory(terittoryToDelete);
 
 					if (status.equalsIgnoreCase("OK")) {
-						JOptionPane.showMessageDialog(f, "Territory Deleted");// confirmation message
+						JOptionPane.showMessageDialog(mapEditorFrame, "Territory Deleted");// confirmation
+																							// message
 						countriesComboBoxModel.removeElementAt(countryComboBox.getSelectedIndex());
 					} else {
-						JOptionPane.showMessageDialog(f,
+						JOptionPane.showMessageDialog(mapEditorFrame,
 								"Action cannot be performed as some territory has just one link to this territory");// if
 																													// territory
 																													// is
@@ -484,7 +524,8 @@ public class MapEditor {
 			}
 		});
 		/**
-		 * A method which displays the country selected,  present continent and drop down of the new continent which user wants to select 
+		 * A method which displays the country selected, present continent and
+		 * drop down of the new continent which user wants to select
 		 */
 		changeContinent.addActionListener(new ActionListener() {
 
@@ -529,7 +570,8 @@ public class MapEditor {
 		});
 
 		/**
-		 * A method to assign new continent selected by the user in the previous method.
+		 * A method to assign new continent selected by the user in the previous
+		 * method.
 		 */
 		assignNewContinent.addActionListener(new ActionListener() {
 
@@ -542,7 +584,7 @@ public class MapEditor {
 				try {
 					mp.assignNewContinent((String) selectModifiedContinentCB.getSelectedItem(),
 							territorySelected.getText());
-					JOptionPane.showMessageDialog(f, "Territory " + territorySelected.getText()
+					JOptionPane.showMessageDialog(mapEditorFrame, "Territory " + territorySelected.getText()
 							+ " is assigned new continent " + selectModifiedContinentCB.getSelectedItem());
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
@@ -580,7 +622,10 @@ public class MapEditor {
 				MapWriter mp = new MapWriter(MAP_FILE_NAME);
 
 				try {
-					Map<String, Territory> countriesListData;// display countries from array list.
+					Map<String, Territory> countriesListData;// display
+																// countries
+																// from array
+																// list.
 					countriesOfSelectedContinentCB.removeAllItems();
 					countriesListData = mapreader
 							.getTerritoriesOfContinent(continentsComboBox.getSelectedItem().toString(), MAP_FILE_NAME);
@@ -659,7 +704,8 @@ public class MapEditor {
 
 		});
 		/**
-		 * A method to show neighbors of selected countries to be deleted if territory does not have any link to any other territory.
+		 * A method to show neighbors of selected countries to be deleted if
+		 * territory does not have any link to any other territory.
 		 */
 		countrySelectedToShowLinksToDeleteButton.addActionListener(new ActionListener() {
 
@@ -675,9 +721,12 @@ public class MapEditor {
 
 					if (s.equalsIgnoreCase("OK")) {
 
-						JOptionPane.showMessageDialog(f, "Territory link Deleted");// confirmation of link deletion
+						JOptionPane.showMessageDialog(mapEditorFrame, "Territory link Deleted");// confirmation
+																								// of
+																								// link
+																								// deletion
 					} else {
-						JOptionPane.showMessageDialog(f,
+						JOptionPane.showMessageDialog(mapEditorFrame,
 								"Action cannot be performed as some territory has just one link to this territory or this territory just have one link");// if
 																																							// link
 																																							// cannot
@@ -737,7 +786,8 @@ public class MapEditor {
 
 				try {
 					for (int i = 0; i < riskmap.getTerritories().keySet().toArray().length; i++) {
-						linksOfSelectedCountryCB.addItem(riskmap.getTerritories().keySet().toArray()[i]);// adding the
+						linksOfSelectedCountryCB.addItem(riskmap.getTerritories().keySet().toArray()[i]);// adding
+																											// the
 																											// links
 					}
 
@@ -749,9 +799,9 @@ public class MapEditor {
 			}
 
 		});
-       /**
-        * Method to create a button to show neighbors of the selected country  
-        */
+		/**
+		 * Method to create a button to show neighbors of the selected country
+		 */
 		countrySelectedToShowLinksToAddButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e)
@@ -766,11 +816,11 @@ public class MapEditor {
 					if (s.equalsIgnoreCase("OK")) {
 						mw.addLink(countrySelectedToShowLinksToDeleteTF.getText(),
 								(String) linksOfSelectedCountryCB.getSelectedItem());
-						JOptionPane.showMessageDialog(f, "Territory link added");
+						JOptionPane.showMessageDialog(mapEditorFrame, "Territory link added");
 					} else if (s.equalsIgnoreCase("ERROR_LinkAlreadyExists")) {
-						JOptionPane.showMessageDialog(f, "Link already present");
+						JOptionPane.showMessageDialog(mapEditorFrame, "Link already present");
 					} else {
-						JOptionPane.showMessageDialog(f, "Cannot add itself as adjacent country");
+						JOptionPane.showMessageDialog(mapEditorFrame, "Cannot add itself as adjacent country");
 					}
 
 				} catch (Exception e1) {
@@ -787,15 +837,15 @@ public class MapEditor {
 			public void actionPerformed(ActionEvent e) {
 				// setting the visibility of components
 
-				f.dispose();
+				mapEditorFrame.dispose();
 			}
 		});
 
-		f.setSize(900, 500);
-		f.setLayout(null);
-		f.setVisible(true);
+		mapEditorFrame.setSize(900, 500);
+		mapEditorFrame.setLayout(null);
+		mapEditorFrame.setVisible(true);
 
-		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		mapEditorFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
 }
