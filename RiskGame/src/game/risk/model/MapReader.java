@@ -25,11 +25,8 @@ public class MapReader {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		System.out.println("MapReader main method...");
 		RiskMap riskMap = new MapReader().readMap("World.map");// Object to read world.map
-		System.out.println(riskMap.getMap());
-		// System.out.println(riskMap.getTerritories().keySet().size());
-		// new MapReader().getContinentOfACountry("", "World.map");
+		
 	}
 
 	/**
@@ -103,7 +100,7 @@ public class MapReader {
 					String[] columns = line.split("=");
 					mapDetails.put(columns[0], columns[1]);
 				}
-				System.out.println("map : " + mapDetails);
+			
 			} else if (line.equalsIgnoreCase("[Continents]")) {// writing the continents in file
 				while (!(line = br.readLine()).equalsIgnoreCase("") || line.startsWith("[")) {
 					String[] columns = line.split("=");
@@ -123,7 +120,7 @@ public class MapReader {
 							tempNeighboursList.add(columns[i]);
 						territoryObj.setNeighbouringTerritories(tempNeighboursList);
 						territories.put(territoryObj.getName(), territoryObj);
-						System.out.println(territoryObj);
+					
 					}
 				}
 

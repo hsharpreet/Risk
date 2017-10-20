@@ -111,7 +111,7 @@ public class MapWriter {
 			printWriter.println(thisLine);
 			if (thisLine.equalsIgnoreCase("[Territories]")) {
 				printWriter.println(newTerritory);
-				System.out.println("hiiii testing me");
+				
 			}
 		}
 		printWriter.flush();
@@ -189,7 +189,7 @@ public class MapWriter {
 					if (columns[0].equals(territoryToDelete)) {
 						for (int i = 4; i < columns.length; i++) {
 							territoryList.add(columns[i]);
-							System.out.println("list --" + columns[i]);
+						
 						}
 						continue;
 					}

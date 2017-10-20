@@ -281,7 +281,7 @@ public class MapEditor {
 				}
 
 				else {
-					System.out.println("Action Canceled");
+					
 				}
 			}
 
@@ -335,8 +335,7 @@ public class MapEditor {
 
 				else {
 					// if user does not press OK
-					System.out.println("Delete Country Action canceled");
-				}
+									}
 			}
 		});
 		/**
@@ -423,9 +422,7 @@ public class MapEditor {
 						newCountryEntry = newCountryEntry + "," + temp;
 					}
 
-					System.out.println("entry--" + newCountryEntry);
-
-					try {
+						try {
 						writeTerritory.addTerritory(newCountryEntry);
 						writeTerritory.addNewCountryLinkToTerritories(newcountryname.getText(),
 								adjacentCountriesToNewCountry);
@@ -613,8 +610,7 @@ public class MapEditor {
 						countriesOfSelectedContinentCB.addItem(territory.getName());
 					}
 
-					System.out.println(countriesListData.size());
-
+				
 				} catch (Exception e1) {
 					
 					e1.printStackTrace();
