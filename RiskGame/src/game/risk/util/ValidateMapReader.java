@@ -2,12 +2,14 @@ package game.risk.util;
 
 import java.util.HashMap;
 
+import game.risk.model.MapReader;
 import game.risk.model.Territory;
 
 /**
  * Class to validate map reader
  * 
  * @author Team
+ * @see MapReader
  *
  */
 public class ValidateMapReader {
