@@ -316,6 +316,8 @@ public class MapEditor {
 							for (Territory territoryToDelete : territoriesList.values()) {
 								countriesComboBoxModel.removeElement(territoryToDelete.getName());
 							}
+							JOptionPane.showMessageDialog(mapEditorFrame,
+									"Continent deleted");
 							riskMap = mapReader.readMap(mapFile);
 						}
 
