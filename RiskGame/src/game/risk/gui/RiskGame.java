@@ -219,7 +219,6 @@ public class RiskGame extends javax.swing.JFrame {
 
 						}
 					} catch (Exception ex) {
-						JOptionPane.showMessageDialog(jpPlayground, "Map load exception");
 						break;
 					}
 				}
