@@ -70,13 +70,13 @@ public class MapEditor {
 
 		addAdjacentCountry = new JButton("Add");
 		submitNewCountry = new JButton("Submit data");
-		assignNewContinent = new JButton("Change continent");
+		assignNewContinent = new JButton("Change Continent");
 
 		continentLabel = new JLabel("Continents");
 		countryLabel = new JLabel("Countries");
 		newCountryNameLabel = new JLabel("Enter Name");
 		continentForNewCountry = new JLabel("Continent");
-		adjacentToNewCountry = new JLabel("Select Link");
+		adjacentToNewCountry = new JLabel("Select Neighbour");
 		selectedTerritoryToModify = new JLabel("Selected Country");
 		selectNewContinentToAssign = new JLabel("Select New Continent");
 		presentContinent = new JLabel("Present Continent");
@@ -99,9 +99,9 @@ public class MapEditor {
 
 		countrySelectedToShowLinksToDeleteLabel = new JLabel("Selected Country");
 		countrySelectedToShowLinksToDeleteTF = new JTextField();
-		countrySelectedToShowLinksToDeleteButton = new JButton("Delete Link");
-		countrySelectedToShowLinksToAddButton = new JButton("Add Link");
-		linksOfSelectedCountryLabel = new JLabel("Link to Modify");
+		countrySelectedToShowLinksToDeleteButton = new JButton("Delete Neighbour");
+		countrySelectedToShowLinksToAddButton = new JButton("Add Neighbour");
+		linksOfSelectedCountryLabel = new JLabel("Neighbour to Modify");
 		saveMap = new JButton("Go Back");
 		linksOfSelectedCountryCB = new JComboBox<>();
 
