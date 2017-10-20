@@ -244,45 +244,28 @@ public class MapEditor {
 
 				int option = JOptionPane.showConfirmDialog(mapEditorFrame, message, "Continent Details",
 						JOptionPane.OK_CANCEL_OPTION);
-				if (option == JOptionPane.OK_OPTION)
-
+				if (option == JOptionPane.OK_OPTION) 
 				{ // if user selects ok option
 					// if user selects ok option
+					// if field value or name is empty show this message
 					if (name.getText().trim().isEmpty() || value.getText().trim().isEmpty()) {
-						JOptionPane.showMessageDialog(mapEditorFrame, "Field cannot be empty.");// if
-																								// field
-																								// value
-																								// or
-																								// name
-																								// is
-																								// empty
-																								// show
-																								// this
-																								// message
+						JOptionPane.showMessageDialog(mapEditorFrame, "Field cannot be empty.");
 
 					}
 					// if field value is not a number.
-					else if (!value.getText().matches("-?\\d+(\\.\\d+)?")) {
+					if (!value.getText().matches("-?\\d+(\\.\\d+)?")) {
 						JOptionPane.showMessageDialog(mapEditorFrame, "Value should be a number.");
 
 					} else {
-						MapWriter writeContinent = new MapWriter(MAP_FILE_NAME);// if
-																				// field
-																				// value
-																				// not
-																				// empty
-																				// write
-																				// field
-																				// value
-																				// in
-																				// file
+						// if field value not empty write field value in file
+						MapWriter writeContinent = new MapWriter(MAP_FILE_NAME);
 						try {
 							writeContinent.addContinent(name.getText(), value.getText());
 							continentComboBoxModel.addElement(name.getText());
 							JOptionPane.showMessageDialog(mapEditorFrame, "Continent Added Sucessfully");
 
 						} catch (IOException e1) {
-							// TODO Auto-generated catch block
+							
 							e1.printStackTrace();
 						}
 					}
@@ -331,10 +314,8 @@ public class MapEditor {
 									"Cannot proceed : Deletion of some country will lead to invalid map");
 						}
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 
@@ -392,18 +373,13 @@ public class MapEditor {
 
 			public void actionPerformed(ActionEvent e) {
 
-				if (!(newcountryname.getText().trim().isEmpty()))// if user adds
-																	// a country
+				if (!(newcountryname.getText().trim().isEmpty()))// if user adds a country
 				{
 					adjacentCountriesToNewCountry.add((String) selectAdjacentCountry.getSelectedItem());
 				}
 
 				else {
-					JOptionPane.showMessageDialog(mapEditorFrame, "Please fill something in country name");// if
-																											// the
-																											// field
-																											// is
-																											// empty
+					JOptionPane.showMessageDialog(mapEditorFrame, "Please fill something in country name");// if the field is empty
 					// show this message.
 				}
 
@@ -421,10 +397,7 @@ public class MapEditor {
 
 				if (!(newcountryname.getText().trim().isEmpty())) {
 
-					MapWriter writeTerritory = new MapWriter(MAP_FILE_NAME);// Adding
-																			// country
-																			// to
-																			// file
+					MapWriter writeTerritory = new MapWriter(MAP_FILE_NAME);// Adding country to file
 
 					String newCountryEntry = "";
 					String newCountryName = newcountryname.getText();
@@ -446,10 +419,10 @@ public class MapEditor {
 					}
 
 					catch (IOException e1) {
-						// TODO Auto-generated catch block
+						
 						e1.printStackTrace();
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
+						
 						e1.printStackTrace();
 					}
 
@@ -468,12 +441,7 @@ public class MapEditor {
 				}
 
 				else {
-					JOptionPane.showMessageDialog(mapEditorFrame, "Please fill something in country name"); // if
-																											// field
-																											// is
-																											// empty
-																											// show
-					// this message.
+					JOptionPane.showMessageDialog(mapEditorFrame, "Please fill something in country name"); // if field is empty show this message.
 
 				}
 			}
@@ -488,10 +456,7 @@ public class MapEditor {
 
 		deleteCountry.addActionListener(new ActionListener() {
 
-			public void actionPerformed(ActionEvent e)// Deleting the country
-														// from the file
-
-			{
+			public void actionPerformed(ActionEvent e) {
 				String status;
 
 				String terittoryToDelete = countryComboBox.getSelectedItem().toString();
@@ -502,22 +467,16 @@ public class MapEditor {
 					status = deleteTerritory.deleteTerritory(terittoryToDelete);
 
 					if (status.equalsIgnoreCase("OK")) {
-						JOptionPane.showMessageDialog(mapEditorFrame, "Territory Deleted");// confirmation
-																							// message
+						// confirmation message
+						JOptionPane.showMessageDialog(mapEditorFrame, "Territory Deleted");
 						countriesComboBoxModel.removeElementAt(countryComboBox.getSelectedIndex());
 					} else {
+						// if territory is still linked with another territory.
 						JOptionPane.showMessageDialog(mapEditorFrame,
-								"Action cannot be performed as some territory has just one link to this territory");// if
-																													// territory
-																													// is
-																													// still
-																													// linked
-																													// with
-																													// another
-																													// territory.
+								"Action cannot be performed as some territory has just one link to this territory");
 					}
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
+					
 					e1.printStackTrace();
 				}
 
@@ -587,7 +546,7 @@ public class MapEditor {
 					JOptionPane.showMessageDialog(mapEditorFrame, "Territory " + territorySelected.getText()
 							+ " is assigned new continent " + selectModifiedContinentCB.getSelectedItem());
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
+					
 					e1.printStackTrace();
 				}
 
@@ -622,10 +581,7 @@ public class MapEditor {
 				MapWriter mp = new MapWriter(MAP_FILE_NAME);
 
 				try {
-					Map<String, Territory> countriesListData;// display
-																// countries
-																// from array
-																// list.
+					Map<String, Territory> countriesListData;// display countries from array list.
 					countriesOfSelectedContinentCB.removeAllItems();
 					countriesListData = mapreader
 							.getTerritoriesOfContinent(continentsComboBox.getSelectedItem().toString(), MAP_FILE_NAME);
@@ -637,7 +593,7 @@ public class MapEditor {
 					System.out.println(countriesListData.size());
 
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
+					
 					e1.printStackTrace();
 				}
 
@@ -696,7 +652,7 @@ public class MapEditor {
 					}
 
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
+					
 					e1.printStackTrace();
 				}
 
@@ -721,21 +677,16 @@ public class MapEditor {
 
 					if (s.equalsIgnoreCase("OK")) {
 
-						JOptionPane.showMessageDialog(mapEditorFrame, "Territory link Deleted");// confirmation
-																								// of
-																								// link
-																								// deletion
+						JOptionPane.showMessageDialog(mapEditorFrame, "Territory link Deleted");// confirmation of link deletion
 					} else {
+						// if link cannot be deleted
 						JOptionPane.showMessageDialog(mapEditorFrame,
-								"Action cannot be performed as some territory has just one link to this territory or this territory just have one link");// if
-																																							// link
-																																							// cannot
-																																							// be
-																																							// deleted
+								"Action cannot be performed as some territory has just one link to this territory or this territory just have one link");
+
 					}
 
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
+					
 					e1.printStackTrace();
 				}
 
@@ -792,7 +743,7 @@ public class MapEditor {
 					}
 
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
+					
 					e1.printStackTrace();
 				}
 
@@ -824,7 +775,7 @@ public class MapEditor {
 					}
 
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
+					
 					e1.printStackTrace();
 				}
 
