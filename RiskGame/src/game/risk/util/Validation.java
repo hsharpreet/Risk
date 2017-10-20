@@ -154,5 +154,21 @@ public class Validation
 		}
 		return true;
 	}
+	
+	public boolean checkTerritoryLinkBeforeDeleteLink(String territory,String link, String mapFileName)
+			throws Exception {
+		MapReader mapReader = new MapReader();
+		RiskMap riskMap = mapReader.readMap(mapFileName);
+		Territory t = mapReader.getTerritoryByName(territory, riskMap.getTerritories());
+		Territory neighbouring= mapReader.getTerritoryByName(link, riskMap.getTerritories());
+		if(t.getNeighbouringTerritories().size()==1){
+			return false;
+		}
+		if(neighbouring.getNeighbouringTerritories().size()==1){
+			return false;
+		}
+		return true;
+	}
+	
 
 }

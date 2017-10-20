@@ -329,56 +329,12 @@ public class MapWriter {
 			ArrayList<String> al = new ArrayList<>();
 			al.add(link);
 
-			String countrySelected = country;
-			File inputFile = new File(mapFileName);// file path to read
-			BufferedReader br = new BufferedReader(new FileReader(inputFile));
-			File outFile = new File("temp.map");// file path to write
-			FileOutputStream outStream = new FileOutputStream(outFile);
-			PrintWriter printWriter = new PrintWriter(outStream);
-
-			String thisLine = "";
-			while ((thisLine = br.readLine()) != null) {
-				printWriter.println(thisLine);
-				if (thisLine.equalsIgnoreCase("[Territories]")) {
-
-					while ((thisLine = br.readLine()) != null && thisLine != " ") {
-						String[] columns = thisLine.split(",");
-						String newLine = "";
-						int a = 1;
-						if (columns[0].equals(country))
-
-						{
-							a = 0;
-							if (columns.length < 6) {
-								status = "ERROR";
-								return status;
-							}
-							for (int i = 4; i < columns.length; i++) {
-								if (validate.validateLinkToDelete(link, mapFileName) == true) {
-									// System.out.println("hiii");
-								} else {
-									status = "ERROR";
-								}
-							}
-
-						}
-
-						printWriter.println(thisLine);
-
-					}
-					// printWriter.println(thisLine);
-				}
-			}
-			printWriter.flush();
-			printWriter.close();
-			br.close();
-			inputFile.delete();
-			outFile.renameTo(inputFile);
-
-			if (status.equals("OK")) {
+			if (validate.checkTerritoryLinkBeforeDeleteLink(country, link, mapFileName)) {
 				deleteLinksOfmodifiedTerritory(al, country);
 			}
-			return status;
+			else {
+				status="ERROR";
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

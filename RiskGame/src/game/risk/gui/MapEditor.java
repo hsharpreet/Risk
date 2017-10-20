@@ -24,10 +24,26 @@ import game.risk.util.Validation;
  *
  */
 public class MapEditor {
+	
+	private MapReader mapReader;
+	private RiskMap riskMap;
+	private String mapFile;
+	
+	private LinkedHashSet<String> adjacentCountriesToNewCountry;
+	
+	public MapEditor(String mapFile){
+		this.mapFile = mapFile;
+		mapReader = new MapReader();
+		try {
+			riskMap = mapReader.readMap(mapFile);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
-	public static void loadMap(String file) throws Exception {
+	public void loadMap() throws Exception {
 
-		String MAP_FILE_NAME = file;
 		JFrame mapEditorFrame = new JFrame("MAP GUI");
 
 		
@@ -49,14 +65,6 @@ public class MapEditor {
 		
 		JComboBox selectContinentForNewCountry, selectAdjacentCountry, selectModifiedContinentCB, countriesOfSelectedContinentCB,
 				linksOfSelectedCountryCB, continentsComboBox, countryComboBox;
-		
-		LinkedHashSet<String> adjacentCountriesToNewCountry = new LinkedHashSet<>();
-
-		MapReader mapReader = new MapReader();// creating object of class
-												// MapReader
-		RiskMap riskmap = mapReader.readMap(MAP_FILE_NAME);
-
-		riskmap.getContinents();// call to get the continents.
 
 		// Creating the GUI
 		addCountry = new JButton("Add New Country");
@@ -84,10 +92,10 @@ public class MapEditor {
 		countriesOfSelectedContinent = new JLabel("Countries Present");
 
 		DefaultComboBoxModel continentComboBoxModel = new DefaultComboBoxModel<>(
-				riskmap.getContinents().keySet().toArray());
+				riskMap.getContinents().keySet().toArray());
 		continentsComboBox = new JComboBox(continentComboBoxModel);
 		DefaultComboBoxModel countriesComboBoxModel = new DefaultComboBoxModel<>(
-				riskmap.getTerritories().keySet().toArray());
+				riskMap.getTerritories().keySet().toArray());
 		countryComboBox = new JComboBox(countriesComboBoxModel);
 		selectModifiedContinentCB = new JComboBox(continentComboBoxModel);
 		countriesOfSelectedContinentCB = new JComboBox<>();
@@ -106,7 +114,7 @@ public class MapEditor {
 		linksOfSelectedCountryCB = new JComboBox<>();
 
 		selectContinentForNewCountry = new JComboBox(continentComboBoxModel);
-		selectAdjacentCountry = new JComboBox(riskmap.getTerritories().keySet().toArray());
+		selectAdjacentCountry = new JComboBox(riskMap.getTerritories().keySet().toArray());
 		// Setting the coordinates
 		addCountry.setBounds(770, 143, 160, 30);
 		deleteCountry.setBounds(770, 23, 160, 30);
@@ -230,8 +238,6 @@ public class MapEditor {
 		addContinent.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-
-				MapEditor loadmap = new MapEditor();
 				JTextField name = new JTextField();
 				JTextField value = new JTextField();
 				Object[] message = { "Name:", name, "Value:", value };
@@ -252,13 +258,14 @@ public class MapEditor {
 
 					} else {
 						// if field value not empty write field value in file
-						MapWriter writeContinent = new MapWriter(MAP_FILE_NAME);
+						MapWriter writeContinent = new MapWriter(mapFile);
 						try {
 							writeContinent.addContinent(name.getText(), value.getText());
 							continentComboBoxModel.addElement(name.getText());
 							JOptionPane.showMessageDialog(mapEditorFrame, "Continent Added Sucessfully");
+							riskMap= mapReader.readMap(mapFile);
 
-						} catch (IOException e1) {
+						} catch (Exception e1) {
 							
 							e1.printStackTrace();
 						}
@@ -283,15 +290,15 @@ public class MapEditor {
 						"Delete Continent", JOptionPane.OK_CANCEL_OPTION);
 				if (option == JOptionPane.OK_OPTION)// if user selects ok option
 				{
-					MapWriter mapWriter = new MapWriter(MAP_FILE_NAME);
+					MapWriter mapWriter = new MapWriter(mapFile);
 					Validation validate = new Validation();
 
 					try {
 						String continentSelected = continentsComboBox.getSelectedItem().toString();
 						Map<String, Territory> territoriesList = mapReader.getTerritoriesOfContinent(continentSelected,
-								MAP_FILE_NAME);
+								mapFile);
 
-						status = validate.checkTerritoriesBeforeDeletingContinent(continentSelected, MAP_FILE_NAME);
+						status = validate.checkTerritoriesBeforeDeletingContinent(continentSelected, mapFile);
 						if (status) {
 							for (Territory territoryToDelete : territoriesList.values()) {
 								mapWriter.deleteTerritoriesOfContinentDeleted(territoryToDelete.getName());
@@ -301,6 +308,7 @@ public class MapEditor {
 							for (Territory territoryToDelete : territoriesList.values()) {
 								countriesComboBoxModel.removeElement(territoryToDelete.getName());
 							}
+							riskMap = mapReader.readMap(mapFile);
 						}
 
 						else {
@@ -348,7 +356,8 @@ public class MapEditor {
 				linksOfSelectedCountryCB.setVisible(false);
 				linksOfSelectedCountryLabel.setVisible(false);
 				countrySelectedToShowLinksToAddButton.setVisible(false);
-
+				
+                newcountryname.setText("");
 				newcountryname.setVisible(true);
 				selectContinentForNewCountry.setVisible(true);
 				selectAdjacentCountry.setVisible(true);
@@ -357,6 +366,7 @@ public class MapEditor {
 				adjacentToNewCountry.setVisible(true);
 				addAdjacentCountry.setVisible(true);
 				submitNewCountry.setVisible(true);
+				adjacentCountriesToNewCountry= new LinkedHashSet<>();
 
 			}
 		});
@@ -391,7 +401,7 @@ public class MapEditor {
 
 				if (!(newcountryname.getText().trim().isEmpty())) {
 
-					MapWriter writeTerritory = new MapWriter(MAP_FILE_NAME);// Adding country to file
+					MapWriter writeTerritory = new MapWriter(mapFile);// Adding country to file
 
 					String newCountryEntry = "";
 					String newCountryName = newcountryname.getText();
@@ -410,18 +420,11 @@ public class MapEditor {
 						writeTerritory.addNewCountryLinkToTerritories(newcountryname.getText(),
 								adjacentCountriesToNewCountry);
 						countriesComboBoxModel.addElement(newcountryname.getText());
-					}
-
-					catch (IOException e1) {
-						
-						e1.printStackTrace();
-					} catch (Exception e1) {
-						
-						e1.printStackTrace();
-					}
+					
 
 					JOptionPane.showMessageDialog(mapEditorFrame, "Territory with continent " + continentOfNewCountry
 							+ " and specified links has been added");
+					riskMap = mapReader.readMap(mapFile);
 					// setting up the visibility
 					newcountryname.setVisible(false);
 					selectContinentForNewCountry.setVisible(false);
@@ -432,6 +435,15 @@ public class MapEditor {
 					adjacentToNewCountry.setVisible(false);
 					addAdjacentCountry.setVisible(false);
 					submitNewCountry.setVisible(false);
+					}
+
+					catch (IOException e1) {
+						
+						e1.printStackTrace();
+					} catch (Exception e1) {
+						
+						e1.printStackTrace();
+					}
 				}
 
 				else {
@@ -455,7 +467,7 @@ public class MapEditor {
 
 				String terittoryToDelete = countryComboBox.getSelectedItem().toString();
 
-				MapWriter deleteTerritory = new MapWriter(MAP_FILE_NAME);
+				MapWriter deleteTerritory = new MapWriter(mapFile);
 
 				try {
 					status = deleteTerritory.deleteTerritory(terittoryToDelete);
@@ -464,6 +476,7 @@ public class MapEditor {
 						// confirmation message
 						JOptionPane.showMessageDialog(mapEditorFrame, "Territory Deleted");
 						countriesComboBoxModel.removeElementAt(countryComboBox.getSelectedIndex());
+						riskMap = mapReader.readMap(mapFile);
 					} else {
 						// if territory is still linked with another territory.
 						JOptionPane.showMessageDialog(mapEditorFrame,
@@ -489,7 +502,7 @@ public class MapEditor {
 
 				String terittorySelected = countryComboBox.getSelectedItem().toString();
 
-				MapWriter mp = new MapWriter(MAP_FILE_NAME);
+				MapWriter mp = new MapWriter(mapFile);
 
 				// setting up the visibility of the components
 				newcountryname.setVisible(false);
@@ -517,7 +530,7 @@ public class MapEditor {
 
 				territorySelected.setText(countryComboBox.getSelectedItem().toString());
 				territorySelected.setFocusable(false);
-				presentContinentField.setText(riskmap.getTerritories().get(territorySelected.getText()).getContinent());
+				presentContinentField.setText(riskMap.getTerritories().get(territorySelected.getText()).getContinent());
 				presentContinentField.setFocusable(false);
 			}
 		});
@@ -530,20 +543,26 @@ public class MapEditor {
 
 			public void actionPerformed(ActionEvent e) {
 				// changes to the file to assign new country
-				MapWriter mp = new MapWriter(MAP_FILE_NAME);
+				MapWriter mp = new MapWriter(mapFile);
 				territorySelected.setText(countryComboBox.getSelectedItem().toString());
 				territorySelected.setFocusable(false);
+				if (presentContinentField.getText()
+						.equalsIgnoreCase((String) selectModifiedContinentCB.getSelectedItem())) {
+					JOptionPane.showMessageDialog(mapEditorFrame,
+							"This continent is already assigned , please select other");
+				} else {
+					try {
+						mp.assignNewContinent((String) selectModifiedContinentCB.getSelectedItem(),
+								territorySelected.getText());
+						JOptionPane.showMessageDialog(mapEditorFrame, "Territory " + territorySelected.getText()
+								+ " is assigned new continent " + selectModifiedContinentCB.getSelectedItem());
+						riskMap = mapReader.readMap(mapFile);
+					} catch (Exception e1) {
 
-				try {
-					mp.assignNewContinent((String) selectModifiedContinentCB.getSelectedItem(),
-							territorySelected.getText());
-					JOptionPane.showMessageDialog(mapEditorFrame, "Territory " + territorySelected.getText()
-							+ " is assigned new continent " + selectModifiedContinentCB.getSelectedItem());
-				} catch (Exception e1) {
-					
-					e1.printStackTrace();
+						e1.printStackTrace();
+					}
+
 				}
-
 			}
 
 		});
@@ -572,13 +591,13 @@ public class MapEditor {
 				selectedContinentField.setText(continentsComboBox.getSelectedItem().toString());
 				selectedContinentField.setFocusable(false);
 
-				MapWriter mp = new MapWriter(MAP_FILE_NAME);
+				MapWriter mp = new MapWriter(mapFile);
 
 				try {
 					Map<String, Territory> countriesListData;// display countries from array list.
 					countriesOfSelectedContinentCB.removeAllItems();
 					countriesListData = mapReader
-							.getTerritoriesOfContinent(continentsComboBox.getSelectedItem().toString(), MAP_FILE_NAME);
+							.getTerritoriesOfContinent(continentsComboBox.getSelectedItem().toString(), mapFile);
 
 					for (Territory territory : countriesListData.values()) {
 						countriesOfSelectedContinentCB.addItem(territory.getName());
@@ -632,13 +651,13 @@ public class MapEditor {
 				countrySelectedToShowLinksToDeleteTF.setText(countryComboBox.getSelectedItem().toString());
 				countrySelectedToShowLinksToDeleteTF.setFocusable(false);
 
-				MapWriter mp = new MapWriter(MAP_FILE_NAME);
+				MapWriter mp = new MapWriter(mapFile);
 
 				try {
 					java.util.List<String> countriesLink = new ArrayList<String>();
 					countriesLink.clear();
 					linksOfSelectedCountryCB.removeAllItems();
-					countriesLink = riskmap.getTerritories().get(countryComboBox.getSelectedItem().toString())
+					countriesLink = riskMap.getTerritories().get(countryComboBox.getSelectedItem().toString())
 							.getNeighbouringTerritories();
 
 					for (int i = 0; i < countriesLink.size(); i++) {
@@ -663,7 +682,7 @@ public class MapEditor {
 
 			{
 
-				MapWriter mp = new MapWriter(MAP_FILE_NAME);
+				MapWriter mp = new MapWriter(mapFile);
 
 				try {
 					String s = mp.deleteLink((String) linksOfSelectedCountryCB.getSelectedItem(),
@@ -672,6 +691,13 @@ public class MapEditor {
 					if (s.equalsIgnoreCase("OK")) {
 
 						JOptionPane.showMessageDialog(mapEditorFrame, "Territory link Deleted");// confirmation of link deletion
+						riskMap = mapReader.readMap(mapFile);
+						countrySelectedToShowLinksToDeleteButton.setVisible(false);
+						countrySelectedToShowLinksToDeleteTF.setVisible(false);
+						countrySelectedToShowLinksToDeleteLabel.setVisible(false);
+						linksOfSelectedCountryCB.setVisible(false);
+						linksOfSelectedCountryLabel.setVisible(false);
+						countrySelectedToShowLinksToDeleteButton.setVisible(false);
 					} else {
 						// if link cannot be deleted
 						JOptionPane.showMessageDialog(mapEditorFrame,
@@ -727,11 +753,11 @@ public class MapEditor {
 				countrySelectedToShowLinksToDeleteTF.setText(countryComboBox.getSelectedItem().toString());
 				countrySelectedToShowLinksToDeleteTF.setFocusable(false);
 
-				MapWriter mp = new MapWriter(MAP_FILE_NAME);
+				MapWriter mp = new MapWriter(mapFile);
 
 				try {
-					for (int i = 0; i < riskmap.getTerritories().keySet().toArray().length; i++) {
-						linksOfSelectedCountryCB.addItem(riskmap.getTerritories().keySet().toArray()[i]);// adding
+					for (int i = 0; i < riskMap.getTerritories().keySet().toArray().length; i++) {
+						linksOfSelectedCountryCB.addItem(riskMap.getTerritories().keySet().toArray()[i]);// adding
 																											// the
 																											// links
 					}
@@ -752,7 +778,7 @@ public class MapEditor {
 			public void actionPerformed(ActionEvent e)
 
 			{
-				MapWriter mw = new MapWriter(MAP_FILE_NAME);
+				MapWriter mw = new MapWriter(mapFile);
 
 				try {
 					String s = mw.addLink((String) linksOfSelectedCountryCB.getSelectedItem(),
@@ -762,6 +788,7 @@ public class MapEditor {
 						mw.addLink(countrySelectedToShowLinksToDeleteTF.getText(),
 								(String) linksOfSelectedCountryCB.getSelectedItem());
 						JOptionPane.showMessageDialog(mapEditorFrame, "Territory link added");
+						riskMap = mapReader.readMap(mapFile);
 					} else if (s.equalsIgnoreCase("ERROR_LinkAlreadyExists")) {
 						JOptionPane.showMessageDialog(mapEditorFrame, "Link already present");
 					} else {

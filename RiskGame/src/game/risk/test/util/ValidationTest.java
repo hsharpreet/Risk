@@ -140,5 +140,16 @@ public class ValidationTest {
 
 		assertFalse(result);
 	}
+	
+	@Test
+	public void testCheckTerritoryLinkBeforeDeleteLinkFalse() throws Exception {
+
+		String mapFile = "WorldDeleteInvalid3.map";
+
+		Validation validateMapWriter = new Validation();
+		boolean result = validateMapWriter.checkTerritoryLinkBeforeDeleteLink("test1","test2", mapFile);
+
+		assertFalse(result);
+	}
 
 }

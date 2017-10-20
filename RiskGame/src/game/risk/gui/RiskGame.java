@@ -86,9 +86,9 @@ public class RiskGame extends javax.swing.JFrame {
 		btMapEditor.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				MapEditor editor = new MapEditor();
+				MapEditor editor = new MapEditor(tfMapFile.getText());
 				try {
-					editor.loadMap(tfMapFile.getText());
+					editor.loadMap();
 				} catch (Exception e1) {
 					System.out.println("Error while loading this Map:"+tfMapFile.getText());
 					JOptionPane.showMessageDialog(jpPlayground, "Load Map failed. Try again !");
