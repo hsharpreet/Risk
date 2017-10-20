@@ -48,11 +48,11 @@ public class RiskGame extends javax.swing.JFrame {
 	// Code">//GEN-BEGIN:initComponents
 	private void initComponents() {
 
-		jPanel1 = new javax.swing.JPanel();
+		jPanelTop = new javax.swing.JPanel();
 		tfMapFile = new javax.swing.JTextField();
-		jLabel2 = new javax.swing.JLabel();
+		jLabelSelectMap = new javax.swing.JLabel();
 		btBrowse = new javax.swing.JButton();
-		jLabel1 = new javax.swing.JLabel();
+		jLabelPlayerCount = new javax.swing.JLabel();
 		cbPlayerCount = new javax.swing.JComboBox<>();
 		btLoad = new javax.swing.JButton();
 		btMapEditor = new javax.swing.JButton();
@@ -64,12 +64,12 @@ public class RiskGame extends javax.swing.JFrame {
 		setSize(new java.awt.Dimension(1000, 700));
 		getContentPane().setLayout(null);
 
-		jPanel1.setBackground(new java.awt.Color(204, 204, 204));
-		jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+		jPanelTop.setBackground(new java.awt.Color(204, 204, 204));
+		jPanelTop.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
 		tfMapFile.setFocusable(false);
 
-		jLabel2.setText("Select Map File");
+		jLabelSelectMap.setText("Select Map File");
 
 		btBrowse.setText("...");
 		btBrowse.addActionListener(new java.awt.event.ActionListener() {
@@ -78,23 +78,20 @@ public class RiskGame extends javax.swing.JFrame {
 			}
 		});
 
-		jLabel1.setText("Players count");
+		jLabelPlayerCount.setText("Players count");
 
 		cbPlayerCount.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2", "3", "4", "5", "6" }));
 
 		btMapEditor.setText("Edit Map");
 		btMapEditor.addActionListener(new ActionListener() {
 
-			public void actionPerformed(ActionEvent e)
-
-			{
+			public void actionPerformed(ActionEvent e) {
 				MapEditor editor = new MapEditor();
 				try {
-
 					editor.loadMap(tfMapFile.getText());
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					System.out.println("Error while loading this Map:"+tfMapFile.getText());
+					JOptionPane.showMessageDialog(jpPlayground, "Load Map failed. Try again !");
 				}
 			}
 
@@ -107,16 +104,16 @@ public class RiskGame extends javax.swing.JFrame {
 				if (tfMapFile.getText().endsWith(".map") || tfMapFile.getText().endsWith(".MAP")) {
 					btLoadActionPerformed(evt);
 				} else {
-					JOptionPane.showMessageDialog(jpPlayground, "Map File could not read. Try again !");
+					JOptionPane.showMessageDialog(jpPlayground, "Map File could not read or invalid file. Try again !");
 				}
 			}
 		});
 
-		javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-		jPanel1.setLayout(jPanel1Layout);
+		javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanelTop);
+		jPanelTop.setLayout(jPanel1Layout);
 		jPanel1Layout.setHorizontalGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel1Layout.createSequentialGroup().addGap(9, 9, 9)
-						.addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 84,
+						.addComponent(jLabelSelectMap, javax.swing.GroupLayout.PREFERRED_SIZE, 84,
 								javax.swing.GroupLayout.PREFERRED_SIZE)
 						.addGap(10, 10, 10)
 						.addComponent(tfMapFile, javax.swing.GroupLayout.PREFERRED_SIZE, 132,
@@ -125,7 +122,7 @@ public class RiskGame extends javax.swing.JFrame {
 						.addComponent(btBrowse, javax.swing.GroupLayout.PREFERRED_SIZE, 29,
 								javax.swing.GroupLayout.PREFERRED_SIZE)
 						.addGap(58, 58, 58)
-						.addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 97,
+						.addComponent(jLabelPlayerCount, javax.swing.GroupLayout.PREFERRED_SIZE, 97,
 								javax.swing.GroupLayout.PREFERRED_SIZE)
 						.addGap(10, 10, 10)
 						.addComponent(cbPlayerCount, javax.swing.GroupLayout.PREFERRED_SIZE, 51,
@@ -139,13 +136,13 @@ public class RiskGame extends javax.swing.JFrame {
 		jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel1Layout.createSequentialGroup().addGap(13, 13, 13)
 						.addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-								.addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 31,
+								.addComponent(jLabelSelectMap, javax.swing.GroupLayout.PREFERRED_SIZE, 31,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
 								.addComponent(tfMapFile, javax.swing.GroupLayout.PREFERRED_SIZE, 31,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
 								.addComponent(btBrowse, javax.swing.GroupLayout.PREFERRED_SIZE, 31,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31,
+								.addComponent(jLabelPlayerCount, javax.swing.GroupLayout.PREFERRED_SIZE, 31,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
 								.addComponent(cbPlayerCount, javax.swing.GroupLayout.PREFERRED_SIZE, 31,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -156,8 +153,8 @@ public class RiskGame extends javax.swing.JFrame {
 
 						.addGap(15, 15, 15)));
 
-		getContentPane().add(jPanel1);
-		jPanel1.setBounds(10, 10, 960, 60);
+		getContentPane().add(jPanelTop);
+		jPanelTop.setBounds(10, 10, 960, 60);
 
 		jScrollPane1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -208,7 +205,7 @@ public class RiskGame extends javax.swing.JFrame {
 						for (int i = 0; i < playerCount; i++) {
 							Territory t = territories.get(it.next());
 							CurrentGameStatics cgs = playerPanel[i].new CurrentGameStatics(1, t);
-							playerPanel[i].list.add(cgs);
+							playerPanel[i].currentGameStaticsList.add(cgs);
 
 						}
 					} catch (Exception ex) {
@@ -217,10 +214,10 @@ public class RiskGame extends javax.swing.JFrame {
 					}
 				}
 				for (int i = 0; i < playerCount; i++) {
-					playerPanel[i].infantriesAvailable = (totalArmies[playerCount - 2]) - (playerPanel[i].list.size());
+					playerPanel[i].infantriesAvailable = (totalArmies[playerCount - 2]) - (playerPanel[i].currentGameStaticsList.size());
 					playerPanel[i].lbAvailableArmies
 							.setText("Available Infantries : " + playerPanel[i].infantriesAvailable);
-					playerPanel[i].tm.fireTableDataChanged();
+					playerPanel[i].currentGameStaticsTableModel.fireTableDataChanged();
 
 					playerPanel[i].btPlaceInfantry.addActionListener(new PlaceInfantryClickListener(i));
 					playerPanel[i].btFortification.addActionListener(new FortificationClickListener(i));
@@ -258,11 +255,11 @@ public class RiskGame extends javax.swing.JFrame {
 				if (index == -1) {
 					JOptionPane.showMessageDialog(playerPanel[i], "Select terriotary first");
 				} else {
-					playerPanel[i].list.get(index).infantries++;
+					playerPanel[i].currentGameStaticsList.get(index).infantries++;
 					playerPanel[i].infantriesAvailable--;
 					playerPanel[i].lbAvailableArmies
 							.setText("Available Infantries : " + playerPanel[i].infantriesAvailable);
-					playerPanel[i].tm.fireTableDataChanged();
+					playerPanel[i].currentGameStaticsTableModel.fireTableDataChanged();
 					playerPanel[i].btPlaceInfantry.setEnabled(false);
 					nextIndexToEnableButton(i);
 
@@ -302,15 +299,15 @@ public class RiskGame extends javax.swing.JFrame {
 
 	public void reinforcement(boolean firstCallToThisFunction) {
 		for (int i = 0; i < playerPanel.length; i++) {
-			int n = playerPanel[i].list.size() / 3;
+			int n = playerPanel[i].currentGameStaticsList.size() / 3;
 			if (n < 3) {
 				n = 3;
 			}
 			// Check if all terrotries are in same continent
 			boolean flag = true;
-			String firstContinent = playerPanel[i].list.get(0).territory.getContinent();
-			for (int j = 1; j < playerPanel[i].list.size(); j++) {
-				String continent = playerPanel[i].list.get(j).territory.getContinent();
+			String firstContinent = playerPanel[i].currentGameStaticsList.get(0).territory.getContinent();
+			for (int j = 1; j < playerPanel[i].currentGameStaticsList.size(); j++) {
+				String continent = playerPanel[i].currentGameStaticsList.get(j).territory.getContinent();
 				if (!firstContinent.equals(continent)) {
 					flag = false;
 					break;
@@ -365,11 +362,11 @@ public class RiskGame extends javax.swing.JFrame {
 				if (index == -1) {
 					JOptionPane.showMessageDialog(playerPanel[i], "Select terriotary first");
 				} else {
-					playerPanel[i].list.get(index).infantries++;
+					playerPanel[i].currentGameStaticsList.get(index).infantries++;
 					playerPanel[i].infantriesAvailable--;
 					playerPanel[i].lbAvailableArmies
 							.setText("Available Infantries : " + playerPanel[i].infantriesAvailable);
-					playerPanel[i].tm.fireTableDataChanged();
+					playerPanel[i].currentGameStaticsTableModel.fireTableDataChanged();
 
 					if (playerPanel[i].infantriesAvailable == 0) {
 						playerPanel[i].btReinforcement.setEnabled(false);
@@ -410,21 +407,21 @@ public class RiskGame extends javax.swing.JFrame {
 			} else {
 				String destinationTerritory = playerPanel[i].lsNeighbour.getSelectedValue();
 				boolean isDestinationMyOwnCountry = false;
-				for (int j = 0; j < playerPanel[i].list.size(); j++) {
-					if (playerPanel[i].list.get(j).territory.getName().equals(destinationTerritory)) {
+				for (int j = 0; j < playerPanel[i].currentGameStaticsList.size(); j++) {
+					if (playerPanel[i].currentGameStaticsList.get(j).territory.getName().equals(destinationTerritory)) {
 						isDestinationMyOwnCountry = true;
 						break;
 					}
 				}
 				if (isDestinationMyOwnCountry) {
-					if (playerPanel[i].list.get(tableIndex).infantries > 1) {
+					if (playerPanel[i].currentGameStaticsList.get(tableIndex).infantries > 1) {
 
-						playerPanel[i].list.get(tableIndex).infantries--;
+						playerPanel[i].currentGameStaticsList.get(tableIndex).infantries--;
 
-						for (int j = 0; j < playerPanel[i].list.size(); j++) {
-							if (playerPanel[i].list.get(j).territory.getName().equals(destinationTerritory)) {
-								playerPanel[i].list.get(j).infantries++;
-								playerPanel[i].tm.fireTableDataChanged();
+						for (int j = 0; j < playerPanel[i].currentGameStaticsList.size(); j++) {
+							if (playerPanel[i].currentGameStaticsList.get(j).territory.getName().equals(destinationTerritory)) {
+								playerPanel[i].currentGameStaticsList.get(j).infantries++;
+								playerPanel[i].currentGameStaticsTableModel.fireTableDataChanged();
 								break;
 							}
 						}
@@ -497,16 +494,15 @@ public class RiskGame extends javax.swing.JFrame {
 		});
 	}
 
-	// Variables declaration - do not modify//GEN-BEGIN:variables
+	// Variables declaration
 	private javax.swing.JButton btBrowse;
 	private javax.swing.JButton btLoad;
 	private javax.swing.JButton btMapEditor;
 	private javax.swing.JComboBox<String> cbPlayerCount;
-	private javax.swing.JLabel jLabel1;
-	private javax.swing.JLabel jLabel2;
-	private javax.swing.JPanel jPanel1;
+	private javax.swing.JLabel jLabelPlayerCount;
+	private javax.swing.JLabel jLabelSelectMap;
+	private javax.swing.JPanel jPanelTop;
 	private javax.swing.JScrollPane jScrollPane1;
 	private javax.swing.JPanel jpPlayground;
 	private javax.swing.JTextField tfMapFile;
-	// End of variables declaration//GEN-END:variables
 }
