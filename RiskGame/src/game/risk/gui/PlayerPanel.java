@@ -87,7 +87,11 @@ public class PlayerPanel extends javax.swing.JPanel {
 		}
 
 	}
-
+	/**
+	 * This class is a list model which is used to make the displaying list dynamic
+	 * 
+	 */
+	
 	public class NeighbourListModel extends AbstractListModel {
 
 		@Override
