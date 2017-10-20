@@ -88,9 +88,13 @@ public class RiskGame extends javax.swing.JFrame {
 			public void actionPerformed(ActionEvent e) {
 				MapEditor editor = new MapEditor(tfMapFile.getText());
 				try {
-					editor.loadMap();
+					if (editor.getRiskMap() != null) {
+						editor.loadMap();
+					} else {
+						JOptionPane.showMessageDialog(jpPlayground, "Map File is invalid. Try again !");
+					}
 				} catch (Exception e1) {
-					System.out.println("Error while loading this Map:"+tfMapFile.getText());
+					System.out.println("Error while loading this Map:" + tfMapFile.getText());
 					JOptionPane.showMessageDialog(jpPlayground, "Load Map failed. Try again !");
 				}
 			}
@@ -234,7 +238,7 @@ public class RiskGame extends javax.swing.JFrame {
 				this.setSize(this.getWidth() - 1, this.getHeight() - 1);
 
 			} else {
-				JOptionPane.showMessageDialog(this, "Map File could not read. Try again !");
+				JOptionPane.showMessageDialog(this, "Map File is invalid. Try again !");
 			}
 		} else {
 			JOptionPane.showMessageDialog(this, "Map File could not read. Try again !");

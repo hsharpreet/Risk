@@ -1,15 +1,19 @@
 package game.risk.gui;
 
-import java.awt.Color;
-import java.awt.List;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 
-import javax.swing.*;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 import game.risk.model.MapReader;
 import game.risk.model.MapWriter;
@@ -18,7 +22,7 @@ import game.risk.model.Territory;
 import game.risk.util.ValidateMapWriter;
 
 /**
- * A java class to Load the Map
+ * A class to load and edit the map
  * 
  * @author Team
  *
@@ -42,6 +46,10 @@ public class MapEditor {
 		}
 	}
 
+	/**
+	 * Method that loads the riskMap object on GUI
+	 * @throws Exception
+	 */
 	public void loadMap() throws Exception {
 
 		JFrame mapEditorFrame = new JFrame("MAP GUI");
@@ -819,5 +827,15 @@ public class MapEditor {
 
 		mapEditorFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
+
+
+	/**
+	 * Method to get RiskMap object
+	 * @return RiskMap object of RiskMap after reading the map file
+	 */
+	public RiskMap getRiskMap() {
+		return riskMap;
+	}
+
 
 }
