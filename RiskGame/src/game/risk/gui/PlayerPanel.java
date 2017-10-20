@@ -26,7 +26,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 	public List<String> neighbours;
 
 	/**
-	 * Constructor to Initialize object
+	 * Constructor to Initialize object and it has the fields which saves the present panel of the player playing
 	 * 
 	 */
 	public PlayerPanel() {
@@ -53,7 +53,10 @@ public class PlayerPanel extends javax.swing.JPanel {
 		});
 
 	}
-
+	/**
+	 * This class saves the current statics of the player
+	 * 
+	 */
 	public class CurrentGameStaticsTableModel extends AbstractTableModel {
 
 		String columnNames[] = { "Territory", "Continent", "Infantries" };
