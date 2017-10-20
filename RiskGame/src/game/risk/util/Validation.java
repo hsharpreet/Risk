@@ -10,8 +10,10 @@ import java.util.List;
 import java.util.Map;
 
 import game.risk.model.Territory;
+
 /**
  * Class to validate MapWriter
+ * 
  * @author Team
  *
  */
@@ -19,12 +21,15 @@ public class Validation
 
 {
 	/**
-	 * Method to validate add link method
-	 * @param countryName the name of the country
-	 * @param linkName the name of the link
-	 * @param thisLine 
-	 * @return true if the link can be added
-	 * @return false if the link cannot be added
+	 * Method to validate AddLink method and check if the neighbor can be added
+	 * 
+	 * @param countryName
+	 *            the name of the country
+	 * @param linkName
+	 *            the name of the link
+	 * @param thisLine
+	 * @return true if the neighbor can be added
+	 * @return false if the neighbor cannot be added
 	 * @throws Exception
 	 */
 	public boolean validateAddLink(String countryName, String linkName, String thisLine) throws Exception {
@@ -42,15 +47,19 @@ public class Validation
 
 		return true;
 	}
-/**
- * Method to validate that a country cannot select itself to add as link
- * @param countryName the name of the country
- * @param linkName the name of the link
- * @param thisLine
- * @return false if country can add itself as link
- * @return true if country cannot add itself as link
- * @throws Exception
- */
+
+	/**
+	 * Method to validate that a country cannot select itself to add as neighbor
+	 * 
+	 * @param countryName
+	 *            the name of the country
+	 * @param linkName
+	 *            the name of the link
+	 * @param thisLine
+	 * @return false if country can add itself as link
+	 * @return true if country cannot add itself as link
+	 * @throws Exception
+	 */
 	public boolean validateAddLinkAddingItself(String countryName, String linkName, String thisLine) throws Exception {
 		if (countryName.equals(linkName)) {
 			return false;
@@ -58,14 +67,19 @@ public class Validation
 		return true;
 
 	}
-/**
- * Method to validate whether territory could be deleted if neighboring countries are more than 1
- * @param link the link to be deleted
- * @param mapFileName the name of the map file
- * @return true if the link delete
- * @return false if the link do not delete
- * @throws Exception
- */
+
+	/**
+	 * Method to validate whether territory could be deleted if neighboring
+	 * countries are more than 1
+	 * 
+	 * @param link
+	 *            the link to be deleted
+	 * @param mapFileName
+	 *            the name of the map file
+	 * @return true if the link delete
+	 * @return false if the link do not delete
+	 * @throws Exception
+	 */
 	public boolean validateLinkToDelete(String link, String mapFileName) throws Exception {
 		String linked_country = link;
 		String mapFile = mapFileName;
@@ -76,9 +90,9 @@ public class Validation
 			if (line.equalsIgnoreCase("[Territories]")) {
 				while ((line = br.readLine()) != null) {
 					String[] column_adjacentTerritory = line.split(",");
-					//if neighbouring countries are more than 1 
+					// if neighbouring countries are more than 1
 					if (linked_country.equals(column_adjacentTerritory[0]) && column_adjacentTerritory.length > 5) {
-						
+
 						return true;
 					}
 				}
@@ -86,13 +100,15 @@ public class Validation
 		}
 		return false;
 	}
-	
-	
-	
+
 	/**
-	 * Method to check delete continent option to check that countries to be deleted after deleting continent will not leave map as invalid
-	 * @param countriesListData the list of countries
-	 * @param mapFileName the file name
+	 * Method to check delete continent option to check that countries to be deleted
+	 * after deleting continent will not leave map as invalid
+	 * 
+	 * @param countriesListData
+	 *            the list of countries
+	 * @param mapFileName
+	 *            the file name
 	 * @return status the status of the process
 	 * @throws Exception
 	 */
@@ -113,11 +129,12 @@ public class Validation
 		}
 		return true;
 	}
-	
 
-	
-	/** Method to check before deleting a territory that all its adjacent territories does not have just 1 adjacent territory i.e the one we wish to delete
-	 * @param thisLine 
+	/**
+	 * Method to check before deleting a territory that all its adjacent territories
+	 * does not have just 1 adjacent territory i.e the one we wish to delete
+	 * 
+	 * @param thisLine
 	 * @param mapFileName
 	 * @return false if adjacent territories have more than 1 adjacent territory
 	 * @return true if adjacent territories have just 1 adjacent territory
@@ -137,5 +154,5 @@ public class Validation
 		}
 		return true;
 	}
-			
+
 }
