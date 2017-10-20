@@ -20,6 +20,7 @@ public class Territory {
 	 * Method to get name of the territory
 	 * 
 	 * @return name the name of the territory
+	 * 
 	 */
 	public String getName() {
 		return name;

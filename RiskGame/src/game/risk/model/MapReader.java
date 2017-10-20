@@ -21,7 +21,6 @@ public class MapReader {
 	
 	/**
 	 * Method to get Countries of the continents from the file
-	 * 
 	 * @param selectedContinent
 	 *            the continent whose countries have to be listed
 	 * @param path
