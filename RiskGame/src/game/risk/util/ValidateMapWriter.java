@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import game.risk.model.RiskMap;
 import game.risk.model.Territory;
 
 /**

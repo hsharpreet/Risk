@@ -6,9 +6,9 @@
 package game.risk.gui;
 
 import game.risk.gui.PlayerPanel.CurrentGameStatics;
+import game.risk.model.RiskMap;
 import game.risk.model.Territory;
 import game.risk.util.MapReader;
-import game.risk.util.RiskMap;
 
 import java.awt.Color;
 import java.awt.Dimension;

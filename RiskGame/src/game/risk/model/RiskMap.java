@@ -1,8 +1,6 @@
-package game.risk.util;
+package game.risk.model;
 
 import java.util.HashMap;
-
-import game.risk.model.Territory;
 
 /**
  * A class which stores information about the map, continents and continents
