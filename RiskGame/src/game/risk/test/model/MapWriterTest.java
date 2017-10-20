@@ -1,4 +1,4 @@
-package game.risk.test.util;
+package game.risk.test.model;
 
 import static org.junit.Assert.*;
 
