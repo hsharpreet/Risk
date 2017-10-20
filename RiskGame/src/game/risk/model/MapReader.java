@@ -232,7 +232,7 @@ public class MapReader {
 	 */
 	public Territory getTerritoryByName(String name, Map<String, Territory> territoryList) {
 		for (Territory t : territoryList.values()) {
-			if (t.getName().equalsIgnoreCase(name)) {
+			if (t.getName().equalsIgnoreCase(name.trim())) {
 				return t;
 			}
 		}
