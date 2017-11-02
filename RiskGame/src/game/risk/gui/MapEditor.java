@@ -13,6 +13,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import game.risk.model.MapReader;
@@ -57,7 +58,8 @@ public class MapEditor {
 		JButton addCountry, addContinent, deleteContinent, addAdjacentCountry, submitNewCountry, deleteCountry,
 		changeContinent, assignNewContinent, viewCountriesOfContinent, deleteCountryLink,
 		deleteSelectedLinkOfCountry, countrySelectedToShowLinksToDeleteButton, addCountryLink,
-		countrySelectedToShowLinksToAddButton, saveMap;
+		countrySelectedToShowLinksToAddButton, saveMap,
+		btmapFromScratch;
 
 		
 		JLabel continentLabel, countryLabel, newCountryNameLabel, continentForNewCountry, adjacentToNewCountry,
@@ -81,10 +83,10 @@ public class MapEditor {
 		addContinent = new JButton("Add New Continent");
 		deleteContinent = new JButton("Delete Selected Continent");
 		viewCountriesOfContinent = new JButton("View Countries Of Continent");
-
 		addAdjacentCountry = new JButton("Add");
 		submitNewCountry = new JButton("Submit data");
 		assignNewContinent = new JButton("Change Continent");
+		btmapFromScratch = new JButton("Map from Scratch");
 
 		continentLabel = new JLabel("Continents");
 		countryLabel = new JLabel("Countries");
@@ -136,6 +138,8 @@ public class MapEditor {
 		deleteCountryLink.setBounds(770, 83, 160, 30);
 		addCountryLink.setBounds(770, 113, 160, 30);
 
+		btmapFromScratch.setBounds(400, 350, 180, 30);
+		
 		continentLabel.setBounds(40, 0, 100, 30);
 		countryLabel.setBounds(580, 0, 100, 30);
 		continentsComboBox.setBounds(40, 24, 190, 30);
@@ -172,6 +176,8 @@ public class MapEditor {
 		mapEditorFrame.add(continentsComboBox);
 		mapEditorFrame.add(countryComboBox);
 
+		mapEditorFrame.add(btmapFromScratch);
+		
 		mapEditorFrame.add(addContinent);
 		mapEditorFrame.add(deleteContinent);
 		mapEditorFrame.add(addCountry);
@@ -238,6 +244,27 @@ public class MapEditor {
 		linksOfSelectedCountryLabel.setVisible(false);
 		countrySelectedToShowLinksToAddButton.setVisible(false);
 
+		//btmapFromScratch
+		/**
+		 * A method to add continent to the file.
+		 */
+		btmapFromScratch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JPanel panel = (JPanel) mapEditorFrame.getContentPane();
+				panel.removeAll();
+				panel.revalidate();
+				panel.repaint();
+				
+				openMapFromScratchFrame();
+			}
+
+			private void openMapFromScratchFrame() {
+				//Will add all components for map from scratch.
+			}
+
+		});
+		
+		
 		/**
 		 * A method to add continent to the file.
 		 */
