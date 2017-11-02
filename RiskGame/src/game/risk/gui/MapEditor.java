@@ -259,7 +259,7 @@ public class MapEditor {
 			}
 
 			private void openMapFromScratchFrame() {
-				//Will add all components for map from scratch.
+				//Will add all components for map from scratch
 			}
 
 		});
