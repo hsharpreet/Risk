@@ -17,4 +17,5 @@ public class RiskGameConstants {
 	public static Color[] colorArray = {Color.RED, Color.DARK_GRAY, 
 			Color.BLUE, Color.GREEN, Color.MAGENTA};
 	
+	
 }
