@@ -323,4 +323,39 @@ public class Player {
 		}
 	}
 
+	public class MyListSelectionListener implements ListSelectionListener {
+
+		int i;
+
+		public MyListSelectionListener(int i) {
+			this.i = i;
+		}
+
+		@Override
+		public void valueChanged(ListSelectionEvent e) {
+			if (e.getValueIsAdjusting()) {
+				int index = player[i].getPlayerPanel().jtCountriesAndArmies.getSelectedRow();
+				if (index >= 0) {
+					player[i].neighbourListModel.neighbours = player[i].currentGameStaticsList.get(index).territory.getNeighbouringTerritories();
+					player[i].getPlayerPanel().lsNeighbour.updateUI();
+
+				}
+			}
+		}
+
+	}
+
+	public void fortification(int i) {
+		System.out.println("Fortification Called : " + i);
+	}
+
+	public void bindListeners() {
+		playerPanel.btPlaceInfantry.addActionListener(new PlaceInfantryClickListener(myIndex));
+		playerPanel.jtCountriesAndArmies.getSelectionModel()
+				.addListSelectionListener(new MyListSelectionListener(myIndex));
+		playerPanel.btFortification.addActionListener(new FortificationClickListener(myIndex));
+		playerPanel.btOk.addActionListener(new OkClickListener(myIndex));
+		playerPanel.btReinforcement.addActionListener(new ReinforcementClickListener(myIndex));
+	}
+
 }
