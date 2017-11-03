@@ -1,17 +1,6 @@
 
 package game.risk.gui;
 
-import game.risk.gui.RiskGame;
-
-import game.risk.model.Territory;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.AbstractListModel;
-import javax.swing.JOptionPane;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.AbstractTableModel;
-
 /**
  * This class is carries each player information
  * 
