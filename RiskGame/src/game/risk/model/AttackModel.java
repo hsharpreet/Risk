@@ -109,7 +109,59 @@ public class AttackModel
         
     }
 
-   
+    void updateTempList(int index)
+    {
+
+        HashMap<String, Territory> territories = mapDetails.getTerritories();
+        Iterator it = territories.keySet().iterator();
+        List<String> ls = player[myIndex].list.get(index).territory.getNeighbouringTerritories();
+        while (it.hasNext())
+        {
+            try
+            {
+                Territory t = territories.get(it.next());
+                for (int j = 0; j < ls.size(); j++)
+                {
+                    if (ls.get(j).equals(t.getName()))
+                    {
+
+                        TempGameStatics tgs = new TempGameStatics(t);
+                        tempList.add(tgs);
+                        break;
+                    }
+                }
+            } catch (Exception ex)
+            {
+                break;
+            }
+        }
+        
+        for(int i=0; i<tempList.size(); i++)
+        {
+            for(int j=0; j<player.length; j++)
+            {
+               String tn1 = tempList.get(i).territory.getName();
+               for(int k=0; k<player[j].list.size(); k++)
+               {
+                   String tn2 = player[j].list.get(k).territory.getName();
+                   if(tn1.equals(tn2))
+                   {
+                       tempList.get(i).infantries = player[j].list.get(k).infantries;
+                       tempList.get(i).player = j;
+                       
+                       if(j==myIndex)
+                       {
+                           tempList.get(i).isOwn = true;
+                       }
+                       break;
+                   }
+               }
+            }
+        }
+        
+        tempTableModel.fireTableDataChanged();
+    }
+
     
     
 }
