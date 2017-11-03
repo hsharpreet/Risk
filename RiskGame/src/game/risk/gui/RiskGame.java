@@ -1,6 +1,9 @@
 package game.risk.gui;
 
 import game.risk.gui.PlayerPanel;
+import game.risk.model.CurrentGameStatics;
+import game.risk.model.CurrentGameStaticsTableModel;
+import game.risk.model.NeighbourListModel;
 import game.risk.model.Player;
 import game.risk.model.Territory;
 import game.risk.util.MapDetails;
@@ -207,15 +210,15 @@ public class RiskGame extends javax.swing.JFrame {
 					 player[i] = new Player(i,player,mapDetails);
 	                    player[i].setPlayerPanel(new PlayerPanel());
 	                    player[i].bindListeners();
-	                    //player[i].list = new ArrayList<>();
-	                    //player[i].tm = new CurrentGameStaticsTableModel(player[i].list);
-	                    //player[i].getPlayerPanel().jtCountriesAndArmies.setModel(player[i].tm);
+	                    player[i].list = new ArrayList<>();
+	                    player[i].tm = new CurrentGameStaticsTableModel(player[i].list);
+	                    player[i].getPlayerPanel().jtCountriesAndArmies.setModel(player[i].tm);
 
 	                    player[i].neighbours = new ArrayList<>();
 
-	                    //player[i].lm = new NeighbourListModel(player[i].neighbours);
+	                    player[i].lm = new NeighbourListModel(player[i].neighbours);
 
-	                    //player[i].getPlayerPanel().lsNeighbour.setModel(player[i].lm);
+	                    player[i].getPlayerPanel().lsNeighbour.setModel(player[i].lm);
 	                    player[i].getPlayerPanel().setBackground(colors[i]);
 	                    player[i].getPlayerPanel().lbPlayer.setText("Player : " + (i + 1));
 	                    player[i].infantriesTotal = totalArmies[playerCount - 2];
@@ -229,8 +232,8 @@ public class RiskGame extends javax.swing.JFrame {
 					try {
 						for (int i = 0; i < playerCount; i++) {
 							Territory t = territories.get(it.next());
-							//CurrentGameStatics cgs = new CurrentGameStatics(1, t, i);
-                            //player[i].list.add(cgs);
+							CurrentGameStatics cgs = new CurrentGameStatics(1, t, i);
+                            player[i].list.add(cgs);
 
 						}
 					} catch (Exception ex) {
@@ -238,10 +241,10 @@ public class RiskGame extends javax.swing.JFrame {
 					}
 				}
 				for (int i = 0; i < playerCount; i++) {
-					//player[i].infantriesAvailable = (totalArmies[playerCount - 2]) - (player[i].list.size());
+					player[i].infantriesAvailable = (totalArmies[playerCount - 2]) - (player[i].list.size());
                     player[i].getPlayerPanel().lbAvailableArmies.setText(
                     		"Available Infantries : " + player[i].infantriesAvailable);
-                    //player[i].tm.fireTableDataChanged(); //Display data in table
+                    player[i].tm.fireTableDataChanged(); //Display data in table
 
                     
                     player[i].getPlayerPanel().btPlaceInfantry.setEnabled(false);
