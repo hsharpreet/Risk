@@ -1,6 +1,8 @@
 
 package game.risk.gui;
 
+import game.risk.gui.RiskGame;
+
 import game.risk.model.Territory;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +20,6 @@ import javax.swing.table.AbstractTableModel;
  */
 public class PlayerPanel extends javax.swing.JPanel {
 
-	public int infantriesAvailable;
-	public int infantriesTotal;
-	public List<CurrentGameStatics> currentGameStaticsList;
-	public CurrentGameStaticsTableModel currentGameStaticsTableModel;
-	public NeighbourListModel neighbourListModel;
-	public List<String> neighbours;
 
 	/**
 	 * Constructor to Initialize object and it has the fields which saves the present panel of the player playing
@@ -31,80 +27,8 @@ public class PlayerPanel extends javax.swing.JPanel {
 	 */
 	public PlayerPanel() {
 		initComponents();
-		currentGameStaticsList = new ArrayList<>();
-		neighbours = new ArrayList<>();
-		currentGameStaticsTableModel = new CurrentGameStaticsTableModel();
-		neighbourListModel = new NeighbourListModel();
-		jtCountriesAndArmies.setModel(currentGameStaticsTableModel);
-		lsNeighbour.setModel(neighbourListModel);
-
-		jtCountriesAndArmies.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-			@Override
-
-			public void valueChanged(ListSelectionEvent e) {
-				if (e.getValueIsAdjusting()) {
-					int index = jtCountriesAndArmies.getSelectedRow();
-					if (index >= 0) {
-						neighbours = currentGameStaticsList.get(index).territory.getNeighbouringTerritories();
-						lsNeighbour.updateUI();
-					}
-				}
-			}
-		});
-
 	}
-	/**
-	 * This class saves the current statics of the player
-	 * 
-	 */
-	public class CurrentGameStaticsTableModel extends AbstractTableModel {
 
-		String columnNames[] = { "Territory", "Continent", "Infantries" };
-
-		public String getColumnName(int index) {
-			return columnNames[index];
-		}
-
-		@Override
-		public int getRowCount() {
-			return currentGameStaticsList.size();
-		}
-
-		@Override
-		public int getColumnCount() {
-			return columnNames.length;
-		}
-
-		@Override
-		public Object getValueAt(int rowIndex, int columnIndex) {
-			if (columnIndex == 0) {
-				return currentGameStaticsList.get(rowIndex).territory.getName();
-			} else if (columnIndex == 1) {
-				return currentGameStaticsList.get(rowIndex).territory.getContinent();
-			} else {
-				return currentGameStaticsList.get(rowIndex).infantries;
-			}
-		}
-
-	}
-	/**
-	 * This class is a list model which is used to make the displaying list dynamic
-	 * 
-	 */
-	
-	public class NeighbourListModel extends AbstractListModel {
-
-		@Override
-		public int getSize() {
-			return neighbours.size();
-		}
-
-		@Override
-		public Object getElementAt(int index) {
-			return neighbours.get(index);
-		}
-
-	}
 
 	/**
 	 * Initializing components for each player.
@@ -163,11 +87,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 		jLabelNeighbours.setBounds(250, 70, 110, 20);
 
 		btPlaceInfantry.setText("Place Infantry");
-		btPlaceInfantry.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				btPlaceInfantryActionPerformed(evt);
-			}
-		});
+		
 		add(btPlaceInfantry);
 		btPlaceInfantry.setBounds(10, 290, 110, 30);
 
@@ -187,21 +107,6 @@ public class PlayerPanel extends javax.swing.JPanel {
 		btFortification.setText("Fortification");
 		add(btFortification);
 		btFortification.setBounds(250, 290, 110, 30);
-	}
-
-	private void btPlaceInfantryActionPerformed(java.awt.event.ActionEvent evt) {
-
-	}
-
-	public class CurrentGameStatics {
-
-		public int infantries;
-		public Territory territory;
-
-		public CurrentGameStatics(int infantries, Territory territory) {
-			this.infantries = infantries;
-			this.territory = territory;
-		}
 	}
 
 	// Variables declaration
