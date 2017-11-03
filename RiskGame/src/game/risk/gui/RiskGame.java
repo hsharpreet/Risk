@@ -1,9 +1,13 @@
 package game.risk.gui;
 
-import game.risk.gui.PlayerPanel.CurrentGameStatics;
-import game.risk.model.MapReader;
-import game.risk.model.RiskMap;
+import game.risk.gui.PlayerPanel;
+import game.risk.model.CurrentGameStatics;
+import game.risk.model.CurrentGameStaticsTableModel;
+import game.risk.model.NeighbourListModel;
+import game.risk.model.Player;
 import game.risk.model.Territory;
+import game.risk.util.MapDetails;
+import game.risk.util.MapReader;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,6 +17,8 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import java.util.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  * RiskGame is the main class of this game which represents view
@@ -24,11 +30,12 @@ import java.util.*;
 public class RiskGame extends javax.swing.JFrame {
 
 	File mapFile;
-	RiskMap mapDetails;
+	MapDetails mapDetails;
 	int totalArmies[] = { 40, 35, 30, 25, 20 };
-	PlayerPanel playerPanel[];
 	Color colors[] = new Color[6];
 
+	Player player[];
+	
 	public RiskGame() {
 		initComponents();
 		setSize(1000, 600);
@@ -193,19 +200,30 @@ public class RiskGame extends javax.swing.JFrame {
 	 */
 	private void btLoadActionPerformed(java.awt.event.ActionEvent evt) {
 		if (mapFile != null) {
-			mapDetails = MapReader.readMapFile(mapFile.getPath());
+			 mapDetails = MapReader.readMapFile(mapFile.getPath());
 			if (mapDetails != null) {
 				int playerCount = Integer.parseInt((String) cbPlayerCount.getSelectedItem());
-				playerPanel = new PlayerPanel[playerCount];
+				player = new Player[playerCount];
 				jpPlayground.removeAll();
 				jpPlayground.setPreferredSize(new Dimension(370 * playerCount, 400));
 				for (int i = 0; i < playerCount; i++) {
-					playerPanel[i] = new PlayerPanel();
-					playerPanel[i].setBackground(colors[i]);
-					playerPanel[i].lbPlayer.setText("Player : " + (i + 1));
-					playerPanel[i].infantriesTotal = totalArmies[playerCount - 2];
-					playerPanel[i].lbTotalArmies.setText("Total Infantry : " + totalArmies[playerCount - 2]);
-					jpPlayground.add(playerPanel[i]);
+					 player[i] = new Player(i,player,mapDetails);
+	                    player[i].setPlayerPanel(new PlayerPanel());
+	                    player[i].bindListeners();
+	                    player[i].list = new ArrayList<>();
+	                    player[i].tm = new CurrentGameStaticsTableModel(player[i].list);
+	                    player[i].getPlayerPanel().jtCountriesAndArmies.setModel(player[i].tm);
+
+	                    player[i].neighbours = new ArrayList<>();
+
+	                    player[i].lm = new NeighbourListModel(player[i].neighbours);
+
+	                    player[i].getPlayerPanel().lsNeighbour.setModel(player[i].lm);
+	                    player[i].getPlayerPanel().setBackground(colors[i]);
+	                    player[i].getPlayerPanel().lbPlayer.setText("Player : " + (i + 1));
+	                    player[i].infantriesTotal = totalArmies[playerCount - 2];
+	                    player[i].getPlayerPanel().lbTotalArmies.setText("Total Infantries : " + player[i].infantriesTotal);
+	                    jpPlayground.add(player[i].getPlayerPanel());
 				}
 
 				HashMap<String, Territory> territories = mapDetails.getTerritories();
@@ -214,8 +232,8 @@ public class RiskGame extends javax.swing.JFrame {
 					try {
 						for (int i = 0; i < playerCount; i++) {
 							Territory t = territories.get(it.next());
-							CurrentGameStatics cgs = playerPanel[i].new CurrentGameStatics(1, t);
-							playerPanel[i].currentGameStaticsList.add(cgs);
+							CurrentGameStatics cgs = new CurrentGameStatics(1, t, i);
+                            player[i].list.add(cgs);
 
 						}
 					} catch (Exception ex) {
@@ -223,21 +241,19 @@ public class RiskGame extends javax.swing.JFrame {
 					}
 				}
 				for (int i = 0; i < playerCount; i++) {
-					playerPanel[i].infantriesAvailable = (totalArmies[playerCount - 2]) - (playerPanel[i].currentGameStaticsList.size());
-					playerPanel[i].lbAvailableArmies
-							.setText("Available Infantries : " + playerPanel[i].infantriesAvailable);
-					playerPanel[i].currentGameStaticsTableModel.fireTableDataChanged();
+					player[i].infantriesAvailable = (totalArmies[playerCount - 2]) - (player[i].list.size());
+                    player[i].getPlayerPanel().lbAvailableArmies.setText(
+                    		"Available Infantries : " + player[i].infantriesAvailable);
+                    player[i].tm.fireTableDataChanged(); //Display data in table
 
-					playerPanel[i].btPlaceInfantry.addActionListener(new PlaceInfantryClickListener(i));
-					playerPanel[i].btFortification.addActionListener(new FortificationClickListener(i));
-					playerPanel[i].btOk.addActionListener(new OkClickListener(i));
-					playerPanel[i].btPlaceInfantry.setEnabled(false);
-					playerPanel[i].btReinforcement.setEnabled(false);
-					playerPanel[i].btFortification.setEnabled(false);
-					playerPanel[i].btOk.setEnabled(false);
+                    
+                    player[i].getPlayerPanel().btPlaceInfantry.setEnabled(false);
+                    player[i].getPlayerPanel().btReinforcement.setEnabled(false);
+                    player[i].getPlayerPanel().btFortification.setEnabled(false);
+                    player[i].getPlayerPanel().btOk.setEnabled(false);
 
-				}
-				playerPanel[0].btPlaceInfantry.setEnabled(true);
+                }
+                player[0].getPlayerPanel().btPlaceInfantry.setEnabled(true);
 
 				this.setSize(this.getWidth() + 1, this.getHeight() + 1);
 				this.setSize(this.getWidth() - 1, this.getHeight() - 1);
@@ -254,35 +270,9 @@ public class RiskGame extends javax.swing.JFrame {
 	 * Class to handle Place Infantry button action and manipulates all related values for each player
 	 * @param evt
 	 */
-	public class PlaceInfantryClickListener implements ActionListener {
+	//public class PlaceInfantryClickListener implements ActionListener {
 
-		int i;
-
-		public PlaceInfantryClickListener(int i) {
-			this.i = i;
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			if (playerPanel[i].infantriesAvailable > 0) {
-				int index = playerPanel[i].jtCountriesAndArmies.getSelectedRow();
-				if (index == -1) {
-					JOptionPane.showMessageDialog(playerPanel[i], "Select terriotary first");
-				} else {
-					playerPanel[i].currentGameStaticsList.get(index).infantries++;
-					playerPanel[i].infantriesAvailable--;
-					playerPanel[i].lbAvailableArmies
-							.setText("Available Infantries : " + playerPanel[i].infantriesAvailable);
-					playerPanel[i].currentGameStaticsTableModel.fireTableDataChanged();
-					playerPanel[i].btPlaceInfantry.setEnabled(false);
-					nextIndexToEnableButton(i);
-
-				}
-			} else {
-				JOptionPane.showMessageDialog(playerPanel[i], "No army available");
-
-			}
-		}
-	}
+	//}
 
 	/**
 	 * Changing turn for each player for Startup phase, 
@@ -290,31 +280,7 @@ public class RiskGame extends javax.swing.JFrame {
 	 * @param evt
 	 */
 	void nextIndexToEnableButton(int i) {
-		boolean flag = true;
-		for (int j = 0; j < playerPanel.length; j++) {
-			if (playerPanel[j].infantriesAvailable > 0) {
-				flag = false;
-				break;
-			}
-		}
-		if (flag) {
-			JOptionPane.showMessageDialog(RiskGame.this,
-					"Startup Phase Done.\nIn next phase every player has option of reinforcement and fortification."
-					+ "\nDon't forget to press button OK after fortification done !!");
-			
-			//Startup phase is finished as no player is left with any armies.
-			reinforcement(true);
-		} else {
-			i++;
-			if (i == playerPanel.length) {
-				i = 0;
-			}
-			if (playerPanel[i].infantriesAvailable > 0) {
-				playerPanel[i].btPlaceInfantry.setEnabled(true);
-			} else {
-				nextIndexToEnableButton(i);
-			}
-		}
+		
 
 	}
 
@@ -322,40 +288,9 @@ public class RiskGame extends javax.swing.JFrame {
 	 * Starting reinforcement phase for each player
 	 * @param firstCallToThisFunction boolean to call button action listener only once
 	 */
-	public void reinforcement(boolean firstCallToThisFunction) {
-		for (int i = 0; i < playerPanel.length; i++) {
-			int n = playerPanel[i].currentGameStaticsList.size() / 3;
-			if (n < 3) {
-				n = 3;
-			}
-			// Check if the select territory is the user's territory to add reinforcement
-			boolean flag = true;
-			String firstContinent = playerPanel[i].currentGameStaticsList.get(0).territory.getContinent();
-			for (int j = 1; j < playerPanel[i].currentGameStaticsList.size(); j++) {
-				String continent = playerPanel[i].currentGameStaticsList.get(j).territory.getContinent();
-				if (!firstContinent.equals(continent)) {
-					flag = false;
-					break;
-				}
-			}
-			if (flag) {
-				int p = Integer.parseInt(mapDetails.getContinents().get(firstContinent));
-				n = n + p;
-			}
-			playerPanel[i].infantriesTotal += n;
-			playerPanel[i].lbTotalArmies.setText("Total Infantry : " + playerPanel[i].infantriesTotal);
-			playerPanel[i].infantriesAvailable = n;
-			playerPanel[i].lbMessage.setText("Message : You have gotton " + n + " new infantries");
-			playerPanel[i].lbAvailableArmies.setText("Available Infantries : " + playerPanel[i].infantriesAvailable);
-			if (firstCallToThisFunction) {
-				playerPanel[i].btReinforcement.addActionListener(new ReinforcementClickListener(i));
-			}
-			playerPanel[i].btReinforcement.setEnabled(false);
-			playerPanel[i].btFortification.setEnabled(false);
-			playerPanel[i].btOk.setEnabled(false);
-		}
-		playerPanel[0].btReinforcement.setEnabled(true);
-	}
+	//public void reinforcement(boolean firstCallToThisFunction) {
+		
+	//}
 
 	/**
 	 * Reinforcement: changing turn for each player for Startup phase, 
@@ -363,134 +298,25 @@ public class RiskGame extends javax.swing.JFrame {
 	 * @param i represent current player
 	 */
 	void nextPlayerTurn(int i) {
-		playerPanel[i].lbMessage.setText("");
-		i++;
-		if (i == playerPanel.length) {
-			reinforcement(false);
-		} else {
-			for (int j = 0; j < playerPanel.length; j++) {
-				playerPanel[j].btReinforcement.setEnabled(false);
-				playerPanel[j].btFortification.setEnabled(false);
-				playerPanel[j].btOk.setEnabled(false);
-			}
-			playerPanel[i].btReinforcement.setEnabled(true);
-		}
-
+		
 	}
 
 	/**
 	 * Class to handle Reinforcement button action and manipulates all related values for each player
 	 * @param evt
 	 */
-	public class ReinforcementClickListener implements ActionListener {
-
-		int i;
-
-		public ReinforcementClickListener(int i) {
-			this.i = i;
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			if (playerPanel[i].infantriesAvailable > 0) {
-				int index = playerPanel[i].jtCountriesAndArmies.getSelectedRow();
-				if (index == -1) {
-					JOptionPane.showMessageDialog(playerPanel[i], "Select terriotary first");
-				} else {
-					playerPanel[i].currentGameStaticsList.get(index).infantries++;
-					playerPanel[i].infantriesAvailable--;
-					playerPanel[i].lbAvailableArmies
-							.setText("Available Infantries : " + playerPanel[i].infantriesAvailable);
-					playerPanel[i].currentGameStaticsTableModel.fireTableDataChanged();
-
-					if (playerPanel[i].infantriesAvailable == 0) {
-						playerPanel[i].btReinforcement.setEnabled(false);
-						int ans = JOptionPane.showConfirmDialog(playerPanel[i],
-								"Player : " + (i + 1) + "\nDo you want to do fortification ?",
-								"Fortification Confirmition", JOptionPane.YES_NO_OPTION);
-						if (ans == JOptionPane.YES_OPTION) {
-							playerPanel[i].btFortification.setEnabled(true);
-							playerPanel[i].btOk.setEnabled(true);
-						} else {
-							nextPlayerTurn(i);
-						}
-					}
-
-				}
-			} else {
-				JOptionPane.showMessageDialog(playerPanel[i], "No army available");
-
-			}
-		}
-	}
+	//public class ReinforcementClickListener implements ActionListener {
+		
+	//}
 
 	/**
 	 * Class to handle Fortification button action and manipulates all related values for each player
 	 * @param evt
 	 */
-	public class FortificationClickListener implements ActionListener {
+	//public class FortificationClickListener implements ActionListener {
+		
+	//}
 
-		int i;
-
-		public FortificationClickListener(int i) {
-			this.i = i;
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			int tableIndex = playerPanel[i].jtCountriesAndArmies.getSelectedRow();
-			int listIndex = playerPanel[i].lsNeighbour.getSelectedIndex();
-			if (tableIndex == -1) {
-				JOptionPane.showMessageDialog(playerPanel[i], "Select source territory first");
-			} else if (listIndex == -1) {
-				JOptionPane.showMessageDialog(playerPanel[i], "Select destination territory first");
-			} else {
-				String destinationTerritory = playerPanel[i].lsNeighbour.getSelectedValue();
-				boolean isDestinationMyOwnCountry = false;
-				for (int j = 0; j < playerPanel[i].currentGameStaticsList.size(); j++) {
-					if (playerPanel[i].currentGameStaticsList.get(j).territory.getName().equals(destinationTerritory)) {
-						isDestinationMyOwnCountry = true;
-						break;
-					}
-				}
-				if (isDestinationMyOwnCountry) {
-					if (playerPanel[i].currentGameStaticsList.get(tableIndex).infantries > 1) {
-
-						playerPanel[i].currentGameStaticsList.get(tableIndex).infantries--;
-
-						for (int j = 0; j < playerPanel[i].currentGameStaticsList.size(); j++) {
-							if (playerPanel[i].currentGameStaticsList.get(j).territory.getName().equals(destinationTerritory)) {
-								playerPanel[i].currentGameStaticsList.get(j).infantries++;
-								playerPanel[i].currentGameStaticsTableModel.fireTableDataChanged();
-								break;
-							}
-						}
-					} else {
-						JOptionPane.showMessageDialog(playerPanel[i],
-								"Source territory must have more that 1 infantries for fortification");
-					}
-				} else {
-					JOptionPane.showMessageDialog(playerPanel[i], "Destination territory must be your territory");
-				}
-			}
-		}
-	}
-
-	public class OkClickListener implements ActionListener {
-
-		int i;
-
-		public OkClickListener(int i) {
-			this.i = i;
-		}
-
-		public void actionPerformed(ActionEvent e) {
-
-			nextPlayerTurn(i);
-		}
-	}
-
-	public void fortification(int i) {
-		System.out.println("Fortification Called : " + i);
-	}
 
 	/**
 	 * @param args
