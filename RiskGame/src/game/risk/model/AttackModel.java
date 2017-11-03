@@ -54,9 +54,41 @@ public class AttackModel
             }
         });
 
-       
-    }
-
-    
-    
-}
+        this.attackPanel.btAttack.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                int index1 = AttackModel.this.attackPanel.jtMain.getSelectedRow();
+                int index2 = AttackModel.this.attackPanel.jtOther.getSelectedRow();
+                
+                if(index1==-1 || index2==-1)
+                {
+                    JOptionPane.showMessageDialog(AttackModel.this.attackPanel,"Please select both SOURCE and DESTINATION");
+                }
+                else
+                {
+                    if(tempList.get(index2).isOwn)
+                    {
+                        JOptionPane.showMessageDialog(AttackModel.this.attackPanel,"DESTINATION is your own territory.\nYou can't attack on your own territory");
+                    }
+                    else if(list.get(index1).infantries==1)
+                    {
+                        JOptionPane.showMessageDialog(AttackModel.this.attackPanel,"SOURCE has only 1 infantry. So can't attack from this territory");
+                    }
+                    else
+                    {
+                        int player1OptionsForDice,player2OptionsForDice;
+                        if(list.get(index1).infantries==2)
+                            player1OptionsForDice = 1;
+                        else if(list.get(index2).infantries==3)
+                            player1OptionsForDice = 2;
+                        else
+                            player1OptionsForDice = 3;
+                    }
+                }
+                
+            }
+        });
+        
+      
