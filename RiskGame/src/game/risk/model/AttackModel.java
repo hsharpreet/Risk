@@ -152,9 +152,6 @@ public class AttackModel
                        if(j==myIndex)
                        {
                            tempList.get(i).isOwn = true;
-                    
-                           
-                           
                        }
                        break;
                    }
