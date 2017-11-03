@@ -68,6 +68,16 @@ public class AttackModel
                 }
                 else
                 {
+                    int player1OptionsForDice,player2OptionsForDice;
+                    if(list.get(index1).infantries==2)
+                        player1OptionsForDice = 1;
+                    else if(list.get(index2).infantries==3)
+                        player1OptionsForDice = 2;
+                    else
+                        player1OptionsForDice = 3;
+                }
+                else
+                {
                     if(tempList.get(index2).isOwn)
                     {
                         JOptionPane.showMessageDialog(AttackModel.this.attackPanel,"DESTINATION is your own territory.\nYou can't attack on your own territory");
@@ -76,16 +86,7 @@ public class AttackModel
                     {
                         JOptionPane.showMessageDialog(AttackModel.this.attackPanel,"SOURCE has only 1 infantry. So can't attack from this territory");
                     }
-                    else
-                    {
-                        int player1OptionsForDice,player2OptionsForDice;
-                        if(list.get(index1).infantries==2)
-                            player1OptionsForDice = 1;
-                        else if(list.get(index2).infantries==3)
-                            player1OptionsForDice = 2;
-                        else
-                            player1OptionsForDice = 3;
-                    }
+                   
                 }
                 
             }
