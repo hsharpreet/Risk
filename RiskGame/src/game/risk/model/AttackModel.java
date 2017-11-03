@@ -153,10 +153,7 @@ public class AttackModel
                        {
                            tempList.get(i).isOwn = true;
                        }
-                       else 
-                       {
-                    	   
-                       }
+                      
                        break;
                    }
                }
