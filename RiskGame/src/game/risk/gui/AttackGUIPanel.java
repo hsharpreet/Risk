@@ -17,7 +17,13 @@ import java.util.List;
  */
 public class AttackGUIPanel extends javax.swing.JPanel
 {
-
+  // yet to add
+   /* public AttackGUIPanel(Player[] player, int myIndex, CurrentGameStaticsTableModel tm, List<CurrentGameStatics> list, MapDetails mapDetails)
+    {
+        initComponents();
+        lbPlayer.setText("Player : "+(myIndex+1));
+        new AttackModel(this,player,myIndex,tm,list,mapDetails);
+    }*/
     public AttackGUIPanel(Player[] player, int myIndex, MapDetails mapDetails)
     {
         initComponents();
