@@ -78,5 +78,20 @@ public class MapReaderTest {
 		assertNull(riskMap);
 
 	}
+	
+	/**
+	 * Method to test whether any continent in map is unconnected or not
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testReadMapWithUnconnectedContinent() throws Exception {
+		MapReader mapReader = new MapReader();
+		String path = "World_UnconnectedContinent.map";
+		RiskMap riskMap = mapReader.readMap(path);
+		System.out.println("testReadMapWithUnconnectedContinent" + riskMap);
+		assertNull(riskMap);
+
+	}
 
 }
