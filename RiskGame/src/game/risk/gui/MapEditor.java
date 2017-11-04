@@ -440,38 +440,43 @@ public class MapEditor {
 					String continentOfNewCountry = (String) selectContinentForNewCountry.getSelectedItem();
 
 					newCountryEntry = newCountryName + "," + "0" + "," + "0" + "," + continentOfNewCountry;
+					try {
+						if (new ValidateMapWriter().checkLinkedTerritoriesWithSelectedContinent(continentOfNewCountry,
+								new ArrayList<>(adjacentCountriesToNewCountry), mapFile)) {
+							for (String temp : adjacentCountriesToNewCountry) {
+								newCountryEntry = newCountryEntry + "," + temp;
+							}
 
-					for (String temp : adjacentCountriesToNewCountry) {
-						newCountryEntry = newCountryEntry + "," + temp;
-					}
+							writeTerritory.addTerritory(newCountryEntry);
+							writeTerritory.addNewCountryLinkToTerritories(newcountryname.getText(),
+									adjacentCountriesToNewCountry);
+							countriesComboBoxModel.addElement(newcountryname.getText());
 
-						try {
-						writeTerritory.addTerritory(newCountryEntry);
-						writeTerritory.addNewCountryLinkToTerritories(newcountryname.getText(),
-								adjacentCountriesToNewCountry);
-						countriesComboBoxModel.addElement(newcountryname.getText());
-					
+							JOptionPane.showMessageDialog(mapEditorFrame, "Territory with continent "
+									+ continentOfNewCountry + " and specified links has been added");
+							riskMap = mapReader.readMap(mapFile);
+							// setting up the visibility
+							newcountryname.setVisible(false);
+							selectContinentForNewCountry.setVisible(false);
+							selectAdjacentCountry.setVisible(false);
 
-					JOptionPane.showMessageDialog(mapEditorFrame, "Territory with continent " + continentOfNewCountry
-							+ " and specified links has been added");
-					riskMap = mapReader.readMap(mapFile);
-					// setting up the visibility
-					newcountryname.setVisible(false);
-					selectContinentForNewCountry.setVisible(false);
-					selectAdjacentCountry.setVisible(false);
+							newCountryNameLabel.setVisible(false);
+							continentForNewCountry.setVisible(false);
+							adjacentToNewCountry.setVisible(false);
+							addAdjacentCountry.setVisible(false);
+							submitNewCountry.setVisible(false);
+						} else {
+							JOptionPane.showMessageDialog(mapEditorFrame,
+									"Select atleast one neighbouring country from " + continentOfNewCountry);
+						}
 
-					newCountryNameLabel.setVisible(false);
-					continentForNewCountry.setVisible(false);
-					adjacentToNewCountry.setVisible(false);
-					addAdjacentCountry.setVisible(false);
-					submitNewCountry.setVisible(false);
 					}
 
 					catch (IOException e1) {
-						
+
 						e1.printStackTrace();
 					} catch (Exception e1) {
-						
+
 						e1.printStackTrace();
 					}
 				}

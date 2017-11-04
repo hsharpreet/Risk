@@ -3,6 +3,7 @@ package game.risk.model.validation;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.List;
 import java.util.Map;
 
 import game.risk.model.MapReader;
@@ -173,6 +174,31 @@ public class ValidateMapWriter
 		if(neighbouring.getNeighbouringTerritories().size()==1){
 			return false;
 		}
+		return true;
+	}
+	
+	/**
+	 * Method to check whether atleast one of the neighbouring territories have a given continent
+	 * @param continent
+	 * @param neighbours
+	 * @param mapFile
+	 * @return true if atleast one linked territories have given continent
+	 * @return false if no linked territories have given continent
+	 * @throws Exception if file exception while reading
+	 */
+	public boolean checkLinkedTerritoriesWithSelectedContinent(String continent, List<String> neighbours, String mapFile) throws Exception{
+		int count=0;
+		MapReader mapReader = new MapReader();
+		RiskMap riskMap = mapReader.readMap(mapFile);
+		for(String neighbour : neighbours){
+			Territory neighbouringTerr= mapReader.getTerritoryByName(neighbour, riskMap.getTerritories());
+			if(neighbouringTerr.getContinent().equalsIgnoreCase(continent)){
+				count++;
+			}
+		}
+		if(count==0){
+			return false;
+		} 
 		return true;
 	}
 	
