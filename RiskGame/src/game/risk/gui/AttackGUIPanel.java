@@ -5,6 +5,9 @@
  */
 package game.risk.gui;
 
+import game.risk.model.AttackModel;
+import game.risk.model.CurrentGameStatics;
+import game.risk.model.CurrentGameStaticsTableModel;
 import game.risk.model.Player;
 import game.risk.model.TempTableModel;
 import game.risk.util.MapDetails;
@@ -17,18 +20,12 @@ import java.util.List;
  */
 public class AttackGUIPanel extends javax.swing.JPanel
 {
-  // yet to add
-   /* public AttackGUIPanel(Player[] player, int myIndex, CurrentGameStaticsTableModel tm, List<CurrentGameStatics> list, MapDetails mapDetails)
+
+    public AttackGUIPanel(Player[] player, int myIndex, CurrentGameStaticsTableModel tm, List<CurrentGameStatics> list, MapDetails mapDetails)
     {
         initComponents();
         lbPlayer.setText("Player : "+(myIndex+1));
         new AttackModel(this,player,myIndex,tm,list,mapDetails);
-    }*/
-    public AttackGUIPanel(Player[] player, int myIndex, MapDetails mapDetails)
-    {
-        initComponents();
-        lbPlayer.setText("Player : "+(myIndex+1));
-        //new AttackModel(this,player,myIndex,tm,list,mapDetails);
     }
 
     /**
