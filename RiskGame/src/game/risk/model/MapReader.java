@@ -238,4 +238,15 @@ public class MapReader {
 		}
 		return null;
 	}
+	
+	public List<Territory> getTerritoriesOfContinent(String selectedContinent,HashMap<String, Territory> territories) {
+		List<Territory> selectedContinentTerritories = new ArrayList<>();
+		
+        for(Territory t : territories.values()){
+        	if(t.getContinent().equalsIgnoreCase(selectedContinent)){
+        		selectedContinentTerritories.add(t);
+        	}
+        }
+		return selectedContinentTerritories;
+	}
 }

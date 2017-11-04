@@ -1,6 +1,7 @@
 package game.risk.model.validation;
 
 import java.util.HashMap;
+import java.util.List;
 
 import game.risk.model.MapReader;
 import game.risk.model.Territory;
@@ -27,7 +28,7 @@ public class ValidateMapReader {
 	 */
 	public boolean isMapValid(HashMap<String, String> continents, HashMap<String, Territory> territories) {
 		if (checkCountriesExistInValidContinent(continents, territories) && checkNeighbouringCountriesExist(territories)
-				&& checkNeighbouringCountriesSymmetric(territories)) {
+				&& checkNeighbouringCountriesSymmetric(territories)&& checkConnectedContinent(continents, territories)) {
 			return true;
 		}
 		return false;
@@ -115,5 +116,26 @@ public class ValidateMapReader {
 		}
 		return true;
 	}
-
+	
+	private boolean checkConnectedContinent(HashMap<String, String> continents, HashMap<String, Territory> territories){
+		for(String continent : continents.values()){
+			MapReader reader = new MapReader();
+			List<Territory> territoriesOfContinent = reader.getTerritoriesOfContinent(continent, territories);
+			for(Territory t : territoriesOfContinent){
+				int count=0; // neighbours in same continent
+				List<String> neighbouringTerritories = t.getNeighbouringTerritories();
+				for(String neighbour : neighbouringTerritories){
+					Territory neighbourTerritory=reader.getTerritoryByName(neighbour, territories);
+					if(territoriesOfContinent.contains(neighbourTerritory)){
+						count++;
+					}
+				}
+				if(count==0){
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
 }
