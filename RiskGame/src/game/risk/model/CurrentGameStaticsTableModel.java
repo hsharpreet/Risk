@@ -46,7 +46,19 @@ public class CurrentGameStaticsTableModel extends AbstractTableModel
         return columnNames.length;
     }
 
-    
+    @Override
+    public Object getValueAt(int rowIndex, int columnIndex)
+    {
+        if (columnIndex == 0)
+        {
+            return list.get(rowIndex).territory.getName();
+        } else if (columnIndex == 1)
+        {
+            return list.get(rowIndex).territory.getContinent();
+        } else
+        {
+            return list.get(rowIndex).infantries;
+        }
     }
 
 }
