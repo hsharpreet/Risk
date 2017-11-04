@@ -19,5 +19,10 @@ public class CurrentGameStatics
         this.territory = territory;
     }
     
-   
+    public CurrentGameStatics(int infantries, Territory territory, int player)
+    {
+        this.infantries = infantries;
+        this.territory = territory;
+        this.player = player;
+    }
 }
