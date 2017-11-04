@@ -16,6 +16,18 @@ public class NeighbourListModel extends AbstractListModel
         this.neighbours = neighbours;
     }
 
+    @Override
+    public int getSize()
+    {
+        return neighbours.size();
+    }
+
+    @Override
+    public Object getElementAt(int index)
+    {
+        return neighbours.get(index);
+    }
+
     
     
 }
