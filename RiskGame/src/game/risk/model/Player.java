@@ -34,8 +34,7 @@ public class Player {
 	private String name;
 	private int totalNoOfArmies;
 	private int currentNoOfArmies;
-	private Map<Territory, Integer> territorAndArmies;// = new HashMap<String,
-														// String>();
+	private Map<Territory, Integer> territorAndArmies;
 	private boolean turn;
 	private boolean isComputer;
 	private Color territorAndArmiesColor;
@@ -111,7 +110,7 @@ public class Player {
 	}
 
 	void nextIndexToEnableButton(int i) {
-		// if all players have 0 available infantries.. means startup phase done
+		// if all players have 0 available infantries.
 		boolean flag = true;
 		for (int j = 0; j < player.length; j++) {
 			if (player[j].infantriesAvailable > 0) {
@@ -143,7 +142,7 @@ public class Player {
 			if (n < 3) {
 				n = 3;
 			}
-			// Check if all terrotries are in same continent
+			// Check if all territories are in same continent
 			boolean flag = true;
 			String firstContinent = player[i].currentGameStaticsList.get(0).territory.getContinent();
 			for (int j = 1; j < player[i].currentGameStaticsList.size(); j++) {
@@ -244,7 +243,8 @@ public class Player {
 								JOptionPane.YES_NO_OPTION);
 						if (ans == JOptionPane.YES_OPTION) {
 							JDialog dialog = new JDialog();
-							dialog.add(new AttackGUIPanel(player, i, player[i].currentGameStaticsTableModel, player[i].currentGameStaticsList, mapDetails));
+							dialog.add(new AttackGUIPanel(player, i, player[i].currentGameStaticsTableModel,
+									player[i].currentGameStaticsList, mapDetails));
 							dialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
 							dialog.setSize(1020, 600);
 							dialog.setVisible(true);
@@ -291,7 +291,8 @@ public class Player {
 						player[i].currentGameStaticsList.get(tableIndex).infantries--;
 
 						for (int j = 0; j < player[i].currentGameStaticsList.size(); j++) {
-							if (player[i].currentGameStaticsList.get(j).territory.getName().equals(destinationTerritory)) {
+							if (player[i].currentGameStaticsList.get(j).territory.getName()
+									.equals(destinationTerritory)) {
 								player[i].currentGameStaticsList.get(j).infantries++;
 								player[i].currentGameStaticsTableModel.fireTableDataChanged();
 								break;
@@ -336,7 +337,8 @@ public class Player {
 			if (e.getValueIsAdjusting()) {
 				int index = player[i].getPlayerPanel().jtCountriesAndArmies.getSelectedRow();
 				if (index >= 0) {
-					player[i].neighbourListModel.neighbours = player[i].currentGameStaticsList.get(index).territory.getNeighbouringTerritories();
+					player[i].neighbourListModel.neighbours = player[i].currentGameStaticsList.get(index).territory
+							.getNeighbouringTerritories();
 					player[i].getPlayerPanel().lsNeighbour.updateUI();
 
 				}
