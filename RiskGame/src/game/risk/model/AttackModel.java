@@ -114,7 +114,7 @@ public class AttackModel
 
         HashMap<String, Territory> territories = mapDetails.getTerritories();
         Iterator it = territories.keySet().iterator();
-        List<String> ls = player[myIndex].list.get(index).territory.getNeighbouringTerritories();
+        List<String> ls = player[myIndex].currentGameStaticsList.get(index).territory.getNeighbouringTerritories();
         while (it.hasNext())
         {
             try
@@ -141,12 +141,12 @@ public class AttackModel
             for(int j=0; j<player.length; j++)
             {
                String tn1 = tempList.get(i).territory.getName();
-               for(int k=0; k<player[j].list.size(); k++)
+               for(int k=0; k<player[j].currentGameStaticsList.size(); k++)
                {
-                   String tn2 = player[j].list.get(k).territory.getName();
+                   String tn2 = player[j].currentGameStaticsList.get(k).territory.getName();
                    if(tn1.equals(tn2))
                    {
-                       tempList.get(i).infantries = player[j].list.get(k).infantries;
+                       tempList.get(i).infantries = player[j].currentGameStaticsList.get(k).infantries;
                        tempList.get(i).player = j;
                        
                        if(j==myIndex)
