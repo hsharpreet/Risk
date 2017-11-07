@@ -72,7 +72,7 @@ public class MapEditor {
 				countrySelectedToShowLinksToDeleteTF;
 
 		JComboBox selectContinentForNewCountry, selectAdjacentCountry, selectModifiedContinentCB,
-				countriesOfSelectedContinentCB, linksOfSelectedCountryCB, continentsComboBox, countryComboBox;
+				countriesOfSelectedContinentCB, linksOfSelectedCountryCB, continentsComboBox, countryComboBox  ;
 
 		// Creating the GUI
 		addCountry = new JButton("Add New Country");
@@ -122,7 +122,7 @@ public class MapEditor {
 		linksOfSelectedCountryCB = new JComboBox<>();
 
 		selectContinentForNewCountry = new JComboBox(continentComboBoxModel);
-		selectAdjacentCountry = new JComboBox(riskMap.getTerritories().keySet().toArray());
+		selectAdjacentCountry = new JComboBox(countriesComboBoxModel);
 		// Setting the coordinates
 		addCountry.setBounds(770, 143, 160, 30);
 		deleteCountry.setBounds(770, 23, 160, 30);
@@ -303,16 +303,24 @@ public class MapEditor {
 		 */
 		addContinent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				MapWriter mapWriter = new MapWriter(mapFile);
+				LinkedHashSet<String> neighbouringCountryList = new LinkedHashSet<>();
+				String newCountryEntry="";
 				JTextField name = new JTextField();
 				JTextField value = new JTextField();
-				Object[] message = { "Name:", name, "Value:", value };
+				JTextField newCountry = new JTextField();
+				
+				JComboBox neighbours = new JComboBox(riskMap.getTerritories().keySet().toArray());
+				Object[] message = { "Name:", name, "Value:", value , "New Country:",newCountry , "Neighbour:" ,neighbours};
 
 				int option = JOptionPane.showConfirmDialog(mapEditorFrame, message, "Continent Details",
 						JOptionPane.OK_CANCEL_OPTION);
-				if (option == JOptionPane.OK_OPTION) { // if user selects OK option
-																					
+				if (option == JOptionPane.OK_OPTION) 
+				{ // if user selects ok option
+					// if user selects ok option
+					// if field value or name is empty show this message
 					if (name.getText().trim().isEmpty() || value.getText().trim().isEmpty()) {
-						JOptionPane.showMessageDialog(mapEditorFrame, "Field cannot be empty.");// if field value or name is empty show this message
+						JOptionPane.showMessageDialog(mapEditorFrame, "Field cannot be empty.");
 
 					}
 					// if field value is not a number.
@@ -321,22 +329,31 @@ public class MapEditor {
 
 					} else {
 						// if field value not empty write field value in file
-						MapWriter writeContinent = new MapWriter(mapFile);
+						
 						try {
-							writeContinent.addContinent(name.getText(), value.getText());
+							mapWriter.addContinent(name.getText(), value.getText());
 							continentComboBoxModel.addElement(name.getText());
+							neighbouringCountryList.add((String) neighbours.getSelectedItem());
+						     	newCountryEntry = newCountry.getText() + "," + "0" + "," + "0" + "," + name.getText() +","+ neighbours.getSelectedItem();
+						     	mapWriter.addTerritory(newCountryEntry);
+						     	mapWriter.addNewCountryLinkToTerritories(newCountry.getText(),
+										neighbouringCountryList);
+								
+								countriesComboBoxModel.addElement(newCountry.getText());
+							
 							JOptionPane.showMessageDialog(mapEditorFrame, "Continent Added Sucessfully");
-							riskMap = mapReader.readMap(mapFile);
+							riskMap= mapReader.readMap(mapFile);
 
+							
 						} catch (Exception e1) {
-
+							
 							e1.printStackTrace();
 						}
 					}
 				}
 
 				else {
-
+					
 				}
 			}
 

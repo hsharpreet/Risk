@@ -130,7 +130,7 @@ public class ValidateMapReader {
 						count++;
 					}
 				}
-				if(count==0){
+				if(count==0 && territoriesOfContinent.size()>1){
 					return false;
 				}
 			}
