@@ -1,18 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package game.risk.gui;
 
-import game.risk.model.AttackModel;
-import game.risk.model.CurrentGameStatics;
-import game.risk.model.CurrentGameStaticsTableModel;
+import game.risk.model.AttackLogic;
+import game.risk.model.RiskMap;
+import game.risk.util.CurrentGameStatics;
+import game.risk.util.CurrentGameStaticsTableModel;
 import game.risk.model.Player;
-import game.risk.model.TempTableModel;
-import game.risk.util.MapDetails;
-import java.util.ArrayList;
+
 import java.util.List;
+import javax.swing.JDialog;
 
 /**
  *
@@ -20,14 +16,12 @@ import java.util.List;
  */
 public class AttackGUIPanel extends javax.swing.JPanel {
 
-	public AttackGUIPanel(Player[] player, int myIndex, CurrentGameStaticsTableModel tm, List<CurrentGameStatics> list,
-			MapDetails mapDetails) {
+	public AttackGUIPanel(JDialog dialog, Player[] player, int myIndex, CurrentGameStaticsTableModel tm,
+			List<CurrentGameStatics> list, RiskMap mapDetails) {
 		initComponents();
 		lbPlayer.setText("Player : " + (myIndex + 1));
-		new AttackModel(this, player, myIndex, tm, list, mapDetails);
+		new AttackLogic(dialog, this, player, myIndex, tm, list, mapDetails);
 	}
-
-	@SuppressWarnings("unchecked")
 
 	private void initComponents() {
 
@@ -36,15 +30,23 @@ public class AttackGUIPanel extends javax.swing.JPanel {
 		lbPlayer = new javax.swing.JLabel();
 		jLabel1 = new javax.swing.JLabel();
 		btAttack = new javax.swing.JButton();
-		jPanel1 = new javax.swing.JPanel();
+		jpDiceRolling = new javax.swing.JPanel();
 		jPanel2 = new javax.swing.JPanel();
 		lbplayer1 = new javax.swing.JLabel();
+		lbSelectedCountryPlayer1 = new javax.swing.JLabel();
 		jPanel4 = new javax.swing.JPanel();
 		lbplayer2 = new javax.swing.JLabel();
+		lbSelectedCountryPlayer2 = new javax.swing.JLabel();
 		cbplayer1 = new javax.swing.JComboBox<>();
 		cbplayer2 = new javax.swing.JComboBox<>();
+		btRoleDice = new javax.swing.JButton();
+		lbInfantriesPlayer1 = new javax.swing.JLabel();
+		lbInfantriesPlayer2 = new javax.swing.JLabel();
+		lbDiceResultsPlayer1 = new javax.swing.JLabel();
+		lbDiceResultsPlayer2 = new javax.swing.JLabel();
 		jScrollPane3 = new javax.swing.JScrollPane();
 		jtOther = new javax.swing.JTable();
+		btCloseAttackPhase = new javax.swing.JButton();
 
 		setLayout(null);
 
@@ -57,7 +59,7 @@ public class AttackGUIPanel extends javax.swing.JPanel {
 		jScrollPane1.setViewportView(jtMain);
 
 		add(jScrollPane1);
-		jScrollPane1.setBounds(10, 40, 270, 250);
+		jScrollPane1.setBounds(10, 40, 270, 300);
 
 		lbPlayer.setFont(new java.awt.Font("Tahoma", 1, 11));
 		lbPlayer.setText("Player : ");
@@ -73,45 +75,127 @@ public class AttackGUIPanel extends javax.swing.JPanel {
 		add(btAttack);
 		btAttack.setBounds(290, 250, 380, 40);
 
-		jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-		jPanel1.setLayout(null);
+		jpDiceRolling.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
 		jPanel2.setBackground(new java.awt.Color(255, 102, 102));
 		jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 0, 51)));
 		jPanel2.setLayout(null);
 
-		lbplayer1.setFont(new java.awt.Font("Tahoma", 1, 18));
+		lbplayer1.setFont(new java.awt.Font("Tahoma", 1, 12));
 		lbplayer1.setForeground(new java.awt.Color(255, 255, 255));
 		jPanel2.add(lbplayer1);
-		lbplayer1.setBounds(20, 10, 110, 20);
+		lbplayer1.setBounds(20, 0, 110, 20);
 
-		jPanel1.add(jPanel2);
-		jPanel2.setBounds(10, 10, 130, 40);
+		lbSelectedCountryPlayer1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+		jPanel2.add(lbSelectedCountryPlayer1);
+		lbSelectedCountryPlayer1.setBounds(10, 30, 120, 10);
 
 		jPanel4.setBackground(new java.awt.Color(0, 204, 153));
 		jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 102)));
 		jPanel4.setLayout(null);
 
-		lbplayer2.setFont(new java.awt.Font("Tahoma", 1, 18));
+		lbplayer2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 		lbplayer2.setForeground(new java.awt.Color(255, 255, 255));
 		jPanel4.add(lbplayer2);
-		lbplayer2.setBounds(20, 10, 110, 20);
+		lbplayer2.setBounds(20, 0, 110, 20);
 
-		jPanel1.add(jPanel4);
-		jPanel4.setBounds(160, 10, 130, 40);
+		lbSelectedCountryPlayer2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+		jPanel4.add(lbSelectedCountryPlayer2);
+		lbSelectedCountryPlayer2.setBounds(10, 30, 120, 20);
 
-		cbplayer1.setModel(
-				new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-		jPanel1.add(cbplayer1);
-		cbplayer1.setBounds(40, 60, 80, 30);
+		btRoleDice.setText("Roll Dice");
 
-		cbplayer2.setModel(
-				new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-		jPanel1.add(cbplayer2);
-		cbplayer2.setBounds(180, 60, 80, 30);
+		lbInfantriesPlayer1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+		lbInfantriesPlayer1.setText("---");
 
-		add(jPanel1);
-		jPanel1.setBounds(680, 40, 300, 250);
+		lbInfantriesPlayer2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+		lbInfantriesPlayer2.setText("---");
+
+		lbDiceResultsPlayer1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+		lbDiceResultsPlayer1.setText("---");
+
+		lbDiceResultsPlayer2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+		lbDiceResultsPlayer2.setText("---");
+
+		javax.swing.GroupLayout jpDiceRollingLayout = new javax.swing.GroupLayout(jpDiceRolling);
+		jpDiceRolling.setLayout(jpDiceRollingLayout);
+		jpDiceRollingLayout.setHorizontalGroup(jpDiceRollingLayout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(jpDiceRollingLayout.createSequentialGroup().addGroup(jpDiceRollingLayout
+						.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+						.addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
+								jpDiceRollingLayout.createSequentialGroup().addContainerGap().addComponent(btRoleDice,
+										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+										Short.MAX_VALUE))
+						.addGroup(jpDiceRollingLayout.createSequentialGroup().addGroup(jpDiceRollingLayout
+								.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+								.addGroup(jpDiceRollingLayout
+										.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+										.addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
+												jpDiceRollingLayout.createSequentialGroup().addContainerGap()
+														.addComponent(cbplayer1, javax.swing.GroupLayout.PREFERRED_SIZE,
+																80, javax.swing.GroupLayout.PREFERRED_SIZE))
+										.addGroup(jpDiceRollingLayout.createSequentialGroup().addGap(78, 78, 78)
+												.addComponent(lbInfantriesPlayer1,
+														javax.swing.GroupLayout.PREFERRED_SIZE, 47,
+														javax.swing.GroupLayout.PREFERRED_SIZE)))
+								.addGroup(jpDiceRollingLayout.createSequentialGroup().addGap(9, 9, 9).addComponent(
+										jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 130,
+										javax.swing.GroupLayout.PREFERRED_SIZE)))
+								.addGroup(jpDiceRollingLayout
+										.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+										.addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpDiceRollingLayout
+												.createSequentialGroup().addGap(0, 0, Short.MAX_VALUE)
+												.addComponent(lbInfantriesPlayer2,
+														javax.swing.GroupLayout.PREFERRED_SIZE, 29,
+														javax.swing.GroupLayout.PREFERRED_SIZE)
+												.addGap(59, 59, 59))
+										.addGroup(jpDiceRollingLayout.createSequentialGroup()
+												.addGroup(jpDiceRollingLayout
+														.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+														.addGroup(jpDiceRollingLayout.createSequentialGroup()
+																.addGap(33, 33, 33).addComponent(cbplayer2,
+																		javax.swing.GroupLayout.PREFERRED_SIZE, 80,
+																		javax.swing.GroupLayout.PREFERRED_SIZE))
+														.addGroup(jpDiceRollingLayout.createSequentialGroup()
+																.addGap(20, 20, 20).addComponent(jPanel4,
+																		javax.swing.GroupLayout.PREFERRED_SIZE, 130,
+																		javax.swing.GroupLayout.PREFERRED_SIZE)))
+												.addGap(0, 0, Short.MAX_VALUE))))
+						.addGroup(jpDiceRollingLayout.createSequentialGroup().addGap(48, 48, 48)
+								.addComponent(lbDiceResultsPlayer1, javax.swing.GroupLayout.PREFERRED_SIZE, 83,
+										javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+										javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(lbDiceResultsPlayer2, javax.swing.GroupLayout.PREFERRED_SIZE, 72,
+										javax.swing.GroupLayout.PREFERRED_SIZE)))
+						.addContainerGap()));
+		jpDiceRollingLayout.setVerticalGroup(jpDiceRollingLayout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(jpDiceRollingLayout.createSequentialGroup().addGap(9, 9, 9)
+						.addGroup(jpDiceRollingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+								.addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+								.addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addGap(18, 18, 18)
+						.addGroup(jpDiceRollingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+								.addComponent(lbInfantriesPlayer1).addComponent(lbInfantriesPlayer2))
+						.addGap(18, 18, 18)
+						.addGroup(jpDiceRollingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+								.addComponent(cbplayer1, javax.swing.GroupLayout.PREFERRED_SIZE, 30,
+										javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addComponent(cbplayer2, javax.swing.GroupLayout.PREFERRED_SIZE, 30,
+										javax.swing.GroupLayout.PREFERRED_SIZE))
+						.addGap(18, 18, 18)
+						.addComponent(btRoleDice, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
+								javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addGap(18, 18, 18)
+						.addGroup(jpDiceRollingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+								.addComponent(lbDiceResultsPlayer1).addComponent(lbDiceResultsPlayer2))
+						.addGap(19, 19, 19)));
+
+		add(jpDiceRolling);
+		jpDiceRolling.setBounds(680, 40, 300, 300);
 
 		jtOther.setModel(
 				new javax.swing.table.DefaultTableModel(
@@ -123,22 +207,34 @@ public class AttackGUIPanel extends javax.swing.JPanel {
 
 		add(jScrollPane3);
 		jScrollPane3.setBounds(290, 40, 380, 200);
+
+		btCloseAttackPhase.setText("Close Attack Phase");
+		add(btCloseAttackPhase);
+		btCloseAttackPhase.setBounds(290, 300, 380, 40);
 	}
 
 	// Variables declaration
 	public javax.swing.JButton btAttack;
-	private javax.swing.JComboBox<String> cbplayer1;
-	private javax.swing.JComboBox<String> cbplayer2;
+	public javax.swing.JButton btCloseAttackPhase;
+	public javax.swing.JButton btRoleDice;
+	public javax.swing.JComboBox<String> cbplayer1;
+	public javax.swing.JComboBox<String> cbplayer2;
 	private javax.swing.JLabel jLabel1;
-	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPanel jPanel2;
 	private javax.swing.JPanel jPanel4;
 	private javax.swing.JScrollPane jScrollPane1;
 	private javax.swing.JScrollPane jScrollPane3;
+	public javax.swing.JPanel jpDiceRolling;
 	public javax.swing.JTable jtMain;
 	public javax.swing.JTable jtOther;
+	public javax.swing.JLabel lbDiceResultsPlayer1;
+	public javax.swing.JLabel lbDiceResultsPlayer2;
+	public javax.swing.JLabel lbInfantriesPlayer1;
+	public javax.swing.JLabel lbInfantriesPlayer2;
 	private javax.swing.JLabel lbPlayer;
+	public javax.swing.JLabel lbSelectedCountryPlayer1;
+	public javax.swing.JLabel lbSelectedCountryPlayer2;
 	public javax.swing.JLabel lbplayer1;
 	public javax.swing.JLabel lbplayer2;
-	// End of variables declaration
+
 }

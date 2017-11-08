@@ -19,11 +19,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import game.risk.model.MapReader;
 import game.risk.model.MapWriter;
 import game.risk.model.RiskMap;
-import game.risk.model.Territory;
 import game.risk.model.validation.ValidateMapWriter;
+import game.risk.util.MapReader;
+import game.risk.util.Territory;
 
 /**
  * A class to load and edit the map
@@ -591,7 +591,7 @@ public class MapEditor {
 				adjacentToNewCountry.setVisible(false);
 				addAdjacentCountry.setVisible(false);
 				submitNewCountry.setVisible(false);
-
+				countrySelectedToShowLinksToAddButton.setVisible(false);
 				countrySelectedToShowLinksToDeleteButton.setVisible(false);
 				countrySelectedToShowLinksToDeleteTF.setVisible(false);
 				countrySelectedToShowLinksToDeleteLabel.setVisible(false);
