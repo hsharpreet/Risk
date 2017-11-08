@@ -5,10 +5,10 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import game.risk.gui.MapEditor;
-import game.risk.model.MapReader;
 import game.risk.model.MapWriter;
 import game.risk.model.RiskMap;
 import game.risk.model.validation.ValidateMapWriter;
+import game.risk.util.MapReader;
 
 /**
  * Class to test Validation.java
