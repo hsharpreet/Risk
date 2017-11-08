@@ -36,6 +36,12 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+/**
+ * A Class which stores details of the player
+ * 
+ * @author Team
+ *
+ */
 public class Player extends Observable {
 
 	int myIndex;
@@ -57,76 +63,181 @@ public class Player extends Observable {
 	private Color territorAndArmiesColor;
 	RiskGame riskGameNew;
 
+	/**
+	 * A constructor to initialize myIndex, Player and MapDetails
+	 * 
+	 * @param myIndex
+	 *            an integer value
+	 * @param player
+	 *            an array of player class
+	 * @param mapDetails
+	 *            an object of RiskMap class
+	 */
 	public Player(int myIndex, Player player[], RiskMap mapDetails) {
 		this.mapDetails = mapDetails;
 		this.myIndex = myIndex;
 		this.player = player;
 	}
 
+	/**
+	 * method to get the color of territories of armies and territories
+	 * 
+	 * @return territorAndArmiesColor the color
+	 */
 	public Color getTerritorAndArmiesColor() {
 		return territorAndArmiesColor;
 	}
 
+	/**
+	 * A method to set the color of territories and armies in the class attributes
+	 * 
+	 * @param territorAndArmiesColor
+	 *            the class attribute
+	 */
 	public void setTerritorAndArmiesColor(Color territorAndArmiesColor) {
 		this.territorAndArmiesColor = territorAndArmiesColor;
 	}
 
+	/**
+	 * A method to get the name of the player
+	 * 
+	 * @return name the name of the player
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Method to set the name of the player in the class attribute
+	 * 
+	 * @param name
+	 *            the name of the player
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * Method to get the total number of armies of the player
+	 * 
+	 * @return totalNoOfArmies the total number of the armies
+	 */
 	public int getTotalNoOfArmies() {
 		return totalNoOfArmies;
 	}
 
+	/**
+	 * Method to set the total number of armies in the class attribute
+	 * 
+	 * @param totalNoOfArmies
+	 *            the number of armies
+	 */
 	public void setTotalNoOfArmies(int totalNoOfArmies) {
 		this.totalNoOfArmies = totalNoOfArmies;
 	}
 
+	/**
+	 * Method to get the current number of armies
+	 * 
+	 * @return currentNoArmies the number of armies
+	 */
 	public int getCurrentNoOfArmies() {
 		return currentNoOfArmies;
 	}
 
+	/**
+	 * Method to set the current number of armies in the class attributes
+	 * 
+	 * @param currentNoOfArmies
+	 *            the number of armies
+	 */
 	public void setCurrentNoOfArmies(int currentNoOfArmies) {
 		this.currentNoOfArmies = currentNoOfArmies;
 	}
 
+	/**
+	 * Method to get the territory and armies in a hashMap
+	 * 
+	 * @return territorAndArmies a hashMap
+	 */
 	public Map<Territory, Integer> getTerritorAndArmies() {
 		return territorAndArmies;
 	}
 
+	/**
+	 * Method to set the territory and armies inn the class attributes
+	 * 
+	 * @param territorAndArmies
+	 *            a hashMap containing the territories and Armies
+	 */
 	public void setTerritorAndArmies(Map<Territory, Integer> territorAndArmies) {
 		this.territorAndArmies = territorAndArmies;
 	}
 
+	/**
+	 * Method to check the turn of the player
+	 * 
+	 * @return turn a boolean variable
+	 */
 	public boolean isTurn() {
 		return turn;
 	}
 
+	/**
+	 * Method to set the turn of the player
+	 * 
+	 * @param turn
+	 *            a boolean variable
+	 */
 	public void setTurn(boolean turn) {
 		this.turn = turn;
 	}
 
+	/**
+	 * method to check if the player is a computer
+	 * 
+	 * @return isComputer a boolean variable
+	 */
 	public boolean isComputer() {
 		return isComputer;
 	}
 
+	/**
+	 * method to set the value of Computer
+	 * 
+	 * @param isComputer
+	 *            a boolean variable
+	 */
 	public void setComputer(boolean isComputer) {
 		this.isComputer = isComputer;
 	}
 
+	/**
+	 * Method to get the player panel
+	 * 
+	 * @return PlayerPanel The panel
+	 */
 	public PlayerPanel getPlayerPanel() {
 		return playerPanel;
 	}
 
+	/**
+	 * Method to set the playerPanel
+	 * 
+	 * @param playerPanel
+	 *            the panel
+	 */
 	public void setPlayerPanel(PlayerPanel playerPanel) {
 		this.playerPanel = playerPanel;
 	}
 
+	/**
+	 * A method to get the continents which are occupied by the player
+	 * 
+	 * @param playerIndex
+	 *            an integer variable
+	 * @return occupiedContinentByPlayer an arrayList of the continents
+	 */
 	public List<String> getOccupiedContinentsByPlayer(int playerIndex) {
 		List<String> occupiedContinentByPlayer = new ArrayList<>();
 		int j = playerIndex;
@@ -153,6 +264,9 @@ public class Player extends Observable {
 		return occupiedContinentByPlayer;
 	}
 
+	/**
+	 * A method to perform the reinforcement by the player
+	 */
 	public void reinforcement() {
 
 		for (int i = 0; i < player.length; i++) {
@@ -178,6 +292,13 @@ public class Player extends Observable {
 
 	}
 
+	/**
+	 * Method to calculate the reinforcement armies of the player
+	 * 
+	 * @param playerIndex
+	 *            the index of the player
+	 * @return reinformentArmies the number of armies
+	 */
 	public int calculateReinformentArmies(int playerIndex) {
 		int reinformentArmies = player[playerIndex].currentGameStaticsList.size() / 3;
 		if (reinformentArmies < 3) {
@@ -190,7 +311,13 @@ public class Player extends Observable {
 		}
 		return reinformentArmies;
 	}
-	
+
+	/**
+	 * a method for the attack phase
+	 * 
+	 * @param i
+	 *            an integer value
+	 */
 	public void attack(int i) {
 		int ans = JOptionPane.showConfirmDialog(player[i].getPlayerPanel(),
 				"Player : " + (i + 1) + "\nDo you want to do attack ?", "Attack Confirmition",
@@ -263,6 +390,12 @@ public class Player extends Observable {
 		}
 	}
 
+	/**
+	 * Method to get the next player turn
+	 * 
+	 * @param i
+	 *            an integer value
+	 */
 	public void nextPlayerTurn(int i) {
 
 		player[i].getPlayerPanel().lbMessage.setText("");
@@ -287,6 +420,12 @@ public class Player extends Observable {
 
 	}
 
+	/**
+	 * Method to check the next index to enable the start phase button
+	 * 
+	 * @param i
+	 *            an integer value
+	 */
 	public void nextIndexToEnableButton(int i) {
 		// if all players have 0 available infantries.. means startup phase done
 		boolean flag = true;
@@ -299,7 +438,8 @@ public class Player extends Observable {
 		if (flag) {
 			JOptionPane.showMessageDialog(playerPanel,
 					"Startup Phase Done.\nIn next phase every player has option of \nreinforcement, attack and fortification.");
-			setMessage("Startup Phase Done.\nIn next phase every player has option of \nreinforcement, attack and fortification.");
+			setMessage(
+					"Startup Phase Done.\nIn next phase every player has option of \nreinforcement, attack and fortification.");
 			reinforcement();
 		} else {
 			i++;
@@ -315,6 +455,10 @@ public class Player extends Observable {
 
 	}
 
+	/**
+	 * a listener for PlaceInfantry button, fortification button, ok button and
+	 * reinforcement button
+	 */
 	public void bindListeners() {
 		playerPanel.btPlaceInfantry.addActionListener(new PlaceInfantryClickListener(myIndex, player));
 		playerPanel.jtCountriesAndArmies.getSelectionModel()
@@ -326,12 +470,23 @@ public class Player extends Observable {
 
 	private String message;
 
+	/**
+	 * Method to set the message in the class attribute
+	 * 
+	 * @param message
+	 *            a String variable
+	 */
 	public void setMessage(String message) {
 		this.message = message;
 		setChanged();
 		notifyObservers();
 	}
 
+	/**
+	 * Method to get the message
+	 * 
+	 * @return a String variable
+	 */
 	public String getMessage() {
 		return message;
 	}
