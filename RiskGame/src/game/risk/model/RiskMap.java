@@ -52,7 +52,7 @@ public class RiskMap {
 	/**
 	 * Method to get Map and store it into a hashMap
 	 * 
-	 * @return map a hashMap
+	 * @return map a hashMap to store details
 	 */
 	public HashMap<String, String> getMap() {
 		return map;
