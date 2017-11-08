@@ -9,15 +9,14 @@ package game.risk.gui;
  */
 public class PlayerPanel extends javax.swing.JPanel {
 
-
 	/**
-	 * Constructor to Initialize object and it has the fields which saves the present panel of the player playing
+	 * Constructor to Initialize object and it has the fields which saves the
+	 * present panel of the player playing
 	 * 
 	 */
 	public PlayerPanel() {
 		initComponents();
 	}
-
 
 	/**
 	 * Initializing components for each player.
@@ -42,7 +41,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 		setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 		setLayout(null);
 
-		lbPlayer.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+		lbPlayer.setFont(new java.awt.Font("Tahoma", 1, 11));
 		lbPlayer.setForeground(new java.awt.Color(0, 153, 153));
 		lbPlayer.setText("Player : 1");
 		add(lbPlayer);
@@ -76,7 +75,7 @@ public class PlayerPanel extends javax.swing.JPanel {
 		jLabelNeighbours.setBounds(250, 70, 110, 20);
 
 		btPlaceInfantry.setText("Place Infantry");
-		
+
 		add(btPlaceInfantry);
 		btPlaceInfantry.setBounds(10, 290, 110, 30);
 
