@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import game.risk.model.RiskMap;
 import game.risk.model.validation.ValidateMapReader;
@@ -20,6 +21,27 @@ import game.risk.model.validation.ValidateMapReader;
  */
 public class MapReader {
 	
+	public Map<String, List<String>> getcontinentsWithCountries(RiskMap riskMap) {
+		Map<String, List<String>> continentAndItsCountries = new HashMap<String, List<String>>();
+		Set<String> continentList = riskMap.getContinents().keySet();
+
+		for (String continent : continentList) {
+			List<Territory> territoryList = getTerritoriesOfContinent(continent, riskMap.getTerritories());
+			List<String> territoryNameList = getTerritoryNameList(territoryList);
+			continentAndItsCountries.put(continent, territoryNameList);
+		}
+
+		return continentAndItsCountries;
+	}
+
+	public List<String> getTerritoryNameList(List<Territory> territoryList) {
+		List<String> nameList = new ArrayList<>();
+		for (Territory t : territoryList) {
+			nameList.add(t.getName());
+		}
+		return nameList;
+	}
+
 	public static Map<String, ArrayList<String>> continetAndItsCountries(String path) {
 		MapReader mapReader = new MapReader();
 		RiskMap riskmap;

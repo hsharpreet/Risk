@@ -13,6 +13,7 @@ import game.risk.listener.OkClickListener;
 import game.risk.listener.PlaceInfantryClickListener;
 import game.risk.gui.RiskGame;
 import game.risk.util.LoggerUtility;
+import game.risk.util.MapReader;
 
 import java.awt.Color;
 import java.awt.Dialog;
@@ -21,6 +22,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -125,27 +127,36 @@ public class Player extends Observable {
 		this.playerPanel = playerPanel;
 	}
 
+	public List<String> getOccupiedContinentsByPlayer(int playerIndex) {
+		List<String> occupiedContinentByPlayer = new ArrayList<>();
+		int j = playerIndex;
+		Map<String, List<String>> playerContinents = new HashMap<String, List<String>>();
+		for (int k = 0; k < player[j].currentGameStaticsList.size(); k++) {
+			String continentName = player[j].currentGameStaticsList.get(k).territory.getContinent();
+			String territoryName = player[j].currentGameStaticsList.get(k).territory.getName();
+			if (playerContinents.get(continentName) == null) {
+				playerContinents.put(continentName, new ArrayList<String>());
+				playerContinents.get(continentName).add(territoryName);
+			} else {
+				playerContinents.get(continentName).add(territoryName);
+			}
+		}
+		MapReader reader = new MapReader();
+		Map<String, List<String>> mapContinents = reader.getcontinentsWithCountries(mapDetails);
+		for (String playerContinent : playerContinents.keySet()) {
+			List<String> allTerritoriesOfContinent = mapContinents.get(playerContinent);
+			allTerritoriesOfContinent.removeAll(playerContinents.get(playerContinent));
+			if (allTerritoriesOfContinent.size() == 0) {
+				occupiedContinentByPlayer.add(playerContinent);
+			}
+		}
+		return occupiedContinentByPlayer;
+	}
+
 	public void reinforcement() {
 
 		for (int i = 0; i < player.length; i++) {
-			int n = player[i].currentGameStaticsList.size() / 3;
-			if (n < 3) {
-				n = 3;
-			}
-			// Check if all territories are in same continent
-			boolean flag = true;
-			String firstContinent = player[i].currentGameStaticsList.get(0).territory.getContinent();
-			for (int j = 1; j < player[i].currentGameStaticsList.size(); j++) {
-				String continent = player[i].currentGameStaticsList.get(j).territory.getContinent();
-				if (!firstContinent.equals(continent)) {
-					flag = false;
-					break;
-				}
-			}
-			if (flag) {
-				int p = Integer.parseInt(mapDetails.getContinents().get(firstContinent));
-				n = n + p;
-			}
+			int n = calculateReinformentArmies(i);
 			player[i].infantriesTotal += n;
 			player[i].getPlayerPanel().lbTotalArmies.setText("Total Infantry : " + player[i].infantriesTotal);
 			player[i].infantriesAvailable = n;
@@ -167,6 +178,19 @@ public class Player extends Observable {
 
 	}
 
+	public int calculateReinformentArmies(int playerIndex) {
+		int reinformentArmies = player[playerIndex].currentGameStaticsList.size() / 3;
+		if (reinformentArmies < 3) {
+			reinformentArmies = 3;
+		}
+		List<String> occupiedContinents = getOccupiedContinentsByPlayer(playerIndex);
+		for (String oc : occupiedContinents) {
+			int p = Integer.parseInt(mapDetails.getContinents().get(oc));
+			reinformentArmies = reinformentArmies + p;
+		}
+		return reinformentArmies;
+	}
+	
 	public void attack(int i) {
 		int ans = JOptionPane.showConfirmDialog(player[i].getPlayerPanel(),
 				"Player : " + (i + 1) + "\nDo you want to do attack ?", "Attack Confirmition",
