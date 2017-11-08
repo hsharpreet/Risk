@@ -52,7 +52,7 @@ public class RiskMap {
 	/**
 	 * Method to get Map and store it into a hashMap
 	 * 
-	 * @return map
+	 * @return map a hashMap
 	 */
 	public HashMap<String, String> getMap() {
 		return map;
@@ -61,7 +61,7 @@ public class RiskMap {
 	/**
 	 * Method to get continents and store it into a hashMap
 	 * 
-	 * @return Continents
+	 * @return Continents the name of the continents
 	 */
 	public HashMap<String, String> getContinents() {
 		return continents;
@@ -70,7 +70,7 @@ public class RiskMap {
 	/**
 	 * Method to get territories and store it into a hashMap
 	 * 
-	 * @return territories
+	 * @return territories the name of teh territories
 	 */
 	public HashMap<String, Territory> getTerritories() {
 		return territories;
