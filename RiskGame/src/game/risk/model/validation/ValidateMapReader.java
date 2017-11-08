@@ -27,31 +27,35 @@ public class ValidateMapReader {
 	 * 
 	 */
 	public boolean isMapValid(HashMap<String, String> continents, HashMap<String, Territory> territories) {
-		if(continents.size()==1 && territories.size()==1){
+		if (continents.size() == 1 && territories.size() == 1) {
 			return checkSingleContinentValid(continents, territories);
-		}
-		else if (checkCountriesExistInValidContinent(continents, territories) && checkNeighbouringCountriesExist(territories)
-				&& checkNeighbouringCountriesSymmetric(territories)&& checkConnectedContinent(continents, territories)) {
+		} else if (checkCountriesExistInValidContinent(continents, territories)
+				&& checkNeighbouringCountriesExist(territories) && checkNeighbouringCountriesSymmetric(territories)
+				&& checkConnectedContinent(continents, territories)) {
 			return true;
 		}
 		return false;
 	}
 
 	/**
-	 * Method to check if the single continent has single territory which has that single continent
+	 * Method to check if the single continent has single territory which has that
+	 * single continent
+	 * 
 	 * @param continents
+	 *            the name of the continents
 	 * @param territories
+	 *            the name of the territories
 	 * @return true if valid single continent
 	 * @return false if invalid single continent
 	 */
 	public boolean checkSingleContinentValid(HashMap<String, String> continents,
-			HashMap<String, Territory> territories){
-			String singleContinent= (String)continents.keySet().toArray()[0];
-			Territory singleTerritory = (Territory)territories.values().toArray()[0];
-			if(singleTerritory.getContinent().equalsIgnoreCase(singleContinent)){
-				return true;
-			}
-            return false;	
+			HashMap<String, Territory> territories) {
+		String singleContinent = (String) continents.keySet().toArray()[0];
+		Territory singleTerritory = (Territory) territories.values().toArray()[0];
+		if (singleTerritory.getContinent().equalsIgnoreCase(singleContinent)) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -135,31 +139,36 @@ public class ValidateMapReader {
 		}
 		return true;
 	}
+
 	/**
 	 * Method to check whether a continent is connected or not
-	 * @param continents the continents to be checked 
-	 * @param territories the territories of the continent
+	 * 
+	 * @param continents
+	 *            the continents to be checked
+	 * @param territories
+	 *            the territories of the continent
 	 * @return a boolean variable
 	 */
-	private boolean checkConnectedContinent(HashMap<String, String> continents, HashMap<String, Territory> territories){
-		for(String continent : continents.keySet()){
+	private boolean checkConnectedContinent(HashMap<String, String> continents,
+			HashMap<String, Territory> territories) {
+		for (String continent : continents.keySet()) {
 			MapReader reader = new MapReader();
 			List<Territory> territoriesOfContinent = reader.getTerritoriesOfContinent(continent, territories);
-			for(Territory t : territoriesOfContinent){
-				int count=0; // neighbours in same continent
+			for (Territory t : territoriesOfContinent) {
+				int count = 0; // neighbours in same continent
 				List<String> neighbouringTerritories = t.getNeighbouringTerritories();
-				for(String neighbour : neighbouringTerritories){
-					Territory neighbourTerritory= reader.getTerritoryByName(neighbour, territories);
-					if(territoriesOfContinent.contains(neighbourTerritory)){
+				for (String neighbour : neighbouringTerritories) {
+					Territory neighbourTerritory = reader.getTerritoryByName(neighbour, territories);
+					if (territoriesOfContinent.contains(neighbourTerritory)) {
 						count++;
 					}
 				}
-				if(count==0 && territoriesOfContinent.size()>1){
+				if (count == 0 && territoriesOfContinent.size() > 1) {
 					return false;
 				}
 			}
 		}
 		return true;
 	}
-	
+
 }

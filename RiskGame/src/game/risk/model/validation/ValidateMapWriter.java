@@ -27,9 +27,11 @@ public class ValidateMapWriter
 	 * @param linkName
 	 *            the name of the link
 	 * @param thisLine
+	 *            the current line
 	 * @return true if the neighbor can be added
 	 * @return false if the neighbor cannot be added
 	 * @throws Exception
+	 *             an exception
 	 */
 	public boolean validateAddLink(String countryName, String linkName, String thisLine) throws Exception {
 		String country = countryName;
@@ -54,9 +56,11 @@ public class ValidateMapWriter
 	 * @param linkName
 	 *            the name of the link
 	 * @param thisLine
+	 *            the line
 	 * @return false if country can add itself as link
 	 * @return true if country cannot add itself as link
 	 * @throws Exception
+	 *             an exception
 	 */
 	public boolean validateAddLinkAddingItself(String countryName, String linkName, String thisLine) throws Exception {
 		if (countryName.equals(linkName)) {
@@ -77,6 +81,7 @@ public class ValidateMapWriter
 	 * @return true if the link delete
 	 * @return false if the link do not delete
 	 * @throws Exception
+	 *             an exception
 	 */
 	public boolean validateLinkToDelete(String link, String mapFileName) throws Exception {
 		String linked_country = link;
@@ -109,6 +114,7 @@ public class ValidateMapWriter
 	 *            the file name
 	 * @return status the status of the process
 	 * @throws Exception
+	 *             an exception
 	 */
 	public boolean checkTerritoriesBeforeDeletingContinent(String continent, String mapFile) throws Exception {
 		MapReader mapReader = new MapReader();
@@ -133,10 +139,13 @@ public class ValidateMapWriter
 	 * does not have just 1 adjacent territory i.e the one we wish to delete
 	 * 
 	 * @param thisLine
+	 *            the line
 	 * @param mapFileName
+	 *            the name of the map file
 	 * @return false if adjacent territories have more than 1 adjacent territory
 	 * @return true if adjacent territories have just 1 adjacent territory
 	 * @throws Exception
+	 *             an exception
 	 */
 	public boolean checkAdjacentTerritoryLinkBeforeDelete(String territoryToBeDeleted, String mapFileName)
 			throws Exception {
@@ -152,55 +161,69 @@ public class ValidateMapWriter
 		}
 		return true;
 	}
-	
+
 	/**
-	 * Method to check whether a neighbouring territory can be deleted from a given territory
+	 * Method to check whether a neighbouring territory can be deleted from a given
+	 * territory
+	 * 
 	 * @param territory
+	 *            the nam eof the territory
 	 * @param link
+	 *            the neighboring territory
 	 * @param mapFileName
-	 * @return true if the territory link can be deleted from neighbour and neighbour link can be deleted from territory
-	 * @return false if territory link cannot be deleted if only single link exist in neighbouring territory
+	 *            the nam eof the mapfile
+	 * @return true if the territory link can be deleted from neighbour and
+	 *         neighbour link can be deleted from territory
+	 * @return false if territory link cannot be deleted if only single link exist
+	 *         in neighbouring territory
 	 * @throws Exception
+	 *             an exception
 	 */
-	public boolean checkTerritoryLinkBeforeDeleteLink(String territory,String link, String mapFileName)
+	public boolean checkTerritoryLinkBeforeDeleteLink(String territory, String link, String mapFileName)
 			throws Exception {
 		MapReader mapReader = new MapReader();
 		RiskMap riskMap = mapReader.readMap(mapFileName);
 		Territory t = mapReader.getTerritoryByName(territory, riskMap.getTerritories());
-		Territory neighbouring= mapReader.getTerritoryByName(link, riskMap.getTerritories());
-		if(t.getNeighbouringTerritories().size()==1){
+		Territory neighbouring = mapReader.getTerritoryByName(link, riskMap.getTerritories());
+		if (t.getNeighbouringTerritories().size() == 1) {
 			return false;
 		}
-		if(neighbouring.getNeighbouringTerritories().size()==1){
+		if (neighbouring.getNeighbouringTerritories().size() == 1) {
 			return false;
 		}
 		return true;
 	}
-	
+
 	/**
-	 * Method to check whether atleast one of the neighbouring territories have a given continent
+	 * Method to check whether at least one of the neighboring territories have a
+	 * given continent
+	 * 
 	 * @param continent
+	 *            the name of the continent
 	 * @param neighbours
+	 *            the neighboring territories
 	 * @param mapFile
-	 * @return true if atleast one linked territories have given continent
+	 *            the map file
+	 * @return true if at least one linked territories have given continent
 	 * @return false if no linked territories have given continent
-	 * @throws Exception if file exception while reading
+	 * @throws Exception
+	 *             if file exception while reading
 	 */
-	public boolean checkLinkedTerritoriesWithSelectedContinent(String continent, List<String> neighbours, String mapFile) throws Exception{
-		int count=0;
+	public boolean checkLinkedTerritoriesWithSelectedContinent(String continent, List<String> neighbours,
+			String mapFile) throws Exception {
+		int count = 0;
 		MapReader mapReader = new MapReader();
 		RiskMap riskMap = mapReader.readMap(mapFile);
-		for(String neighbour : neighbours){
-			Territory neighbouringTerr= mapReader.getTerritoryByName(neighbour, riskMap.getTerritories());
-			if(neighbouringTerr.getContinent().equalsIgnoreCase(continent)){
+		for (String neighbour : neighbours) {
+			Territory neighbouringTerr = mapReader.getTerritoryByName(neighbour, riskMap.getTerritories());
+			if (neighbouringTerr.getContinent().equalsIgnoreCase(continent)) {
 				count++;
 			}
 		}
-		if(count==0){
+		if (count == 0) {
 			return false;
-		} 
+		}
 		return true;
 	}
-	
 
 }
