@@ -1,12 +1,7 @@
 package game.risk.gui;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -18,7 +13,6 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import game.risk.model.MapWriter;
@@ -65,7 +59,7 @@ public class MapEditor {
 		JButton addCountry, addContinent, deleteContinent, addAdjacentCountry, submitNewCountry, deleteCountry,
 				changeContinent, assignNewContinent, viewCountriesOfContinent, deleteCountryLink,
 				deleteSelectedLinkOfCountry, countrySelectedToShowLinksToDeleteButton, addCountryLink,
-				countrySelectedToShowLinksToAddButton, saveMap, btmapFromScratch;
+				countrySelectedToShowLinksToAddButton, saveMap;
 
 		JLabel continentLabel, countryLabel, newCountryNameLabel, continentForNewCountry, adjacentToNewCountry,
 				selectedTerritoryToModify, presentContinent, selectNewContinentToAssign, continentSelected,
@@ -89,7 +83,6 @@ public class MapEditor {
 		addAdjacentCountry = new JButton("Add");
 		submitNewCountry = new JButton("Submit data");
 		assignNewContinent = new JButton("Change Continent");
-		btmapFromScratch = new JButton("Map from Scratch");
 
 		continentLabel = new JLabel("Continents");
 		countryLabel = new JLabel("Countries");
@@ -141,8 +134,6 @@ public class MapEditor {
 		deleteCountryLink.setBounds(770, 83, 160, 30);
 		addCountryLink.setBounds(770, 113, 160, 30);
 
-		btmapFromScratch.setBounds(400, 350, 180, 30);
-
 		continentLabel.setBounds(40, 0, 100, 30);
 		countryLabel.setBounds(580, 0, 100, 30);
 		continentsComboBox.setBounds(40, 24, 190, 30);
@@ -178,8 +169,6 @@ public class MapEditor {
 		mapEditorFrame.add(countryLabel);
 		mapEditorFrame.add(continentsComboBox);
 		mapEditorFrame.add(countryComboBox);
-
-		mapEditorFrame.add(btmapFromScratch);
 
 		mapEditorFrame.add(addContinent);
 		mapEditorFrame.add(deleteContinent);
@@ -246,110 +235,6 @@ public class MapEditor {
 		linksOfSelectedCountryCB.setVisible(false);
 		linksOfSelectedCountryLabel.setVisible(false);
 		countrySelectedToShowLinksToAddButton.setVisible(false);
-
-		// btmapFromScratch
-		/**
-		 * A method to add continent to the file.
-		 */
-		btmapFromScratch.addActionListener(new ActionListener() {
-			boolean check= true;
-			
-			public void actionPerformed(ActionEvent e) {
-				
-			    javax.swing.JTextField tfMapName = new javax.swing.JTextField();
-			    javax.swing.JTextField tfAuthorName = new javax.swing.JTextField("Team 13");
-			    javax.swing.JTextField tfWarn = new javax.swing.JTextField("yes");
-			    javax.swing.JTextField tfImage = new javax.swing.JTextField("default.bmp");
-			    javax.swing.JTextField tfWrap = new javax.swing.JTextField("yes");
-			    javax.swing.JTextField tfScroll = new javax.swing.JTextField("horizontal");
-			    
-			    javax.swing.JTextField tfContinentName = new javax.swing.JTextField();
-			    javax.swing.JTextField tfContinentValue = new javax.swing.JTextField();
-			    
-			    javax.swing.JTextField tfTerritoryName = new javax.swing.JTextField();
-			    javax.swing.JTextField tfTerritoryXAxis = new javax.swing.JTextField("0");
-			    javax.swing.JTextField tfTerritoryYAxis = new javax.swing.JTextField("0");
-			    javax.swing.JTextField tfTerritoryContinent = new javax.swing.JTextField("abc");
-			    
-			    tfAuthorName.setEnabled(false);
-			    tfWarn.setEnabled(false);
-			    tfImage.setEnabled(false);
-			    tfWrap.setEnabled(false);
-			    tfScroll.setEnabled(false);
-			    tfTerritoryXAxis.setEnabled(false);
-			    tfTerritoryYAxis.setEnabled(false);
-			    tfTerritoryContinent.setEnabled(false);
-			    
-				tfTerritoryContinent.setText("Automatically assigned.");
-				
-				tfContinentName.addKeyListener(new KeyListener() {
-					
-					@Override
-					public void keyTyped(KeyEvent e) { }
-					
-					@Override
-					public void keyReleased(KeyEvent e) {
-						tfTerritoryContinent.setText(tfContinentName.getText());
-					}
-					
-					@Override
-					public void keyPressed(KeyEvent e) { }
-				});
-				
-				Object[] map = { "Map name:", tfMapName, "Author Name:", tfAuthorName , "Continent Name",tfContinentName,
-						 "Continent Value",tfContinentValue, "Territory Name", tfTerritoryName, "Territory X Cord",tfTerritoryXAxis,
-						  "Territory Y Cord",tfTerritoryYAxis, "Continent:" ,tfTerritoryContinent};
-				
-				int option = JOptionPane.showConfirmDialog(mapEditorFrame, map, "Map from Scratch",
-						JOptionPane.OK_CANCEL_OPTION);
-				if (option == JOptionPane.OK_OPTION) {
-					if (tfMapName.getText().trim().isEmpty() || tfContinentName.getText().trim().isEmpty()
-							|| tfContinentValue.getText().trim().isEmpty()|| tfTerritoryName.getText().trim().isEmpty()
-							|| tfTerritoryContinent.getText().trim().isEmpty() ) {
-						JOptionPane.showMessageDialog(mapEditorFrame, "All fields are mandatory, cannot be empty.");
-					}else if (!tfContinentValue.getText().trim().matches("-?\\d+(\\.\\d+)?")) {
-						JOptionPane.showMessageDialog(mapEditorFrame, "Continent Value should be a number.");
-
-					}
-					else{
-						MapFromScratch newMap = new MapFromScratch();
-						
-						newMap.setMapName(tfMapName.getText().trim()+".map");
-						
-						newMap.setAuthorVal(tfAuthorName.getText().trim());
-						newMap.setWarnVal(tfWarn.getText().trim());
-						newMap.setImageVal(tfImage.getText().trim());
-						newMap.setWarnVal(tfWrap.getText().trim());
-						newMap.setScrollVal(tfScroll.getText().trim());
-						
-						newMap.setContName(tfContinentName.getText().trim());
-						newMap.setContVal(tfContinentValue.getText().trim());
-						
-						newMap.setTerritoryName(tfTerritoryName.getText().trim());
-						newMap.setTerritoryCordX(tfTerritoryXAxis.getText().trim());
-						newMap.setTerritoryCordY(tfTerritoryYAxis.getText().trim());
-						newMap.setTerritoryContinent(tfTerritoryContinent.getText().trim());
-						
-						MapWriter mapWriter = new MapWriter("mapTemplate.map");
-						String status="OK";
-						try {
-							status = mapWriter.saveNewMapFromSracth(newMap);
-						} catch (Exception e1) {
-							e1.printStackTrace();
-						}
-						if(!status.equals("OK")){
-							JOptionPane.showMessageDialog(mapEditorFrame, "Error: "+status);
-						}else{
-							JOptionPane.showMessageDialog(mapEditorFrame, "Saved successfully.");
-						}
-					}
-					
-				}
-					
-			
-			}
-
-		});
 
 		/**
 		 * A method to add continent to the file.

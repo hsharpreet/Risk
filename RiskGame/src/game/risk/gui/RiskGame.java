@@ -5,6 +5,7 @@ import game.risk.util.CurrentGameStatics;
 import game.risk.util.CurrentGameStaticsTableModel;
 import game.risk.util.NeighbourListModel;
 import game.risk.model.RiskMap;
+import game.risk.model.MapWriter;
 import game.risk.model.Player;
 import game.risk.util.LoggerUtility;
 import game.risk.util.Territory;
@@ -13,8 +14,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.text.DecimalFormat;
+
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import java.util.*;
@@ -81,8 +86,12 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 		btBrowse = new javax.swing.JButton();
 		jLabelPlayerCount = new javax.swing.JLabel();
 		cbPlayerCount = new javax.swing.JComboBox<>();
+		
 		btLoad = new javax.swing.JButton();
 		btMapEditor = new javax.swing.JButton();
+		btmapFromScratch = new JButton("M.F.S.");
+		btmapFromScratch.setToolTipText("Map from Scratch");
+		
 		jScrollPane1 = new javax.swing.JScrollPane();
 		jpPlayground = new javax.swing.JPanel();
 
@@ -140,11 +149,13 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 
 		});
 
-		btLoad.setText("Load");
+		btLoad.setText("Start Game");
 		btLoad.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 
-				if (tfMapFile.getText().endsWith(".map") || tfMapFile.getText().endsWith(".MAP")) {
+				if (tfMapFile.getText().toLowerCase().endsWith(".map")) {
+					btMapEditor.setVisible(false);
+					btmapFromScratch.setVisible(false);
 					btLoadActionPerformed(evt);
 				} else {
 					JOptionPane.showMessageDialog(jpPlayground, "Map File could not read or invalid file. Try again !");
@@ -152,6 +163,116 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 			}
 		});
 
+		/**
+		 * A listener for map from scratch button.
+		 */
+		btmapFromScratch.addActionListener(new ActionListener() {
+			boolean check = true;
+			javax.swing.JTextField tfMapName = new javax.swing.JTextField();
+			javax.swing.JTextField tfAuthorName = new javax.swing.JTextField("Team 13");
+			javax.swing.JTextField tfWarn = new javax.swing.JTextField("yes");
+			javax.swing.JTextField tfImage = new javax.swing.JTextField("default.bmp");
+			javax.swing.JTextField tfWrap = new javax.swing.JTextField("yes");
+			javax.swing.JTextField tfScroll = new javax.swing.JTextField("horizontal");
+
+			javax.swing.JTextField tfContinentName = new javax.swing.JTextField();
+			javax.swing.JTextField tfContinentValue = new javax.swing.JTextField();
+
+			javax.swing.JTextField tfTerritoryName = new javax.swing.JTextField();
+			javax.swing.JTextField tfTerritoryXAxis = new javax.swing.JTextField("0");
+			javax.swing.JTextField tfTerritoryYAxis = new javax.swing.JTextField("0");
+			javax.swing.JTextField tfTerritoryContinent = new javax.swing.JTextField("abc");
+			MapFromScratch newMap = new MapFromScratch();
+			int option = 0;
+			Object[] map = { "Map name:", tfMapName, "Author Name:", tfAuthorName, "Continent Name", tfContinentName,
+					"Continent Value", tfContinentValue, "Territory Name", tfTerritoryName, "Territory X Cord",
+					tfTerritoryXAxis, "Territory Y Cord", tfTerritoryYAxis, "Continent:", tfTerritoryContinent };
+
+			public void actionPerformed(ActionEvent e) {
+
+				tfAuthorName.setEnabled(false);
+				tfWarn.setEnabled(false);
+				tfImage.setEnabled(false);
+				tfWrap.setEnabled(false);
+				tfScroll.setEnabled(false);
+				tfTerritoryXAxis.setEnabled(false);
+				tfTerritoryYAxis.setEnabled(false);
+				tfTerritoryContinent.setEnabled(false);
+
+				tfTerritoryContinent.setText("Automatically assigned.");
+
+				tfContinentName.addKeyListener(new KeyListener() {
+
+					@Override
+					public void keyTyped(KeyEvent e) {
+					}
+
+					@Override
+					public void keyReleased(KeyEvent e) {
+						tfTerritoryContinent.setText(tfContinentName.getText());
+					}
+
+					@Override
+					public void keyPressed(KeyEvent e) {
+					}
+				});
+
+				while (true) {
+					if (dialog() == JOptionPane.OK_OPTION) {
+						if (tfMapName.getText().trim().isEmpty() || tfContinentName.getText().trim().isEmpty()
+								|| tfContinentValue.getText().trim().isEmpty()
+								|| tfTerritoryName.getText().trim().isEmpty()
+								|| tfTerritoryContinent.getText().trim().isEmpty()) {
+
+							JOptionPane.showMessageDialog(jpPlayground, "All fields are mandatory, cannot be empty.");
+							// dialog();
+
+						} else if (!tfContinentValue.getText().trim().matches("-?\\d+(\\.\\d+)?")) {
+							JOptionPane.showMessageDialog(jpPlayground, "Continent Value should be a number.");
+						} else {
+							newMap.setMapName(tfMapName.getText().trim() + ".map");
+
+							newMap.setAuthorVal(tfAuthorName.getText().trim());
+							newMap.setWarnVal(tfWarn.getText().trim());
+							newMap.setImageVal(tfImage.getText().trim());
+							newMap.setWarnVal(tfWrap.getText().trim());
+							newMap.setScrollVal(tfScroll.getText().trim());
+
+							newMap.setContName(tfContinentName.getText().trim());
+							newMap.setContVal(tfContinentValue.getText().trim());
+
+							newMap.setTerritoryName(tfTerritoryName.getText().trim());
+							newMap.setTerritoryCordX(tfTerritoryXAxis.getText().trim());
+							newMap.setTerritoryCordY(tfTerritoryYAxis.getText().trim());
+							newMap.setTerritoryContinent(tfTerritoryContinent.getText().trim());
+							MapWriter mapWriter = new MapWriter("mapTemplate.map");
+							String status = "OK";
+							try {
+								status = mapWriter.saveNewMapFromSracth(newMap);
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
+							if (!status.equals("OK")) {
+								JOptionPane.showMessageDialog(jpPlayground, "Error: " + status);
+							} else {
+								JOptionPane.showMessageDialog(jpPlayground, "Saved successfully.");
+							}
+
+							break;
+						}
+
+					} else {
+						break;
+					}
+				}
+			}
+
+			private int dialog() {
+				return JOptionPane.showConfirmDialog(jpPlayground, map, "Map from Scratch",
+						JOptionPane.OK_CANCEL_OPTION);
+			}
+		});
+		
 		/**
 		 * Top panel in the game holds browse, load and edit map buttons
 		 */
@@ -178,6 +299,8 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 								javax.swing.GroupLayout.PREFERRED_SIZE)
 						.addGap(59, 59, 59).addComponent(btMapEditor, javax.swing.GroupLayout.PREFERRED_SIZE, 93,
 								javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addGap(59, 59, 59).addComponent(btmapFromScratch, javax.swing.GroupLayout.PREFERRED_SIZE, 93,
+								javax.swing.GroupLayout.PREFERRED_SIZE)
 						.addGap(59, 59, 59)));
 		jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel1Layout.createSequentialGroup().addGap(13, 13, 13)
@@ -195,7 +318,9 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 								.addComponent(btLoad, javax.swing.GroupLayout.PREFERRED_SIZE, 31,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
 								.addComponent(btMapEditor, javax.swing.GroupLayout.PREFERRED_SIZE, 31,
-										javax.swing.GroupLayout.PREFERRED_SIZE))
+										javax.swing.GroupLayout.PREFERRED_SIZE)
+							.addComponent(btmapFromScratch, javax.swing.GroupLayout.PREFERRED_SIZE, 31,
+									javax.swing.GroupLayout.PREFERRED_SIZE))
 
 						.addGap(312, 312, 312)));
 
@@ -294,6 +419,9 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
         jLabel4.setText("Territory Strength View");
         getContentPane().add(jLabel4);
         jLabel4.setBounds(990, 270, 220, 14);
+        
+        btMapEditor.setVisible(true);
+		btmapFromScratch.setVisible(true);
         
 		pack();
 	}
@@ -443,6 +571,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 	private javax.swing.JButton btBrowse;
 	private javax.swing.JButton btLoad;
 	private javax.swing.JButton btMapEditor;
+	private javax.swing.JButton btmapFromScratch;
 	private javax.swing.JComboBox<String> cbPlayerCount;
 	private javax.swing.JLabel jLabelPlayerCount;
 	private javax.swing.JLabel jLabelSelectMap;

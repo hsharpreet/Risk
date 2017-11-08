@@ -552,51 +552,30 @@ public class MapWriter {
 	}
 	
 	public String saveNewMapFromSracth(MapFromScratch mfs) throws Exception {
-		String status ="";
-		File inputFile = new File(mapFileName);
-		if(inputFile.exists()){
-			BufferedReader mapTemplate = new BufferedReader(new FileReader(inputFile));
-			
-			File outputFile = new File(mfs.getMapName());
-			
-			if(!outputFile.exists()){
-				BufferedWriter outStream = new BufferedWriter(new FileWriter(mfs.getMapName()));
-				
-				String line = "";
-				
-				String partMap = "\n"+"author="+mfs.getAuthorVal()+"\n"
-						+"warn="+mfs.getWarnVal()+"\n"
-						+"image="+mfs.getImageVal()+"\n"
-						+"wrap="+mfs.getWrapVal()+"\n"
-						+"scroll="+mfs.getScrollVal()+"\n"+"\n";
-				
-				String partCont = "\n"+mfs.getContName()+"="+mfs.getContVal()+"\n"+"\n";
-				String partTerri = "\n"+mfs.getTerritoryName()+","+mfs.getTerritoryCordX()+","
-						+mfs.getTerritoryCordY()+","+mfs.getTerritoryContinent()+"\n"+"\n";
-				
-				// writing the continents
-				while ((line = mapTemplate.readLine()) != null) {
-					if (line.equalsIgnoreCase("[Map]")) {
-						outStream.write(line+partMap);
-					}
-					if (line.equalsIgnoreCase("[Continents]")) {
-						outStream.write(line+partCont);
-					}
-					
-					if (line.equalsIgnoreCase("[Territories]")) {
-						outStream.write(line+partTerri);
-					}
-				}
-				status = "OK";
-				mapTemplate.close();
-				outStream.close();
-			}else{
-				status= "Map file already exists, choose another name.";
-			}
-		}else{
-			status= "Map file template deleted, please re-write.";
+		String status = "";
+
+		File outputFile = new File(mfs.getMapName());
+		if (!outputFile.exists()) {
+			BufferedWriter outStream = new BufferedWriter(new FileWriter(mfs.getMapName()));
+
+			String partMap = "[Map]" + "\n" + "author=" + mfs.getAuthorVal() + "\n" + "warn=" + mfs.getWarnVal() + "\n"
+					+ "image=" + mfs.getImageVal() + "\n" + "wrap=" + mfs.getWrapVal() + "\n" + "scroll="
+					+ mfs.getScrollVal() + "\n" + "\n";
+
+			String partCont = "[Continents]" + "\n" + mfs.getContName() + "=" + mfs.getContVal() + "\n" + "\n";
+			String partTerri = "[Territories]" + "\n" + mfs.getTerritoryName() + "," + mfs.getTerritoryCordX() + ","
+					+ mfs.getTerritoryCordY() + "," + mfs.getTerritoryContinent() + "\n" + "\n";
+
+			// writing the map file
+			outStream.write(partMap);
+			outStream.write(partCont);
+			outStream.write(partTerri);
+			status = "OK";
+			outStream.close();
+		} else {
+			status = "Map file already exists, choose another name.";
 		}
-		
+
 		return status;
 	}
 
