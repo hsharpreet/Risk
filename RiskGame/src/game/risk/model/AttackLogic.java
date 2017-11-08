@@ -24,6 +24,12 @@ import java.util.logging.Level;
 import game.risk.util.CustomLogRecord;
 import javax.swing.JDialog;
 
+/**
+ * A class to create the attack logic
+ * 
+ * @author Team
+ *
+ */
 public class AttackLogic {
 
 	JDialog dialog;
@@ -38,6 +44,24 @@ public class AttackLogic {
 
 	int index1, index2;
 
+	/**
+	 * A constructor to initialize attributes of the class
+	 * 
+	 * @param dialog
+	 *            a Jdialog swing component
+	 * @param attackPanel
+	 *            an object of AttackGuiPanel class
+	 * @param player
+	 *            an array of Player class
+	 * @param myIndex
+	 *            an integer
+	 * @param tm
+	 *            an object of CurrentGameStaticsTableModel class
+	 * @param list
+	 *            an arrayList of CurrentGameStatics class
+	 * @param mapDetails
+	 *            an object of RiskMap Clas
+	 */
 	public AttackLogic(JDialog dialog, AttackGUIPanel attackPanel, Player[] player, int myIndex,
 			CurrentGameStaticsTableModel tm, List<CurrentGameStatics> list, RiskMap mapDetails) {
 		this.dialog = dialog;
@@ -52,7 +76,9 @@ public class AttackLogic {
 		this.tempTableModel = new TempTableModel(tempGameStaticsList);
 		this.attackPanel.jtOther.setModel(tempTableModel);
 		this.attackPanel.btRoleDice.setEnabled(false);
-
+		/**
+		 * A listener for main jtable
+		 */
 		this.attackPanel.jtMain.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
@@ -70,7 +96,9 @@ public class AttackLogic {
 				}
 			}
 		});
-
+		/**
+		 * A listener for Attack Button
+		 */
 		this.attackPanel.btAttack.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -125,7 +153,9 @@ public class AttackLogic {
 
 			}
 		});
-
+		/**
+		 * a listener for other Jtable
+		 */
 		this.attackPanel.jtOther.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
@@ -141,7 +171,9 @@ public class AttackLogic {
 				}
 			}
 		});
-
+		/**
+		 * A listener for RoleDice button
+		 */
 		this.attackPanel.btRoleDice.addActionListener(new ActionListener() {
 
 			@Override
@@ -154,7 +186,7 @@ public class AttackLogic {
 				}
 				int n1 = Integer.parseInt(AttackLogic.this.attackPanel.cbplayer1.getSelectedItem().toString());
 				int n2 = Integer.parseInt(AttackLogic.this.attackPanel.cbplayer2.getSelectedItem().toString());
-
+				// arrays to store dice role number for player
 				int diceValuesPlayer1[] = new int[n1];
 				int diceValuesPlayer2[] = new int[n2];
 
@@ -276,7 +308,9 @@ public class AttackLogic {
 
 			}
 		});
-
+		/**
+		 * A listener for CloseAttackPhase button
+		 */
 		this.attackPanel.btCloseAttackPhase.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -293,6 +327,9 @@ public class AttackLogic {
 
 	}
 
+	/**
+	 * a method to update the comboboxes containing the player options for dice
+	 */
 	public void updateComboboxes() {
 		AttackLogic.this.attackPanel.cbplayer1.removeAllItems();
 		AttackLogic.this.attackPanel.cbplayer2.removeAllItems();
@@ -320,6 +357,13 @@ public class AttackLogic {
 		}
 	}
 
+	/**
+	 * A method to update the TempList which will be used to update the original
+	 * list
+	 * 
+	 * @param index
+	 *            an integer variable
+	 */
 	void updateTempList(int index) {
 
 		HashMap<String, Territory> territories = mapDetails.getTerritories();
@@ -361,6 +405,9 @@ public class AttackLogic {
 		tempTableModel.fireTableDataChanged();
 	}
 
+	/**
+	 * A method to update the original list from the Templist
+	 */
 	void updateOriginalListFromTempList() {
 		for (int i = 0; i < player.length; i++) {
 			for (int j = 0; j < tempGameStaticsList.size(); j++) {
@@ -378,6 +425,11 @@ public class AttackLogic {
 		}
 	}
 
+	/**
+	 * A method to check if more attack is possible by checking the infantries
+	 * 
+	 * @return flag a boolean variable
+	 */
 	boolean checkIfMoreAttackPossible() {
 		boolean flag = false;
 		for (CurrentGameStatics cgs : currentGameStaticsList) {
