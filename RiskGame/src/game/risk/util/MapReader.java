@@ -1,4 +1,4 @@
-package game.risk.model;
+package game.risk.util;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import game.risk.model.RiskMap;
 import game.risk.model.validation.ValidateMapReader;
 
 /**
@@ -19,6 +20,69 @@ import game.risk.model.validation.ValidateMapReader;
  */
 public class MapReader {
 	
+
+
+	public static Map<String, ArrayList<String>> continetAndItsCountries(String path) {
+		MapReader mapReader = new MapReader();
+		MapWriter mapWriter = new MapWriter(path);
+		RiskMap riskmap;
+		Map<String, ArrayList<String>> continetAndItsCountries = new HashMap<String, ArrayList<String>>();
+		try {
+			riskmap = mapReader.readMap(path);
+			Object[] continents = riskmap.getContinents().keySet().toArray();
+
+			for (int i = 0; i < continents.length; i++) {
+				continetAndItsCountries.put(continents[i].toString(),
+						mapReader.getCountriesOfContinent(continents[i].toString(), path));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return continetAndItsCountries;
+	}
+
+	public ArrayList<String> getCountriesOfContinent(String selectedContinent, String path) {
+		ArrayList<String> countriesList = new ArrayList<String>();
+		try {
+			File inputFile = new File(path);
+			BufferedReader br = new BufferedReader(new FileReader(inputFile));
+			File outFile = new File("temp.map");
+			String thisLine = "";
+			while ((thisLine = br.readLine()) != null) {
+				if (thisLine.equalsIgnoreCase("[Territories]")) {
+					while ((thisLine = br.readLine()) != null && thisLine != " ") {
+						String[] columns = thisLine.split(",");
+						if (columns.length >= 5) {
+							if (columns[3].equals(selectedContinent)) {
+								countriesList.add(columns[0]);
+							}
+						}
+					}
+				}
+			}
+			br.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return countriesList;
+	}
+
+	public String getContinentOfACountry(String country, String path) {
+		Map<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
+		map = continetAndItsCountries(path);
+		String continent = "";
+
+		for (Entry<String, ArrayList<String>> e : map.entrySet()) {
+			if (e.getValue().contains(country)) {
+				continent = e.getKey();
+			}
+		}
+
+		return continent;
+	}
+
+
 	/**
 	 * Method to get Countries of the continents from the file
 	 * @param selectedContinent
@@ -30,7 +94,8 @@ public class MapReader {
 	public Map<String, Territory> getTerritoriesOfContinent(String selectedContinent, String path) {
 		HashMap<String, Territory> territories = new HashMap<String, Territory>();
 		try {
-			File inputFile = new File(path);// Code to read from temp.map
+			File inputFile = new File(path);
+			// Code to read from temp.map
 			BufferedReader br = new BufferedReader(new FileReader(inputFile));
 			String thisLine = "";
 
@@ -156,7 +221,6 @@ public class MapReader {
 		return links;
 	}
 
-	// New Function
 	/**
 	 * Method to readMapFile for Game play
 	 * 
@@ -166,7 +230,6 @@ public class MapReader {
 	 */
 	public static RiskMap readMapFile(String mapFilePath) {
 		try { 
-			RiskMap riskMap = null;
 
 			FileReader fr = new FileReader(mapFilePath);
 			BufferedReader br = new BufferedReader(fr);
