@@ -11,9 +11,12 @@ import java.util.List;
 import javax.swing.JDialog;
 
 /**
- *
+ * A class to create GUI of attack phase
+ * 
  * @author Team
+ *
  */
+
 public class AttackGUIPanel extends javax.swing.JPanel {
 
 	public AttackGUIPanel(JDialog dialog, Player[] player, int myIndex, CurrentGameStaticsTableModel tm,
@@ -23,9 +26,12 @@ public class AttackGUIPanel extends javax.swing.JPanel {
 		new AttackLogic(dialog, this, player, myIndex, tm, list, mapDetails);
 	}
 
+	/**
+	 * A method to create the swing components to create the GUI of the attack phase
+	 */
 	private void initComponents() {
 
-		jScrollPane1 = new javax.swing.JScrollPane();
+		jScrollPane1 = new javax.swing.JScrollPane();// swing components
 		jtMain = new javax.swing.JTable();
 		lbPlayer = new javax.swing.JLabel();
 		jLabel1 = new javax.swing.JLabel();
@@ -50,7 +56,8 @@ public class AttackGUIPanel extends javax.swing.JPanel {
 
 		setLayout(null);
 
-		jtMain.setModel(new javax.swing.table.DefaultTableModel(
+		jtMain.setModel(
+				new javax.swing.table.DefaultTableModel(
 						new Object[][] { { null, null, null, null }, { null, null, null, null },
 								{ null, null, null, null }, { null, null, null, null } },
 						new String[] { "Title 1", "Title 2", "Title 3", "Title 4" }));
