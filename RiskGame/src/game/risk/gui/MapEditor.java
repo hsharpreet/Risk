@@ -286,7 +286,7 @@ public class MapEditor {
 				mapEditorFrame.setContentPane(new MapFromScratch());
 				mapEditorFrame.setVisible(true);
 				mapEditorFrame.setSize(1000, 600);
-				mapEditorFrame.setLayout(new GridLayout(0,2));
+				//mapEditorFrame.setLayout(new GridLayout(0,2));
 				mapEditorFrame.pack();
 				//panel.setSize(1000, 600);
 				//panel.setVisible(true);
