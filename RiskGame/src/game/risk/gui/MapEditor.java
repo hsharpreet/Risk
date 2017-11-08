@@ -40,6 +40,7 @@ public class MapEditor {
 	private LinkedHashSet<String> adjacentCountriesToNewCountry;
 
 	public MapEditor(String mapFile) {
+		
 		this.mapFile = mapFile;
 
 		mapReader = new MapReader();
