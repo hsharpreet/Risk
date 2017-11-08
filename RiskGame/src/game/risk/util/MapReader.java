@@ -122,7 +122,7 @@ public class MapReader {
 				if (thisLine.equalsIgnoreCase("[Territories]")) {
 					while ((thisLine = br.readLine()) != null && thisLine != " ") {
 						String[] columns = thisLine.split(",");
-						if (columns.length >= 5) {
+						if (columns.length >= 4) {
 							if (columns[3].equals(selectedContinent)) {
 								Territory territoryObj = new Territory();
 								territoryObj.setName(columns[0]);

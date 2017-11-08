@@ -264,6 +264,12 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 								JOptionPane.showMessageDialog(jpPlayground, "Error: " + status);
 							} else {
 								JOptionPane.showMessageDialog(jpPlayground, "Saved successfully.");
+								MapEditor editor = new MapEditor(newMap.getMapName());
+								try {
+									editor.loadMap();
+								} catch (Exception e1) {
+									e1.printStackTrace();
+								}
 							}
 
 							break;
