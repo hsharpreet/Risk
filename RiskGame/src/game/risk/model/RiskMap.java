@@ -4,6 +4,13 @@ import java.util.HashMap;
 
 import game.risk.util.Territory;
 
+/**
+ * 
+ * @author team
+ * 
+ *RiskMap class to get map details regarding continent and territory
+ *
+ */
 public class RiskMap {
 	// Declaration
 	HashMap<String, String> map;
