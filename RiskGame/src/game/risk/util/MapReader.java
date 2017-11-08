@@ -20,8 +20,6 @@ import game.risk.model.validation.ValidateMapReader;
  */
 public class MapReader {
 	
-
-
 	public static Map<String, ArrayList<String>> continetAndItsCountries(String path) {
 		MapReader mapReader = new MapReader();
 		RiskMap riskmap;

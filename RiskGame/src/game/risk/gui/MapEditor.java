@@ -5,6 +5,8 @@ import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -253,48 +255,98 @@ public class MapEditor {
 			boolean check= true;
 			
 			public void actionPerformed(ActionEvent e) {
-				mapEditorFrame.setTitle("Map Scratch");
-				JPanel panel = (JPanel) mapEditorFrame.getContentPane();
-				panel.removeAll();
-				panel.revalidate();
-				panel.repaint();
+				
+			    javax.swing.JTextField tfMapName = new javax.swing.JTextField();
+			    javax.swing.JTextField tfAuthorName = new javax.swing.JTextField("Team 13");
+			    javax.swing.JTextField tfWarn = new javax.swing.JTextField("yes");
+			    javax.swing.JTextField tfImage = new javax.swing.JTextField("default.bmp");
+			    javax.swing.JTextField tfWrap = new javax.swing.JTextField("yes");
+			    javax.swing.JTextField tfScroll = new javax.swing.JTextField("horizontal");
+			    
+			    javax.swing.JTextField tfContinentName = new javax.swing.JTextField();
+			    javax.swing.JTextField tfContinentValue = new javax.swing.JTextField();
+			    
+			    javax.swing.JTextField tfTerritoryName = new javax.swing.JTextField();
+			    javax.swing.JTextField tfTerritoryXAxis = new javax.swing.JTextField("0");
+			    javax.swing.JTextField tfTerritoryYAxis = new javax.swing.JTextField("0");
+			    javax.swing.JTextField tfTerritoryContinent = new javax.swing.JTextField("abc");
+			    
+			    tfAuthorName.setEnabled(false);
+			    tfWarn.setEnabled(false);
+			    tfImage.setEnabled(false);
+			    tfWrap.setEnabled(false);
+			    tfScroll.setEnabled(false);
+			    tfTerritoryXAxis.setEnabled(false);
+			    tfTerritoryYAxis.setEnabled(false);
+			    tfTerritoryContinent.setEnabled(false);
+			    
+				tfTerritoryContinent.setText("Automatically assigned.");
+				
+				tfContinentName.addKeyListener(new KeyListener() {
+					
+					@Override
+					public void keyTyped(KeyEvent e) { }
+					
+					@Override
+					public void keyReleased(KeyEvent e) {
+						tfTerritoryContinent.setText(tfContinentName.getText());
+					}
+					
+					@Override
+					public void keyPressed(KeyEvent e) { }
+				});
+				
+				Object[] map = { "Map name:", tfMapName, "Author Name:", tfAuthorName , "Continent Name",tfContinentName,
+						 "Continent Value",tfContinentValue, "Territory Name", tfTerritoryName, "Territory X Cord",tfTerritoryXAxis,
+						  "Territory Y Cord",tfTerritoryYAxis, "Continent:" ,tfTerritoryContinent};
+				
+				int option = JOptionPane.showConfirmDialog(mapEditorFrame, map, "Map from Scratch",
+						JOptionPane.OK_CANCEL_OPTION);
+				if (option == JOptionPane.OK_OPTION) {
+					if (tfMapName.getText().trim().isEmpty() || tfContinentName.getText().trim().isEmpty()
+							|| tfContinentValue.getText().trim().isEmpty()|| tfTerritoryName.getText().trim().isEmpty()
+							|| tfTerritoryContinent.getText().trim().isEmpty() ) {
+						JOptionPane.showMessageDialog(mapEditorFrame, "All fields are mandatory, cannot be empty.");
+					}else if (!tfContinentValue.getText().trim().matches("-?\\d+(\\.\\d+)?")) {
+						JOptionPane.showMessageDialog(mapEditorFrame, "Continent Value should be a number.");
 
-				/*if(check){
-					enableComponents(mapEditorFrame, false);
-					check = false;
-				}else{
-					enableComponents(mapEditorFrame, true);
-					check = true;
-				}*/
-				
-				openMapFromScratchFrame();
-			}
-			public void enableComponents(Container container, boolean enable) {
-				Component[] components = container.getComponents();
-		        for (Component component : components) {
-		            component.setEnabled(enable);
-		            if (component instanceof Container) {
-		                enableComponents((Container)component, enable);
-		            }
-		        }
-			}
-
-			private void openMapFromScratchFrame() {
-				
-				btmapFromScratch.setEnabled(true);
-				
-				mapEditorFrame.setContentPane(new MapFromScratch());
-				mapEditorFrame.setVisible(true);
-				mapEditorFrame.setSize(1000, 600);
-				//mapEditorFrame.setLayout(new GridLayout(0,2));
-				mapEditorFrame.pack();
-				//panel.setSize(1000, 600);
-				//panel.setVisible(true);
-				//panel.pack();
-				//panel.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-				
+					}
+					else{
+						MapFromScratch newMap = new MapFromScratch();
+						
+						newMap.setMapName(tfMapName.getText().trim()+".map");
+						
+						newMap.setAuthorVal(tfAuthorName.getText().trim());
+						newMap.setWarnVal(tfWarn.getText().trim());
+						newMap.setImageVal(tfImage.getText().trim());
+						newMap.setWarnVal(tfWrap.getText().trim());
+						newMap.setScrollVal(tfScroll.getText().trim());
+						
+						newMap.setContName(tfContinentName.getText().trim());
+						newMap.setContVal(tfContinentValue.getText().trim());
+						
+						newMap.setTerritoryName(tfTerritoryName.getText().trim());
+						newMap.setTerritoryCordX(tfTerritoryXAxis.getText().trim());
+						newMap.setTerritoryCordY(tfTerritoryYAxis.getText().trim());
+						newMap.setTerritoryContinent(tfTerritoryContinent.getText().trim());
+						
+						MapWriter mapWriter = new MapWriter("mapTemplate.map");
+						String status="OK";
+						try {
+							status = mapWriter.saveNewMapFromSracth(newMap);
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+						if(!status.equals("OK")){
+							JOptionPane.showMessageDialog(mapEditorFrame, "Error: "+status);
+						}else{
+							JOptionPane.showMessageDialog(mapEditorFrame, "Saved successfully.");
+						}
+					}
+					
+				}
+					
 			
-				 //mapEditorFrame.getContentPane().repaint();;
 			}
 
 		});
