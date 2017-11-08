@@ -32,7 +32,7 @@ public class MapFromScratch {
 	 * A method to set the name of the map in the class variable
 	 * 
 	 * @param mapName
-	 *            the class variable
+	 *            the name of the map
 	 */
 	public void setMapName(String mapName) {
 		this.mapName = mapName;
@@ -51,7 +51,7 @@ public class MapFromScratch {
 	 * A method to set the name of the author in the local variable
 	 * 
 	 * @param authorVal
-	 *            the class variable
+	 *            the name of the author
 	 */
 	public void setAuthorVal(String authorVal) {
 		this.authorVal = authorVal;
@@ -70,7 +70,7 @@ public class MapFromScratch {
 	 * A method to set the warning value in the class variable
 	 * 
 	 * @param warnVal
-	 *            the class variable
+	 *            the warning value
 	 */
 	public void setWarnVal(String warnVal) {
 		this.warnVal = warnVal;
@@ -89,7 +89,7 @@ public class MapFromScratch {
 	 * A method to set the image value in the class variable
 	 * 
 	 * @param imageVal
-	 *            the class variable
+	 *            the image value
 	 */
 
 	public void setImageVal(String imageVal) {
@@ -109,7 +109,7 @@ public class MapFromScratch {
 	 * A method to set the wrap value in the class variable
 	 * 
 	 * @param wrapVal
-	 *            the class variable
+	 *            the wrap value
 	 */
 
 	public void setWrapVal(String wrapVal) {
@@ -126,10 +126,10 @@ public class MapFromScratch {
 	}
 
 	/**
-	 * A method to set the warning value in the class variable
+	 * A method to set the scroll value in the class variable
 	 * 
 	 * @param scrollVal
-	 *            the class variable
+	 *            the scroll value
 	 */
 
 	public void setScrollVal(String scrollVal) {
@@ -149,7 +149,7 @@ public class MapFromScratch {
 	 * A method to set the Continent name in the class variable
 	 * 
 	 * @param contname
-	 *            the class variable
+	 *            the name of the continent
 	 */
 
 	public void setContName(String contName) {
@@ -169,7 +169,7 @@ public class MapFromScratch {
 	 * A method to set the continent value in the class variable
 	 * 
 	 * @param contVal
-	 *            the class variable
+	 *            the value of the continent
 	 */
 
 	public void setContVal(String contVal) {
@@ -189,7 +189,7 @@ public class MapFromScratch {
 	 * A method to set the territory name in the class variable
 	 * 
 	 * @param territoryName
-	 *            the class variable
+	 *            the territory name
 	 */
 
 	public void setTerritoryName(String territoryName) {
@@ -210,7 +210,7 @@ public class MapFromScratch {
 	 * A method to set the x coordinate of teh territory in the class variable
 	 * 
 	 * @param territoryCordX
-	 *            the class variable
+	 *            the x coordinate value
 	 */
 
 	public void setTerritoryCordX(String territoryCordX) {
@@ -231,7 +231,7 @@ public class MapFromScratch {
 	 * A method to set the Y coordinate of territory in the class variable
 	 * 
 	 * @param territoryCordY
-	 *            the class variable
+	 *            the y coordinate value
 	 */
 
 	public void setTerritoryCordY(String territoryCordY) {
@@ -252,7 +252,7 @@ public class MapFromScratch {
 	 * A method to set the territories of the continent in the class variable
 	 * 
 	 * @param territoryContinent
-	 *            the class variable
+	 *            the territory names
 	 */
 
 	public void setTerritoryContinent(String territoryContinent) {
