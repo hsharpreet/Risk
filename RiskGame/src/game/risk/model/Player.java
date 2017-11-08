@@ -299,6 +299,7 @@ public class Player extends Observable {
 		if (flag) {
 			JOptionPane.showMessageDialog(playerPanel,
 					"Startup Phase Done.\nIn next phase every player has option of \nreinforcement, attack and fortification.");
+			setMessage("Startup Phase Done.\nIn next phase every player has option of \nreinforcement, attack and fortification.");
 			reinforcement();
 		} else {
 			i++;

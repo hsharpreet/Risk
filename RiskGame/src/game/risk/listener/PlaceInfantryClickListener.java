@@ -42,7 +42,7 @@ public class PlaceInfantryClickListener implements ActionListener
                 player[i].getPlayerPanel().btPlaceInfantry.setEnabled(false);
                 player[i].nextIndexToEnableButton(i);
 
-                player[i].setMessage("Initial Phase\r\nPlayer - " + (i + 1) + " has placed infantry in " + player[i].currentGameStaticsList.get(index).territory.getName().toUpperCase() + " and turn switched to next player");
+                player[i].setMessage("Startup Phase\r\nPlayer - " + (i + 1) + " has placed infantry in " + player[i].currentGameStaticsList.get(index).territory.getName().toUpperCase() + " and turn switched to next player");
                 player[i].notifyObservers();
 
                 CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Player - " + (i + 1) + " has placed infantry in " + player[i].currentGameStaticsList.get(index).territory.getName().toUpperCase() + " and turn switched to next player");

@@ -365,7 +365,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 		jScrollPane2.setBounds(980, 90, 270, 170);
 
 		jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11));
-		jLabel3.setText("My Observer");
+		jLabel3.setText("Phase view");
 		getContentPane().add(jLabel3);
 		jLabel3.setBounds(990, 60, 230, 30);
 
@@ -442,7 +442,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 		jPanel2.setBounds(980, 290, 270, 220);
 
 		jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11));
-		jLabel4.setText("Territory Strength View");
+		jLabel4.setText("World Domination View");
 		getContentPane().add(jLabel4);
 		jLabel4.setBounds(990, 270, 220, 14);
 
