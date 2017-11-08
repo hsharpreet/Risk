@@ -294,7 +294,7 @@ public class MapWriter {
 	 * @param territory
 	 *            the territory to which the continent has to be assigned
 	 */
-	public void assignNewContinent(String selectedItem, String territory) {
+	public String assignNewContinent(String selectedItem, String territory) {
 		try {
 			String newContinent = selectedItem;
 			String territorySelected = territory;
@@ -330,11 +330,18 @@ public class MapWriter {
 			printWriter.flush();
 			printWriter.close();
 			br.close();
+			MapReader mapReader = new MapReader();
+			RiskMap tempRiskMap = mapReader.readMap("temp.map");
+			if(tempRiskMap==null){  // check temp map for unconnected continent after deleting the country
+				outFile.delete();
+				return "ERROR_UNCONNECTED_CONTINENT";
+			}
 			inputFile.delete();
-			outFile.renameTo(inputFile);
+			outFile.renameTo(inputFile);	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return "OK";
 	}
 
 	/**
@@ -442,7 +449,8 @@ public class MapWriter {
 		}
 		inputFile.delete();
 		outFile.renameTo(inputFile);
-		return "OK";	}
+		return "OK";	
+		}
 
 	/**
 	 * Method to add neighbors if the neighbor does not exist already

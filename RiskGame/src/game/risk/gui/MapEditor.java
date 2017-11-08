@@ -586,12 +586,6 @@ public class MapEditor {
 		 */
 		changeContinent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) { // changing the continent
-				String status;
-
-				String terittorySelected = countryComboBox.getSelectedItem().toString();
-
-				MapWriter mp = new MapWriter(mapFile);
-
 				// setting up the visibility of the components
 				newcountryname.setVisible(false);
 				selectContinentForNewCountry.setVisible(false);
@@ -638,11 +632,17 @@ public class MapEditor {
 							"This continent is already assigned , please select other");
 				} else {
 					try {
-						mp.assignNewContinent((String) selectModifiedContinentCB.getSelectedItem(),
+						String status =mp.assignNewContinent((String) selectModifiedContinentCB.getSelectedItem(),
 								territorySelected.getText());
+						if(status.equalsIgnoreCase("OK")){
 						JOptionPane.showMessageDialog(mapEditorFrame, "Territory " + territorySelected.getText()
 								+ " is assigned new continent " + selectModifiedContinentCB.getSelectedItem());
 						riskMap = mapReader.readMap(mapFile);
+						} else{
+							// if change continent leads to unconnected continent
+							JOptionPane.showMessageDialog(mapEditorFrame,
+									"Action cannot be performed as it results in unconnected continent");
+						}
 					} catch (Exception e1) {
 
 						e1.printStackTrace();
