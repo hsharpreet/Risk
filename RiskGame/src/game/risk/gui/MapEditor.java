@@ -283,7 +283,7 @@ public class MapEditor {
 				
 				btmapFromScratch.setEnabled(true);
 				
-				mapEditorFrame.setContentPane(new MapFromScratch().getMapFromScratchPanel());
+				mapEditorFrame.setContentPane(new MapFromScratch());
 				mapEditorFrame.setVisible(true);
 				mapEditorFrame.setSize(1000, 600);
 				mapEditorFrame.setLayout(new GridLayout(0,2));
