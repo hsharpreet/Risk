@@ -92,7 +92,7 @@ public class AttackGUIPanel extends javax.swing.JPanel {
 		jPanel2.add(lbplayer1);
 		lbplayer1.setBounds(20, 0, 110, 20);
 
-		lbSelectedCountryPlayer1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+		lbSelectedCountryPlayer1.setFont(new java.awt.Font("Tahoma", 1, 11)); 
 		jPanel2.add(lbSelectedCountryPlayer1);
 		lbSelectedCountryPlayer1.setBounds(10, 30, 120, 10);
 
@@ -100,27 +100,27 @@ public class AttackGUIPanel extends javax.swing.JPanel {
 		jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 102)));
 		jPanel4.setLayout(null);
 
-		lbplayer2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+		lbplayer2.setFont(new java.awt.Font("Tahoma", 1, 12)); 
 		lbplayer2.setForeground(new java.awt.Color(255, 255, 255));
 		jPanel4.add(lbplayer2);
 		lbplayer2.setBounds(20, 0, 110, 20);
 
-		lbSelectedCountryPlayer2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+		lbSelectedCountryPlayer2.setFont(new java.awt.Font("Tahoma", 1, 11)); 
 		jPanel4.add(lbSelectedCountryPlayer2);
 		lbSelectedCountryPlayer2.setBounds(10, 30, 120, 20);
 
 		btRoleDice.setText("Roll Dice");
 
-		lbInfantriesPlayer1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+		lbInfantriesPlayer1.setFont(new java.awt.Font("Tahoma", 1, 11)); 
 		lbInfantriesPlayer1.setText("---");
 
-		lbInfantriesPlayer2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+		lbInfantriesPlayer2.setFont(new java.awt.Font("Tahoma", 1, 11)); 
 		lbInfantriesPlayer2.setText("---");
 
-		lbDiceResultsPlayer1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+		lbDiceResultsPlayer1.setFont(new java.awt.Font("Tahoma", 1, 11)); 
 		lbDiceResultsPlayer1.setText("---");
 
-		lbDiceResultsPlayer2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+		lbDiceResultsPlayer2.setFont(new java.awt.Font("Tahoma", 1, 11)); 
 		lbDiceResultsPlayer2.setText("---");
 
 		javax.swing.GroupLayout jpDiceRollingLayout = new javax.swing.GroupLayout(jpDiceRolling);
