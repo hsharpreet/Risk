@@ -45,6 +45,9 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 
 	JLabel labels[] = new JLabel[6];
 
+	/**
+	 * A constructor
+	 */
 	public RiskGame() {
 		initComponents();
 
@@ -79,7 +82,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 	@SuppressWarnings("unchecked")
 	private void initComponents() {
 
-		jPanelTop = new javax.swing.JPanel(); //swing Components
+		jPanelTop = new javax.swing.JPanel(); // swing Components
 		tfMapFile = new javax.swing.JTextField();
 		jLabelSelectMap = new javax.swing.JLabel();
 		btBrowse = new javax.swing.JButton();
@@ -120,6 +123,9 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 		jLabelSelectMap.setText("Select Map File");
 
 		btBrowse.setText("...");
+		/**
+		 * A listener for browse button
+		 */
 		btBrowse.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btBrowseActionPerformed(evt);
@@ -131,8 +137,10 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 		cbPlayerCount.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2", "3", "4", "5", "6" }));
 
 		btMapEditor.setText("Edit Map");
+		/**
+		 * A listener for map editor button
+		 */
 		btMapEditor.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
 				MapEditor editor = new MapEditor(tfMapFile.getText());
 				try {
@@ -147,7 +155,9 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 			}
 
 		});
-
+		/**
+		 * A listener for load button
+		 */
 		btLoad.setText("Start Game");
 		btLoad.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -265,6 +275,11 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 				}
 			}
 
+			/**
+			 * a method to create a dialogue box
+			 * 
+			 * @return the message
+			 */
 			private int dialog() {
 				return JOptionPane.showConfirmDialog(jpPlayground, map, "Map from Scratch",
 						JOptionPane.OK_CANCEL_OPTION);
@@ -345,7 +360,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 		getContentPane().add(jScrollPane2);
 		jScrollPane2.setBounds(980, 90, 270, 170);
 
-		jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); 
+		jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11));
 		jLabel3.setText("My Observer");
 		getContentPane().add(jLabel3);
 		jLabel3.setBounds(990, 60, 230, 30);
@@ -353,27 +368,27 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 		jPanel2.setBackground(new java.awt.Color(102, 102, 102));
 		jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-		lbPlayer1.setFont(new java.awt.Font("Tahoma", 1, 14)); 
+		lbPlayer1.setFont(new java.awt.Font("Tahoma", 1, 14));
 		lbPlayer1.setForeground(new java.awt.Color(204, 255, 255));
 		lbPlayer1.setText("");
 
-		lbPlayer2.setFont(new java.awt.Font("Tahoma", 1, 14)); 
+		lbPlayer2.setFont(new java.awt.Font("Tahoma", 1, 14));
 		lbPlayer2.setForeground(new java.awt.Color(204, 255, 204));
 		lbPlayer2.setText("");
 
-		lbPlayer3.setFont(new java.awt.Font("Tahoma", 1, 14)); 
+		lbPlayer3.setFont(new java.awt.Font("Tahoma", 1, 14));
 		lbPlayer3.setForeground(new java.awt.Color(255, 255, 204));
 		lbPlayer3.setText("");
 
-		lbPlayer4.setFont(new java.awt.Font("Tahoma", 1, 14)); 
+		lbPlayer4.setFont(new java.awt.Font("Tahoma", 1, 14));
 		lbPlayer4.setForeground(new java.awt.Color(255, 204, 204));
 		lbPlayer4.setText("");
 
-		lbPlayer5.setFont(new java.awt.Font("Tahoma", 1, 14)); 
+		lbPlayer5.setFont(new java.awt.Font("Tahoma", 1, 14));
 		lbPlayer5.setForeground(new java.awt.Color(255, 241, 186));
 		lbPlayer5.setText("");
 
-		lbPlayer6.setFont(new java.awt.Font("Tahoma", 1, 14)); 
+		lbPlayer6.setFont(new java.awt.Font("Tahoma", 1, 14));
 		lbPlayer6.setForeground(new java.awt.Color(204, 153, 255));
 		lbPlayer6.setText("");
 
@@ -422,7 +437,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 		getContentPane().add(jPanel2);
 		jPanel2.setBounds(980, 290, 270, 220);
 
-		jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); 
+		jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11));
 		jLabel4.setText("Territory Strength View");
 		getContentPane().add(jLabel4);
 		jLabel4.setBounds(990, 270, 220, 14);
@@ -437,6 +452,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 	 * browse button action performed, browse and select file
 	 * 
 	 * @param evt
+	 *            an action event component
 	 */
 	private void btBrowseActionPerformed(java.awt.event.ActionEvent evt) {
 		JFileChooser ch = new JFileChooser();
@@ -545,6 +561,8 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 	}
 
 	/**
+	 * The main class
+	 * 
 	 * @param args
 	 *            the command line arguments
 	 */
@@ -599,9 +617,12 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 	private javax.swing.JTextField tfMapFile;
 
 	/**
+	 * A method to implement observable pattern
 	 * 
 	 * @param o
+	 *            an object of observable class
 	 * @param arg
+	 *            an object of object class
 	 */
 	public void update(Observable o, Object arg) {
 
