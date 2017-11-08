@@ -9,9 +9,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;;
 
-public class MapFromScratch {
+public class MapFromScratch extends javax.swing.JPanel{
 
-	private String mapName, authorVal, warnVal, imageVal, wrapVal, scrollVal, contName, contVal, territoryName,
+	public MapFromScratch() {
+        initComponents();
+    }
+	
+	private String mapName, authorVal, contName, contVal, territoryName,
 			territoryCordX, territoryCordY, territoryContinent;
 
 	public String getMapName() {
@@ -30,38 +34,7 @@ public class MapFromScratch {
 		this.authorVal = authorVal;
 	}
 
-	public String getWarnVal() {
-		return warnVal;
-	}
-
-	public void setWarnVal(String warnVal) {
-		this.warnVal = warnVal;
-	}
-
-	public String getImageVal() {
-		return imageVal;
-	}
-
-	public void setImageVal(String imageVal) {
-		this.imageVal = imageVal;
-	}
-
-	public String getWrapVal() {
-		return wrapVal;
-	}
-
-	public void setWrapVal(String wrapVal) {
-		this.wrapVal = wrapVal;
-	}
-
-	public String getScrollVal() {
-		return scrollVal;
-	}
-
-	public void setScrollVal(String scrollVal) {
-		this.scrollVal = scrollVal;
-	}
-
+	
 	public String getContName() {
 		return contName;
 	}
@@ -110,163 +83,174 @@ public class MapFromScratch {
 		this.territoryContinent = territoryContinent;
 	}
 
-	public JPanel getMapFromScratchPanel() {
-		JLabel lbMapName, lbPartMap, lbPartContinents, lbPartTerritory, lbAuthor, lbWarn, lbImage, lbWrap, lbScroll,
-				lbContName, lbContVal, lbTerritoryName, lbTerritoryCordX, lbTerritoryCordY, lbTerritoryCont;
+	
+	private void initComponents() {
 
-		JTextField tfMapName, tfAuthorVal, tfWarnVal, tfImageVal, tfWrapVal, tfScrollVal, tfContName, tfContVal,
-				tfTerritoryName, tfTerritoryCordX, tfTerritoryCordY, tfTerritoryContinent;
+        lbMapName = new javax.swing.JLabel();
+        tfMapName = new javax.swing.JTextField();
+        lbAuthorName = new javax.swing.JLabel();
+        tfAuthorName = new javax.swing.JTextField();
+        lbContinentName = new javax.swing.JLabel();
+        tfContinentName = new javax.swing.JTextField();
+        lbContinentValue = new javax.swing.JLabel();
+        tfContinentValue = new javax.swing.JTextField();
+        lbTerritoryName = new javax.swing.JLabel();
+        tfTerritoryName = new javax.swing.JTextField();
+        lbTerritoryXAxis = new javax.swing.JLabel();
+        tfTerritoryXAxis = new javax.swing.JTextField();
+        lbTerritoryYAxis = new javax.swing.JLabel();
+        tfTerritoryYAxis = new javax.swing.JTextField();
+        lbTerritoryContinent = new javax.swing.JLabel();
+        tfTerritoryContinent = new javax.swing.JTextField();
+        btSubmit = new javax.swing.JButton();
+        btGoBack = new javax.swing.JButton();
 
-		JButton btSubmit, btCancel;
+        setMaximumSize(new java.awt.Dimension(1000, 600));
+        setMinimumSize(new java.awt.Dimension(1000, 600));
+        setName("MapFromScratch"); // NOI18N
 
-		lbMapName = new JLabel("Map Name");
-		tfMapName = new JTextField();
+        lbMapName.setText("Map Name");
+        lbMapName.setName(""); // NOI18N
 
-		lbPartMap = new JLabel("Part 1: Map");
-		lbAuthor = new JLabel("Author");
-		tfAuthorVal = new JTextField();
+        tfMapName.setName("tfMapName"); // NOI18N
+        tfMapName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfMapNameActionPerformed(evt);
+            }
+        });
 
-		lbWarn = new JLabel("Warn");
-		tfWarnVal = new JTextField();
+        lbAuthorName.setText("Author Name");
 
-		lbImage = new JLabel("Image");
-		tfImageVal = new JTextField();
+        tfAuthorName.setName("tfAuthorName"); // NOI18N
+        tfAuthorName.setOpaque(false);
 
-		lbWrap = new JLabel("Wrap");
-		tfWrapVal = new JTextField();
+        lbContinentName.setText("Continent Name");
 
-		lbScroll = new JLabel("Scroll");
-		tfScrollVal = new JTextField();
+        lbContinentValue.setText("Continent Value");
 
-		lbPartContinents = new JLabel("Part 2: Continents");
-		lbContName = new JLabel("Continent Name");
-		tfContName = new JTextField();
+        lbTerritoryName.setText("Territory Name");
 
-		lbContVal = new JLabel("Continent Value");
-		tfContVal = new JTextField();
+        tfTerritoryName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfTerritoryNameActionPerformed(evt);
+            }
+        });
 
-		lbPartTerritory = new JLabel("Part 3: Territorries");
-		lbTerritoryName = new JLabel("Territory Name");
-		tfTerritoryName = new JTextField();
+        lbTerritoryXAxis.setText("Territory Cord X");
 
-		lbTerritoryCordX = new JLabel("Territory Cord X");
-		tfTerritoryCordX = new JTextField();
+        lbTerritoryYAxis.setText("Territory Cord Y");
 
-		lbTerritoryCordY = new JLabel("Territory Cord Y");
-		tfTerritoryCordY = new JTextField();
+        lbTerritoryContinent.setText("Territory's Continent");
 
-		lbTerritoryCont = new JLabel("Continent");
-		tfTerritoryContinent = new JTextField();
+        btSubmit.setText("Submit");
 
-		btSubmit = new JButton("Submit");
-		btCancel = new JButton("Cancel");
+        btGoBack.setText("Go Back");
 
-		JPanel panel = new JPanel();
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addComponent(lbMapName, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(tfMapName, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 282, Short.MAX_VALUE)
+                        .addComponent(lbAuthorName)
+                        .addGap(26, 26, 26)
+                        .addComponent(tfAuthorName, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbContinentName)
+                            .addComponent(lbContinentValue)
+                            .addComponent(lbTerritoryName)
+                            .addComponent(lbTerritoryXAxis)
+                            .addComponent(lbTerritoryYAxis)
+                            .addComponent(lbTerritoryContinent)
+                            .addComponent(btSubmit))
+                        .addGap(37, 37, 37)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(tfContinentName)
+                                .addComponent(tfContinentValue)
+                                .addComponent(tfTerritoryName)
+                                .addComponent(tfTerritoryXAxis)
+                                .addComponent(tfTerritoryYAxis)
+                                .addComponent(tfTerritoryContinent, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE))
+                            .addComponent(btGoBack))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tfMapName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbAuthorName)
+                    .addComponent(tfAuthorName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbMapName))
+                .addGap(33, 33, 33)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbContinentName)
+                    .addComponent(tfContinentName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbContinentValue)
+                    .addComponent(tfContinentValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbTerritoryName)
+                    .addComponent(tfTerritoryName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbTerritoryXAxis)
+                    .addComponent(tfTerritoryXAxis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lbTerritoryYAxis)
+                    .addComponent(tfTerritoryYAxis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbTerritoryContinent)
+                    .addComponent(tfTerritoryContinent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 142, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btSubmit)
+                    .addComponent(btGoBack))
+                .addGap(117, 117, 117))
+        );
+    }// </editor-fold>                        
 
-		panel.add(lbMapName);
-		panel.add(tfMapName);
+    private void tfMapNameActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        // TODO add your handling code here:
+    }                                         
 
-		panel.add(lbPartMap);
-		panel.add(new JLabel("MAP"));
-		panel.add(lbAuthor);
-		panel.add(tfAuthorVal);
+    private void tfTerritoryNameActionPerformed(java.awt.event.ActionEvent evt) {                                                
+        // TODO add your handling code here:
+    }                                               
 
-		panel.add(lbWarn);
-		panel.add(tfWarnVal);
 
-		panel.add(lbImage);
-		panel.add(tfImageVal);
-
-		panel.add(lbWrap);
-		panel.add(tfWrapVal);
-
-		panel.add(lbScroll);
-		panel.add(tfScrollVal);
-
-		panel.add(lbPartContinents);
-		panel.add(new JLabel("CONTINETNS"));
-		panel.add(lbContName);
-		panel.add(tfContName);
-
-		panel.add(lbContVal);
-		panel.add(tfContVal);
-
-		panel.add(lbPartTerritory);
-		panel.add(new JLabel("TERR"));
-		panel.add(lbTerritoryName);
-		panel.add(tfTerritoryName);
-
-		panel.add(lbTerritoryCordX);
-		panel.add(tfTerritoryCordX);
-
-		panel.add(lbTerritoryCordY);
-		panel.add(tfTerritoryCordY);
-
-		panel.add(lbTerritoryCont);
-		panel.add(tfTerritoryContinent);
-
-		panel.add(btSubmit);
-		panel.add(btCancel);
-		panel.setSize(1000, 600);
-		
-		btSubmit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(checkEmptyTextFields()){
-					
-				}
-			}
-
-			private boolean checkEmptyTextFields() {
-				boolean check = false;
-				
-				
-				
-				return check;
-			}});
-		return panel;
-	}
+    // Variables declaration - do not modify                     
+    private javax.swing.JButton btGoBack;
+    private javax.swing.JButton btSubmit;
+    private javax.swing.JLabel lbAuthorName;
+    private javax.swing.JLabel lbContinentName;
+    private javax.swing.JLabel lbContinentValue;
+    private javax.swing.JLabel lbMapName;
+    private javax.swing.JLabel lbTerritoryContinent;
+    private javax.swing.JLabel lbTerritoryName;
+    private javax.swing.JLabel lbTerritoryXAxis;
+    private javax.swing.JLabel lbTerritoryYAxis;
+    private javax.swing.JTextField tfAuthorName;
+    private javax.swing.JTextField tfContinentName;
+    private javax.swing.JTextField tfContinentValue;
+    private javax.swing.JTextField tfMapName;
+    private javax.swing.JTextField tfTerritoryContinent;
+    private javax.swing.JTextField tfTerritoryName;
+    private javax.swing.JTextField tfTerritoryXAxis;
+    private javax.swing.JTextField tfTerritoryYAxis;
 }
-/*
- * JLabel lbMapName, lbPartMap, lbPartContinents, lbPartTerritory, lbAuthor,
- * lbWarn, lbImage, lbWrap, lbScroll, lbContName, lbContVal, lbTerritoryName,
- * lbTerritoryCordX, lbTerritoryCordY, lbTerritoryCont;
- * 
- * JTextField tfMapName, tfAuthorVal, tfWarnVal, tfImageVal, tfWrapVal,
- * tfScrollVal, tfTerritoryName, tfTerritoryCordX, tfTerritoryCordY,
- * tfTerritoryContinent;
- * 
- * JButton btAdditionContinent, btAdditionTerritory, btSubmit, btCancel, btNext;
- * 
- * lbMapName = new JLabel("Map Name"); tfMapName = new JTextField();
- * 
- * lbPartMap = new JLabel("Part 1: Map"); lbPartContinents = new
- * JLabel("Part 2: Continents"); lbPartTerritory = new
- * JLabel("Part 3: Territorries");
- * 
- * lbAuthor = new JLabel("Author"); tfAuthorVal = new JTextField();
- * 
- * lbWarn = new JLabel("Warn"); tfWarnVal = new JTextField();
- * 
- * lbImage = new JLabel("Image"); tfImageVal = new JTextField();
- * 
- * lbWrap = new JLabel("Wrap"); tfWrapVal = new JTextField();
- * 
- * lbScroll = new JLabel("Scroll"); tfScrollVal = new JTextField();
- * 
- * tfTerritoryName = new JTextField(); tfTerritoryCordX = new JTextField();
- * tfTerritoryCordY = new JTextField(); tfTerritoryContinent = new JTextField();
- * 
- * btAdditionContinent = new JButton("Add"); btAdditionTerritory = new
- * JButton("Add"); btSubmit = new JButton("Submit"); btCancel = new
- * JButton("Cancel"); btNext = new JButton("Next");
- * 
- * Object[] message = {"Map name: ", tfMapName, "Author :", tfAuthorVal,
- * "Warn :", tfWarnVal, "Image :", tfImageVal, "Wrap :", tfWrapVal, "Scroll :",
- * tfScrollVal };
- * 
- * int option = JOptionPane.showConfirmDialog(mapEditorFrame, message,
- * "Map from Scratch", JOptionPane.OK_CANCEL_OPTION); if (option ==
- * JOptionPane.OK_OPTION) {
- * 
- * }
- */
