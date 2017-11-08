@@ -163,8 +163,6 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 
 				if (tfMapFile.getText().toLowerCase().endsWith(".map")) {
-					btMapEditor.setVisible(false);
-					btmapFromScratch.setVisible(false);
 					btLoadActionPerformed(evt);
 				} else {
 					JOptionPane.showMessageDialog(jpPlayground, "Map File could not read or invalid file. Try again !");
@@ -481,7 +479,10 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 		if (mapFile != null) {
 			mapDetails = MapReader.readMapFile(mapFile.getPath());
 			if (mapDetails != null) {
-
+				
+				btMapEditor.setVisible(false);
+				btmapFromScratch.setVisible(false);
+				
 				for (int i = 0; i < labels.length; i++) {
 					labels[i].setVisible(false);
 				}
