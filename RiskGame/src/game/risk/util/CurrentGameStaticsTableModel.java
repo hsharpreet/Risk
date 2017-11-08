@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package game.risk.model;
+package game.risk.util;
 
 //Table Model to fill data in JTAble (Per user terroritries)
 

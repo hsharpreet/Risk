@@ -1,4 +1,4 @@
-package game.risk.model;
+package game.risk.util;
 
 import java.util.List;
 
