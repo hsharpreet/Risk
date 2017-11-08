@@ -1,37 +1,67 @@
-package game.risk.util;
+package game.risk.model;
 
-import game.risk.model.Territory;
 import java.util.HashMap;
 
-/**
- * 
- * @author Team
- *
- */
-public class MapDetails {
+import game.risk.util.Territory;
 
-	private HashMap<String, String> continents;
-	private HashMap<String, Territory> territories;
+public class RiskMap {
+	// Declaration
+	HashMap<String, String> map;
+	HashMap<String, String> continents;
+	HashMap<String, Territory> territories;
 
 	/**
+	 * A constructor
 	 * 
+	 * @param map
+	 *            a hashMap for MAP
 	 * @param continents
+	 *            a hashMap for continents
 	 * @param territories
+	 *            a hashMap for territories
 	 */
-	public MapDetails(HashMap<String, String> continents, HashMap<String, Territory> territories) {
+	public RiskMap(HashMap<String, String> map, HashMap<String, String> continents,
+			HashMap<String, Territory> territories) {
+		super();
+		this.map = map;
 		this.continents = continents;
 		this.territories = territories;
 	}
 
 	/**
+	 * A constructor
 	 * 
-	 * @return continents
+	 * @param continents
+	 *            a hashMap of continents
+	 * @param territories
+	 *            a hashMap of territories
+	 */
+	public RiskMap(HashMap<String, String> continents, HashMap<String, Territory> territories) {
+		super();
+		this.continents = continents;
+		this.territories = territories;
+	}
+
+	/**
+	 * Method to get Map and store it into a hashMap
+	 * 
+	 * @return map
+	 */
+	public HashMap<String, String> getMap() {
+		return map;
+	}
+
+	/**
+	 * Method to get continents and store it into a hashMap
+	 * 
+	 * @return Continents
 	 */
 	public HashMap<String, String> getContinents() {
 		return continents;
 	}
 
 	/**
+	 * Method to get territories and store it into a hashMap
 	 * 
 	 * @return territories
 	 */
