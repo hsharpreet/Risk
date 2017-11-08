@@ -382,16 +382,20 @@ public class MapEditor {
 
 						status = validate.checkTerritoriesBeforeDeletingContinent(continentSelected, mapFile);
 						if (status) {
-							for (Territory territoryToDelete : territoriesList.values()) {
-								mapWriter.deleteTerritoriesOfContinentDeleted(territoryToDelete.getName());
+							String deleteStatus = mapWriter
+									.deleteContinent((String) continentsComboBox.getSelectedItem(), territoriesList);
+							if (deleteStatus == "OK") {
+								continentComboBoxModel.removeElementAt(continentsComboBox.getSelectedIndex());
+								for (Territory territoryToDelete : territoriesList.values()) {
+									countriesComboBoxModel.removeElement(territoryToDelete.getName());
+								}
+								JOptionPane.showMessageDialog(mapEditorFrame, "Continent deleted");
+								riskMap = mapReader.readMap(mapFile);
 							}
-							mapWriter.deleteContinent((String) continentsComboBox.getSelectedItem());
-							continentComboBoxModel.removeElementAt(continentsComboBox.getSelectedIndex());
-							for (Territory territoryToDelete : territoriesList.values()) {
-								countriesComboBoxModel.removeElement(territoryToDelete.getName());
+							else{
+								JOptionPane.showMessageDialog(mapEditorFrame,
+										"Cannot proceed : Deletion of some country will lead to invalid map");
 							}
-							JOptionPane.showMessageDialog(mapEditorFrame, "Continent deleted");
-							riskMap = mapReader.readMap(mapFile);
 						}
 
 						else {
@@ -558,7 +562,12 @@ public class MapEditor {
 						JOptionPane.showMessageDialog(mapEditorFrame, "Territory Deleted");
 						countriesComboBoxModel.removeElementAt(countryComboBox.getSelectedIndex());
 						riskMap = mapReader.readMap(mapFile);
-					} else {
+					} else if(status.equalsIgnoreCase("ERROR_UNCONNECTED_CONTINENT")) {
+						// if territory deletion results in unconnected continent
+						JOptionPane.showMessageDialog(mapEditorFrame,
+								"Action cannot be performed as deletion of "+terittoryToDelete+" results in unconnected continent");
+					}
+					else {
 						// if territory is still linked with another territory.
 						JOptionPane.showMessageDialog(mapEditorFrame,
 								"Action cannot be performed as some territory has just one link to this territory");
@@ -770,7 +779,12 @@ public class MapEditor {
 						linksOfSelectedCountryCB.setVisible(false);
 						linksOfSelectedCountryLabel.setVisible(false);
 						countrySelectedToShowLinksToDeleteButton.setVisible(false);
-					} else {
+					} else if(s.equalsIgnoreCase("ERROR_UNCONNECTED_CONTINENT")){
+						// if link cannot be deleted due to unconnected graph
+						JOptionPane.showMessageDialog(mapEditorFrame,
+								"Action cannot be performed as deletion result in unconnected continent");
+
+					} else{
 						// if link cannot be deleted
 						JOptionPane.showMessageDialog(mapEditorFrame,
 								"Action cannot be performed as some territory has just one link to this territory or this territory just have one link");

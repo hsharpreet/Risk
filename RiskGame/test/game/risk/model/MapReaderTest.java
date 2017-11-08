@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import game.risk.util.MapReader;
 
+
 /**
  * Class to test MapReader
  * 
@@ -91,6 +92,21 @@ public class MapReaderTest {
 		System.out.println("testReadMapWithUnconnectedContinent" + riskMap);
 		assertNull(riskMap);
 
+	}
+	
+
+	/**
+	 * Method to test whether single continent in map is unconnected or not
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testReadMapWithSingleContinent() throws Exception {
+		MapReader mapReader = new MapReader();
+		String path = "World_SingleUnConnectedContinent.map";
+		RiskMap riskMap = mapReader.readMap(path);
+		System.out.println("testReadMapWithSingleContinent" + riskMap);
+		assertNull(riskMap);
 	}
 
 }

@@ -24,7 +24,6 @@ public class MapReader {
 
 	public static Map<String, ArrayList<String>> continetAndItsCountries(String path) {
 		MapReader mapReader = new MapReader();
-		MapWriter mapWriter = new MapWriter(path);
 		RiskMap riskmap;
 		Map<String, ArrayList<String>> continetAndItsCountries = new HashMap<String, ArrayList<String>>();
 		try {

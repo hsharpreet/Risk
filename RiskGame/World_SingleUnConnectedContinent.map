@@ -1,0 +1,13 @@
+[Map]
+author=Sean O'Connor
+warn=yes
+image=world (small).bmp
+wrap=yes
+scroll=horizontal
+
+[Continents]
+hello=1
+
+[Territories]
+test1,0,0,hello
+test2,0,0,hello

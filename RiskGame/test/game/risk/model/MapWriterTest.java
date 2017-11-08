@@ -2,11 +2,14 @@ package game.risk.model;
 
 import static org.junit.Assert.*;
 
+import java.util.Map;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import game.risk.model.MapWriter;
 import game.risk.util.MapReader;
+import game.risk.util.Territory;
 
 /**
  * Class to test all the methods of MapWriter
@@ -49,10 +52,13 @@ public class MapWriterTest {
 	@Test
 	public void testCheckContinentIsDeleted() throws Exception {
 		MapWriter writer = new MapWriter(path);
-		writer.deleteContinent(name);
+		MapReader reader = new MapReader();
+		Map<String,Territory> territoriesOfContinent = reader.getTerritoriesOfContinent(name, path);
+		writer.deleteContinent(name,territoriesOfContinent);
 
 		assertFalse(name, new MapReader().readMap(path).getContinents().containsKey(name));
 
 	}
+
 
 }
