@@ -135,7 +135,12 @@ public class ValidateMapReader {
 		}
 		return true;
 	}
-	
+	/**
+	 * Method to check whether a continent is connected or not
+	 * @param continents the continents to be checked 
+	 * @param territories the territories of the continent
+	 * @return a boolean variable
+	 */
 	private boolean checkConnectedContinent(HashMap<String, String> continents, HashMap<String, Territory> territories){
 		for(String continent : continents.keySet()){
 			MapReader reader = new MapReader();
