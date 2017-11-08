@@ -1,4 +1,4 @@
-package game.risk.util;
+package game.risk.model;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import game.risk.model.Territory;
-
 import game.risk.model.validation.ValidateMapReader;
 
 /**
@@ -20,31 +18,6 @@ import game.risk.model.validation.ValidateMapReader;
  *
  */
 public class MapReader {
-	
-	
-	//new
-	public static Map<String, ArrayList<String>> continetAndItsCountries(String path)
-    {
-        MapReader mapReader = new MapReader();
-        MapWriter mapWriter = new MapWriter(path);
-        RiskMap riskmap;
-        Map<String, ArrayList<String>> continetAndItsCountries = new HashMap<String, ArrayList<String>>();
-        try
-        {
-            riskmap = mapReader.readMap(path);
-            Object[] continents = riskmap.getContinents().keySet().toArray();
-
-            for (int i = 0; i < continents.length; i++)
-            {
-                continetAndItsCountries.put(continents[i].toString(), mapReader.getCountriesOfContinent(continents[i].toString(), path));
-            }
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-        return continetAndItsCountries;
-    }
 	
 	/**
 	 * Method to get Countries of the continents from the file
@@ -88,67 +61,13 @@ public class MapReader {
 		}
 		return territories;
 	}
-	
-	//new
-	 public ArrayList<String> getCountriesOfContinent(String selectedContinent, String path)
-	    {
-	        ArrayList<String> countriesList = new ArrayList<String>();
-	        try
-	        {
-	            File inputFile = new File(path);
-	            BufferedReader br = new BufferedReader(new FileReader(inputFile));
-	            File outFile = new File("temp.map");
-	            String thisLine = "";
-	            while ((thisLine = br.readLine()) != null)
-	            {
-	                if (thisLine.equalsIgnoreCase("[Territories]"))
-	                {
-	                    while ((thisLine = br.readLine()) != null && thisLine != " ")
-	                    {
-	                        String[] columns = thisLine.split(",");
-	                        if (columns.length >= 5)
-	                        {
-	                            if (columns[3].equals(selectedContinent))
-	                            {
-	                                countriesList.add(columns[0]);
-	                            }
-	                        }
-	                    }
-	                }
-	            }
-	            br.close();
-	        } catch (Exception e)
-	        {
-	            e.printStackTrace();
-	        }
-	        return countriesList;
-	    }
-	 
-	 //new
-	 public String getContinentOfACountry(String country, String path)
-	    {
-	        Map<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
-	        map = continetAndItsCountries(path);
-	        String continent = "";
-
-	        for (Entry<String, ArrayList<String>> e : map.entrySet())
-	        {
-	            if (e.getValue().contains(country))
-	            {
-	                continent = e.getKey();
-	            }
-	        }
-
-	        return continent;
-	    }
 
 	/**
 	 * Method to readMap for MapEditor
 	 * 
 	 * @param MapFile
 	 *            The map file
-	 * @throws Exception expecting any
-	 * @return RiskMap object
+	 * @throws Exception
 	 */
 	public RiskMap readMap(String MapFile) throws Exception {
 
@@ -245,9 +164,9 @@ public class MapReader {
 	 *            path of file
 	 * @return null
 	 */
-	public static MapDetails readMapFile(String mapFilePath) {
+	public static RiskMap readMapFile(String mapFilePath) {
 		try { 
-			MapDetails mapDetails = null;
+			RiskMap riskMap = null;
 
 			FileReader fr = new FileReader(mapFilePath);
 			BufferedReader br = new BufferedReader(fr);
@@ -293,7 +212,7 @@ public class MapReader {
 			}
 
 			boolean isValid = new ValidateMapReader().isMapValid(continents, territories);
-			return isValid ? new MapDetails(continents, territories) : null;
+			return isValid ? new RiskMap(continents, territories) : null;
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -318,5 +237,16 @@ public class MapReader {
 			}
 		}
 		return null;
+	}
+	
+	public List<Territory> getTerritoriesOfContinent(String selectedContinent,HashMap<String, Territory> territories) {
+		List<Territory> selectedContinentTerritories = new ArrayList<>();
+		
+        for(Territory t : territories.values()){
+        	if(t.getContinent().equalsIgnoreCase(selectedContinent)){
+        		selectedContinentTerritories.add(t);
+        	}
+        }
+		return selectedContinentTerritories;
 	}
 }
