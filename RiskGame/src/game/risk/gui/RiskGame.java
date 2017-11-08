@@ -9,6 +9,7 @@ import game.risk.model.MapWriter;
 import game.risk.model.Player;
 import game.risk.util.LoggerUtility;
 import game.risk.util.Territory;
+import game.risk.util.CustomLogRecord;
 import game.risk.util.MapReader;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -24,7 +25,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import java.util.*;
 import java.util.logging.Level;
-import java.util.logging.LogRecord;
 import javax.swing.JLabel;
 
 /**
@@ -70,7 +70,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 		colors[4] = new Color(187, 208, 225);
 		colors[5] = new Color(210, 194, 130);
 		
-		LogRecord logRecord = new LogRecord(Level.INFO, "Risk Game Started");
+		CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Risk Game Started");
         LoggerUtility.consoleHandler.publish(logRecord);
 	}
 
@@ -437,7 +437,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 			mapFile = ch.getSelectedFile();
 			tfMapFile.setText(mapFile.getName());
 			tfMapFile.setToolTipText(mapFile.getPath());
-			LogRecord logRecord = new LogRecord(Level.INFO, "Map File Loaded into Game");
+			CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Map File Loaded into Game");
             LoggerUtility.consoleHandler.publish(logRecord);
 		}
 	}
@@ -523,7 +523,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
                 }
                 player[0].getPlayerPanel().btPlaceInfantry.setEnabled(true);
 
-                LogRecord logRecord = new LogRecord(Level.INFO, "Territories are distributed randomly among players");
+                CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Territories are distributed randomly among players");
                 LoggerUtility.consoleHandler.publish(logRecord);
 
 			} else {
@@ -601,12 +601,12 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
         Player playerObservable = (Player) o;
 
         String message = playerObservable.getMessage();
-        System.out.println("Message : "+message);
+        CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Observable : "+message);
+        LoggerUtility.consoleHandler.publish(logRecord);
         if (message.startsWith("Percentage "))
         {
             String percentageValues = message.substring(11);
             String values[] = percentageValues.split(",");
-            System.out.println("Values length : "+values.length);
             for (int i = 0; i < values.length; i++)
             {
                 labels[i].setText("Player " + (i + 1) + " - " + values[i] + "%");

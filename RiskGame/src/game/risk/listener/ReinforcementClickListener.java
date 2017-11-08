@@ -10,7 +10,7 @@ import game.risk.util.LoggerUtility;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
-import java.util.logging.LogRecord;
+import game.risk.util.CustomLogRecord;
 import javax.swing.JOptionPane;
 
 public class ReinforcementClickListener implements ActionListener
@@ -43,7 +43,7 @@ public class ReinforcementClickListener implements ActionListener
                     player[i].setMessage("Reinforcement Phase\r\nPlayer - "+(i+1)+" has placed infantry in "+player[i].currentGameStaticsList.get(index).territory.getName().toUpperCase());
                     player[i].notifyObservers();
                     
-                    LogRecord logRecord = new LogRecord(Level.INFO, "Player - "+(i+1)+" has placed infantry in "+player[i].currentGameStaticsList.get(index).territory.getName().toUpperCase());
+                    CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Player - "+(i+1)+" has placed infantry in "+player[i].currentGameStaticsList.get(index).territory.getName().toUpperCase());
                     LoggerUtility.consoleHandler.publish(logRecord);
                     
                     if (player[i].infantriesAvailable == 0)

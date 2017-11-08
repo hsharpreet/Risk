@@ -21,7 +21,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.util.concurrent.*;
 import java.util.logging.Level;
-import java.util.logging.LogRecord;
+import game.risk.util.CustomLogRecord;
 import javax.swing.JDialog;
 
 public class AttackLogic
@@ -107,7 +107,7 @@ public class AttackLogic
                             player[myIndex].setMessage("Attack Phase\r\nPlayer - " + (myIndex + 1) + " is going to attack from " + list.get(index1).territory.getName().toUpperCase() + " to " + tempGameStaticsList.get(index2).territory.getName().toUpperCase());
                             player[myIndex].notifyObservers();
 
-                            LogRecord logRecord = new LogRecord(Level.INFO, "Player - " + (myIndex + 1) + " is going to attack from " + list.get(index1).territory.getName().toUpperCase() + " to " + tempGameStaticsList.get(index2).territory.getName().toUpperCase());
+                            CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Player - " + (myIndex + 1) + " is going to attack from " + list.get(index1).territory.getName().toUpperCase() + " to " + tempGameStaticsList.get(index2).territory.getName().toUpperCase());
                             LoggerUtility.consoleHandler.publish(logRecord);
 
                             //Update Comboboxes
@@ -252,7 +252,7 @@ public class AttackLogic
                                 }
                             }
 
-                            LogRecord logRecord = new LogRecord(Level.INFO, "Player - " + (myIndex + 1) + " won and placed " + n1 + " infantries in " + (tempGameStaticsList.get(index2).territory.getName()));
+                            CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Player - " + (myIndex + 1) + " won and placed " + n1 + " infantries in " + (tempGameStaticsList.get(index2).territory.getName()));
                             LoggerUtility.consoleHandler.publish(logRecord);
 
                             JOptionPane.showMessageDialog(AttackLogic.this.attackPanel, "Player - " + (myIndex + 1) + " won and placed " + n1 + " infantries in " + (tempGameStaticsList.get(index2).territory.getName()));
@@ -272,7 +272,7 @@ public class AttackLogic
                         AttackLogic.this.attackPanel.lbInfantriesPlayer1.setText(list.get(index1).infantries + "");
                         if (list.get(index1).infantries == 1)
                         {
-                            LogRecord logRecord = new LogRecord(Level.INFO, "Player - " + (myIndex + 1) + " has left only 1 infantry, so no more dice rolling possible for this territory");
+                            CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Player - " + (myIndex + 1) + " has left only 1 infantry, so no more dice rolling possible for this territory");
                             LoggerUtility.consoleHandler.publish(logRecord);
 
                             JOptionPane.showMessageDialog(AttackLogic.this.attackPanel, "Player - " + (myIndex + 1) + " has left only 1 infantry, so no more dice rolling possible for this territory");
@@ -311,7 +311,7 @@ public class AttackLogic
         player[myIndex].setMessage("Player - " + (myIndex + 1) + " into attack phase");
         player[myIndex].notifyObservers();
 
-        LogRecord logRecord = new LogRecord(Level.INFO, "Player - " + (myIndex + 1) + " into attack phase");
+        CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Player - " + (myIndex + 1) + " into attack phase");
         LoggerUtility.consoleHandler.publish(logRecord);
 
     }

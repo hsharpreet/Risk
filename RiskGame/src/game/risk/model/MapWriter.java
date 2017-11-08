@@ -216,7 +216,6 @@ public class MapWriter {
 		printWriter.close();
 		br.close();
 		status = deleteLinksOfDeletedTerritoryFromOthers(territoryList, territoryToDelete);
-		System.out.println("deleting cuntry status: "+status);
 		if(status.equals("ERROR_UNCONNECTED_CONTINENT")){
 			outFile.delete();
 		}

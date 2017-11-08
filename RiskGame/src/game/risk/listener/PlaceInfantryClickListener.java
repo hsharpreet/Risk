@@ -10,7 +10,7 @@ import game.risk.util.LoggerUtility;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
-import java.util.logging.LogRecord;
+import game.risk.util.CustomLogRecord;
 import javax.swing.JOptionPane;
 
 public class PlaceInfantryClickListener implements ActionListener
@@ -45,7 +45,7 @@ public class PlaceInfantryClickListener implements ActionListener
                 player[i].setMessage("Initial Phase\r\nPlayer - " + (i + 1) + " has placed infantry in " + player[i].currentGameStaticsList.get(index).territory.getName().toUpperCase() + " and turn switched to next player");
                 player[i].notifyObservers();
 
-                LogRecord logRecord = new LogRecord(Level.INFO, "Player - " + (i + 1) + " has placed infantry in " + player[i].currentGameStaticsList.get(index).territory.getName().toUpperCase() + " and turn switched to next player");
+                CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Player - " + (i + 1) + " has placed infantry in " + player[i].currentGameStaticsList.get(index).territory.getName().toUpperCase() + " and turn switched to next player");
                 LoggerUtility.consoleHandler.publish(logRecord);
 
             }

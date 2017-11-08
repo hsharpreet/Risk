@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.logging.Level;
-import java.util.logging.LogRecord;
+import game.risk.util.CustomLogRecord;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -184,7 +184,7 @@ public class Player extends Observable
         player[0].notifyObservers();
         player[0].getPlayerPanel().btReinforcement.setEnabled(true);
         
-        LogRecord logRecord = new LogRecord(Level.INFO, "Player - " + (0 + 1) + "entered into Reinforcement Phase");
+        CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Player - " + (0 + 1) + "entered into Reinforcement Phase");
         LoggerUtility.consoleHandler.publish(logRecord);
 
     }
@@ -234,7 +234,7 @@ public class Player extends Observable
                         player[i].setMessage("Player " + (i + 1) + " entered into Fortification Phase");
                         player[i].notifyObservers();
                         
-                        LogRecord logRecord = new LogRecord(Level.INFO, "Player " + (i + 1) + " entered into Fortification Phase");
+                        CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Player " + (i + 1) + " entered into Fortification Phase");
         LoggerUtility.consoleHandler.publish(logRecord);
                         
                     } else
@@ -255,7 +255,7 @@ public class Player extends Observable
                 player[i].getPlayerPanel().btFortification.setEnabled(true);
                 player[i].getPlayerPanel().btOk.setEnabled(true);
 
-                LogRecord logRecord = new LogRecord(Level.INFO, "Player " + (i + 1) + " entered into Fortification Phase");
+                CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Player " + (i + 1) + " entered into Fortification Phase");
                 LoggerUtility.consoleHandler.publish(logRecord);
                 
                 player[i].setMessage("Player " + (i + 1) + " entered into Fortification Phase");
@@ -265,11 +265,6 @@ public class Player extends Observable
                 player[i].nextPlayerTurn(i);
             }
         }
-    }
-
-    public void fortification(int i)
-    {
-        System.out.println("Fortification Called : " + i);
     }
 
     public void nextPlayerTurn(int i)
@@ -292,7 +287,7 @@ public class Player extends Observable
             player[i].setMessage("Player - " + (i + 1) + " entered into Reinforcement Phase");
             player[i].notifyObservers();
             
-            LogRecord logRecord = new LogRecord(Level.INFO, "Player - " + (i + 1) + " entered into Reinforcement Phase");
+            CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Player - " + (i + 1) + " entered into Reinforcement Phase");
             LoggerUtility.consoleHandler.publish(logRecord);
 
         }

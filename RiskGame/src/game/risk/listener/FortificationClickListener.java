@@ -6,11 +6,11 @@
 package game.risk.listener;
 
 import game.risk.model.Player;
+import game.risk.util.CustomLogRecord;
 import game.risk.util.LoggerUtility;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
-import java.util.logging.LogRecord;
 import javax.swing.JOptionPane;
 
 public class FortificationClickListener implements ActionListener
@@ -64,7 +64,7 @@ public class FortificationClickListener implements ActionListener
                                     + " to "+destinationTerritory);
                             player[i].notifyObservers();
                             
-                            LogRecord logRecord = new LogRecord(Level.INFO, "Player - " + (i + 1) 
+                            CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Player - " + (i + 1) 
                                     + " has transfered 1 infantry from "+player[i].currentGameStaticsList.get(tableIndex).territory.getName()
                                     + " to "+destinationTerritory);
                             LoggerUtility.consoleHandler.publish(logRecord);
