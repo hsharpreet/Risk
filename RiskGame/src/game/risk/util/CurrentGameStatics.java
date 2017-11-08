@@ -2,11 +2,11 @@
 package game.risk.util;
 
 /**
+ * CurrentGameStatics class Represents the current status of game
  * 
  * @author Team
  * 
- * CurrentGameStatics class Represents the current status of game
- *
+ * 
  */
 public class CurrentGameStatics {
 
@@ -15,9 +15,12 @@ public class CurrentGameStatics {
 	public int player;
 
 	/**
+	 * a constructor to initialize the class attributes
 	 * 
 	 * @param infantries
+	 *            the number of infantries
 	 * @param territory
+	 *            an object of territory class
 	 */
 
 	public CurrentGameStatics(int infantries, Territory territory) {
@@ -26,10 +29,14 @@ public class CurrentGameStatics {
 	}
 
 	/**
+	 * a constructor
 	 * 
 	 * @param infantries
+	 *            the number of infantries
 	 * @param territory
+	 *            an object of territory class
 	 * @param player
+	 *            the number of players
 	 */
 	public CurrentGameStatics(int infantries, Territory territory, int player) {
 		this.infantries = infantries;
