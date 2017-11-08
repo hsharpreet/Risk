@@ -1,0 +1,21 @@
+[Map]
+author=Sean O'Connor
+warn=yes
+image=world (small).bmp
+wrap=yes
+scroll=horizontal
+
+[Continents]
+South America=2
+hello=1
+
+[Territories]
+test1,0,0,hello,test2,Peru,test3
+test2,0,0,hello,test1,Brazil
+test3,0,0,hello,test1,Argentina
+
+Venezuala,94,146,South America,Central America,Peru,Brazil
+Peru,91,168,South America,Venezuala,Brazil,Argentina,test1
+Argentina,104,203,South America,Peru,Brazil,test3
+Brazil,115,165,South America,Venezuala,Peru,Argentina,North Africa,test2
+

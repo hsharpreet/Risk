@@ -16,7 +16,7 @@ public class PlayerTest {
 	@Test
 	public void testReinforcementArmies() {
 		
-		RiskMap mapDetails = MapReader.readMapFile("World_testing.map");
+		RiskMap mapDetails = MapReader.readMapFile("World_testingReinforcement.map");
 		Territory t1= new Territory();
 		t1.setName("test1");
 		t1.setContinent("hello");
