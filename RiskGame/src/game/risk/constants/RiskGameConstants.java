@@ -1,9 +1,13 @@
 package game.risk.constants;
 
 import java.awt.Color;
-
+/**
+ * A class to declare the constants used in RiskGame.
+ * @author Team
+ *
+ */
 public class RiskGameConstants {
-
+    // Constant Declaration
 	public static final String SELECT_MAP = "Select a Map below:";
 	public static final String OK = "Ok";
 	public static final String CANCEL = "Cancel";
