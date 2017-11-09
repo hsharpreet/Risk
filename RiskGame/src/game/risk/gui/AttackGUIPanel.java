@@ -1,7 +1,7 @@
 
 package game.risk.gui;
 
-import game.risk.model.AttackLogic;
+import game.risk.model.AttackPhase;
 import game.risk.model.entities.CurrentGameStatics;
 import game.risk.model.entities.CurrentGameStaticsTableModel;
 import game.risk.model.entities.Player;
@@ -23,7 +23,7 @@ public class AttackGUIPanel extends javax.swing.JPanel {
 			List<CurrentGameStatics> list, RiskMap mapDetails) {
 		initComponents();
 		lbPlayer.setText("Player : " + (myIndex + 1));
-		new AttackLogic(dialog, this, player, myIndex, tm, list, mapDetails);
+		new AttackPhase(dialog, this, player, myIndex, tm, list, mapDetails);
 	}
 
 	/**

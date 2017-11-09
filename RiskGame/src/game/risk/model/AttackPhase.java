@@ -32,7 +32,7 @@ import javax.swing.JDialog;
  * @author Team
  *
  */
-public class AttackLogic {
+public class AttackPhase {
 
 	JDialog dialog;
 	Player[] player;
@@ -64,7 +64,7 @@ public class AttackLogic {
 	 * @param mapDetails
 	 *            an object of RiskMap Class
 	 */
-	public AttackLogic(JDialog dialog, AttackGUIPanel attackPanel, Player[] player, int myIndex,
+	public AttackPhase(JDialog dialog, AttackGUIPanel attackPanel, Player[] player, int myIndex,
 			CurrentGameStaticsTableModel tm, List<CurrentGameStatics> list, RiskMap mapDetails) {
 		this.dialog = dialog;
 		this.mapDetails = mapDetails;
@@ -86,14 +86,14 @@ public class AttackLogic {
 			public void valueChanged(ListSelectionEvent e) {
 				if (e.getValueIsAdjusting()) {
 
-					int index = AttackLogic.this.attackPanel.jtMain.getSelectedRow();
+					int index = AttackPhase.this.attackPanel.jtMain.getSelectedRow();
 					if (index != -1) {
-						AttackLogic.this.tempGameStaticsList.clear();
+						AttackPhase.this.tempGameStaticsList.clear();
 						updateTempList(index);
-						AttackLogic.this.attackPanel.lbSelectedCountryPlayer1
+						AttackPhase.this.attackPanel.lbSelectedCountryPlayer1
 								.setText(list.get(index).territory.getName());
-						AttackLogic.this.attackPanel.cbplayer1.removeAllItems();
-						AttackLogic.this.attackPanel.cbplayer2.removeAllItems();
+						AttackPhase.this.attackPanel.cbplayer1.removeAllItems();
+						AttackPhase.this.attackPanel.cbplayer2.removeAllItems();
 					}
 				}
 			}
@@ -106,20 +106,20 @@ public class AttackLogic {
 			public void actionPerformed(ActionEvent e) {
 
 				if (checkIfMoreAttackPossible()) {
-					index1 = AttackLogic.this.attackPanel.jtMain.getSelectedRow();
-					index2 = AttackLogic.this.attackPanel.jtOther.getSelectedRow();
+					index1 = AttackPhase.this.attackPanel.jtMain.getSelectedRow();
+					index2 = AttackPhase.this.attackPanel.jtOther.getSelectedRow();
 
 					if (index1 == -1 || index2 == -1) {
-						JOptionPane.showMessageDialog(AttackLogic.this.attackPanel,
+						JOptionPane.showMessageDialog(AttackPhase.this.attackPanel,
 								"Please select both SOURCE and DESTINATION");
 					} else {
-						AttackLogic.this.attackPanel.lbplayer1.setText("Player - " + (myIndex + 1));
+						AttackPhase.this.attackPanel.lbplayer1.setText("Player - " + (myIndex + 1));
 
 						if (tempGameStaticsList.get(index2).isOwn) {
-							JOptionPane.showMessageDialog(AttackLogic.this.attackPanel,
+							JOptionPane.showMessageDialog(AttackPhase.this.attackPanel,
 									"DESTINATION is your own territory.\nYou can't attack on your own territory");
 						} else if (list.get(index1).infantries == 1) {
-							JOptionPane.showMessageDialog(AttackLogic.this.attackPanel,
+							JOptionPane.showMessageDialog(AttackPhase.this.attackPanel,
 									"SOURCE has only 1 infantry. So can't attack from this territory");
 						} else {
 
@@ -137,20 +137,20 @@ public class AttackLogic {
 							// Update Combo boxes
 							updateComboboxes();
 
-							AttackLogic.this.attackPanel.lbInfantriesPlayer1.setText(list.get(index1).infantries + "");
-							AttackLogic.this.attackPanel.lbInfantriesPlayer2
+							AttackPhase.this.attackPanel.lbInfantriesPlayer1.setText(list.get(index1).infantries + "");
+							AttackPhase.this.attackPanel.lbInfantriesPlayer2
 									.setText(tempGameStaticsList.get(index2).infantries + "");
 
-							AttackLogic.this.attackPanel.btAttack.setEnabled(false);
-							AttackLogic.this.attackPanel.btCloseAttackPhase.setEnabled(false);
-							AttackLogic.this.attackPanel.btRoleDice.setEnabled(true);
+							AttackPhase.this.attackPanel.btAttack.setEnabled(false);
+							AttackPhase.this.attackPanel.btCloseAttackPhase.setEnabled(false);
+							AttackPhase.this.attackPanel.btRoleDice.setEnabled(true);
 						}
 					}
 				} else {
 
 					JOptionPane.showMessageDialog(attackPanel,
 							"Your each territory has only 1 infantry.\nSo no more attach possible now");
-					AttackLogic.this.dialog.dispose();
+					AttackPhase.this.dialog.dispose();
 				}
 
 			}
@@ -162,13 +162,13 @@ public class AttackLogic {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				if (e.getValueIsAdjusting()) {
-					int index = AttackLogic.this.attackPanel.jtOther.getSelectedRow();
+					int index = AttackPhase.this.attackPanel.jtOther.getSelectedRow();
 					if (index != -1) {
 						attackPanel.lbplayer2.setText("Player - " + (tempGameStaticsList.get(index).player + 1));
 						attackPanel.lbSelectedCountryPlayer2
 								.setText(tempGameStaticsList.get(index).territory.getName());
-						AttackLogic.this.attackPanel.cbplayer1.removeAllItems();
-						AttackLogic.this.attackPanel.cbplayer2.removeAllItems();
+						AttackPhase.this.attackPanel.cbplayer1.removeAllItems();
+						AttackPhase.this.attackPanel.cbplayer2.removeAllItems();
 					}
 				}
 			}
@@ -186,8 +186,8 @@ public class AttackLogic {
 				} else {
 
 				}
-				int n1 = Integer.parseInt(AttackLogic.this.attackPanel.cbplayer1.getSelectedItem().toString());
-				int n2 = Integer.parseInt(AttackLogic.this.attackPanel.cbplayer2.getSelectedItem().toString());
+				int n1 = Integer.parseInt(AttackPhase.this.attackPanel.cbplayer1.getSelectedItem().toString());
+				int n2 = Integer.parseInt(AttackPhase.this.attackPanel.cbplayer2.getSelectedItem().toString());
 				// arrays to store dice role number for player
 				int diceValuesPlayer1[] = new int[n1];
 				int diceValuesPlayer2[] = new int[n2];
@@ -230,8 +230,8 @@ public class AttackLogic {
 					s2 += diceValuesPlayer2[i] + "  ";
 				}
 
-				AttackLogic.this.attackPanel.lbDiceResultsPlayer1.setText(s1);
-				AttackLogic.this.attackPanel.lbDiceResultsPlayer2.setText(s2);
+				AttackPhase.this.attackPanel.lbDiceResultsPlayer1.setText(s1);
+				AttackPhase.this.attackPanel.lbDiceResultsPlayer2.setText(s2);
 
 				int smallArrayLength = diceValuesPlayer1.length < diceValuesPlayer2.length ? diceValuesPlayer1.length
 						: diceValuesPlayer2.length;
@@ -240,7 +240,7 @@ public class AttackLogic {
 					if (diceValuesPlayer1[i] > diceValuesPlayer2[i]) {
 
 						tempGameStaticsList.get(index2).infantries--;
-						AttackLogic.this.attackPanel.lbInfantriesPlayer2
+						AttackPhase.this.attackPanel.lbInfantriesPlayer2
 								.setText(tempGameStaticsList.get(index2).infantries + "");
 
 						if (tempGameStaticsList.get(index2).infantries == 0) {
@@ -250,9 +250,9 @@ public class AttackLogic {
 								for (int b = 0; b < player[a].currentGameStaticsList.size(); b++) {
 									if (player[a].currentGameStaticsList.get(b).territory.getName()
 											.equals(tempGameStaticsList.get(index2).territory.getName())) {
-										player[a].currentGameStaticsList.get(b).player = AttackLogic.this.myIndex;
+										player[a].currentGameStaticsList.get(b).player = AttackPhase.this.myIndex;
 										player[a].currentGameStaticsList.get(b).infantries = n1;
-										AttackLogic.this.currentGameStaticsList.get(index1).infantries -= n1;
+										AttackPhase.this.currentGameStaticsList.get(index1).infantries -= n1;
 										player[myIndex].currentGameStaticsList
 												.add(player[a].currentGameStaticsList.get(b));
 										player[a].currentGameStaticsList.remove(b);
@@ -276,46 +276,46 @@ public class AttackLogic {
 											+ (tempGameStaticsList.get(index2).territory.getName()));
 							LoggerUtility.consoleHandler.publish(logRecord);
 
-							JOptionPane.showMessageDialog(AttackLogic.this.attackPanel,
+							JOptionPane.showMessageDialog(AttackPhase.this.attackPanel,
 									"Player - " + (myIndex + 1) + " won and placed " + n1 + " infantries in "
 											+ (tempGameStaticsList.get(index2).territory.getName()));
 
-							AttackLogic.this.attackPanel.btAttack.setEnabled(true);
-							AttackLogic.this.attackPanel.btCloseAttackPhase.setEnabled(true);
-							AttackLogic.this.attackPanel.btRoleDice.setEnabled(false);
+							AttackPhase.this.attackPanel.btAttack.setEnabled(true);
+							AttackPhase.this.attackPanel.btCloseAttackPhase.setEnabled(true);
+							AttackPhase.this.attackPanel.btRoleDice.setEnabled(false);
 
 							tempGameStaticsList.remove(index2);
-							AttackLogic.this.tempTableModel.fireTableDataChanged();
-							AttackLogic.this.currentGameStaticsTableModel.fireTableDataChanged();
+							AttackPhase.this.tempTableModel.fireTableDataChanged();
+							AttackPhase.this.currentGameStaticsTableModel.fireTableDataChanged();
 							break;
 						}
 					} else {
 						list.get(index1).infantries--;
-						AttackLogic.this.attackPanel.lbInfantriesPlayer1.setText(list.get(index1).infantries + "");
+						AttackPhase.this.attackPanel.lbInfantriesPlayer1.setText(list.get(index1).infantries + "");
 						if (list.get(index1).infantries == 1) {
 							CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Player - " + (myIndex + 1)
 									+ " has left only 1 infantry, so no more dice rolling possible for this territory");
 							LoggerUtility.consoleHandler.publish(logRecord);
 
-							JOptionPane.showMessageDialog(AttackLogic.this.attackPanel, "Player - " + (myIndex + 1)
+							JOptionPane.showMessageDialog(AttackPhase.this.attackPanel, "Player - " + (myIndex + 1)
 									+ " has left only 1 infantry, so no more dice rolling possible for this territory");
-							AttackLogic.this.attackPanel.btAttack.setEnabled(true);
-							AttackLogic.this.attackPanel.btCloseAttackPhase.setEnabled(true);
-							AttackLogic.this.attackPanel.btRoleDice.setEnabled(false);
-							AttackLogic.this.tempTableModel.fireTableDataChanged();
-							AttackLogic.this.currentGameStaticsTableModel.fireTableDataChanged();
+							AttackPhase.this.attackPanel.btAttack.setEnabled(true);
+							AttackPhase.this.attackPanel.btCloseAttackPhase.setEnabled(true);
+							AttackPhase.this.attackPanel.btRoleDice.setEnabled(false);
+							AttackPhase.this.tempTableModel.fireTableDataChanged();
+							AttackPhase.this.currentGameStaticsTableModel.fireTableDataChanged();
 							break;
 						}
 					}
 					updateComboboxes();
 				}
-				AttackLogic.this.tempTableModel.fireTableDataChanged();
-				AttackLogic.this.currentGameStaticsTableModel.fireTableDataChanged();
+				AttackPhase.this.tempTableModel.fireTableDataChanged();
+				AttackPhase.this.currentGameStaticsTableModel.fireTableDataChanged();
 
 				if (!checkIfMoreAttackPossible()) {
 					JOptionPane.showMessageDialog(attackPanel,
 							"Your each territory has only 1 infantry.\nSo no more attach possible now");
-					AttackLogic.this.dialog.dispose();
+					AttackPhase.this.dialog.dispose();
 				}
 
 			}
@@ -327,7 +327,7 @@ public class AttackLogic {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				updateOriginalListFromTempList();
-				AttackLogic.this.dialog.dispose();
+				AttackPhase.this.dialog.dispose();
 			}
 		});
 
@@ -343,8 +343,8 @@ public class AttackLogic {
 	 * a method to update the comboboxes containing the player options for dice
 	 */
 	public void updateComboboxes() {
-		AttackLogic.this.attackPanel.cbplayer1.removeAllItems();
-		AttackLogic.this.attackPanel.cbplayer2.removeAllItems();
+		AttackPhase.this.attackPanel.cbplayer1.removeAllItems();
+		AttackPhase.this.attackPanel.cbplayer2.removeAllItems();
 		int player1OptionsForDice, player2OptionsForDice;
 
 		if (currentGameStaticsList.get(index1).infantries == 2) {
@@ -362,10 +362,10 @@ public class AttackLogic {
 		}
 
 		for (int i = 1; i <= player1OptionsForDice; i++) {
-			AttackLogic.this.attackPanel.cbplayer1.addItem(i + "");
+			AttackPhase.this.attackPanel.cbplayer1.addItem(i + "");
 		}
 		for (int i = 1; i <= player2OptionsForDice; i++) {
-			AttackLogic.this.attackPanel.cbplayer2.addItem(i + "");
+			AttackPhase.this.attackPanel.cbplayer2.addItem(i + "");
 		}
 	}
 
@@ -451,9 +451,9 @@ public class AttackLogic {
 			}
 		}
 		if (!flag) {
-			AttackLogic.this.attackPanel.btAttack.setEnabled(false);
-			AttackLogic.this.attackPanel.btCloseAttackPhase.setEnabled(false);
-			AttackLogic.this.attackPanel.btRoleDice.setEnabled(false);
+			AttackPhase.this.attackPanel.btAttack.setEnabled(false);
+			AttackPhase.this.attackPanel.btCloseAttackPhase.setEnabled(false);
+			AttackPhase.this.attackPanel.btRoleDice.setEnabled(false);
 
 		}
 		return flag;
