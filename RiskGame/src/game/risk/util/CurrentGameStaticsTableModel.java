@@ -51,7 +51,7 @@ public class CurrentGameStaticsTableModel extends AbstractTableModel {
 	/**
 	 * Method to get the column count
 	 * 
-	 * @return the length of the columnname
+	 * @return the length of the column name
 	 */
 	@Override
 	public int getColumnCount() {

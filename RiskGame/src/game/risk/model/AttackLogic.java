@@ -60,7 +60,7 @@ public class AttackLogic {
 	 * @param list
 	 *            an arrayList of CurrentGameStatics class
 	 * @param mapDetails
-	 *            an object of RiskMap Clas
+	 *            an object of RiskMap Class
 	 */
 	public AttackLogic(JDialog dialog, AttackGUIPanel attackPanel, Player[] player, int myIndex,
 			CurrentGameStaticsTableModel tm, List<CurrentGameStatics> list, RiskMap mapDetails) {
@@ -132,7 +132,7 @@ public class AttackLogic {
 											+ tempGameStaticsList.get(index2).territory.getName().toUpperCase());
 							LoggerUtility.consoleHandler.publish(logRecord);
 
-							// Update Comboboxes
+							// Update Combo boxes
 							updateComboboxes();
 
 							AttackLogic.this.attackPanel.lbInfantriesPlayer1.setText(list.get(index1).infantries + "");

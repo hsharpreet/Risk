@@ -387,7 +387,7 @@ public class Player extends Observable {
 			player[i].getPlayerPanel().lbMessage2.setText("Got infantries from terrotries " + nVal);
 			player[i].getPlayerPanel().lbMessage3.setText("Got infantries from risk card " + m);
 			player[i].getPlayerPanel().lbMessage4.setText("Got total infantries " + (n + m));
-			//player[i].getPlayerPanel().lbMessage1.setText("Message : You have gotton " + n + " new infantries");
+			
 			player[i].getPlayerPanel().lbAvailableArmies
 					.setText("Available Infantries : " + player[i].infantriesAvailable);
 
