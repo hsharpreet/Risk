@@ -9,21 +9,35 @@ import game.risk.model.Player;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class OkClickListener implements ActionListener
-    {
+/**
+ * Method to create a listener to pass the turn to the next player
+ * 
+ * @author Team
+ *
+ */
+public class OkClickListener implements ActionListener {
 
-        int i;
-        Player player[];
+	int i;
+	Player player[];
 
-        public OkClickListener(int i,Player player[])
-        {
-            this.i = i;
-            this.player = player;
-        }
+	/**
+	 * a constructor
+	 * 
+	 * @param i
+	 *            an integer
+	 * @param player
+	 *            an array of Player class
+	 */
+	public OkClickListener(int i, Player player[]) {
+		this.i = i;
+		this.player = player;
+	}
 
-        public void actionPerformed(ActionEvent e)
-        {
+	/**
+	 * Method to pass the turn to the next player
+	 */
+	public void actionPerformed(ActionEvent e) {
 
-            player[i].nextPlayerTurn(i);
-        }
-    }
+		player[i].nextPlayerTurn(i);
+	}
+}
