@@ -2,8 +2,6 @@ package game.risk.model;
 
 import java.util.HashMap;
 
-import game.risk.util.Territory;
-
 /**
  * 
  * @author team

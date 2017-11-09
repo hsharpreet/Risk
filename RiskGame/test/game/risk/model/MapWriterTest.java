@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import game.risk.model.MapWriter;
-import game.risk.util.Territory;
 
 /**
  * Class to test all the methods of MapWriter

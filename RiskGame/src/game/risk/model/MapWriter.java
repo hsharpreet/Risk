@@ -16,7 +16,6 @@ import java.util.Map;
 
 import game.risk.gui.MapFromScratch;
 import game.risk.model.validation.ValidateMapWriter;
-import game.risk.util.Territory;
 
 /**
  * Class to write in the World.map file

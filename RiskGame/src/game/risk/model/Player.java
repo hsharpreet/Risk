@@ -1,6 +1,5 @@
 package game.risk.model;
 
-import game.risk.util.Territory;
 import game.risk.util.CurrentGameStaticsTableModel;
 import game.risk.util.NeighbourListModel;
 import game.risk.util.CurrentGameStatics;

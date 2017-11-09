@@ -10,7 +10,6 @@ import org.junit.Test;
 
 import game.risk.gui.RiskGame;
 import game.risk.util.CurrentGameStatics;
-import game.risk.util.Territory;
 
 /**
  * Class to Test reinforcement

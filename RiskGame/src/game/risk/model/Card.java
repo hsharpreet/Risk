@@ -1,4 +1,4 @@
-package game.risk.util;
+package game.risk.model;
 
 /**
  * Class to create Cards

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import game.risk.model.MapReader;
-import game.risk.util.Territory;
+import game.risk.model.Territory;
 
 /**
  * Class to validate map reader

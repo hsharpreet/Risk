@@ -4,11 +4,12 @@ import game.risk.util.CurrentGameStatics;
 import game.risk.util.CurrentGameStaticsTableModel;
 import game.risk.util.NeighbourListModel;
 import game.risk.model.RiskMap;
+import game.risk.model.Territory;
+import game.risk.model.Card;
 import game.risk.model.MapReader;
 import game.risk.model.MapWriter;
 import game.risk.model.Player;
 import game.risk.util.LoggerUtility;
-import game.risk.util.Territory;
 import game.risk.util.CustomLogRecord;
 
 import java.awt.Color;
@@ -26,8 +27,6 @@ import javax.swing.JOptionPane;
 import java.util.*;
 import java.util.logging.Level;
 import javax.swing.JLabel;
-
-import game.risk.util.Card;
 
 /**
  * RiskGame is the main class of this game which represents view

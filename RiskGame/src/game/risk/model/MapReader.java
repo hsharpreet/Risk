@@ -11,7 +11,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import game.risk.model.validation.ValidateMapReader;
-import game.risk.util.Territory;
 
 /**
  * Class to read the Map

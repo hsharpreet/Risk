@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 
 import game.risk.model.Player;
+import game.risk.model.Territory;
 
 /**
  * Class to assign random territories to the player
