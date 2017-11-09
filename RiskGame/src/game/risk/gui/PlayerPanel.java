@@ -137,7 +137,6 @@ public class PlayerPanel extends javax.swing.JPanel {
 	public javax.swing.JTable jtCountriesAndArmies;
 	public javax.swing.JLabel lbAvailableArmies;
 	public javax.swing.JLabel lbMessage1;
-	//public javax.swing.JLabel lbMessage1;
     public javax.swing.JLabel lbMessage2;
     public javax.swing.JLabel lbMessage3;
     public javax.swing.JLabel lbMessage4;

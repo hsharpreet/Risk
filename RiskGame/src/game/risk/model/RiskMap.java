@@ -70,7 +70,7 @@ public class RiskMap {
 	/**
 	 * Method to get territories and store it into a hashMap
 	 * 
-	 * @return territories the name of teh territories
+	 * @return territories the name of the territories
 	 */
 	public HashMap<String, Territory> getTerritories() {
 		return territories;
