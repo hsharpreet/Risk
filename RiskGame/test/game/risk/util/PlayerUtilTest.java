@@ -32,8 +32,9 @@ public class PlayerUtilTest {
 		players[1] = new Player(null, 1, players, riskMap);
 		players[0].currentGameStaticsList = new ArrayList<>();
 		players[1].currentGameStaticsList = new ArrayList<>();
-
-		players = new PlayerUtil().assignRandomTerritories(riskMap.getTerritories(), players);
+        PlayerUtil playerUtil = new PlayerUtil(players);
+		playerUtil.assignRandomTerritories(riskMap.getTerritories());
+		players = playerUtil.getPlayers();
 
 		int territorydistribution = riskMap.getTerritories().size() / players.length;
 		assertTrue(players[0].currentGameStaticsList.size() >= territorydistribution);

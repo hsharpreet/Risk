@@ -13,8 +13,14 @@ import game.risk.model.Player;
  *
  */
 public class PlayerUtil {
+	
+	Player[] players;
 
-	public Player[] assignRandomTerritories(HashMap<String, Territory> territories, Player[] players) {
+	public PlayerUtil(Player[] player){
+		this.players = player;
+	}
+	
+	public void assignRandomTerritories(HashMap<String, Territory> territories) {
 		ArrayList<String> keyList = new ArrayList<>(territories.keySet());
 		Collections.shuffle(keyList);
 		int p = 0;
@@ -30,7 +36,9 @@ public class PlayerUtil {
 				break;
 			}
 		}
-		return players;
 	}
 
+	public Player[] getPlayers() {
+		return players;
+	}
 }
