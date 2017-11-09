@@ -14,7 +14,6 @@ import game.risk.listener.OkClickListener;
 import game.risk.listener.PlaceInfantryClickListener;
 import game.risk.gui.RiskGame;
 import game.risk.util.LoggerUtility;
-import game.risk.util.MapReader;
 
 import java.awt.Color;
 import java.awt.Dialog;

@@ -6,8 +6,8 @@ import java.io.FileReader;
 import java.util.List;
 import java.util.Map;
 
+import game.risk.model.MapReader;
 import game.risk.model.RiskMap;
-import game.risk.util.MapReader;
 import game.risk.util.Territory;
 
 /**

@@ -3,7 +3,7 @@ package game.risk.model.validation;
 import java.util.HashMap;
 import java.util.List;
 
-import game.risk.util.MapReader;
+import game.risk.model.MapReader;
 import game.risk.util.Territory;
 
 /**

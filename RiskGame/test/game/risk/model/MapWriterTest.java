@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import game.risk.model.MapWriter;
-import game.risk.util.MapReader;
 import game.risk.util.Territory;
 
 /**
