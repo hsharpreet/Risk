@@ -121,7 +121,7 @@ public class ValidateMapWriterTest {
 		ValidateMapWriter validateMapWriter = new ValidateMapWriter();
 		boolean result = validateMapWriter.checkTerritoriesBeforeDeletingContinent("hello", mapFile);
 
-		assertFalse(result);
+		assertTrue(result);
 	}
 
 	/**
