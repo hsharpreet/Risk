@@ -25,7 +25,7 @@ public class Territory {
 	public String getName() {
 		return name;
 	}
-	
+
 	/**
 	 * Method to set name of the territory in the class attribute
 	 * 
