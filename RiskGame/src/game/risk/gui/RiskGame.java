@@ -673,7 +673,13 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 				}
 				
 			}
-		
+		}else if(message.startsWith("RiskCardInfantries"))
+        {
+            String values[] = message.split(",");
+            int index = Integer.parseInt(values[1]);
+            taObserverMessage.setText(message);
+
+            player[index].getPlayerPanel().lbMessage3.setText(values[2]);
         } else {
 			taObserverMessage.setText(message);
 		}
