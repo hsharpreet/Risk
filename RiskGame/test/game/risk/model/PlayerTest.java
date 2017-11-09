@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import game.risk.gui.RiskGame;
 import game.risk.util.CurrentGameStatics;
 import game.risk.util.MapReader;
 import game.risk.util.Territory;
@@ -38,7 +39,7 @@ public class PlayerTest {
 		CurrentGameStatics gamestat3 = new CurrentGameStatics(2, t3);
 		CurrentGameStatics gamestat4 = new CurrentGameStatics(2, t4);
 		Player players[] = new Player[1];
-		players[0]= new Player(1, players, mapDetails);
+		players[0]= new Player(new RiskGame(), 1, players, mapDetails);
 		players[0].currentGameStaticsList= new ArrayList<>();
 		players[0].currentGameStaticsList.add(gamestat1);
 		players[0].currentGameStaticsList.add(gamestat2);

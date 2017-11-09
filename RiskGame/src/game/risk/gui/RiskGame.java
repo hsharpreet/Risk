@@ -27,6 +27,7 @@ import java.util.*;
 import java.util.logging.Level;
 import javax.swing.JLabel;
 
+import game.risk.util.Cards;
 /**
  * RiskGame is the main class of this game which represents view
  * 
@@ -41,8 +42,10 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 	int totalArmies[] = { 40, 35, 30, 25, 20 };
 	Color colors[] = new Color[6];
 
+	public int cardTurnIndex = 1;
+	 
 	Player player[];
-
+	public ArrayList<Cards> alCards;
 	JLabel labels[] = new JLabel[6];
 
 	/**
@@ -72,6 +75,8 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 		colors[4] = new Color(187, 208, 225);
 		colors[5] = new Color(210, 194, 130);
 
+		 alCards = new ArrayList<>();
+		 
 		CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Risk Game Started");
 		LoggerUtility.consoleHandler.publish(logRecord);
 	}
@@ -356,9 +361,10 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 		jScrollPane1.setBounds(10, 90, 960, 420);
 
 		taObserverMessage.setColumns(20);
-		taObserverMessage.setFont(new java.awt.Font("Monospaced", 0, 18));
+		taObserverMessage.setFont(new java.awt.Font("Monospaced", 0, 16));
 		taObserverMessage.setRows(5);
 		taObserverMessage.setWrapStyleWord(true);
+		taObserverMessage.setEditable(false);
 		jScrollPane2.setViewportView(taObserverMessage);
 
 		getContentPane().add(jScrollPane2);
@@ -496,7 +502,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 				jpPlayground.removeAll();
 				jpPlayground.setPreferredSize(new Dimension(370 * playerCount, 400));
 				for (int i = 0; i < playerCount; i++) {
-					player[i] = new Player(i, player, mapDetails);
+					player[i] = new Player(RiskGame.this, i, player, mapDetails);
 					player[i].addObserver(RiskGame.this);
 					player[i].setPlayerPanel(new PlayerPanel());
 					player[i].bindListeners();
@@ -523,13 +529,19 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 				Collections.shuffle(keyList);
 
 				int p = 0;
+				int m = 0;
+                String cardDesigns[] = {"infantry" , "cavalry" , "artillery"};
 				while (true) {
 					try {
 						for (int i = 0; i < playerCount; i++) {
 							Territory t = territories.get(keyList.get(p));
 							CurrentGameStatics cgs = new CurrentGameStatics(1, t, i);
 							player[i].currentGameStaticsList.add(cgs);
+							alCards.add(new Cards(t, cardDesigns[m]));
 							p++;
+							m++;
+							if (m == 3)
+								m = 0;
 						}
 					} catch (Exception ex) {
 						break;
@@ -550,7 +562,14 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 					double per = (player[i].currentGameStaticsList.size() * 100.0) / territories.size();
 					DecimalFormat df = new DecimalFormat("##.##");
 					per = Double.parseDouble(df.format(per));
-					labels[i].setText("Player " + (i + 1) + " - " + per + "%");
+					if(per != 100) {
+						labels[i].setText("Player " + (i + 1) + " - " + per + "%");
+					}else {
+						labels[i].setText("Player " + (i + 1) + " - " + "WINS");
+						jpPlayground.removeAll();
+						jpPlayground.revalidate();
+						jpPlayground.repaint();
+					}
 
 				}
 				player[0].getPlayerPanel().btPlaceInfantry.setEnabled(true);
@@ -638,13 +657,30 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 		String message = playerObservable.getMessage();
 		CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Observable : " + message);
 		LoggerUtility.consoleHandler.publish(logRecord);
+		
 		if (message.startsWith("Percentage ")) {
 			String percentageValues = message.substring(11);
 			String values[] = percentageValues.split(",");
 			for (int i = 0; i < values.length; i++) {
-				labels[i].setText("Player " + (i + 1) + " - " + values[i] + "%");
+				if(!values[i].contains("100")) {
+					labels[i].setText("Player " + (i + 1) + " - " + values[i] + "%");
+				}else {
+					labels[i].setText("Player " + (i + 1) + " - " + "WINS");
+					jpPlayground.removeAll();
+					jpPlayground.revalidate();
+					jpPlayground.repaint();
+					break;
+				}
+				
 			}
-		} else {
+		}else if(message.startsWith("RiskCardInfantries"))
+        {
+            String values[] = message.split(",");
+            int index = Integer.parseInt(values[1]);
+            taObserverMessage.setText(message);
+
+            player[index].getPlayerPanel().lbMessage3.setText(values[2]);
+        } else {
 			taObserverMessage.setText(message);
 		}
 

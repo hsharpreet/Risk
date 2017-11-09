@@ -254,10 +254,20 @@ public class AttackLogic {
 										player[myIndex].currentGameStaticsList
 												.add(player[a].currentGameStaticsList.get(b));
 										player[a].currentGameStaticsList.remove(b);
-										break;
+										//break;
 									}
 								}
 							}
+							
+							// Assign Card to player
+                            for (int p = 0; p < player[myIndex].riskGame.alCards.size(); p++)
+                            {
+                                if (player[myIndex].riskGame.alCards.get(p).getPlayer() == -1)
+                                {
+                                    player[myIndex].riskGame.alCards.get(p).setPlayer(myIndex);
+                                    break;
+                                }
+                            }
 
 							CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
 									"Player - " + (myIndex + 1) + " won and placed " + n1 + " infantries in "

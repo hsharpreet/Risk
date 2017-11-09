@@ -7,6 +7,7 @@ import game.risk.util.NeighbourListModel;
 import game.risk.util.CurrentGameStatics;
 import game.risk.gui.AttackGUIPanel;
 import game.risk.gui.PlayerPanel;
+import game.risk.gui.ExchangeCardPanel;
 import game.risk.listener.FortificationClickListener;
 import game.risk.listener.MyListSelectionListener;
 import game.risk.listener.OkClickListener;
@@ -29,6 +30,8 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.logging.Level;
 import game.risk.util.CustomLogRecord;
+
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -61,8 +64,9 @@ public class Player extends Observable {
 	private boolean turn;
 	private boolean isComputer;
 	private Color territorAndArmiesColor;
-	RiskGame riskGameNew;
-
+	RiskGame riskGame;
+	private int nVal = 0;
+	
 	/**
 	 * A constructor to initialize myIndex, Player and MapDetails
 	 * 
@@ -73,7 +77,8 @@ public class Player extends Observable {
 	 * @param mapDetails
 	 *            an object of RiskMap class
 	 */
-	public Player(int myIndex, Player player[], RiskMap mapDetails) {
+	public Player(RiskGame riskGame, int myIndex, Player player[], RiskMap mapDetails) {
+		this.riskGame = riskGame;
 		this.mapDetails = mapDetails;
 		this.myIndex = myIndex;
 		this.player = player;
@@ -269,18 +274,125 @@ public class Player extends Observable {
 	 */
 	public void reinforcement() {
 
-		for (int i = 0; i < player.length; i++) {
+		for (i = 0; i < player.length; i++) {
 			int n = calculateReinformentArmies(i);
-			player[i].infantriesTotal += n;
+
+			// Infantreis on the basis of risk card
+			boolean havingRiskCards = false;
+			for (int ii = 0; ii < riskGame.alCards.size(); ii++) {
+				if (riskGame.alCards.get(ii).getPlayer() == i) {
+					havingRiskCards = true;
+					break;
+				}
+			}
+
+			if (havingRiskCards) {
+				JDialog dialog = new JDialog();
+				ExchangeCardPanel panel = new ExchangeCardPanel();
+
+				ArrayList<JCheckBox> alcheckbox = new ArrayList<>();
+
+				addCards(panel, alcheckbox, i);
+
+				panel.btCancel.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dialog.dispose();
+					}
+				});
+				panel.btTrade.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+
+						if (alcheckbox.size() < 3) {
+							JOptionPane.showMessageDialog(panel, "You have insufficient cards");
+						} else {
+							int count = 0;
+							for (int i = 0; i < alcheckbox.size(); i++) {
+								if (alcheckbox.get(i).isSelected()) {
+									count++;
+								}
+							}
+							if (count == 3) {
+								String cardDesigns[] = new String[3];
+								int index = 0;
+								for (int i = 0; i < alcheckbox.size(); i++) {
+									if (alcheckbox.get(i).isSelected()) {
+										cardDesigns[index] = alcheckbox.get(i).getLabel().split("-")[1].trim();
+										index++;
+									}
+								}
+								if ((cardDesigns[0].equals(cardDesigns[1]))
+										&& (cardDesigns[1].equals(cardDesigns[2]))) {
+									m += player[myIndex].riskGame.cardTurnIndex * 5;
+									player[myIndex].riskGame.cardTurnIndex++;
+									for (int k = 0; k < player[myIndex].riskGame.alCards.size(); k++) {
+										for (int l = 0; l < cardDesigns.length; l++) {
+											if (player[myIndex].riskGame.alCards.get(k).getTerritory().getName()
+													.endsWith(cardDesigns[l])) {
+												player[myIndex].riskGame.alCards.get(k).setPlayer(-1);
+												break;
+											}
+										}
+									}
+									alcheckbox.clear();
+									addCards(panel, alcheckbox, i);
+
+								} else if (!(cardDesigns[0].equals(cardDesigns[1]))
+										&& !(cardDesigns[1].equals(cardDesigns[2]))) {
+									m += player[myIndex].riskGame.cardTurnIndex * 5;
+									player[myIndex].riskGame.cardTurnIndex++;
+
+									for (int k = 0; k < player[myIndex].riskGame.alCards.size(); k++) {
+										for (int l = 0; l < cardDesigns.length; l++) {
+											if (player[myIndex].riskGame.alCards.get(k).getTerritory().getName()
+													.endsWith(cardDesigns[l])) {
+												player[myIndex].riskGame.alCards.get(k).setPlayer(-1);
+
+												break;
+											}
+										}
+									}
+									alcheckbox.clear();
+									addCards(panel, alcheckbox, i);
+
+								}
+							} else {
+								JOptionPane.showMessageDialog(panel, "Only 3 cards  can be selected");
+							}
+						}
+
+					}
+				});
+				int armiesFromCard = m;
+				dialog.add(panel);
+				dialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
+				dialog.setSize(350, 350);
+				dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+				dialog.addWindowListener(new WindowAdapter() {
+					public void windowClosed(WindowEvent e) {
+						System.out.println(i+"  "+m);
+						setMessage("RiskCardInfantries, Player" + i + ",Got infantries from risk card " + armiesFromCard);
+						notifyObservers();
+					}
+				});
+				dialog.setVisible(true);
+			}
+
+			player[i].infantriesTotal += (n + m);
 			player[i].getPlayerPanel().lbTotalArmies.setText("Total Infantry : " + player[i].infantriesTotal);
-			player[i].infantriesAvailable = n;
-			player[i].getPlayerPanel().lbMessage.setText("Message : You have gotton " + n + " new infantries");
+			player[i].infantriesAvailable = n + m;
+			player[i].getPlayerPanel().lbMessage1.setText("Got infantries from continent " + (n-nVal));
+			player[i].getPlayerPanel().lbMessage2.setText("Got infantries from terrotries " + nVal);
+			player[i].getPlayerPanel().lbMessage3.setText("Got infantries from risk card " + m);
+			player[i].getPlayerPanel().lbMessage4.setText("Got total infantries " + (n + m));
+			//player[i].getPlayerPanel().lbMessage1.setText("Message : You have gotton " + n + " new infantries");
 			player[i].getPlayerPanel().lbAvailableArmies
 					.setText("Available Infantries : " + player[i].infantriesAvailable);
 
 			player[i].getPlayerPanel().btReinforcement.setEnabled(false);
 			player[i].getPlayerPanel().btFortification.setEnabled(false);
 			player[i].getPlayerPanel().btOk.setEnabled(false);
+			n = 0;
+			m = 0;
 		}
 		player[0].setMessage("Player - " + (0 + 1) + " entered into Reinforcement Phase");
 		player[0].notifyObservers();
@@ -289,7 +401,7 @@ public class Player extends Observable {
 		CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
 				"Player - " + (0 + 1) + "entered into Reinforcement Phase");
 		LoggerUtility.consoleHandler.publish(logRecord);
-
+		i = 0;
 	}
 
 	/**
@@ -304,6 +416,7 @@ public class Player extends Observable {
 		if (reinformentArmies < 3) {
 			reinformentArmies = 3;
 		}
+		nVal = reinformentArmies;
 		List<String> occupiedContinents = getOccupiedContinentsByPlayer(playerIndex);
 		for (String oc : occupiedContinents) {
 			int p = Integer.parseInt(mapDetails.getContinents().get(oc));
@@ -398,7 +511,7 @@ public class Player extends Observable {
 	 */
 	public void nextPlayerTurn(int i) {
 
-		player[i].getPlayerPanel().lbMessage.setText("");
+		player[i].getPlayerPanel().lbMessage1.setText("");
 		i++;
 		if (i == player.length) {
 			reinforcement();
