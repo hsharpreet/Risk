@@ -1,0 +1,13 @@
+[Map]
+author=Team 13
+warn=yes
+image=default.bmp
+wrap=null
+scroll=horizontal
+
+[Continents]
+cc=3
+
+[Territories]
+tt,0,0,cc
+

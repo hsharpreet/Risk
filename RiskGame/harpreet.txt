@@ -1,0 +1,20 @@
+				if(!values[i].contains("100")) {
+					labels[i].setText("Player " + (i + 1) + " - " + values[i] + "%");
+				}else {
+					labels[i].setText("Player " + (i + 1) + " - " + "WINS");
+					jpPlayground.removeAll();
+					jpPlayground.revalidate();
+					jpPlayground.repaint();
+					break;
+				}
+				
+				
+				
+				if(per != 100) {
+						labels[i].setText("Player " + (i + 1) + " - " + per + "%");
+					}else {
+						labels[i].setText("Player " + (i + 1) + " - " + "WINS");
+						jpPlayground.removeAll();
+						jpPlayground.revalidate();
+						jpPlayground.repaint();
+					}

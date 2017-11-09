@@ -1,0 +1,14 @@
+[Map]
+author=Team 13
+warn=yes
+image=default.bmp
+wrap=null
+scroll=horizontal
+
+[Continents]
+brock=5
+
+[Territories]
+hello,0,0,brock,maptest country
+maptest country,0,0,brock,hello
+
