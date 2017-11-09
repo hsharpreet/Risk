@@ -2,6 +2,10 @@ package game.risk.model.validation;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+
 import org.junit.Test;
 
 import game.risk.gui.MapEditor;
@@ -9,6 +13,7 @@ import game.risk.model.MapWriter;
 import game.risk.model.RiskMap;
 import game.risk.model.validation.ValidateMapWriter;
 import game.risk.util.MapReader;
+import game.risk.util.Territory;
 
 /**
  * Class to test Validation.java
@@ -166,4 +171,41 @@ public class ValidateMapWriterTest {
 		assertFalse(result);
 	}
 
+	/**
+	 * Method to test list of countries are not having a continent for
+	 * successful deletion of continent
+	 * 
+	 * @throws Exception read map exception
+	 */
+	@Test
+	public void testCheckLinkedTerritoriesWithSelectedContinent_False() throws Exception {
+
+		List<String> neighbouringCountries = new ArrayList<>();
+		neighbouringCountries.add("Peru");
+
+		ValidateMapWriter validateMapWriter = new ValidateMapWriter();
+		boolean result = validateMapWriter.checkLinkedTerritoriesWithSelectedContinent("North America",
+				neighbouringCountries, "World.map");
+
+		assertFalse(result);
+	}
+
+	/**
+	 * Method to test list of countries are having a continent for successful
+	 * deletion of continent
+	 * 
+	 * @throws Exception read map exception
+	 */
+	@Test
+	public void testCheckLinkedTerritoriesWithSelectedContinent_True() throws Exception {
+
+		List<String> neighbouringCountries = new ArrayList<>();
+		neighbouringCountries.add("Alaska");
+
+		ValidateMapWriter validateMapWriter = new ValidateMapWriter();
+		boolean result = validateMapWriter.checkLinkedTerritoriesWithSelectedContinent("North America",
+				neighbouringCountries, "World.map");
+
+		assertTrue(result);
+	}
 }
