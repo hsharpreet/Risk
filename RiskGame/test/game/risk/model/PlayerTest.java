@@ -47,10 +47,11 @@ public class PlayerTest {
 
 		CurrentGameStatics gamestat1 = new CurrentGameStatics(1, t1);
 		CurrentGameStatics gamestat2 = new CurrentGameStatics(2, t2);
-		CurrentGameStatics gamestat3 = new CurrentGameStatics(2, t3);
+		CurrentGameStatics gamestat3 = new CurrentGameStatics(3, t3);
 		CurrentGameStatics gamestat4 = new CurrentGameStatics(2, t4);
-		players = new Player[1];
-		players[0] = new Player(new RiskGame(), 1, players, mapDetails);
+		players = new Player[2];
+		players[0] = new Player(new RiskGame(), 0, players, mapDetails);
+		players[1] = new Player(new RiskGame(), 1, players, mapDetails);
 		players[0].currentGameStaticsList = new ArrayList<>();
 		players[0].currentGameStaticsList.add(gamestat1);
 		players[0].currentGameStaticsList.add(gamestat2);
@@ -78,6 +79,43 @@ public class PlayerTest {
 		CurrentGameStatics gamestat5 = new CurrentGameStatics(2, t5);
 		players[0].currentGameStaticsList.add(gamestat5);
 		assertEquals(4, players[0].calculateReinformentArmies(0));
+	}
+	
+	/***
+	 * Method to test a valid fortification 
+	 */
+	@Test
+	public void testFortification_true() {
+		players[0].fortification("test1", 2, 0);
+		int armiesInSourceCountry = players[0].currentGameStaticsList.get(2).infantries;
+		int armiesInDestinationCountry = players[0].currentGameStaticsList.get(0).infantries;
+		assertEquals(2, armiesInSourceCountry);
+		assertEquals(2, armiesInDestinationCountry);
+	}
+	
+	/***
+	 * Method to test a invalid fortification in case destination country is not
+	 * the one player occupies
+	 */
+	@Test
+	public void testFortification_destinationCountryInvalid() {
+		players[0].fortification("test3", 2, 0);
+		int armiesInSourceCountry = players[0].currentGameStaticsList.get(2).infantries;
+		int armiesInDestinationCountry = players[0].currentGameStaticsList.get(0).infantries;
+		assertEquals(3, armiesInSourceCountry);
+		assertEquals(1, armiesInDestinationCountry);
+	}
+
+	/***
+	 * Method to test a invalid fortification in case source country is having 1 army on it
+	 */
+	@Test
+	public void testFortification_sourceCountryInsufficient() {
+		players[0].fortification("Peru", 0, 0);
+		int armiesInSourceCountry = players[0].currentGameStaticsList.get(0).infantries;
+		int armiesInDestinationCountry = players[0].currentGameStaticsList.get(2).infantries;
+		assertEquals(1, armiesInSourceCountry);
+		assertEquals(3, armiesInDestinationCountry);
 	}
 
 }

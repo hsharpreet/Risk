@@ -522,6 +522,48 @@ public class Player extends Observable {
 			}
 		}
 	}
+	
+	
+	/**
+	 * Method to check and calculate valid fortification of armies
+	 * @param destinationTerritory destination territory on which army has to be moved
+	 * @param index source territory index
+	 * @param playerIndex player index
+	 */
+	public void fortification(String destinationTerritory, int index, int playerIndex) {
+		int i = playerIndex;
+		boolean isDestinationMyOwnCountry = false;
+		for (int j = 0; j < player[i].currentGameStaticsList.size(); j++) {
+			if (player[i].currentGameStaticsList.get(j).territory.getName().equals(destinationTerritory)) {
+				isDestinationMyOwnCountry = true;
+				break;
+			}
+		}
+		if (isDestinationMyOwnCountry) {
+			if (player[i].currentGameStaticsList.get(index).infantries > 1) {
+
+				player[i].currentGameStaticsList.get(index).infantries--;
+
+				for (int j = 0; j < player[i].currentGameStaticsList.size(); j++) {
+					if (player[i].currentGameStaticsList.get(j).territory.getName().equals(destinationTerritory)) {
+						player[i].currentGameStaticsList.get(j).infantries++;
+						player[i].setMessage(
+								"Fortification Phase\r\nPlayer - " + (i + 1) + " has transfered 1 infantry from "
+										+ player[i].currentGameStaticsList.get(index).territory.getName() + " to "
+										+ destinationTerritory);
+						player[i].notifyObservers();
+
+						CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
+								"Player - " + (i + 1) + " has transfered 1 infantry from "
+										+ player[i].currentGameStaticsList.get(index).territory.getName() + " to "
+										+ destinationTerritory);
+						LoggerUtility.consoleHandler.publish(logRecord);
+						break;
+					}
+				}
+			}
+		}
+	}
 
 	/**
 	 * Method to get the next player turn
