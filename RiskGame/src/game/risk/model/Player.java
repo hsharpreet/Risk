@@ -66,12 +66,10 @@ public class Player extends Observable {
 	private Color territorAndArmiesColor;
 	RiskGame riskGame;
 	private int nVal = 0;
-
+	
 	/**
 	 * A constructor to initialize myIndex, Player and MapDetails
 	 * 
-	 * @param riskGame
-	 *            object of RiskGame
 	 * @param myIndex
 	 *            an integer value
 	 * @param player
@@ -271,10 +269,10 @@ public class Player extends Observable {
 		return occupiedContinentByPlayer;
 	}
 
+	
 	int m;
 
 	int i;
-
 	/**
 	 * A method to perform the reinforcement by the player
 	 */
@@ -375,9 +373,7 @@ public class Player extends Observable {
 				dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 				dialog.addWindowListener(new WindowAdapter() {
 					public void windowClosed(WindowEvent e) {
-						System.out.println(i + "  " + m);
-						setMessage(
-								"RiskCardInfantries, Player" + i + ",Got infantries from risk card " + armiesFromCard);
+						setMessage("RiskCardInfantries, Player" + i + ",Got infantries from risk card " + armiesFromCard);
 						notifyObservers();
 					}
 				});
@@ -387,12 +383,11 @@ public class Player extends Observable {
 			player[i].infantriesTotal += (n + m);
 			player[i].getPlayerPanel().lbTotalArmies.setText("Total Infantry : " + player[i].infantriesTotal);
 			player[i].infantriesAvailable = n + m;
-			player[i].getPlayerPanel().lbMessage1.setText("Got infantries from continent " + (n - nVal));
+			player[i].getPlayerPanel().lbMessage1.setText("Got infantries from continent " + (n-nVal));
 			player[i].getPlayerPanel().lbMessage2.setText("Got infantries from terrotries " + nVal);
 			player[i].getPlayerPanel().lbMessage3.setText("Got infantries from risk card " + m);
 			player[i].getPlayerPanel().lbMessage4.setText("Got total infantries " + (n + m));
-			// player[i].getPlayerPanel().lbMessage1.setText("Message : You have gotton " +
-			// n + " new infantries");
+			//player[i].getPlayerPanel().lbMessage1.setText("Message : You have gotton " + n + " new infantries");
 			player[i].getPlayerPanel().lbAvailableArmies
 					.setText("Available Infantries : " + player[i].infantriesAvailable);
 
@@ -432,7 +427,7 @@ public class Player extends Observable {
 		}
 		return reinformentArmies;
 	}
-
+	
 	public void addCards(ExchangeCardPanel panel, ArrayList<JCheckBox> alcheckbox, int i) {
 		panel.jpAvailableCards.removeAll();
 		panel.jpAvailableCards.repaint();

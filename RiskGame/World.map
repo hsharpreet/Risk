@@ -6,6 +6,7 @@ wrap=yes
 scroll=horizontal
 
 [Continents]
+testContinent=3
 North America=5
 South America=2
 Africa=3
@@ -14,6 +15,8 @@ Asia=7
 Australia=2
 
 [Territories]
+testing,0,0,testContinent,testCountry2
+testCountry2,0,0,North America,Central America,testing
 Alaska,30,46,North America,Northwest Territory,Alberta,Kamchatka
 Northwest Territory,59,42,North America,Alaska,Alberta,Ontario,Greenland
 Alberta,58,67,North America,Alaska,Northwest Territory,Ontario,Western United States
@@ -22,7 +25,7 @@ Ontario,80,72,North America,Northwest Territory,Alberta,Greenland,Quebec,Western
 Quebec,106,75,North America,Greenland,Ontario,Eastern United States
 Western United States,59,95,North America,Alberta,Ontario,Eastern United States,Central America
 Eastern United States,84,97,North America,Ontario,Quebec,Western United States,Central America
-Central America,75,123,North America,Western United States,Eastern United States,Venezuala
+Central America,75,123,North America,Western United States,Eastern United States,Venezuala,testCountry2
 
 Venezuala,94,146,South America,Central America,Peru,Brazil
 Peru,91,168,South America,Venezuala,Brazil,Argentina
