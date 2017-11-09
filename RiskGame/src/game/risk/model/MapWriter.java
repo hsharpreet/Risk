@@ -79,13 +79,13 @@ public class MapWriter {
 	public String deleteContinent(String name, Map<String, Territory> territoriesOfContinent) throws Exception {
 		String status = "OK";
 		File inputFile = new File(mapFileName);// file path to read from
-		File copyOfInputFile = new File(mapFileName + "_copy");
+		File copyOfInputFile = new File("copy.map");
 		Files.copy(inputFile.toPath(), copyOfInputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 		for (Territory territoryToDelete : territoriesOfContinent.values()) {
 			deleteTerritoriesOfContinentDeleted(territoryToDelete.getName());
 		}
 		MapReader mapReader = new MapReader();
-		RiskMap copyRiskMap = mapReader.readMap(mapFileName + "_copy");
+		RiskMap copyRiskMap = mapReader.readMap("copy.map");
 		if (copyRiskMap == null) { // check copy of map for unconnected continent after deleting the countries of
 									// given continent
 			copyOfInputFile.delete();
@@ -525,7 +525,7 @@ public class MapWriter {
 		ValidateMapWriter validate = new ValidateMapWriter();
 		String status = "OK";
 		String territoryToDelete = terittoryToDelete;
-		File inputFile = new File(mapFileName + "_copy");// file path to read from
+		File inputFile = new File("copy.map");// file path to read from
 		BufferedReader br = new BufferedReader(new FileReader(inputFile));
 		ArrayList<String> territoryList = new ArrayList<>();
 		File outFile = new File("temp.map");// file path to write to
