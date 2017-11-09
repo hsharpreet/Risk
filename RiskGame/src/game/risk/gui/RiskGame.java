@@ -1,5 +1,4 @@
 package game.risk.gui;
-
 import game.risk.gui.PlayerPanel;
 import game.risk.util.CurrentGameStatics;
 import game.risk.util.CurrentGameStaticsTableModel;
@@ -28,6 +27,7 @@ import java.util.logging.Level;
 import javax.swing.JLabel;
 
 import game.risk.util.Cards;
+
 /**
  * RiskGame is the main class of this game which represents view
  * 
