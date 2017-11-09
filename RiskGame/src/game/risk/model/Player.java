@@ -1,17 +1,17 @@
 package game.risk.model;
 
-import game.risk.listener.ReinforcementClickListener;
 import game.risk.util.Territory;
 import game.risk.util.CurrentGameStaticsTableModel;
 import game.risk.util.NeighbourListModel;
 import game.risk.util.CurrentGameStatics;
+import game.risk.controller.FortificationClickListener;
+import game.risk.controller.MyListSelectionListener;
+import game.risk.controller.OkClickListener;
+import game.risk.controller.PlaceInfantryClickListener;
+import game.risk.controller.ReinforcementClickListener;
 import game.risk.gui.AttackGUIPanel;
 import game.risk.gui.PlayerPanel;
 import game.risk.gui.ExchangeCardPanel;
-import game.risk.listener.FortificationClickListener;
-import game.risk.listener.MyListSelectionListener;
-import game.risk.listener.OkClickListener;
-import game.risk.listener.PlaceInfantryClickListener;
 import game.risk.gui.RiskGame;
 import game.risk.util.LoggerUtility;
 

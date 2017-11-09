@@ -1,5 +1,5 @@
 
-package game.risk.listener;
+package game.risk.controller;
 
 import game.risk.model.Player;
 import game.risk.util.LoggerUtility;
@@ -10,32 +10,32 @@ import game.risk.util.CustomLogRecord;
 import javax.swing.JOptionPane;
 
 /**
- * Class to move and place the infantry in territories owned by the player
+ * method to create a listener for reinforcement which places the infantry in
+ * the territory
  * 
  * @author Team
  *
  */
-public class PlaceInfantryClickListener implements ActionListener {
+public class ReinforcementClickListener implements ActionListener {
 
 	int i;
 	Player player[];
 
 	/**
-	 * A constructor
+	 * a constructor
 	 * 
 	 * @param i
 	 *            an integer value
 	 * @param player
-	 *            an array of Player class
+	 *            an array of player class
 	 */
-	public PlaceInfantryClickListener(int i, Player player[]) {
+	public ReinforcementClickListener(int i, Player player[]) {
 		this.i = i;
 		this.player = player;
 	}
 
 	/**
-	 * Method to change and place the infantry in the territories owned by the
-	 * player
+	 * Method to perform the action of reinforcement
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if (player[i].infantriesAvailable > 0) {
@@ -48,19 +48,20 @@ public class PlaceInfantryClickListener implements ActionListener {
 				player[i].getPlayerPanel().lbAvailableArmies
 						.setText("Available Infantries : " + player[i].infantriesAvailable);
 				player[i].currentGameStaticsTableModel.fireTableDataChanged();
-				player[i].getPlayerPanel().btPlaceInfantry.setEnabled(false);
-				player[i].nextIndexToEnableButton(i);
 
-				player[i].setMessage("Startup Phase\r\nPlayer - " + (i + 1) + " has placed infantry in "
-						+ player[i].currentGameStaticsList.get(index).territory.getName().toUpperCase()
-						+ " and turn switched to next player");
+				player[i].setMessage("Reinforcement Phase\r\nPlayer - " + (i + 1) + " has placed infantry in "
+						+ player[i].currentGameStaticsList.get(index).territory.getName().toUpperCase());
 				player[i].notifyObservers();
 
 				CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
 						"Player - " + (i + 1) + " has placed infantry in "
-								+ player[i].currentGameStaticsList.get(index).territory.getName().toUpperCase()
-								+ " and turn switched to next player");
+								+ player[i].currentGameStaticsList.get(index).territory.getName().toUpperCase());
 				LoggerUtility.consoleHandler.publish(logRecord);
+
+				if (player[i].infantriesAvailable == 0) {
+					player[i].getPlayerPanel().btReinforcement.setEnabled(false);
+					player[i].attack(i);
+				}
 
 			}
 		} else {

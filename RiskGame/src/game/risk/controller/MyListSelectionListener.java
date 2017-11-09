@@ -1,4 +1,4 @@
-package game.risk.listener;
+package game.risk.controller;
 
 import game.risk.model.Player;
 import javax.swing.event.ListSelectionEvent;
