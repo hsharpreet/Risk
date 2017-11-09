@@ -177,7 +177,7 @@ public class MapReader {
 	 * 
 	 * @param MapFile The map file
 	 * 
-	 * @throws Exception
+	 * @throws Exception unchecked
 	 */
 	public RiskMap readMap(String MapFile) throws Exception {
 		if (!new ValidateMapReader().isValidMapFileExtention(MapFile)) {

@@ -23,6 +23,10 @@ public class MapWriterTest {
 	private String path = null;
 	private String value = null;
 
+	/**
+	 * Method to setup variables for each test
+	 * @throws Exception unchecked
+	 */
 	@Before
 	public void setUp() throws Exception {
 		name = "new continet";
@@ -33,7 +37,7 @@ public class MapWriterTest {
 	/**
 	 * Method to test whether the continent is added in the file
 	 * 
-	 * @throws Exception
+	 * @throws Exception unchecked
 	 */
 	@Test
 	public void testCheckContinentIsAdded() throws Exception {
@@ -47,7 +51,7 @@ public class MapWriterTest {
 	/**
 	 * Method to test whether continent is added in the file.
 	 * 
-	 * @throws Exception
+	 * @throws Exception unchecked
 	 */
 	@Test
 	public void testCheckContinentIsDeleted() throws Exception {

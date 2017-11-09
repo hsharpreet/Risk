@@ -109,6 +109,11 @@ public class MapReaderTest {
 		assertNull(riskMap);
 	}
 	
+	/**
+	 * method to check correct extension of file with wrong file
+	 * @throws Exception unchecked
+	 */
+	
 	@Test
 	public void testReadMapWithInvalidMap() throws Exception {
 		MapReader mapReader = new MapReader();
@@ -118,6 +123,10 @@ public class MapReaderTest {
 		assertNull(riskMap);
 	}
 
+	/**
+	 * method to check correct extension of file with correct file
+	 * @throws Exception unchecked
+	 */
 	@Test
 	public void testReadMapWithValidMap() throws Exception {
 		MapReader mapReader = new MapReader();

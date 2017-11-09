@@ -12,11 +12,18 @@ import game.risk.gui.RiskGame;
 import game.risk.util.CurrentGameStatics;
 import game.risk.util.MapReader;
 import game.risk.util.Territory;
-
+/**
+ * Class to Test reinforcement
+ * @author team
+ *
+ */
 public class PlayerTest {
 	
 	Player players[];
 	
+	/**
+	 * Method to setup variables for each test
+	 */
 	@Before
 	public void setUpData(){
 		RiskMap mapDetails = MapReader.readMapFile("World_testingReinforcement.map");
@@ -49,12 +56,17 @@ public class PlayerTest {
 		players[0].currentGameStaticsList.add(gamestat4);
 	}
 
-	
+	/**
+	 * Method to calculate reinforcement armies by no. of the territories occupied
+	 */
 	@Test
-	public void testReinforcementArmies_UnoccupiedContinent() {
+	public void testReinforcementArmies_occupiedTerritories() {
 		assertEquals(3, players[0].calculateReinformentArmies(0));
 	}
 	
+	/***
+	 * Method to calculate reinforcement armies by no. of the territories and continents occupied
+	 */
 	@Test
 	public void testReinforcementArmies_OccupiedContinent() {
 		Territory t5= new Territory();

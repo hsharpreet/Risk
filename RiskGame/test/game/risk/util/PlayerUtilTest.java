@@ -9,8 +9,17 @@ import org.junit.Test;
 import game.risk.model.Player;
 import game.risk.model.RiskMap;
 
+/**
+ * Class to test startup phase
+ * @author team
+ *
+ */
 public class PlayerUtilTest {
 
+	/**
+	 * Method to check at starting territories are being assigned properly 
+	 * @throws Exception unchecked
+	 */
 	@Test
 	public void testAssignRandomTerritories() throws Exception {
 		MapReader reader = new MapReader();
