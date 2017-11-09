@@ -50,7 +50,7 @@ public class MapEditor {
 	/**
 	 * Method that loads the riskMap object on GUI
 	 * 
-	 * @throws Exception
+	 * @throws Exception runtime exception
 	 */
 	public void loadMap() throws Exception {
 		JFrame mapEditorFrame = new JFrame("MAP GUI");

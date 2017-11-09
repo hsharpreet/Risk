@@ -24,7 +24,7 @@ public class MapReaderTest {
 	/**
 	 * Method which will run before every test method
 	 * 
-	 * @throws java.lang.Exception
+	 * @throws Exception java.lang.Exception
 	 */
 
 	@Before
@@ -36,7 +36,7 @@ public class MapReaderTest {
 	 * Method to test ContinentInCountries method for invalid continents in the
 	 * countries
 	 * 
-	 * @throws Exception
+	 * @throws Exception runtime exception
 	 */
 	@Test
 	public void testReadMapWithInvalidContinentInCountries() throws Exception {
@@ -52,7 +52,7 @@ public class MapReaderTest {
 	 * A method to test the functionality of the method if countries have no
 	 * neighbors
 	 * 
-	 * @throws Exception
+	 * @throws Exception runtime exception
 	 */
 	@Test
 	public void testReadMapCountrieswithNoNeighbours() throws Exception {
@@ -67,7 +67,7 @@ public class MapReaderTest {
 	/**
 	 * Method to test Read map countries if the country has asymmetric neighbors
 	 * 
-	 * @throws Exception
+	 * @throws Exception runtime exception
 	 */
 	@Test
 	public void testReadMapCountrieswithAsymmetricNeighbours() throws Exception {
@@ -82,7 +82,7 @@ public class MapReaderTest {
 	/**
 	 * Method to test whether any continent in map is unconnected or not
 	 * 
-	 * @throws Exception
+	 * @throws Exception runtime exception
 	 */
 	@Test
 	public void testReadMapWithUnconnectedContinent() throws Exception {
@@ -98,7 +98,7 @@ public class MapReaderTest {
 	/**
 	 * Method to test whether single continent in map is unconnected or not
 	 * 
-	 * @throws Exception
+	 * @throws Exception runtime exception
 	 */
 	@Test
 	public void testReadMapWithSingleContinent() throws Exception {
