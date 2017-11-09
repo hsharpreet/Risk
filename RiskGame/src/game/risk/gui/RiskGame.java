@@ -26,7 +26,7 @@ import java.util.*;
 import java.util.logging.Level;
 import javax.swing.JLabel;
 
-import game.risk.util.Cards;
+import game.risk.util.Card;
 
 /**
  * RiskGame is the main class of this game which represents view
@@ -45,7 +45,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 	public int cardTurnIndex = 1;
 	 
 	Player player[];
-	public ArrayList<Cards> alCards;
+	public ArrayList<Card> alCards;
 	JLabel labels[] = new JLabel[6];
 
 	/**
@@ -537,7 +537,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 							Territory t = territories.get(keyList.get(p));
 							CurrentGameStatics cgs = new CurrentGameStatics(1, t, i);
 							player[i].currentGameStaticsList.add(cgs);
-							alCards.add(new Cards(t, cardDesigns[m]));
+							alCards.add(new Card(t, cardDesigns[m]));
 							p++;
 							m++;
 							if (m == 3)

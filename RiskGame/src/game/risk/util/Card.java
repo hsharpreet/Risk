@@ -6,7 +6,7 @@ package game.risk.util;
  * @author Team
  *
  */
-public class Cards {
+public class Card {
 	private Territory territory;
 	private String cardDesign;
 	private int player;
@@ -19,7 +19,7 @@ public class Cards {
 	 * @param cardDesign
 	 *            the design of the card
 	 */
-	public Cards(Territory territory, String cardDesign) {
+	public Card(Territory territory, String cardDesign) {
 		this.territory = territory;
 		this.cardDesign = cardDesign;
 		this.player = -1;
