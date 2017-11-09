@@ -269,6 +269,10 @@ public class Player extends Observable {
 		return occupiedContinentByPlayer;
 	}
 
+	
+	int m;
+
+	int i;
 	/**
 	 * A method to perform the reinforcement by the player
 	 */
@@ -423,6 +427,20 @@ public class Player extends Observable {
 			reinformentArmies = reinformentArmies + p;
 		}
 		return reinformentArmies;
+	}
+	
+	public void addCards(ExchangeCardPanel panel, ArrayList<JCheckBox> alcheckbox, int i) {
+		panel.jpAvailableCards.removeAll();
+		panel.jpAvailableCards.repaint();
+
+		for (int ii = 0; ii < riskGame.alCards.size(); ii++) {
+			if (riskGame.alCards.get(ii).getPlayer() == i) {
+				JCheckBox cb = new JCheckBox(riskGame.alCards.get(ii).getTerritory().getName() + " - "
+						+ riskGame.alCards.get(ii).getCardDesign());
+				panel.jpAvailableCards.add(cb);
+				alcheckbox.add(cb);
+			}
+		}
 	}
 
 	/**
