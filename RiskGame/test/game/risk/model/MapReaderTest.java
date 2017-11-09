@@ -108,5 +108,23 @@ public class MapReaderTest {
 		System.out.println("testReadMapWithSingleContinent" + riskMap);
 		assertNull(riskMap);
 	}
+	
+	@Test
+	public void testReadMapWithInvalidMap() throws Exception {
+		MapReader mapReader = new MapReader();
+		String path = "Worldtext.txt";
+		RiskMap riskMap = mapReader.readMap(path);
+		System.out.println("testReadMapWithInvalidMap" + riskMap);
+		assertNull(riskMap);
+	}
+
+	@Test
+	public void testReadMapWithValidMap() throws Exception {
+		MapReader mapReader = new MapReader();
+		String path = "World.map";
+		RiskMap riskMap = mapReader.readMap(path);
+		System.out.println("testReadMapWithValidMap" + riskMap);
+		assertNotNull(riskMap);
+	}
 
 }
