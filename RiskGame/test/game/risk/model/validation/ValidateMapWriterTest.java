@@ -21,7 +21,8 @@ public class ValidateMapWriterTest {
 	 * Method to test the Addlink method for adding a neighboring country which
 	 * already exists as the neighboring country
 	 * 
-	 * @throws Exception unchecked
+	 * @throws Exception
+	 *             unchecked
 	 */
 	@Test
 	public void testValidateAddLink_ForNeighbouringCountryAlreadyExist() throws Exception {
@@ -39,7 +40,8 @@ public class ValidateMapWriterTest {
 	 * Method to test the AddLink method for resulting true if a neighboring country
 	 * which already does not exist is added as the neighboring country
 	 * 
-	 * @throws Exception unchecked
+	 * @throws Exception
+	 *             unchecked
 	 */
 	@Test
 	public void testValidateAddLink_ForNeighbouringCountryNotExist() throws Exception {
@@ -57,7 +59,8 @@ public class ValidateMapWriterTest {
 	 * Method to test Addlink Method for resulting false if a country is added
 	 * itself as the neighboring country
 	 * 
-	 * @throws Exception unchecked
+	 * @throws Exception
+	 *             unchecked
 	 */
 	@Test
 	public void testvalidateAddLinkAddingItselfFalse() throws Exception {
@@ -75,7 +78,8 @@ public class ValidateMapWriterTest {
 	 * Method to test AddLink Method for resulting true if a country cannot add
 	 * itself as its neighboring country
 	 * 
-	 * @throws Exception unchecked
+	 * @throws Exception
+	 *             unchecked
 	 */
 	@Test
 	public void testvalidateAddLinkAddingItselfTrue() throws Exception {
@@ -93,7 +97,8 @@ public class ValidateMapWriterTest {
 	 * Method to test LinkToDelete for resulting true if the neighboring country is
 	 * deleted from the file
 	 * 
-	 * @throws Exception unchecked
+	 * @throws Exception
+	 *             unchecked
 	 */
 	@Test
 	public void testvalidateLinkToDeleteTrue() throws Exception {
@@ -111,7 +116,8 @@ public class ValidateMapWriterTest {
 	 * Method to test CheckTerritoriesBeforeDeletingContinents resulting false if
 	 * territories are not checked before deleting continent
 	 * 
-	 * @throws Exception unchecked
+	 * @throws Exception
+	 *             unchecked
 	 */
 	@Test
 	public void testCheckTerritoriesBeforeDeletingContinentFalse() throws Exception {
@@ -128,7 +134,8 @@ public class ValidateMapWriterTest {
 	 * Method to test CheckAdjacentTerritoryLinkBeforeDelete resulting false if
 	 * adjacent territory neighbor is not checked before delete.
 	 * 
-	 * @throws Exception unchecked
+	 * @throws Exception
+	 *             unchecked
 	 */
 	@Test
 	public void testCheckAdjacentTerritoryLinkBeforeDeleteFalse() throws Exception {
@@ -140,10 +147,13 @@ public class ValidateMapWriterTest {
 
 		assertFalse(result);
 	}
-	
+
 	/**
-	 * Method to test whether the links between two territories can be deleted or not
-	 * @throws Exception unchecked
+	 * Method to test whether the links between two territories can be deleted or
+	 * not
+	 * 
+	 * @throws Exception
+	 *             unchecked
 	 */
 	@Test
 	public void testCheckTerritoryLinkBeforeDeleteLinkFalse() throws Exception {
@@ -151,7 +161,7 @@ public class ValidateMapWriterTest {
 		String mapFile = "WorldDeleteInvalid3.map";
 
 		ValidateMapWriter validateMapWriter = new ValidateMapWriter();
-		boolean result = validateMapWriter.checkTerritoryLinkBeforeDeleteLink("test1","test2", mapFile);
+		boolean result = validateMapWriter.checkTerritoryLinkBeforeDeleteLink("test1", "test2", mapFile);
 
 		assertFalse(result);
 	}

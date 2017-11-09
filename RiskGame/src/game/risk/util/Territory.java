@@ -106,6 +106,7 @@ public class Territory {
 	 * Method to set the neighboring territories in the class attribute
 	 * 
 	 * @param neighbouringTerritories
+	 *            Neighbours
 	 */
 	public void setNeighbouringTerritories(List<String> neighbouringTerritories) {
 		this.neighbouringTerritories = neighbouringTerritories;

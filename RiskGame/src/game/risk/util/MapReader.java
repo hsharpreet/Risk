@@ -37,7 +37,8 @@ public class MapReader {
 	/**
 	 * Method to get the list containing the territories
 	 * 
-	 * @param territoryList an array list of territories
+	 * @param territoryList
+	 *            an array list of territories
 	 * @return nameList an arrayList
 	 */
 	public List<String> getTerritoryNameList(List<Territory> territoryList) {
@@ -49,9 +50,11 @@ public class MapReader {
 	}
 
 	/**
-	 * Method which reads the continents and its countries and writes it into a hashMap
+	 * Method which reads the continents and its countries and writes it into a
+	 * hashMap
 	 * 
-	 * @param path the path of the file
+	 * @param path
+	 *            the path of the file
 	 * @return continentAndItsCountries a hashMap
 	 */
 	public static Map<String, ArrayList<String>> continetAndItsCountries(String path) {
@@ -76,8 +79,10 @@ public class MapReader {
 	/**
 	 * Method to get the countries of the continents and stores it into an arrayList
 	 * 
-	 * @param selectedContinent the continent Selected
-	 * @param path the map file
+	 * @param selectedContinent
+	 *            the continent Selected
+	 * @param path
+	 *            the map file
 	 * @return countriesList An arrayList
 	 */
 	public ArrayList<String> getCountriesOfContinent(String selectedContinent, String path) {
@@ -109,8 +114,10 @@ public class MapReader {
 	/**
 	 * Method to get the continent of the country
 	 * 
-	 * @param country the name of the country
-	 * @param path the map file
+	 * @param country
+	 *            the name of the country
+	 * @param path
+	 *            the map file
 	 * @return Continent a string variable
 	 */
 	public String getContinentOfACountry(String country, String path) {
@@ -130,9 +137,11 @@ public class MapReader {
 	/**
 	 * Method to get Countries of the continents from the file
 	 * 
-	 * @param selectedContinent the continent whose countries have to be listed
+	 * @param selectedContinent
+	 *            the continent whose countries have to be listed
 	 * 
-	 * @param path the path of the file
+	 * @param path
+	 *            the path of the file
 	 * 
 	 * @return countriesList list of the countries of the continents
 	 */
@@ -175,9 +184,12 @@ public class MapReader {
 	/**
 	 * Method to readMap for MapEditor
 	 * 
-	 * @param MapFile The map file
+	 * @param MapFile
+	 *            The map file
 	 * 
-	 * @throws Exception unchecked
+	 * @throws Exception
+	 *             unchecked
+	 * @return RiskMap
 	 */
 	public RiskMap readMap(String MapFile) throws Exception {
 		if (!new ValidateMapReader().isValidMapFileExtention(MapFile)) {
@@ -236,8 +248,10 @@ public class MapReader {
 	/**
 	 * Method to get the neighbors of the countries from the file
 	 * 
-	 * @param countryName the name of the country
-	 * @param path the path of the file
+	 * @param countryName
+	 *            the name of the country
+	 * @param path
+	 *            the path of the file
 	 * @return links array list of links
 	 */
 	public ArrayList getLinksOfCountry(String countryName, File path) {
@@ -270,7 +284,8 @@ public class MapReader {
 	/**
 	 * Method to readMapFile for Game play
 	 * 
-	 * @param mapFilePath  path of file
+	 * @param mapFilePath
+	 *            path of file
 	 * @return null
 	 */
 	public static RiskMap readMapFile(String mapFilePath) {
@@ -331,8 +346,10 @@ public class MapReader {
 	/**
 	 * Method to get the territory by taking name from the user
 	 * 
-	 * @param name  the name from the user
-	 * @param territoryList the hashMap consisting of territories
+	 * @param name
+	 *            the name from the user
+	 * @param territoryList
+	 *            the hashMap consisting of territories
 	 * @return t the territory if the territory is found
 	 * @return null if the territory is not found
 	 */
@@ -344,11 +361,14 @@ public class MapReader {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Method returns territories of selected continent
+	 * 
 	 * @param selectedContinent
+	 *            name of Continent
 	 * @param territories
+	 *            name of territory
 	 * @return selectedContinentTerritories
 	 */
 

@@ -12,44 +12,46 @@ import game.risk.gui.RiskGame;
 import game.risk.util.CurrentGameStatics;
 import game.risk.util.MapReader;
 import game.risk.util.Territory;
+
 /**
  * Class to Test reinforcement
+ * 
  * @author team
  *
  */
 public class PlayerTest {
-	
+
 	Player players[];
-	
+
 	/**
 	 * Method to setup variables for each test
 	 */
 	@Before
-	public void setUpData(){
+	public void setUpData() {
 		RiskMap mapDetails = MapReader.readMapFile("World_testingReinforcement.map");
-		Territory t1= new Territory();
+		Territory t1 = new Territory();
 		t1.setName("test1");
 		t1.setContinent("hello");
-		
-		Territory t2= new Territory();
+
+		Territory t2 = new Territory();
 		t2.setName("test2");
 		t2.setContinent("hello");
-		
-		Territory t3= new Territory();
+
+		Territory t3 = new Territory();
 		t3.setName("Peru");
 		t3.setContinent("South America");
-		
-		Territory t4= new Territory();
+
+		Territory t4 = new Territory();
 		t4.setName("Brazil");
 		t4.setContinent("South America");
-		
+
 		CurrentGameStatics gamestat1 = new CurrentGameStatics(1, t1);
 		CurrentGameStatics gamestat2 = new CurrentGameStatics(2, t2);
 		CurrentGameStatics gamestat3 = new CurrentGameStatics(2, t3);
 		CurrentGameStatics gamestat4 = new CurrentGameStatics(2, t4);
 		players = new Player[1];
-		players[0]= new Player(new RiskGame(), 1, players, mapDetails);
-		players[0].currentGameStaticsList= new ArrayList<>();
+		players[0] = new Player(new RiskGame(), 1, players, mapDetails);
+		players[0].currentGameStaticsList = new ArrayList<>();
 		players[0].currentGameStaticsList.add(gamestat1);
 		players[0].currentGameStaticsList.add(gamestat2);
 		players[0].currentGameStaticsList.add(gamestat3);
@@ -63,13 +65,14 @@ public class PlayerTest {
 	public void testReinforcementArmies_occupiedTerritories() {
 		assertEquals(3, players[0].calculateReinformentArmies(0));
 	}
-	
+
 	/***
-	 * Method to calculate reinforcement armies by no. of the territories and continents occupied
+	 * Method to calculate reinforcement armies by no. of the territories and
+	 * continents occupied
 	 */
 	@Test
 	public void testReinforcementArmies_OccupiedContinent() {
-		Territory t5= new Territory();
+		Territory t5 = new Territory();
 		t5.setName("test3");
 		t5.setContinent("hello");
 		CurrentGameStatics gamestat5 = new CurrentGameStatics(2, t5);

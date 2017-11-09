@@ -42,6 +42,7 @@ public class MapWriter {
 	 *            the value of the armies which a player receives during
 	 *            reenforcement if he owns all the countries of the continent
 	 * @throws IOException
+	 *             Runtime
 	 */
 	public void addContinent(String name, String value) throws IOException {
 		String newContinent = name + "=" + value;
@@ -69,23 +70,27 @@ public class MapWriter {
 	 * 
 	 * @param name
 	 *            the name of the continents
-	 * @throws Exception 
+	 * @param territoriesOfContinent
+	 *            the name of the territory
+	 * @throws Exception
+	 *             unchecked
+	 * @return String
 	 */
-	public String deleteContinent(String name, Map<String,Territory> territoriesOfContinent) throws Exception {
-		String status="OK";
+	public String deleteContinent(String name, Map<String, Territory> territoriesOfContinent) throws Exception {
+		String status = "OK";
 		File inputFile = new File(mapFileName);// file path to read from
-		File copyOfInputFile = new File(mapFileName+"_copy");
-		Files.copy(inputFile.toPath(), copyOfInputFile.toPath(),StandardCopyOption.REPLACE_EXISTING);
+		File copyOfInputFile = new File(mapFileName + "_copy");
+		Files.copy(inputFile.toPath(), copyOfInputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 		for (Territory territoryToDelete : territoriesOfContinent.values()) {
 			deleteTerritoriesOfContinentDeleted(territoryToDelete.getName());
 		}
 		MapReader mapReader = new MapReader();
-		RiskMap copyRiskMap = mapReader.readMap(mapFileName+"_copy");
-		if(copyRiskMap==null){  // check copy of map for unconnected continent after deleting the countries of given continent
+		RiskMap copyRiskMap = mapReader.readMap(mapFileName + "_copy");
+		if (copyRiskMap == null) { // check copy of map for unconnected continent after deleting the countries of
+									// given continent
 			copyOfInputFile.delete();
 			return "ERROR";
-		}
-		else{
+		} else {
 			BufferedReader br = new BufferedReader(new FileReader(copyOfInputFile));
 			File outFile = new File("temp.map");// file path to write
 			FileOutputStream outStream = new FileOutputStream(outFile);
@@ -103,7 +108,7 @@ public class MapWriter {
 			inputFile.delete();
 			outFile.renameTo(inputFile);
 		}
-		
+
 		return status;
 	}
 
@@ -113,6 +118,7 @@ public class MapWriter {
 	 * @param name
 	 *            the name of the territory
 	 * @throws IOException
+	 *             runtime
 	 */
 	public void addTerritory(String name) throws IOException {
 		String newTerritory = name;
@@ -126,7 +132,7 @@ public class MapWriter {
 			printWriter.println(thisLine);
 			if (thisLine.equalsIgnoreCase("[Territories]")) {
 				printWriter.println(newTerritory);
-				
+
 			}
 		}
 		printWriter.flush();
@@ -144,6 +150,7 @@ public class MapWriter {
 	 * @param adjacentCountriesToNewCountry
 	 *            the adjacent countries of the new country
 	 * @throws Exception
+	 *             unchecked
 	 */
 	public void addNewCountryLinkToTerritories(String newCountryEntry,
 			LinkedHashSet<String> adjacentCountriesToNewCountry) throws Exception {
@@ -182,6 +189,7 @@ public class MapWriter {
 	 *            the territory to be deleted
 	 * @return status status of the process
 	 * @throws Exception
+	 *             unchecked
 	 */
 	public String deleteTerritory(String territoryToDelete) throws Exception {
 		ValidateMapWriter validateMapWriter = new ValidateMapWriter();
@@ -204,7 +212,7 @@ public class MapWriter {
 					if (columns[0].equals(territoryToDelete)) {
 						for (int i = 4; i < columns.length; i++) {
 							territoryList.add(columns[i]);
-						
+
 						}
 						continue;
 					}
@@ -216,16 +224,14 @@ public class MapWriter {
 		printWriter.close();
 		br.close();
 		status = deleteLinksOfDeletedTerritoryFromOthers(territoryList, territoryToDelete);
-		if(status.equals("ERROR_UNCONNECTED_CONTINENT")){
+		if (status.equals("ERROR_UNCONNECTED_CONTINENT")) {
 			outFile.delete();
-		}
-		else {
+		} else {
 			inputFile.delete();
 			outFile.renameTo(inputFile);
 		}
 		return status;
 	}
-
 
 	/**
 	 * Method to delete neighbors of the deleted territory from the file
@@ -281,12 +287,11 @@ public class MapWriter {
 		}
 		MapReader mapReader = new MapReader();
 		RiskMap tempRiskMap = mapReader.readMap("temp.map");
-		if(tempRiskMap==null){  // check temp map for unconnected continent after deleting the country
+		if (tempRiskMap == null) { // check temp map for unconnected continent after deleting the country
 			return "ERROR_UNCONNECTED_CONTINENT";
 		}
 		return "OK";
 	}
-
 
 	/**
 	 * Method to assign new continent to the territory
@@ -295,6 +300,7 @@ public class MapWriter {
 	 *            the selected continent
 	 * @param territory
 	 *            the territory to which the continent has to be assigned
+	 * @return String
 	 */
 	public String assignNewContinent(String selectedItem, String territory) {
 		try {
@@ -334,12 +340,12 @@ public class MapWriter {
 			br.close();
 			MapReader mapReader = new MapReader();
 			RiskMap tempRiskMap = mapReader.readMap("temp.map");
-			if(tempRiskMap==null){  // check temp map for unconnected continent after deleting the country
+			if (tempRiskMap == null) { // check temp map for unconnected continent after deleting the country
 				outFile.delete();
 				return "ERROR_UNCONNECTED_CONTINENT";
 			}
 			inputFile.delete();
-			outFile.renameTo(inputFile);	
+			outFile.renameTo(inputFile);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -364,10 +370,9 @@ public class MapWriter {
 			al.add(link);
 
 			if (validate.checkTerritoryLinkBeforeDeleteLink(country, link, mapFileName)) {
-				status=deleteLinksOfmodifiedTerritory(al, country);
-			}
-			else {
-				status="ERROR";
+				status = deleteLinksOfmodifiedTerritory(al, country);
+			} else {
+				status = "ERROR";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -385,7 +390,7 @@ public class MapWriter {
 	 *            the country whose link will be deleted
 	 * @throws Exception
 	 */
-	private String deleteLinksOfmodifiedTerritory(ArrayList<String> link, String country) throws Exception{
+	private String deleteLinksOfmodifiedTerritory(ArrayList<String> link, String country) throws Exception {
 		ArrayList<String> link_name = link;
 		String country_name = country;
 		File inputFile = new File(mapFileName);// file path to read from
@@ -445,14 +450,14 @@ public class MapWriter {
 		br.close();
 		MapReader mapReader = new MapReader();
 		RiskMap tempRiskMap = mapReader.readMap("temp.map");
-		if(tempRiskMap==null){  // check temp map for unconnected continent after deleting the country
+		if (tempRiskMap == null) { // check temp map for unconnected continent after deleting the country
 			outFile.delete();
 			return "ERROR_UNCONNECTED_CONTINENT";
 		}
 		inputFile.delete();
 		outFile.renameTo(inputFile);
-		return "OK";	
-		}
+		return "OK";
+	}
 
 	/**
 	 * Method to add neighbors if the neighbor does not exist already
@@ -463,8 +468,9 @@ public class MapWriter {
 	 *            the country to which the link will be added
 	 * @return the status of the process
 	 * @throws Exception
+	 *             unchecked
 	 */
-	public String addLink(String selectedItem, String text) throws Exception{
+	public String addLink(String selectedItem, String text) throws Exception {
 		ValidateMapWriter validate = new ValidateMapWriter();
 		String link = selectedItem;
 		String country = text;
@@ -513,12 +519,13 @@ public class MapWriter {
 	 * @param terittoryToDelete
 	 *            the territory to be deleted
 	 * @throws Exception
+	 *             unchecked
 	 */
 	public void deleteTerritoriesOfContinentDeleted(String terittoryToDelete) throws Exception {
 		ValidateMapWriter validate = new ValidateMapWriter();
 		String status = "OK";
 		String territoryToDelete = terittoryToDelete;
-		File inputFile = new File(mapFileName+"_copy");// file path to read from
+		File inputFile = new File(mapFileName + "_copy");// file path to read from
 		BufferedReader br = new BufferedReader(new FileReader(inputFile));
 		ArrayList<String> territoryList = new ArrayList<>();
 		File outFile = new File("temp.map");// file path to write to
@@ -544,12 +551,12 @@ public class MapWriter {
 		printWriter.flush();
 		printWriter.close();
 		br.close();
-		
-	    deleteLinksOfDeletedTerritoryFromOthers(territoryList, territoryToDelete);
-	    inputFile.delete();
+
+		deleteLinksOfDeletedTerritoryFromOthers(territoryList, territoryToDelete);
+		inputFile.delete();
 		outFile.renameTo(inputFile);
 	}
-	
+
 	public String saveNewMapFromSracth(MapFromScratch mfs) throws Exception {
 		String status = "";
 

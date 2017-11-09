@@ -108,13 +108,13 @@ public class ValidateMapWriter
 	 * Method to check delete continent option to check that countries to be deleted
 	 * after deleting continent will not leave map as invalid
 	 * 
-	 * @param countriesListData
-	 *            the list of countries
-	 * @param mapFileName
-	 *            the file name
-	 * @return status the status of the process
+	 * @param continent
+	 *            name of continent
+	 * @param mapFile
+	 *            the map file
+	 * @return boolean
 	 * @throws Exception
-	 *             an exception
+	 *             unchecked
 	 */
 	public boolean checkTerritoriesBeforeDeletingContinent(String continent, String mapFile) throws Exception {
 		MapReader mapReader = new MapReader();
@@ -138,14 +138,13 @@ public class ValidateMapWriter
 	 * Method to check before deleting a territory that all its adjacent territories
 	 * does not have just 1 adjacent territory i.e the one we wish to delete
 	 * 
-	 * @param thisLine
-	 *            the line
+	 * @param territoryToBeDeleted
+	 *            name of territory
 	 * @param mapFileName
-	 *            the name of the map file
-	 * @return false if adjacent territories have more than 1 adjacent territory
-	 * @return true if adjacent territories have just 1 adjacent territory
+	 *            the map file
+	 * @return boolean
 	 * @throws Exception
-	 *             an exception
+	 *             unchecked
 	 */
 	public boolean checkAdjacentTerritoryLinkBeforeDelete(String territoryToBeDeleted, String mapFileName)
 			throws Exception {
@@ -167,17 +166,14 @@ public class ValidateMapWriter
 	 * territory
 	 * 
 	 * @param territory
-	 *            the nam eof the territory
+	 *            name of territory
 	 * @param link
-	 *            the neighboring territory
+	 *            neighbour territory
 	 * @param mapFileName
-	 *            the nam eof the mapfile
-	 * @return true if the territory link can be deleted from neighbour and
-	 *         neighbour link can be deleted from territory
-	 * @return false if territory link cannot be deleted if only single link exist
-	 *         in neighbouring territory
+	 *            the mapfile
+	 * @return boolean
 	 * @throws Exception
-	 *             an exception
+	 *             unchecked
 	 */
 	public boolean checkTerritoryLinkBeforeDeleteLink(String territory, String link, String mapFileName)
 			throws Exception {

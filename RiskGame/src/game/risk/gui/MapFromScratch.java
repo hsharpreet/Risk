@@ -148,7 +148,7 @@ public class MapFromScratch {
 	/**
 	 * A method to set the Continent name in the class variable
 	 * 
-	 * @param contname
+	 * @param contName
 	 *            the name of the continent
 	 */
 
