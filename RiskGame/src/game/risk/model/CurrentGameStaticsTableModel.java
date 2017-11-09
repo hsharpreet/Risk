@@ -1,5 +1,5 @@
 
-package game.risk.util;
+package game.risk.model;
 
 //Table Model to fill data in JTAble (Per user terroritries)
 

@@ -1,6 +1,4 @@
-package game.risk.util;
-
-import game.risk.model.Territory;
+package game.risk.model;
 
 /**
  * A class which maintains the temporary status of the game

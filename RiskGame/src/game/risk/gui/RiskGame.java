@@ -1,13 +1,13 @@
 package game.risk.gui;
 import game.risk.gui.PlayerPanel;
-import game.risk.util.CurrentGameStatics;
-import game.risk.util.CurrentGameStaticsTableModel;
-import game.risk.util.NeighbourListModel;
 import game.risk.model.RiskMap;
 import game.risk.model.Territory;
 import game.risk.model.Card;
+import game.risk.model.CurrentGameStatics;
+import game.risk.model.CurrentGameStaticsTableModel;
 import game.risk.model.MapReader;
 import game.risk.model.MapWriter;
+import game.risk.model.NeighbourListModel;
 import game.risk.model.Player;
 import game.risk.util.LoggerUtility;
 import game.risk.util.CustomLogRecord;

@@ -2,9 +2,9 @@
 package game.risk.gui;
 
 import game.risk.model.AttackLogic;
+import game.risk.model.CurrentGameStatics;
+import game.risk.model.CurrentGameStaticsTableModel;
 import game.risk.model.RiskMap;
-import game.risk.util.CurrentGameStatics;
-import game.risk.util.CurrentGameStaticsTableModel;
 import game.risk.model.Player;
 
 import java.util.List;

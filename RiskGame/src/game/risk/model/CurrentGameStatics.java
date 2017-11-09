@@ -1,7 +1,5 @@
 
-package game.risk.util;
-
-import game.risk.model.Territory;
+package game.risk.model;
 
 /**
  * CurrentGameStatics class Represents the current status of game

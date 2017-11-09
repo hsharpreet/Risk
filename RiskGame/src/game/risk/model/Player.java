@@ -1,8 +1,5 @@
 package game.risk.model;
 
-import game.risk.util.CurrentGameStaticsTableModel;
-import game.risk.util.NeighbourListModel;
-import game.risk.util.CurrentGameStatics;
 import game.risk.controller.FortificationClickListener;
 import game.risk.controller.MyListSelectionListener;
 import game.risk.controller.OkClickListener;
