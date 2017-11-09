@@ -1,4 +1,7 @@
-game.risk.constants
+game.risk.controller
 game.risk.gui
 game.risk.model
+game.risk.model.entities
 game.risk.model.validation
+game.risk.testsuite
+game.risk.util
