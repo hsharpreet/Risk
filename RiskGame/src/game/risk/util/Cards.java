@@ -1,48 +1,85 @@
 package game.risk.util;
 
-public class Cards
-{
-    private Territory territory;
-    private String cardDesign;
-    private int player;
+/**
+ * Class to create Cards
+ * 
+ * @author Team
+ *
+ */
+public class Cards {
+	private Territory territory;
+	private String cardDesign;
+	private int player;
 
-    public Cards(Territory territory, String cardDesign)
-    {
-        this.territory = territory;
-        this.cardDesign = cardDesign;
-        this.player = -1;
-    }
+	/**
+	 * A constructor
+	 * 
+	 * @param territory
+	 *            An object of territory class
+	 * @param cardDesign
+	 *            the design of the card
+	 */
+	public Cards(Territory territory, String cardDesign) {
+		this.territory = territory;
+		this.cardDesign = cardDesign;
+		this.player = -1;
+	}
 
-    public Territory getTerritory()
-    {
-        return territory;
-    }
+	/**
+	 * Method to get the territory details
+	 * 
+	 * @return territory an object of territory class
+	 */
+	public Territory getTerritory() {
+		return territory;
+	}
 
-    public void setTerritory(Territory territory)
-    {
-        this.territory = territory;
-    }
+	/**
+	 * Method to set the territory details in the class attribute
+	 * 
+	 * @param territory
+	 *            the territory details
+	 */
+	public void setTerritory(Territory territory) {
+		this.territory = territory;
+	}
 
-    public String getCardDesign()
-    {
-        return cardDesign;
-    }
+	/**
+	 * Method to get the card design
+	 * 
+	 * @return cardDesign a String variable
+	 */
+	public String getCardDesign() {
+		return cardDesign;
+	}
 
-    public void setCardDesign(String cardDesign)
-    {
-        this.cardDesign = cardDesign;
-    }
+	/**
+	 * Method to set the card Design details in the class attribute
+	 * 
+	 * @param cardDesign
+	 *            A string variable
+	 */
+	public void setCardDesign(String cardDesign) {
+		this.cardDesign = cardDesign;
+	}
 
-    public int getPlayer()
-    {
-        return player;
-    }
+	/**
+	 * Method to get the number of players
+	 * 
+	 * @return Player an integer variable
+	 */
+	public int getPlayer() {
+		return player;
+	}
 
-    public void setPlayer(int player)
-    {
-        this.player = player;
-    }
-    
-    
-    
+	/**
+	 * Method to set the Number of players in the class variable
+	 * 
+	 * @param player
+	 *            the number of players
+	 */
+	public void setPlayer(int player) {
+		this.player = player;
+	}
+
 }

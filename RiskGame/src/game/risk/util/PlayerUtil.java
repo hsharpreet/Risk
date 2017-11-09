@@ -6,9 +6,15 @@ import java.util.HashMap;
 
 import game.risk.model.Player;
 
+/**
+ * Class to assign random territories to the player
+ * 
+ * @author team
+ *
+ */
 public class PlayerUtil {
-	
-	public Player[] assignRandomTerritories(HashMap<String, Territory> territories,Player[] players) {
+
+	public Player[] assignRandomTerritories(HashMap<String, Territory> territories, Player[] players) {
 		ArrayList<String> keyList = new ArrayList<>(territories.keySet());
 		Collections.shuffle(keyList);
 		int p = 0;
