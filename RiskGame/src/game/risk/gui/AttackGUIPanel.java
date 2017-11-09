@@ -219,7 +219,7 @@ public class AttackGUIPanel extends javax.swing.JPanel {
 		btCloseAttackPhase.setBounds(290, 300, 380, 40);
 	}
 
-	// Variables declaration
+	// Variables declaration and the swing component
 	public javax.swing.JButton btAttack;
 	public javax.swing.JButton btCloseAttackPhase;
 	public javax.swing.JButton btRoleDice;
