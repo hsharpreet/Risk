@@ -1,4 +1,4 @@
-package game.risk.model;
+package game.risk.model.entities;
 
 import java.util.HashMap;
 

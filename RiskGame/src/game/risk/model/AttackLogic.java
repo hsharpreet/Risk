@@ -1,6 +1,13 @@
 package game.risk.model;
 
 import game.risk.gui.AttackGUIPanel;
+import game.risk.model.entities.CurrentGameStatics;
+import game.risk.model.entities.CurrentGameStaticsTableModel;
+import game.risk.model.entities.Player;
+import game.risk.model.entities.RiskMap;
+import game.risk.model.entities.TempGameStatics;
+import game.risk.model.entities.TempTableModel;
+import game.risk.model.entities.Territory;
 import game.risk.util.LoggerUtility;
 
 import java.awt.event.ActionEvent;

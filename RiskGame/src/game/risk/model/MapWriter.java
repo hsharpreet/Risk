@@ -15,6 +15,8 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 
 import game.risk.gui.MapFromScratch;
+import game.risk.model.entities.RiskMap;
+import game.risk.model.entities.Territory;
 import game.risk.model.validation.ValidateMapWriter;
 
 /**

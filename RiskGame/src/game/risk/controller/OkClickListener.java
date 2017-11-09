@@ -1,8 +1,9 @@
 package game.risk.controller;
 
-import game.risk.model.Player;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import game.risk.model.entities.Player;
 
 /**
  * Method to create a listener to pass the turn to the next player

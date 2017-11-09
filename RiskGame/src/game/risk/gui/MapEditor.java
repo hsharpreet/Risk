@@ -17,8 +17,8 @@ import javax.swing.JTextField;
 
 import game.risk.model.MapReader;
 import game.risk.model.MapWriter;
-import game.risk.model.RiskMap;
-import game.risk.model.Territory;
+import game.risk.model.entities.RiskMap;
+import game.risk.model.entities.Territory;
 import game.risk.model.validation.ValidateMapWriter;
 
 /**

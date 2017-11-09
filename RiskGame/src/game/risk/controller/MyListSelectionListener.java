@@ -1,8 +1,9 @@
 package game.risk.controller;
 
-import game.risk.model.Player;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import game.risk.model.entities.Player;
 
 /**
  * A class to create a listener for creating a list of the player details

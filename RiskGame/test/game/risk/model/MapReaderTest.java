@@ -9,6 +9,8 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
+import game.risk.model.entities.RiskMap;
+
 
 /**
  * Class to test MapReader

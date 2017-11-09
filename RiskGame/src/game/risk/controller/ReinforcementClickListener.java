@@ -1,11 +1,12 @@
 
 package game.risk.controller;
 
-import game.risk.model.Player;
 import game.risk.util.LoggerUtility;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
+
+import game.risk.model.entities.Player;
 import game.risk.util.CustomLogRecord;
 import javax.swing.JOptionPane;
 

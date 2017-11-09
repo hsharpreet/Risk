@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-import game.risk.model.CurrentGameStatics;
-import game.risk.model.Player;
-import game.risk.model.Territory;
+import game.risk.model.entities.CurrentGameStatics;
+import game.risk.model.entities.Player;
+import game.risk.model.entities.Territory;
 
 /**
  * Class to assign random territories to the player

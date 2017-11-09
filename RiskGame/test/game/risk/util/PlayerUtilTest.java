@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import game.risk.model.MapReader;
-import game.risk.model.Player;
-import game.risk.model.RiskMap;
+import game.risk.model.entities.Player;
+import game.risk.model.entities.RiskMap;
 
 /**
  * Class to test startup phase

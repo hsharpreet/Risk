@@ -1,5 +1,5 @@
 
-package game.risk.model;
+package game.risk.model.entities;
 
 /**
  * CurrentGameStatics class Represents the current status of game

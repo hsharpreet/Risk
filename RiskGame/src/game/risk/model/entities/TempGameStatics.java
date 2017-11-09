@@ -1,4 +1,4 @@
-package game.risk.model;
+package game.risk.model.entities;
 
 /**
  * A class which maintains the temporary status of the game

@@ -1,4 +1,4 @@
-package game.risk.model;
+package game.risk.model.entities;
 
 import game.risk.controller.FortificationClickListener;
 import game.risk.controller.MyListSelectionListener;
@@ -9,6 +9,7 @@ import game.risk.gui.AttackGUIPanel;
 import game.risk.gui.PlayerPanel;
 import game.risk.gui.ExchangeCardPanel;
 import game.risk.gui.RiskGame;
+import game.risk.model.MapReader;
 import game.risk.util.LoggerUtility;
 
 import java.awt.Color;
@@ -59,7 +60,7 @@ public class Player extends Observable {
 	private boolean turn;
 	private boolean isComputer;
 	private Color territorAndArmiesColor;
-	RiskGame riskGame;
+	public RiskGame riskGame;
 	private int nVal = 0;
 
 	/**

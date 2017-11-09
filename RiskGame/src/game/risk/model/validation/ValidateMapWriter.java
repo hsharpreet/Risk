@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import game.risk.model.MapReader;
-import game.risk.model.RiskMap;
-import game.risk.model.Territory;
+import game.risk.model.entities.RiskMap;
+import game.risk.model.entities.Territory;
 
 /**
  * Class to validate MapWriter

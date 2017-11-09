@@ -1,6 +1,6 @@
 package game.risk.controller;
 
-import game.risk.model.Player;
+import game.risk.model.entities.Player;
 import game.risk.util.CustomLogRecord;
 import game.risk.util.LoggerUtility;
 import java.awt.event.ActionEvent;
