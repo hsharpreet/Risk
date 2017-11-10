@@ -1,4 +1,4 @@
-package game.risk.model;
+package game.risk.model.entities;
 
 import static org.junit.Assert.*;
 
@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import game.risk.gui.RiskGame;
+import game.risk.model.MapReader;
 import game.risk.model.entities.CurrentGameStatics;
 import game.risk.model.entities.Player;
 import game.risk.model.entities.RiskMap;

@@ -3,11 +3,9 @@ package game.risk.model.entities;
 import java.util.HashMap;
 
 /**
+ * RiskMap class to get map details regarding continent and territory
  * 
  * @author team
- * 
- *RiskMap class to get map details regarding continent and territory
- *
  */
 public class RiskMap {
 	// Declaration
