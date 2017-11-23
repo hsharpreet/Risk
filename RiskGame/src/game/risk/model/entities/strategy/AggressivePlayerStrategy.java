@@ -16,7 +16,7 @@ public class AggressivePlayerStrategy  implements PlayerStrategy{
 
 	@Override
 	public void fortification() {
-		System.out.println("Aggressive Player strategy attack");
+		System.out.println("Aggressive Player strategy fortify");
 		
 	}
 	
