@@ -10,6 +10,7 @@ import game.risk.gui.PlayerPanel;
 import game.risk.gui.ExchangeCardPanel;
 import game.risk.gui.RiskGame;
 import game.risk.model.MapReader;
+import game.risk.model.entities.strategy.PlayerStrategy;
 import game.risk.util.LoggerUtility;
 
 import java.awt.Color;
@@ -62,6 +63,7 @@ public class Player extends Observable {
 	private Color territorAndArmiesColor;
 	public RiskGame riskGame;
 	private int nVal = 0;
+	private PlayerStrategy strategy;
 
 	/**
 	 * A constructor to initialize myIndex, Player and MapDetails
@@ -80,6 +82,14 @@ public class Player extends Observable {
 		this.mapDetails = mapDetails;
 		this.myIndex = myIndex;
 		this.player = player;
+	}
+	
+	public Player(RiskGame riskGame, int myIndex, Player player[], RiskMap mapDetails,PlayerStrategy strategy) {
+		this.riskGame = riskGame;
+		this.mapDetails = mapDetails;
+		this.myIndex = myIndex;
+		this.player = player;
+		this.strategy = strategy;
 	}
 
 	/**
