@@ -10,6 +10,7 @@ import game.risk.gui.PlayerPanel;
 import game.risk.gui.ExchangeCardPanel;
 import game.risk.gui.RiskGame;
 import game.risk.model.MapReader;
+import game.risk.model.entities.strategy.PlayerStrategy;
 import game.risk.util.LoggerUtility;
 
 import java.awt.Color;
@@ -62,6 +63,7 @@ public class Player extends Observable {
 	private Color territorAndArmiesColor;
 	public RiskGame riskGame;
 	private int nVal = 0;
+	private PlayerStrategy strategy;
 
 	/**
 	 * A constructor to initialize myIndex, Player and MapDetails
@@ -82,6 +84,29 @@ public class Player extends Observable {
 		this.player = player;
 	}
 
+	public void setStrategy(PlayerStrategy strategy) {
+		this.strategy = strategy;
+	}
+
+	public int fortificationStrategy() {
+		return this.strategy.fortification();
+	}
+
+	public int placeInfantoryStrategy(int i, Player player, int army) {
+		return this.strategy.placeInfantory(i, player, army);
+	}
+	
+	public int reinforcementStrategy() {
+		//return this.strategy.reinforcement();
+		System.out.println("----reinforcementStrategy");
+		 reinforcement();
+		 return 0;
+	}
+
+	public int attackStrategy() {
+		return this.strategy.attack();
+	}
+
 	/**
 	 * method to get the color of territories of armies and territories
 	 * 
@@ -92,7 +117,8 @@ public class Player extends Observable {
 	}
 
 	/**
-	 * A method to set the color of territories and armies in the class attributes
+	 * A method to set the color of territories and armies in the class
+	 * attributes
 	 * 
 	 * @param territorAndArmiesColor
 	 *            the class attribute
@@ -518,13 +544,16 @@ public class Player extends Observable {
 			}
 		}
 	}
-	
-	
+
 	/**
 	 * Method to check and calculate valid fortification of armies
-	 * @param destinationTerritory destination territory on which army has to be moved
-	 * @param index source territory index
-	 * @param playerIndex player index
+	 * 
+	 * @param destinationTerritory
+	 *            destination territory on which army has to be moved
+	 * @param index
+	 *            source territory index
+	 * @param playerIndex
+	 *            player index
 	 */
 	public void fortification(String destinationTerritory, int index, int playerIndex) {
 		int i = playerIndex;
@@ -613,14 +642,11 @@ public class Player extends Observable {
 					"Startup Phase Done.\nIn next phase every player has option of \nreinforcement, attack and fortification.");
 			reinforcement();
 		} else {
-			i++;
-			if (i == player.length) {
-				i = 0;
-			}
-			if (player[i].infantriesAvailable > 0) {
-				player[i].getPlayerPanel().btPlaceInfantry.setEnabled(true);
+			i = 0;
+			if (player[0].infantriesAvailable > 0) {
+				player[0].getPlayerPanel().btPlaceInfantry.setEnabled(true);
 			} else {
-				nextIndexToEnableButton(i);
+				// nextIndexToEnableButton(i);
 			}
 		}
 
