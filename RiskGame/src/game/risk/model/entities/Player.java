@@ -97,8 +97,6 @@ public class Player extends Observable {
 	}
 	
 	public int reinforcementStrategy() {
-		//return this.strategy.reinforcement();
-		System.out.println("----reinforcementStrategy");
 		 reinforcement();
 		 return 0;
 	}
