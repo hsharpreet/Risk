@@ -3,18 +3,19 @@ package game.risk.model.entities.strategy;
 import java.util.logging.Level;
 
 import game.risk.model.entities.Player;
+import game.risk.model.entities.RiskMap;
 import game.risk.util.CustomLogRecord;
 import game.risk.util.LoggerUtility;
 
 public interface PlayerStrategy {
 
-	public int placeInfantory(int i, Player player, int army);
+	public int placeInfantoryStrategy(int i, Player player, int army);
 	
-	public int reinforcement();
+	public int reinforcementStrategy(int i, Player player, int army);
 
-	public int attack();
+	public int attackStrategy(Player player[],int i, Player player2, RiskMap mapDetails);
 
-	public int fortification();
+	public int fortificationStrategy();
 	
 	public default int randomNumber(int size) {
 		double d = Math.random();

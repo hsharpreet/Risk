@@ -89,20 +89,19 @@ public class Player extends Observable {
 	}
 
 	public int fortificationStrategy() {
-		return this.strategy.fortification();
+		return this.strategy.fortificationStrategy();
 	}
 
 	public int placeInfantoryStrategy(int i, Player player, int army) {
-		return this.strategy.placeInfantory(i, player, army);
+		return this.strategy.placeInfantoryStrategy(i, player, army);
 	}
 	
-	public int reinforcementStrategy() {
-		 reinforcement();
-		 return 0;
+	public int reinforcementStrategy(int i, Player player, int army) {
+		return this.strategy.reinforcementStrategy(i, player, army);
 	}
 
-	public int attackStrategy() {
-		return this.strategy.attack();
+	public int attackStrategy(Player[] player,int i, Player player2, RiskMap mapDetails) {
+		return this.strategy.attackStrategy(player, i, player2, mapDetails);
 	}
 
 	/**
@@ -298,10 +297,10 @@ public class Player extends Observable {
 	/**
 	 * A method to perform the reinforcement by the player
 	 */
-	public void reinforcement() {
+	public void reinforcementInitialization() {
 
 		for (i = 0; i < player.length; i++) {
-			int n = calculateReinformentArmies(i);
+			int n = calculateReinformentArmiesInitially(i);
 
 			// Infantreis on the basis of risk card
 			boolean havingRiskCards = false;
@@ -420,12 +419,12 @@ public class Player extends Observable {
 			n = 0;
 			m = 0;
 		}
-		player[0].setMessage("Player - " + (0 + 1) + " entered into Reinforcement Phase");
+		player[0].setMessage("Player - " + player[0].getName() + " entered into Reinforcement Phase");
 		player[0].notifyObservers();
 		player[0].getPlayerPanel().btReinforcement.setEnabled(true);
 
 		CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
-				"Player - " + (0 + 1) + "entered into Reinforcement Phase");
+				"Player - " + player[0].getName() + "entered into Reinforcement Phase");
 		LoggerUtility.consoleHandler.publish(logRecord);
 		i = 0;
 	}
@@ -437,7 +436,7 @@ public class Player extends Observable {
 	 *            the index of the player
 	 * @return reinformentArmies the number of armies
 	 */
-	public int calculateReinformentArmies(int playerIndex) {
+	public int calculateReinformentArmiesInitially(int playerIndex) {
 		int reinformentArmies = player[playerIndex].currentGameStaticsList.size() / 3;
 		if (reinformentArmies < 3) {
 			reinformentArmies = 3;
@@ -471,76 +470,11 @@ public class Player extends Observable {
 	 * @param i
 	 *            an integer value
 	 */
-	public void attack(int i) {
-		int ans = JOptionPane.showConfirmDialog(player[i].getPlayerPanel(),
-				"Player : " + (i + 1) + "\nDo you want to do attack ?", "Attack Confirmition",
-				JOptionPane.YES_NO_OPTION);
-		if (ans == JOptionPane.YES_OPTION) {
-
-			JDialog dialog = new JDialog();
-			dialog.add(new AttackGUIPanel(dialog, player, i, player[i].currentGameStaticsTableModel,
-					player[i].currentGameStaticsList, mapDetails));
-			dialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
-			dialog.setSize(1020, 600);
-			dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-			dialog.addWindowListener(new WindowAdapter() {
-				public void windowClosed(WindowEvent e) {
-					Player.this.currentGameStaticsTableModel.fireTableDataChanged();
-
-					String percentageString = "";
-					int totalTerritories = mapDetails.getTerritories().size();
-					for (int i = 0; i < player.length; i++) {
-						double per = (player[i].currentGameStaticsList.size() * 100.0) / totalTerritories;
-						DecimalFormat df = new DecimalFormat("##.##");
-						per = Double.parseDouble(df.format(per));
-						if (i < player.length - 1)
-							percentageString += per + ",";
-						else
-							percentageString += per;
-					}
-
-					setMessage("Percentage " + percentageString);
-
-					int ans = JOptionPane.showConfirmDialog(player[i].getPlayerPanel(),
-							"Player - " + (i + 1) + "\nDo you want to do fortification ?", "Fortification Confirmition",
-							JOptionPane.YES_NO_OPTION);
-
-					if (ans == JOptionPane.YES_OPTION) {
-						player[i].getPlayerPanel().btFortification.setEnabled(true);
-						player[i].getPlayerPanel().btOk.setEnabled(true);
-
-						player[i].setMessage("Player " + (i + 1) + " entered into Fortification Phase");
-						player[i].notifyObservers();
-
-						CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
-								"Player " + (i + 1) + " entered into Fortification Phase");
-						LoggerUtility.consoleHandler.publish(logRecord);
-
-					} else {
-						player[i].nextPlayerTurn(i);
-					}
-				}
-			});
-			dialog.setVisible(true);
-		} else {
-			int ans1 = JOptionPane.showConfirmDialog(player[i].getPlayerPanel(),
-					"Player - " + (i + 1) + "\nDo you want to do fortification ?", "Fortification Confirmition",
-					JOptionPane.YES_NO_OPTION);
-
-			if (ans1 == JOptionPane.YES_OPTION) {
-				player[i].getPlayerPanel().btFortification.setEnabled(true);
-				player[i].getPlayerPanel().btOk.setEnabled(true);
-
-				CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
-						"Player " + (i + 1) + " entered into Fortification Phase");
-				LoggerUtility.consoleHandler.publish(logRecord);
-
-				player[i].setMessage("Player " + (i + 1) + " entered into Fortification Phase");
-				player[i].notifyObservers();
-			} else {
-				player[i].nextPlayerTurn(i);
-			}
-		}
+	public boolean attackInitialization(int i) {
+		
+		player[0].attackStrategy(player, i, player[i], mapDetails);
+		return true;
+		
 	}
 
 	/**
@@ -596,26 +530,46 @@ public class Player extends Observable {
 	 */
 	public void nextPlayerTurn(int i) {
 
+		for (int k = 1; k < player.length; k++) {
+			if (player[k].infantriesAvailable > 0) {
+				for (int kk = 0; kk < player[k].infantriesAvailable; kk++) {
+
+					player[kk].reinforcementStrategy(k, player[k], player[k].infantriesAvailable);
+					// player[kk].getPlayerPanel().btReinforcement.setEnabled(true);
+					player[kk].setMessage("Player - " + player[kk].getName() + " entered into Reinforcement Phase");
+					player[kk].notifyObservers();
+
+					CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
+							"Player - " + player[kk].getName() + " entered into Reinforcement Phase");
+					LoggerUtility.consoleHandler.publish(logRecord);
+				}
+
+				for (int kk = 0; kk < player[k].infantriesAvailable; kk++) {
+
+					player[kk].fortificationStrategy();
+					// player[kk].getPlayerPanel().btReinforcement.setEnabled(true);
+					player[kk].setMessage("Player - " + player[kk].getName() + " entered into Reinforcement Phase");
+					player[kk].notifyObservers();
+
+					CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
+							"Player - " + player[kk].getName() + " entered into Reinforcement Phase");
+					LoggerUtility.consoleHandler.publish(logRecord);
+				}
+			}
+		}
+
 		player[i].getPlayerPanel().lbMessage1.setText("");
 		i++;
-		if (i == player.length) {
-			reinforcement();
-		} else {
+		/*if (i == player.length) {
+			reinforcementInitialization();
+		} else {*/
 			for (int j = 0; j < player.length; j++) {
 				player[j].getPlayerPanel().btReinforcement.setEnabled(false);
 				player[j].getPlayerPanel().btFortification.setEnabled(false);
 				player[j].getPlayerPanel().btOk.setEnabled(false);
 			}
-			player[i].getPlayerPanel().btReinforcement.setEnabled(true);
-			player[i].setMessage("Player - " + (i + 1) + " entered into Reinforcement Phase");
-			player[i].notifyObservers();
-
-			CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
-					"Player - " + (i + 1) + " entered into Reinforcement Phase");
-			LoggerUtility.consoleHandler.publish(logRecord);
-
-		}
-
+			
+		//}
 	}
 
 	/**
@@ -624,11 +578,13 @@ public class Player extends Observable {
 	 * @param i
 	 *            an integer value
 	 */
-	public void nextIndexToEnableButton(int i) {
+	public boolean nextIndexToEnableButton(int i) {
 		// if all players have 0 available infantries.. means startup phase done
 		boolean flag = true;
 		for (int j = 0; j < player.length; j++) {
 			if (player[j].infantriesAvailable > 0) {
+				player[0].getPlayerPanel().btPlaceInfantry.setEnabled(true);
+				i=0;
 				flag = false;
 				break;
 			}
@@ -638,16 +594,9 @@ public class Player extends Observable {
 					"Startup Phase Done.\nIn next phase every player has option of \nreinforcement, attack and fortification.");
 			setMessage(
 					"Startup Phase Done.\nIn next phase every player has option of \nreinforcement, attack and fortification.");
-			reinforcement();
-		} else {
-			i = 0;
-			if (player[0].infantriesAvailable > 0) {
-				player[0].getPlayerPanel().btPlaceInfantry.setEnabled(true);
-			} else {
-				// nextIndexToEnableButton(i);
-			}
+			reinforcementInitialization();
 		}
-
+		return flag;
 	}
 
 	/**
@@ -660,7 +609,7 @@ public class Player extends Observable {
 				.addListSelectionListener(new MyListSelectionListener(myIndex, player));
 		playerPanel.btFortification.addActionListener(new FortificationClickListener(myIndex, player));
 		playerPanel.btOk.addActionListener(new OkClickListener(myIndex, player));
-		playerPanel.btReinforcement.addActionListener(new ReinforcementClickListener(myIndex, player));
+		playerPanel.btReinforcement.addActionListener(new ReinforcementClickListener(myIndex, player, riskGame));
 	}
 
 	private String message;
