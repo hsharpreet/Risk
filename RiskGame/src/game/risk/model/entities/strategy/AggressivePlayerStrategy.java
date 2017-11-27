@@ -1,23 +1,31 @@
 package game.risk.model.entities.strategy;
 
+import game.risk.model.entities.Player;
+
 public class AggressivePlayerStrategy  implements PlayerStrategy{
 
 	@Override
-	public void reinforcement() {
+	public int placeInfantory(int i, Player player, int army) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	@Override
+	public int reinforcement() {
 		System.out.println("Aggressive Player strategy reinforcement");
-		
+		return 0;
 	}
 
 	@Override
-	public void attack() {
+	public int attack() {
 		System.out.println("Aggressive Player strategy attack");
-		
+		return 0;
 	}
 
 	@Override
-	public void fortification() {
-		System.out.println("Aggressive Player strategy fortify");
-		
+	public int fortification() {
+		System.out.println("Aggressive Player strategy attack");
+		return 0;
 	}
 	
 }
