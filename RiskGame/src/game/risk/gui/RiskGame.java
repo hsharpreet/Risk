@@ -9,6 +9,7 @@ import game.risk.model.entities.NeighbourListModel;
 import game.risk.model.entities.Player;
 import game.risk.model.entities.RiskMap;
 import game.risk.model.entities.Territory;
+import game.risk.model.entities.strategy.AggressivePlayerStrategy;
 import game.risk.util.LoggerUtility;
 import game.risk.util.CustomLogRecord;
 
@@ -502,10 +503,16 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 				jpPlayground.removeAll();
 				jpPlayground.setPreferredSize(new Dimension(370 * playerCount, 400));
 				for (int i = 0; i < playerCount; i++) {
-					player[i] = new Player(RiskGame.this, i, player, mapDetails);
+					if (i == 0) {
+						// human for player index 0
+						player[i] = new Player(RiskGame.this, i, player, mapDetails); 
+					} else {
+						// aggressive assuming all players from index 1 till playerCount will be aggressive for now
+						player[i] = new Player(RiskGame.this, i, player, mapDetails, new AggressivePlayerStrategy()); 
+					}
 					player[i].addObserver(RiskGame.this);
 					player[i].setPlayerPanel(new PlayerPanel());
-					player[i].bindListeners();
+					player[i].bindListeners(); // 
 					player[i].currentGameStaticsList = new ArrayList<>();
 					player[i].currentGameStaticsTableModel = new CurrentGameStaticsTableModel(
 							player[i].currentGameStaticsList);

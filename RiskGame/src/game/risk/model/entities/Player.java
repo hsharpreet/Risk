@@ -83,6 +83,14 @@ public class Player extends Observable {
 		this.myIndex = myIndex;
 		this.player = player;
 	}
+	
+	public Player(RiskGame riskGame, int myIndex, Player player[], RiskMap mapDetails,PlayerStrategy strategy) {
+		this.riskGame = riskGame;
+		this.mapDetails = mapDetails;
+		this.myIndex = myIndex;
+		this.player = player;
+		this.strategy = strategy;
+	}
 
 	public void setStrategy(PlayerStrategy strategy) {
 		this.strategy = strategy;
