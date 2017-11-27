@@ -109,7 +109,7 @@ public class Player extends Observable {
 	 * method to get the color of territories of armies and territories
 	 * 
 	 * @return territorAndArmiesColor the color
-	 */
+	 */ 
 	public Color getTerritorAndArmiesColor() {
 		return territorAndArmiesColor;
 	}
