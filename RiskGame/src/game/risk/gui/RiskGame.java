@@ -10,6 +10,8 @@ import game.risk.model.entities.Player;
 import game.risk.model.entities.RiskMap;
 import game.risk.model.entities.Territory;
 import game.risk.model.entities.strategy.AggressivePlayerStrategy;
+import game.risk.model.entities.strategy.HumanStrategy;
+import game.risk.model.entities.strategy.RandomPlayerStrategy;
 import game.risk.util.LoggerUtility;
 import game.risk.util.CustomLogRecord;
 
@@ -76,7 +78,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 		colors[4] = new Color(187, 208, 225);
 		colors[5] = new Color(210, 194, 130);
 
-		 alCards = new ArrayList<>();
+		alCards = new ArrayList<>();
 		 
 		CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Risk Game Started");
 		LoggerUtility.consoleHandler.publish(logRecord);
@@ -493,6 +495,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 				for (int i = 0; i < labels.length; i++) {
 					labels[i].setVisible(false);
 				}
+				
 				int playerCount = Integer.parseInt((String) cbPlayerCount.getSelectedItem());
 
 				for (int i = 0; i < playerCount; i++) {
@@ -506,13 +509,20 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 					if (i == 0) {
 						// human for player index 0
 						player[i] = new Player(RiskGame.this, i, player, mapDetails); 
+						player[i].setComputer(false);
+						player[i].setName(" <HumanStrategy> ");
+						player[i].setStrategy(new HumanStrategy());
 					} else {
 						// aggressive assuming all players from index 1 till playerCount will be aggressive for now
-						player[i] = new Player(RiskGame.this, i, player, mapDetails, new AggressivePlayerStrategy()); 
+						player[i] = new Player(RiskGame.this, i, player, mapDetails); 
+						player[i].setComputer(true);
+						player[i].setName(" <RandomPlayerStrategy> ");
+						player[i].setStrategy(new RandomPlayerStrategy());
 					}
+					//player[i] = new Player(RiskGame.this, i, player, mapDetails);
 					player[i].addObserver(RiskGame.this);
 					player[i].setPlayerPanel(new PlayerPanel());
-					player[i].bindListeners(); // 
+					
 					player[i].currentGameStaticsList = new ArrayList<>();
 					player[i].currentGameStaticsTableModel = new CurrentGameStaticsTableModel(
 							player[i].currentGameStaticsList);
@@ -524,9 +534,15 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 
 					player[i].getPlayerPanel().lsNeighbour.setModel(player[i].neighbourListModel);
 					player[i].getPlayerPanel().setBackground(colors[i]);
-					player[i].getPlayerPanel().lbPlayer.setText("Player : " + (i + 1));
+					
 					player[i].infantriesTotal = totalArmies[playerCount - 2];
 					player[i].getPlayerPanel().lbTotalArmies.setText("Total Infantries : " + player[i].infantriesTotal);
+					if(i==0){
+						player[i].bindListeners();
+						player[i].getPlayerPanel().lbPlayer.setText("Player : " + (i + 1));
+					}else{
+						player[i].getPlayerPanel().lbPlayer.setText("Aggressive Player: " + (i + 1));
+					}
 					jpPlayground.add(player[i].getPlayerPanel());
 
 				}
@@ -577,8 +593,8 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 						jpPlayground.revalidate();
 						jpPlayground.repaint();
 					}
-
 				}
+				
 				player[0].getPlayerPanel().btPlaceInfantry.setEnabled(true);
 
 				CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
