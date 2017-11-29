@@ -57,11 +57,11 @@ public class Player extends Observable implements Serializable {
 	
 	public int infantriesAvailable;
 	public int infantriesTotal;
-	public transient CurrentGameStaticsTableModel currentGameStaticsTableModel;
+	public CurrentGameStaticsTableModel currentGameStaticsTableModel;
 	public List<CurrentGameStatics> currentGameStaticsList;//
-	public transient NeighbourListModel neighbourListModel;
-	public transient List<String> neighbours;
-	private transient PlayerPanel playerPanel;
+	public NeighbourListModel neighbourListModel;
+	public List<String> neighbours;
+	private PlayerPanel playerPanel;
 	private String name;//
 	private int totalNoOfArmies; //
 	private int currentNoOfArmies; //

@@ -8,6 +8,11 @@ import javax.swing.AbstractListModel;
  * 
  */
 public class NeighbourListModel extends AbstractListModel {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public List<String> neighbours;
 
 	/**

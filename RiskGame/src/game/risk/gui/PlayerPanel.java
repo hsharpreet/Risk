@@ -1,14 +1,20 @@
 
 package game.risk.gui;
 
+import java.io.Serializable;
+
 /**
  * This class is carries each player information
  * 
  * @author Team
  *
  */
-public class PlayerPanel extends javax.swing.JPanel {
+public class PlayerPanel extends javax.swing.JPanel implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * Constructor to Initialize object and it has the fields which saves the
 	 * present panel of the player playing

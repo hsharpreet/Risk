@@ -14,6 +14,11 @@ import javax.swing.table.AbstractTableModel;
  */
 public class CurrentGameStaticsTableModel extends AbstractTableModel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public List<CurrentGameStatics> list;
 
 	String columnNames[] = { "Territory", "Continent", "Infantries" };

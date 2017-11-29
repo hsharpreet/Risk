@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import game.risk.gui.RiskGame;
 import game.risk.model.entities.CurrentGameStatics;
+import game.risk.model.entities.CurrentGameStaticsTableModel;
 import game.risk.model.entities.Player;
 import game.risk.model.entities.RiskMap;
 import game.risk.model.entities.Territory;
@@ -64,6 +65,8 @@ public class GameWriterTest {
 		players[0].currentGameStaticsList.add(gamestat3);
 		players[0].currentGameStaticsList.add(gamestat4);
 		players[1].currentGameStaticsList.add(gamestat5);
+		players[1].currentGameStaticsTableModel = new CurrentGameStaticsTableModel(
+				players[1].currentGameStaticsList);
 		gameWriter.saveGame(players);
 		
 		Player[] playerLoaded = gameWriter.readGame();
@@ -72,6 +75,8 @@ public class GameWriterTest {
 		assertEquals(false, playerLoaded[0].isComputer());
 		assertEquals("Aggressive", playerLoaded[1].getName());
 		assertEquals(true, playerLoaded[1].isComputer());
+		assertEquals("Territory", playerLoaded[1].currentGameStaticsTableModel.getColumnName(0));
+		assertEquals(1, playerLoaded[1].currentGameStaticsTableModel.list.size());
 	}
 
 }
