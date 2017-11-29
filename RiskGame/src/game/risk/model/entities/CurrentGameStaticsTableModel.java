@@ -1,6 +1,8 @@
 
 package game.risk.model.entities;
 
+import java.io.Serializable;
+
 //Table Model to fill data in JTAble (Per user terroritries)
 
 import java.util.List;
@@ -12,7 +14,7 @@ import javax.swing.table.AbstractTableModel;
  * @author Team
  * 
  */
-public class CurrentGameStaticsTableModel extends AbstractTableModel {
+public class CurrentGameStaticsTableModel extends AbstractTableModel implements Serializable {
 
 	/**
 	 * 

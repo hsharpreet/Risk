@@ -1,5 +1,6 @@
 package game.risk.model.entities;
 
+import java.io.Serializable;
 import java.util.List;
 import javax.swing.AbstractListModel;
 
@@ -7,8 +8,7 @@ import javax.swing.AbstractListModel;
  * This class is a list model which is used to make the displaying list dynamic
  * 
  */
-public class NeighbourListModel extends AbstractListModel {
-	
+public class NeighbourListModel extends AbstractListModel implements Serializable {
 	/**
 	 * 
 	 */

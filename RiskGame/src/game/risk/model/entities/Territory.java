@@ -9,7 +9,7 @@ import java.util.List;
  * @author Team
  *
  */
-public class Territory implements Serializable{
+public class Territory implements Serializable {
 
 	/**
 	 * 

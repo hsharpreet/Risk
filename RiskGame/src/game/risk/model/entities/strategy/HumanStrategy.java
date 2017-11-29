@@ -5,6 +5,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.Serializable;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.logging.Level;
 
 import javax.swing.JDialog;
@@ -16,7 +17,7 @@ import game.risk.model.entities.RiskMap;
 import game.risk.util.CustomLogRecord;
 import game.risk.util.LoggerUtility;
 
-public class HumanStrategy implements PlayerStrategy,Serializable {
+public class HumanStrategy implements PlayerStrategy , Serializable  {
 
 	/**
 	 * 
@@ -127,6 +128,27 @@ public class HumanStrategy implements PlayerStrategy,Serializable {
 
 		int tableIndex = human.getPlayerPanel().jtCountriesAndArmies.getSelectedRow();
 		int listIndex = human.getPlayerPanel().lsNeighbour.getSelectedIndex();
+		
+		ArrayList<String> terrList = new ArrayList<String>();
+		ArrayList<String> list = new ArrayList<String>();
+		
+		for(int j=0; j< human.currentGameStaticsList.size(); j++){
+			list.add(human.currentGameStaticsList.get(j).territory.getName());
+		}
+		
+		for(int j=0; j< list.size(); j++){
+
+			for(int jj=0; jj< human.currentGameStaticsList.get(j).territory.getNeighbouringTerritories().size(); jj++){
+				String destinationTerritory = human.currentGameStaticsList.get(j).territory.getNeighbouringTerritories().get(jj);
+				if(list.contains(destinationTerritory) && human.currentGameStaticsList.get(j).infantries >1){
+					terrList.add(j+":"+jj);
+				}
+			}
+		}
+		int possibleMoves = terrList.size();
+		
+		System.out.println("HUMAN "+possibleMoves+" - "+terrList+" - "+list.size());
+
 		if (tableIndex == -1) {
 			JOptionPane.showMessageDialog(human.getPlayerPanel(), "Select source territory first");
 		} else if (listIndex == -1) {
@@ -134,6 +156,8 @@ public class HumanStrategy implements PlayerStrategy,Serializable {
 		} else {
 			String destinationTerritory = human.getPlayerPanel().lsNeighbour.getSelectedValue();
 			boolean isDestinationMyOwnCountry = false;
+			 
+			
 			for (int j = 0; j < human.currentGameStaticsList.size(); j++) {
 				if (human.currentGameStaticsList.get(j).territory.getName().equals(destinationTerritory)) {
 					isDestinationMyOwnCountry = true;

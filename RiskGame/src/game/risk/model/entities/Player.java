@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import game.risk.util.CustomLogRecord;
 
@@ -36,8 +37,6 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * A Class which stores details of the player
@@ -51,28 +50,26 @@ public class Player extends Observable implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	int myIndex;    
+	int myIndex;
 	transient Player player[];
 	transient RiskMap mapDetails;
-	
 	public int infantriesAvailable;
 	public int infantriesTotal;
 	public CurrentGameStaticsTableModel currentGameStaticsTableModel;
-	public List<CurrentGameStatics> currentGameStaticsList;//
+	public List<CurrentGameStatics> currentGameStaticsList;
 	public NeighbourListModel neighbourListModel;
 	public List<String> neighbours;
 	private PlayerPanel playerPanel;
-	private String name;//
-	private int totalNoOfArmies; //
-	private int currentNoOfArmies; //
+	private String name;
+	private int totalNoOfArmies;
+	private int currentNoOfArmies;
 	private Map<Territory, Integer> territorAndArmies;
-	private boolean turn; //
-	private boolean isComputer; //
+	private boolean turn;
+	private boolean isComputer;
 	private Color territorAndArmiesColor;
-	
-	public transient RiskGame riskGame;
+	transient public RiskGame riskGame;
 	private int nVal = 0;
-	private PlayerStrategy strategy;//
+	private PlayerStrategy strategy;
 
 	/**
 	 * A constructor to initialize myIndex, Player and MapDetails
@@ -86,7 +83,6 @@ public class Player extends Observable implements Serializable {
 	 * @param mapDetails
 	 *            an object of RiskMap class
 	 */
-	
 	public Player(RiskGame riskGame, int myIndex, Player player[], RiskMap mapDetails) {
 		this.riskGame = riskGame;
 		this.mapDetails = mapDetails;
@@ -418,7 +414,10 @@ public class Player extends Observable implements Serializable {
 
 			player[i].infantriesTotal += (n + m);
 			player[i].getPlayerPanel().lbTotalArmies.setText("Total Infantry : " + player[i].infantriesTotal);
-			player[i].infantriesAvailable = n + m;
+			player[i].infantriesAvailable = n + m +10;
+			if(!player[i].isComputer){
+				player[i].infantriesAvailable = 2;
+			}
 			player[i].getPlayerPanel().lbMessage1.setText("Got infantries from continent " + (n - nVal));
 			player[i].getPlayerPanel().lbMessage2.setText("Got infantries from terrotries " + nVal);
 			player[i].getPlayerPanel().lbMessage3.setText("Got infantries from risk card " + m);
@@ -558,6 +557,8 @@ public class Player extends Observable implements Serializable {
 
 		for (int k = 1; k < player.length; k++) {
 			
+			try {
+				TimeUnit.MILLISECONDS.sleep(100);
 			updatePercentage(player[k], "REINFORCEMENT");
 			player[k].reinforcementStrategy(k, player[k], player[k].infantriesAvailable);
 			player[k].currentGameStaticsTableModel.fireTableDataChanged();
@@ -568,12 +569,16 @@ public class Player extends Observable implements Serializable {
 			player[k].currentGameStaticsTableModel.fireTableDataChanged();
 			player[k].notifyObservers();
 			
+			TimeUnit.MILLISECONDS.sleep(100);
 			updatePercentage(player[k], "FORTIFICATION");
 			player[k].fortificationStrategy(k, player[k], player[k].infantriesAvailable);
 			player[k].currentGameStaticsTableModel.fireTableDataChanged();
 			player[k].notifyObservers();
 			
-
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		player[i].getPlayerPanel().lbMessage1.setText("");

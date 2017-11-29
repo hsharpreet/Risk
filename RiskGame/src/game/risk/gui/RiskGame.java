@@ -663,10 +663,10 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 					}
 				}
 				for (int i = 0; i < playerCount; i++) {
-					player[i].infantriesAvailable = (totalArmies[playerCount - 2])
-							- (player[i].currentGameStaticsList.size());
+					player[i].infantriesAvailable = 2;//(totalArmies[playerCount - 2])
+							//- (player[i].currentGameStaticsList.size());
 					player[i].getPlayerPanel().lbAvailableArmies
-							.setText("Available Infantries : " + player[i].infantriesAvailable);
+							.setText("Available Infantries : 2=" + player[i].infantriesAvailable);
 					player[i].currentGameStaticsTableModel.fireTableDataChanged(); // Display data in table
 
 					player[i].getPlayerPanel().btPlaceInfantry.setEnabled(false);

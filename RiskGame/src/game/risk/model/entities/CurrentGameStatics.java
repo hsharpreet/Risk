@@ -3,9 +3,6 @@ package game.risk.model.entities;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
 /**
  * CurrentGameStatics class Represents the current status of game
  * 
@@ -13,7 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * 
  * 
  */
-public class CurrentGameStatics implements Serializable{
+public class CurrentGameStatics implements Serializable {
 
 	/**
 	 * 

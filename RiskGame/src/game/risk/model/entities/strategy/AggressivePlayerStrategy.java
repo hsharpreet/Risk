@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Random;
 import java.util.logging.Level;
 
 import javax.swing.JDialog;
@@ -15,7 +16,7 @@ import game.risk.model.entities.RiskMap;
 import game.risk.util.CustomLogRecord;
 import game.risk.util.LoggerUtility;
 
-public class AggressivePlayerStrategy  implements PlayerStrategy,Serializable{
+public class AggressivePlayerStrategy  implements PlayerStrategy, Serializable  {
 
 	/**
 	 * 
@@ -36,11 +37,8 @@ public class AggressivePlayerStrategy  implements PlayerStrategy,Serializable{
 			int index = 0;
 			//int army = loop= 1;
 			if (army > 0) {
-				//loop = (player.infantriesAvailable > 0) ? 1 : player.infantriesAvailable;
 				loop = army;
-				CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
-						"Player has finished with armies, comp will place all their left armies now!");
-				LoggerUtility.consoleHandler.publish(logRecord);
+				player.setMessage("Player has finished with armies, comp will place all their left armies now!");
 			}
 			for (int x = 0; x < loop; x++) {
 				index = randomNumber(player.currentGameStaticsList.size());
@@ -83,11 +81,11 @@ public class AggressivePlayerStrategy  implements PlayerStrategy,Serializable{
 				ArrayList<Integer> val = new ArrayList<Integer>();
 				
 				for(int j=0; j<player.currentGameStaticsList.size();j++){
-					if(player.currentGameStaticsList.get(j).infantries < 7){
+					if(player.currentGameStaticsList.get(j).infantries < 6){
 						val.add(j);
 					}else{
 						player.setMessage("Player - " + player.getName() + " has made "
-								+ player.currentGameStaticsList.get(j).territory.getName().toUpperCase()+" strogest with 7 armies.");
+								+ player.currentGameStaticsList.get(j).territory.getName().toUpperCase()+" strogest with 6 armies.");
 					}
 				}
 				
@@ -138,8 +136,109 @@ public class AggressivePlayerStrategy  implements PlayerStrategy,Serializable{
 	}
 
 	@Override
-	public int fortificationStrategy(int i, Player player, int army) {
-		System.out.println("Aggressive Player strategy attack");
+	public int fortificationStrategy(int i, Player random, int army) {
+
+		ArrayList<String> terrList = new ArrayList<String>();
+		ArrayList<String> list = new ArrayList<String>();
+
+		ArrayList<String> maxArmy = new ArrayList<String>();
+		ArrayList<String> minArmy = new ArrayList<String>();
+		
+		for (int j = 0; j < random.currentGameStaticsList.size(); j++) {
+			list.add(random.currentGameStaticsList.get(j).territory.getName());
+		}
+
+		for (int j = 0; j < list.size(); j++) {
+			for (int jj = 0; jj < random.currentGameStaticsList.get(j).territory.getNeighbouringTerritories()
+					.size(); jj++) {
+				String destinationTerritory = random.currentGameStaticsList.get(j).territory
+						.getNeighbouringTerritories().get(jj);
+
+				if (list.contains(destinationTerritory) && random.currentGameStaticsList.get(j).infantries > 6) {
+					maxArmy.add(j + ":" + destinationTerritory);
+				}
+				if(maxArmy.size() >= 5){
+					break;
+				}
+			}
+			if(maxArmy.size() < 5){
+				for (int jj = 0; jj < random.currentGameStaticsList.get(j).territory.getNeighbouringTerritories()
+						.size(); jj++) {
+					String destinationTerritory = random.currentGameStaticsList.get(j).territory
+							.getNeighbouringTerritories().get(jj);
+
+					if (list.contains(destinationTerritory) && random.currentGameStaticsList.get(j).infantries > 4) {
+						maxArmy.add(j + ":" + destinationTerritory);
+					}
+					if(maxArmy.size() >= 5){
+						break;
+					}
+				}
+			}
+			
+			if(maxArmy.size() < 5){
+				for (int jj = 0; jj < random.currentGameStaticsList.get(j).territory.getNeighbouringTerritories()
+						.size(); jj++) {
+					String destinationTerritory = random.currentGameStaticsList.get(j).territory
+							.getNeighbouringTerritories().get(jj);
+
+					if (list.contains(destinationTerritory) && random.currentGameStaticsList.get(j).infantries > 2) {
+						maxArmy.add(j + ":" + destinationTerritory);
+					}
+					if(maxArmy.size() >= 5){
+						break;
+					}
+				}
+			}
+		}
+		
+		for (int j = 0; j < list.size(); j++) {
+			if (random.currentGameStaticsList.get(j).infantries  == 0) {
+				minArmy.add(j+"");
+			}
+		}
+		while(minArmy.size() <=5){
+			for (int j = 0; j < list.size(); j++) {
+				if (random.currentGameStaticsList.get(j).infantries  <= 2) {
+					minArmy.add(j+"");
+				}
+			}
+		}
+		
+		for(int j = 0; j < minArmy.size(); j++){
+			//TODO
+		}
+		
+		for (int j = 0; j < list.size(); j++) {
+			for (int jj = 0; jj < random.currentGameStaticsList.get(j).territory.getNeighbouringTerritories()
+					.size(); jj++) {
+				String destinationTerritory = random.currentGameStaticsList.get(j).territory
+						.getNeighbouringTerritories().get(jj);
+
+				if (list.contains(destinationTerritory) && random.currentGameStaticsList.get(j).infantries > 1) {
+					terrList.add(j + ":" + destinationTerritory);
+				}
+			}
+		}
+		int possibleMoves = terrList.size();
+		int randomMoves = new Random().nextInt(possibleMoves);
+
+		for (int k = 0; k < randomMoves; k++) {
+			int minus = Integer.parseInt(terrList.get(k).split(":")[0]);
+
+			String destinationTerritory = terrList.get(k).split(":")[1];
+			int plus = list.indexOf(destinationTerritory);
+
+			random.currentGameStaticsList.get(minus).infantries--;
+			random.currentGameStaticsList.get(plus).infantries++;
+
+			random.setMessage("Fortification Phase\r\nPlayer - " + random.getName() + " has transfered 1 infantry from "
+					+ random.currentGameStaticsList.get(minus).territory.getName() + " to " + destinationTerritory);
+			random.notifyObservers();
+
+			random.currentGameStaticsTableModel.fireTableDataChanged();
+		}
+
 		return 0;
 	}
 	

@@ -119,13 +119,13 @@ public class AttackPhase {
 					AttackPhase.this.tempGameStaticsList.clear();
 					getIndexFromMainTable(list, index11);
 					
-					System.out.println(" 0 "+attackList.size());
+					/*System.out.println(" 0 "+attackList.size());
 					System.out.println(" 1 "+index11);
 					System.out.println(" 2 "+index22);
 					System.out.println(" 3 "+list.size());
 					System.out.println(" 4 "+tempGameStaticsList.size());
 					System.out.println(" 5 "+list.get(index11).territory.getName());
-					System.out.println(" 6 "+tempGameStaticsList.get(index22).territory.getName());
+					System.out.println(" 6 "+tempGameStaticsList.get(index22).territory.getName());*/
 
 					
 					//this will update the lists

@@ -5,6 +5,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.Serializable;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -18,7 +21,7 @@ import game.risk.model.entities.RiskMap;
 import game.risk.util.CustomLogRecord;
 import game.risk.util.LoggerUtility;
 
-public class RandomPlayerStrategy implements PlayerStrategy,Serializable {
+public class RandomPlayerStrategy implements PlayerStrategy, Serializable  {
 
 	/**
 	 * 
@@ -127,51 +130,44 @@ public class RandomPlayerStrategy implements PlayerStrategy,Serializable {
 	@Override
 	public int fortificationStrategy(int i, Player random, int army) {
 
+		ArrayList<String> terrList = new ArrayList<String>();
+		ArrayList<String> list = new ArrayList<String>();
 
-		int tableIndex = random.getPlayerPanel().jtCountriesAndArmies.getSelectedRow();
-		int listIndex = random.getPlayerPanel().lsNeighbour.getSelectedIndex();
-		
-			String destinationTerritory = random.getPlayerPanel().lsNeighbour.getSelectedValue();
-			boolean isDestinationMyOwnCountry = false;
-			for (int j = 0; j < random.currentGameStaticsList.size(); j++) {
-				if (random.currentGameStaticsList.get(j).territory.getName().equals(destinationTerritory)) {
-					isDestinationMyOwnCountry = true;
-					break;
+		for (int j = 0; j < random.currentGameStaticsList.size(); j++) {
+			list.add(random.currentGameStaticsList.get(j).territory.getName());
+		}
+
+		for (int j = 0; j < list.size(); j++) {
+
+			for (int jj = 0; jj < random.currentGameStaticsList.get(j).territory.getNeighbouringTerritories()
+					.size(); jj++) {
+				String destinationTerritory = random.currentGameStaticsList.get(j).territory
+						.getNeighbouringTerritories().get(jj);
+
+				if (list.contains(destinationTerritory) && random.currentGameStaticsList.get(j).infantries > 1) {
+					terrList.add(j + ":" + destinationTerritory);
 				}
 			}
-			if (isDestinationMyOwnCountry) {
-				if (random.currentGameStaticsList.get(tableIndex).infantries > 1) {
+		}
+		int possibleMoves = terrList.size();
+		int randomMoves = new Random().nextInt(possibleMoves);
 
-					random.currentGameStaticsList.get(tableIndex).infantries--;
+		for (int k = 0; k < randomMoves; k++) {
+			int minus = Integer.parseInt(terrList.get(k).split(":")[0]);
 
-					for (int j = 0; j < random.currentGameStaticsList.size(); j++) {
-						if (random.currentGameStaticsList.get(j).territory.getName().equals(destinationTerritory)) {
-							random.currentGameStaticsList.get(j).infantries++;
-							random.setMessage(
-									"Fortification Phase\r\nPlayer - " + (i + 1) + " has transfered 1 infantry from "
-											+ random.currentGameStaticsList.get(tableIndex).territory.getName()
-											+ " to " + destinationTerritory);
-							random.notifyObservers();
+			String destinationTerritory = terrList.get(k).split(":")[1];
+			int plus = list.indexOf(destinationTerritory);
 
-							CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
-									"Player - " + (i + 1) + " has transfered 1 infantry from "
-											+ random.currentGameStaticsList.get(tableIndex).territory.getName()
-											+ " to " + destinationTerritory);
-							LoggerUtility.consoleHandler.publish(logRecord);
+			random.currentGameStaticsList.get(minus).infantries--;
+			random.currentGameStaticsList.get(plus).infantries++;
 
-							random.currentGameStaticsTableModel.fireTableDataChanged();
-							break;
-						}
-					}
-				} else {
-					JOptionPane.showMessageDialog(random.getPlayerPanel(),
-							"Source territory must have more that 1 infantries for fortification");
-				}
-			} else {
-				JOptionPane.showMessageDialog(random.getPlayerPanel(),
-						"Destination territory must be your territory");
-			}
-	
+			random.setMessage("Fortification Phase\r\nPlayer - " + random.getName() + " has transfered 1 infantry from "
+					+ random.currentGameStaticsList.get(minus).territory.getName() + " to " + destinationTerritory);
+			random.notifyObservers();
+
+			random.currentGameStaticsTableModel.fireTableDataChanged();
+		}
+
 		return 0;
 	}
 }

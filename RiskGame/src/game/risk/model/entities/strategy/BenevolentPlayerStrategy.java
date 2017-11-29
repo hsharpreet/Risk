@@ -15,7 +15,7 @@ import game.risk.model.entities.RiskMap;
 import game.risk.util.CustomLogRecord;
 import game.risk.util.LoggerUtility;
 
-public class BenevolentPlayerStrategy implements PlayerStrategy,Serializable {
+public class BenevolentPlayerStrategy implements PlayerStrategy, Serializable   {
 
 	/**
 	 * 
