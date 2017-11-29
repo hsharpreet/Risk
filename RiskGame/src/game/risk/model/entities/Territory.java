@@ -1,5 +1,6 @@
 package game.risk.model.entities;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,8 +9,12 @@ import java.util.List;
  * @author Team
  *
  */
-public class Territory {
+public class Territory implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String name;
 	private String coordinateX;
 	private String coordinateY;

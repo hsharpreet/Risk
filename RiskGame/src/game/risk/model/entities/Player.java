@@ -19,6 +19,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +36,8 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * A Class which stores details of the player
@@ -42,28 +45,34 @@ import javax.swing.event.ListSelectionListener;
  * @author Team
  *
  */
-public class Player extends Observable {
+public class Player extends Observable implements Serializable {
 
-	int myIndex;
-	Player player[];
-	RiskMap mapDetails;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	int myIndex;    
+	transient Player player[];
+	transient RiskMap mapDetails;
+	
 	public int infantriesAvailable;
 	public int infantriesTotal;
-	public CurrentGameStaticsTableModel currentGameStaticsTableModel;
-	public List<CurrentGameStatics> currentGameStaticsList;
-	public NeighbourListModel neighbourListModel;
-	public List<String> neighbours;
-	private PlayerPanel playerPanel;
-	private String name;
-	private int totalNoOfArmies;
-	private int currentNoOfArmies;
+	public transient CurrentGameStaticsTableModel currentGameStaticsTableModel;
+	public List<CurrentGameStatics> currentGameStaticsList;//
+	public transient NeighbourListModel neighbourListModel;
+	public transient List<String> neighbours;
+	private transient PlayerPanel playerPanel;
+	private String name;//
+	private int totalNoOfArmies; //
+	private int currentNoOfArmies; //
 	private Map<Territory, Integer> territorAndArmies;
-	private boolean turn;
-	private boolean isComputer;
+	private boolean turn; //
+	private boolean isComputer; //
 	private Color territorAndArmiesColor;
-	public RiskGame riskGame;
+	
+	public transient RiskGame riskGame;
 	private int nVal = 0;
-	private PlayerStrategy strategy;
+	private PlayerStrategy strategy;//
 
 	/**
 	 * A constructor to initialize myIndex, Player and MapDetails
@@ -77,6 +86,7 @@ public class Player extends Observable {
 	 * @param mapDetails
 	 *            an object of RiskMap class
 	 */
+	
 	public Player(RiskGame riskGame, int myIndex, Player player[], RiskMap mapDetails) {
 		this.riskGame = riskGame;
 		this.mapDetails = mapDetails;
@@ -255,6 +265,10 @@ public class Player extends Observable {
 	 */
 	public void setPlayerPanel(PlayerPanel playerPanel) {
 		this.playerPanel = playerPanel;
+	}
+
+	public PlayerStrategy getStrategy() {
+		return strategy;
 	}
 
 	/**

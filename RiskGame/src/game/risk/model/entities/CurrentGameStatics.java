@@ -1,6 +1,11 @@
 
 package game.risk.model.entities;
 
+import java.io.Serializable;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * CurrentGameStatics class Represents the current status of game
  * 
@@ -8,8 +13,12 @@ package game.risk.model.entities;
  * 
  * 
  */
-public class CurrentGameStatics {
+public class CurrentGameStatics implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public int infantries; // available infantries
 	public Territory territory;
 	public int player;

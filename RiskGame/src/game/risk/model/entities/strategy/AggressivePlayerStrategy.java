@@ -1,6 +1,7 @@
 package game.risk.model.entities.strategy;
 
 import java.awt.Dialog;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -14,7 +15,12 @@ import game.risk.model.entities.RiskMap;
 import game.risk.util.CustomLogRecord;
 import game.risk.util.LoggerUtility;
 
-public class AggressivePlayerStrategy  implements PlayerStrategy{
+public class AggressivePlayerStrategy  implements PlayerStrategy,Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public AggressivePlayerStrategy(){
 		CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,

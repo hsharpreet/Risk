@@ -3,6 +3,7 @@ package game.risk.model.entities.strategy;
 import java.awt.Dialog;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -17,7 +18,12 @@ import game.risk.model.entities.RiskMap;
 import game.risk.util.CustomLogRecord;
 import game.risk.util.LoggerUtility;
 
-public class RandomPlayerStrategy implements PlayerStrategy {
+public class RandomPlayerStrategy implements PlayerStrategy,Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public RandomPlayerStrategy() {
 		CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,

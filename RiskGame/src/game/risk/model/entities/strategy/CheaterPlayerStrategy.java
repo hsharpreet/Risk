@@ -1,6 +1,7 @@
 package game.risk.model.entities.strategy;
 
 import java.awt.Dialog;
+import java.io.Serializable;
 import java.util.logging.Level;
 
 import javax.swing.JDialog;
@@ -12,7 +13,12 @@ import game.risk.model.entities.RiskMap;
 import game.risk.util.CustomLogRecord;
 import game.risk.util.LoggerUtility;
 
-public class CheaterPlayerStrategy implements PlayerStrategy {
+public class CheaterPlayerStrategy implements PlayerStrategy,Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public CheaterPlayerStrategy() {
 		CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
