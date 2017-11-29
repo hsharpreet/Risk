@@ -22,7 +22,7 @@ public class AttackGUIPanel extends javax.swing.JPanel {
 	public AttackGUIPanel(JDialog dialog, Player[] player, int myIndex, CurrentGameStaticsTableModel tm,
 			List<CurrentGameStatics> list, RiskMap mapDetails) {
 		initComponents();
-		lbPlayer.setText("Player : " + (myIndex + 1));
+		lbPlayer.setText("Player : " + player[myIndex].getName());
 		new AttackPhase(dialog, this, player, myIndex, tm, list, mapDetails);
 	}
 

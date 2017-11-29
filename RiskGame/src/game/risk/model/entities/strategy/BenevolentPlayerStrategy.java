@@ -1,9 +1,14 @@
 package game.risk.model.entities.strategy;
 
+import java.awt.Dialog;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.logging.Level;
 
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
+import game.risk.gui.AttackGUIPanel;
 import game.risk.model.entities.Player;
 import game.risk.model.entities.RiskMap;
 import game.risk.util.CustomLogRecord;
@@ -48,11 +53,6 @@ public class BenevolentPlayerStrategy implements PlayerStrategy {
 					+ " and turn switched to next player");
 			player.notifyObservers();
 
-			CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
-					"Player - " + player.getName() + " has placed infantry in "
-							+ player.currentGameStaticsList.get(index).territory.getName().toUpperCase()
-							+ " and turn switched to next player");
-			LoggerUtility.consoleHandler.publish(logRecord);
 		}
 		
 	
@@ -73,9 +73,42 @@ public class BenevolentPlayerStrategy implements PlayerStrategy {
 
 		if (player.infantriesAvailable > 0) {
 		for (int x = 0; x < loop; x++) {
-
+			ArrayList<Integer> val = new ArrayList<Integer>();
+			int index = 0;
+			for(int j=0; j<player.currentGameStaticsList.size();j++){
+				if(player.currentGameStaticsList.get(j).infantries == 0){
+					val.add(j);
+				}
+			}
+			if(val.size() == 0){
+				for(int j=0; j<player.currentGameStaticsList.size();j++){
+					if(player.currentGameStaticsList.get(j).infantries == 1){
+						val.add(j);
+					}
+				}
+			}
 			
-				int index = randomNumber(player.currentGameStaticsList.size());// player.getPlayerPanel().jtCountriesAndArmies.getSelectedRow();
+			if(val.size() == 0){
+				for(int j=0; j<player.currentGameStaticsList.size();j++){
+					if(player.currentGameStaticsList.get(j).infantries == 2){
+						val.add(j);
+					}
+				}
+			}
+			
+			if(val.size() == 0){
+				for(int j=0; j<player.currentGameStaticsList.size();j++){
+					if(player.currentGameStaticsList.get(j).infantries <= 4){
+						val.add(j);
+					}
+				}
+				index = Collections.min(val);
+			}
+			
+			if(val.size() > 0){
+				index = val.get(0);
+			}
+			
 
 				player.currentGameStaticsList.get(index).infantries++;
 				player.infantriesAvailable--;
@@ -87,14 +120,7 @@ public class BenevolentPlayerStrategy implements PlayerStrategy {
 						+ player.currentGameStaticsList.get(index).territory.getName().toUpperCase());
 				player.notifyObservers();
 
-				CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
-						"Player - " + player.getName() + " has placed infantry in "
-								+ player.currentGameStaticsList.get(index).territory.getName().toUpperCase());
-				LoggerUtility.consoleHandler.publish(logRecord);
-
 				if (player.infantriesAvailable == 0) {
-					// player.getPlayerPanel().btReinforcement.setEnabled(false);
-					// player.attack(i);
 					return 1;
 				}
 
@@ -107,13 +133,22 @@ public class BenevolentPlayerStrategy implements PlayerStrategy {
 	}
 
 	@Override
-	public int attackStrategy(Player[] player, int i, Player player2, RiskMap mapDetails) {
-		// TODO Auto-generated method stub
+	public int attackStrategy(Player[] player, int i, Player benevolent, RiskMap mapDetails) {
+
+		benevolent.setMessage("Player " + benevolent.getName() + " entered into ATTACK Phase");
+		benevolent.notifyObservers();
+
+		JDialog dialog = new JDialog();
+		dialog.add(new AttackGUIPanel(dialog, player, i, benevolent.currentGameStaticsTableModel,
+				benevolent.currentGameStaticsList, mapDetails));
+		dialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
+		dialog.setSize(1020, 600);
 		return 0;
+
 	}
 
 	@Override
-	public int fortificationStrategy() {
+	public int fortificationStrategy(int i, Player player, int army) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

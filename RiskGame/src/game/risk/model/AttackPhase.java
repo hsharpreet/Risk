@@ -14,11 +14,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Observable;
+import java.util.Random;
+
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.util.concurrent.*;
@@ -81,6 +84,83 @@ public class AttackPhase {
 		/**
 		 * A listener for main jtable
 		 */
+		
+		if (!player[myIndex].getName().toLowerCase().contains("random") && player[myIndex].isComputer()) {
+			player[myIndex].setMessage("Computer - " + player[myIndex].getName() + " I don't want to attack");
+			System.out.println("I don't want to attack");
+			return;
+		}
+
+		if (player[myIndex].isComputer()) {
+			int noOfAttacks = new Random().nextInt(5);
+			player[myIndex].setMessage("Computer - " + player[myIndex].getName() + " into attack phase, will do "+noOfAttacks+" random attacks");
+
+			ArrayList<String> attackList = new ArrayList<String>();
+
+			for (int x = 0; x < list.size(); x++) {
+				if (list.get(x).infantries > 1) {
+					// attacker.add(x);
+
+					getIndexFromMainTable(list, x);
+					for (int xx = 0; xx < tempGameStaticsList.size(); xx++) {
+						if (!tempGameStaticsList.get(xx).isOwn) {
+							attackList.add(x + ":" + xx);
+						}
+					}
+				}
+			}
+			for (int i = 0; i < noOfAttacks;) {
+				int choice = new Random().nextInt(attackList.size());
+
+				if (attackList.size() != 0) {
+					int index11 = Integer.valueOf(attackList.get(choice).split(":")[0]);
+					int index22 = Integer.valueOf(attackList.get(choice).split(":")[1]);
+					
+					AttackPhase.this.tempGameStaticsList.clear();
+					getIndexFromMainTable(list, index11);
+					
+					System.out.println(" 0 "+attackList.size());
+					System.out.println(" 1 "+index11);
+					System.out.println(" 2 "+index22);
+					System.out.println(" 3 "+list.size());
+					System.out.println(" 4 "+tempGameStaticsList.size());
+					System.out.println(" 5 "+list.get(index11).territory.getName());
+					System.out.println(" 6 "+tempGameStaticsList.get(index22).territory.getName());
+
+					
+					//this will update the lists
+					
+					if (checkIfMoreAttackPossible()) {
+						automateAttackButton(list, index11, index22);
+						performBtRoleDiceClick(list, index11, index22);
+						
+						 try {
+								TimeUnit.MILLISECONDS.sleep(200);
+								System.out.println("waiting for 0.2 sec");
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						
+						i++;
+					} else {
+						break;
+					}
+				} else {
+					break;
+				}
+				attackList.remove(choice);
+				updateOriginalListFromTempList();
+				AttackPhase.this.dialog.dispose();
+
+				player[myIndex].notifyObservers();
+
+				CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
+						"Player - " + player[myIndex].getName() + " into attack phase");
+				LoggerUtility.consoleHandler.publish(logRecord);
+			}
+		}
+
 		this.attackPanel.jtMain.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
@@ -113,7 +193,7 @@ public class AttackPhase {
 						JOptionPane.showMessageDialog(AttackPhase.this.attackPanel,
 								"Please select both SOURCE and DESTINATION");
 					} else {
-						AttackPhase.this.attackPanel.lbplayer1.setText("Player - " + (myIndex + 1));
+						AttackPhase.this.attackPanel.lbplayer1.setText("Player - " + player[myIndex].getName());
 
 						if (tempGameStaticsList.get(index2).isOwn) {
 							JOptionPane.showMessageDialog(AttackPhase.this.attackPanel,
@@ -123,16 +203,10 @@ public class AttackPhase {
 									"SOURCE has only 1 infantry. So can't attack from this territory");
 						} else {
 
-							player[myIndex].setMessage("Attack Phase\r\nPlayer - " + (myIndex + 1)
+							player[myIndex].setMessage("Attack Phase\r\nPlayer - " + player[myIndex].getName()
 									+ " is going to attack from " + list.get(index1).territory.getName().toUpperCase()
 									+ " to " + tempGameStaticsList.get(index2).territory.getName().toUpperCase());
 							player[myIndex].notifyObservers();
-
-							CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
-									"Player - " + (myIndex + 1) + " is going to attack from "
-											+ list.get(index1).territory.getName().toUpperCase() + " to "
-											+ tempGameStaticsList.get(index2).territory.getName().toUpperCase());
-							LoggerUtility.consoleHandler.publish(logRecord);
 
 							// Update Combo boxes
 							updateComboboxes();
@@ -180,7 +254,6 @@ public class AttackPhase {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
 				if (checkIfMoreAttackPossible()) {
 
 				} else {
@@ -245,7 +318,8 @@ public class AttackPhase {
 
 						if (tempGameStaticsList.get(index2).infantries == 0) {
 
-							// remove from old list and add this to current player's list
+							// remove from old list and add this to current
+							// player's list
 							for (int a = 0; a < player.length; a++) {
 								for (int b = 0; b < player[a].currentGameStaticsList.size(); b++) {
 									if (player[a].currentGameStaticsList.get(b).territory.getName()
@@ -256,28 +330,28 @@ public class AttackPhase {
 										player[myIndex].currentGameStaticsList
 												.add(player[a].currentGameStaticsList.get(b));
 										player[a].currentGameStaticsList.remove(b);
-										//break;
+										// break;
 									}
 								}
 							}
-							
+
 							// Assign Card to player
-                            for (int p = 0; p < player[myIndex].riskGame.alCards.size(); p++)
-                            {
-                                if (player[myIndex].riskGame.alCards.get(p).getPlayer() == -1)
-                                {
-                                    player[myIndex].riskGame.alCards.get(p).setPlayer(myIndex);
-                                    break;
-                                }
-                            }
+							for (int p = 0; p < player[myIndex].riskGame.alCards.size(); p++) {
+								if (player[myIndex].riskGame.alCards.get(p).getPlayer() == -1) {
+									player[myIndex].riskGame.alCards.get(p).setPlayer(myIndex);
+									break;
+								}
+							}
 
 							CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
-									"Player - " + (myIndex + 1) + " won and placed " + n1 + " infantries in "
+									"Player - " + player[myIndex].getName() + " won and placed " + n1
+											+ " infantries in "
 											+ (tempGameStaticsList.get(index2).territory.getName()));
 							LoggerUtility.consoleHandler.publish(logRecord);
 
 							JOptionPane.showMessageDialog(AttackPhase.this.attackPanel,
-									"Player - " + (myIndex + 1) + " won and placed " + n1 + " infantries in "
+									"Player - " + player[myIndex].getName() + " won and placed " + n1
+											+ " infantries in "
 											+ (tempGameStaticsList.get(index2).territory.getName()));
 
 							AttackPhase.this.attackPanel.btAttack.setEnabled(true);
@@ -293,11 +367,13 @@ public class AttackPhase {
 						list.get(index1).infantries--;
 						AttackPhase.this.attackPanel.lbInfantriesPlayer1.setText(list.get(index1).infantries + "");
 						if (list.get(index1).infantries == 1) {
-							CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Player - " + (myIndex + 1)
+							CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Player - "
+									+ player[myIndex].getName()
 									+ " has left only 1 infantry, so no more dice rolling possible for this territory");
 							LoggerUtility.consoleHandler.publish(logRecord);
 
-							JOptionPane.showMessageDialog(AttackPhase.this.attackPanel, "Player - " + (myIndex + 1)
+							JOptionPane.showMessageDialog(AttackPhase.this.attackPanel, "Player - "
+									+ player[myIndex].getName()
 									+ " has left only 1 infantry, so no more dice rolling possible for this territory");
 							AttackPhase.this.attackPanel.btAttack.setEnabled(true);
 							AttackPhase.this.attackPanel.btCloseAttackPhase.setEnabled(true);
@@ -313,8 +389,9 @@ public class AttackPhase {
 				AttackPhase.this.currentGameStaticsTableModel.fireTableDataChanged();
 
 				if (!checkIfMoreAttackPossible()) {
-					JOptionPane.showMessageDialog(attackPanel,
+					CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
 							"Your each territory has only 1 infantry.\nSo no more attach possible now");
+					LoggerUtility.consoleHandler.publish(logRecord);
 					AttackPhase.this.dialog.dispose();
 				}
 
@@ -331,12 +408,143 @@ public class AttackPhase {
 			}
 		});
 
-		player[myIndex].setMessage("Player - " + (myIndex + 1) + " into attack phase");
+		player[myIndex].setMessage("Player - " + player[myIndex].getName() + " FINISHED with attack phase");
 		player[myIndex].notifyObservers();
 
-		CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Player - " + (myIndex + 1) + " into attack phase");
+	}
+
+	private int getIndexFromMainTable(List<CurrentGameStatics> list, int index11) {
+		
+		if (index11 != -1) {
+			AttackPhase.this.tempGameStaticsList.clear();
+			updateTempList(index11);
+			AttackPhase.this.attackPanel.cbplayer1.removeAllItems();
+			AttackPhase.this.attackPanel.cbplayer2.removeAllItems();
+		}
+		return index11 < 0 ? 0 : index11;
+	}
+
+	private int getIndexFromOtherTable(List<CurrentGameStatics> list, int index22) {
+		if (index22 != -1) {
+			AttackPhase.this.attackPanel.cbplayer1.removeAllItems();
+			AttackPhase.this.attackPanel.cbplayer2.removeAllItems();
+		}
+		
+		return index22;
+	}
+	
+	private void automateAttackButton(List<CurrentGameStatics> list, int index1, int index2) {
+
+		AttackPhase.this.attackPanel.lbplayer1.setText("Player - " + player[myIndex].getName());
+
+		String msg = "Attack Phase\r\nPlayer - " + player[myIndex].getName() + " is going to attack from "
+				+ list.get(index1).territory.getName().toUpperCase() + " with "+ list.get(index1).infantries +" to " 
+				+ tempGameStaticsList.get(index2).territory.getName().toUpperCase() + " with "+
+				tempGameStaticsList.get(index2).infantries;
+		player[myIndex].setMessage(msg);
+		player[myIndex].notifyObservers();
+
+		CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, msg);
 		LoggerUtility.consoleHandler.publish(logRecord);
 
+		// Update Combo boxes
+		updateComboboxes();
+
+		AttackPhase.this.attackPanel.lbInfantriesPlayer1.setText(list.get(index1).infantries + "");
+		AttackPhase.this.attackPanel.lbInfantriesPlayer2.setText(tempGameStaticsList.get(index2).infantries + "");
+	}
+
+	private void performBtRoleDiceClick(List<CurrentGameStatics> list, int index1, int index2) {
+		
+		int n1 = AttackPhase.this.attackPanel.cbplayer1.getItemCount();
+		int n2 = AttackPhase.this.attackPanel.cbplayer2.getItemCount();
+
+		CustomLogRecord logRecord;
+		
+		Integer[] diceValuesPlayer1 = new Integer[n1];
+		Integer[] diceValuesPlayer2 = new Integer[n2];
+
+		String s1 = "";
+		String s2 = "";
+		
+		for (int i = 0; i < diceValuesPlayer1.length; i++) {
+			diceValuesPlayer1[i] = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+			s1 += diceValuesPlayer1[i] + "  ";
+		}
+
+		for (int i = 0; i < diceValuesPlayer2.length; i++) {
+			diceValuesPlayer2[i] = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+			s2 += diceValuesPlayer2[i] + "  ";
+		}
+
+
+		Arrays.sort(diceValuesPlayer1, Collections.reverseOrder());
+		Arrays.sort(diceValuesPlayer2, Collections.reverseOrder());
+
+		System.out.println("DICE1 "+s1+", DICE2 "+s2);
+		
+		int smallArrayLength = diceValuesPlayer1.length < diceValuesPlayer2.length ? diceValuesPlayer1.length
+				: diceValuesPlayer2.length;
+
+		for (int i = 0; i < smallArrayLength; i++) {
+			if (diceValuesPlayer1[i] > diceValuesPlayer2[i]) {
+
+				tempGameStaticsList.get(index2).infantries--;
+				list.get(index1).infantries++;
+				
+				logRecord = new CustomLogRecord(Level.INFO, "Player - " + player[myIndex].getName() + " won and placed "
+						+ n1 + " infantries on " + (tempGameStaticsList.get(index2).territory.getName()));
+				LoggerUtility.consoleHandler.publish(logRecord);
+				
+				if (tempGameStaticsList.get(index2).infantries == 0) {
+
+					// remove from old list and add this to current player's list
+					for (int a = 0; a < player.length; a++) {
+						for (int b = 0; b < player[a].currentGameStaticsList.size(); b++) {
+							if (player[a].currentGameStaticsList.get(b).territory.getName()
+									.equals(tempGameStaticsList.get(index2).territory.getName())) {
+								player[a].currentGameStaticsList.get(b).player = AttackPhase.this.myIndex;
+								player[a].currentGameStaticsList.get(b).infantries = n1;
+								AttackPhase.this.currentGameStaticsList.get(index1).infantries -= n1;
+								player[myIndex].currentGameStaticsList.add(player[a].currentGameStaticsList.get(b));
+								player[a].currentGameStaticsList.remove(b);
+							}
+						}
+					}
+
+					// Assign Card to player
+                    for (int p = 0; p < player[myIndex].riskGame.alCards.size(); p++)
+                    {
+                        if (player[myIndex].riskGame.alCards.get(p).getPlayer() == -1)
+                        {
+                            player[myIndex].riskGame.alCards.get(p).setPlayer(myIndex);
+                            break;
+                        }
+                    }
+
+					tempGameStaticsList.remove(index2);
+					break;
+				}
+			} else {
+				list.get(index1).infantries--;
+				logRecord = new CustomLogRecord(Level.INFO, "Player - " + player[myIndex].getName() + " LOST "
+						+ n1 + " infantries to " + (tempGameStaticsList.get(index2).territory.getName()));
+				LoggerUtility.consoleHandler.publish(logRecord);
+				
+				if (list.get(index1).infantries == 1) {
+					 logRecord = new CustomLogRecord(Level.INFO, "Player - " + player[myIndex].getName()
+							+ " has left only 1 infantry, so no more dice rolling possible for this territory");
+					LoggerUtility.consoleHandler.publish(logRecord);
+					break;
+				}
+			}
+			this.index1 = index1;
+			this.index2 = index2;
+			
+			updateComboboxes();
+		}
+		AttackPhase.this.tempTableModel.fireTableDataChanged();
+		AttackPhase.this.currentGameStaticsTableModel.fireTableDataChanged();
 	}
 
 	/**

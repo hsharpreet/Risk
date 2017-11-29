@@ -427,7 +427,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 		jScrollPane1.setBounds(10, 90, 960, 420);
 
 		taObserverMessage.setColumns(20);
-		taObserverMessage.setFont(new java.awt.Font("Monospaced", 0, 16));
+		taObserverMessage.setFont(new java.awt.Font("Monospaced", 0, 12));
 		taObserverMessage.setRows(5);
 		taObserverMessage.setWrapStyleWord(true);
 		taObserverMessage.setEditable(false);
@@ -582,7 +582,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 					} else {
 						player[i] = new Player(RiskGame.this, i, player, mapDetails); 
 						player[i].setComputer(true);
-						player[i].setName(playerType.get(i));
+						player[i].setName(playerType.get(i)+""+i);
 						
 						if(playerType.get(i).equalsIgnoreCase("aggressive")){
 							logRecord = new CustomLogRecord(Level.INFO,
@@ -768,35 +768,40 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 	public void update(Observable o, Object arg) {
 
 		Player playerObservable = (Player) o;
-
 		String message = playerObservable.getMessage();
 		CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Observable : " + message);
 		LoggerUtility.consoleHandler.publish(logRecord);
-		
+		String taMsg = "";
 		if (message.startsWith("Percentage ")) {
 			String percentageValues = message.substring(11);
 			String values[] = percentageValues.split(",");
 			for (int i = 0; i < values.length; i++) {
-				if(!values[i].contains("100")) {
+				if (!values[i].contains("100")) {
 					labels[i].setText("Player " + (i + 1) + " - " + values[i] + "%");
-				}else {
+				} else {
 					labels[i].setText("Player " + (i + 1) + " - " + "WINS");
 					jpPlayground.removeAll();
 					jpPlayground.revalidate();
 					jpPlayground.repaint();
 					break;
 				}
-				
-			}
-		}else if(message.startsWith("RiskCardInfantries"))
-        {
-            String values[] = message.split(",");
-            int index = Integer.parseInt(values[1]);
-            taObserverMessage.setText(message);
 
-            player[index].getPlayerPanel().lbMessage3.setText(values[2]);
-        } else {
-			taObserverMessage.setText(message);
+			}
+		} else if (message.startsWith("RiskCardInfantries")) {
+			String values[] = message.split(",");
+			int index = Integer.parseInt(values[1]);
+			taMsg += taObserverMessage.getText()+"\n"+message+"\n";
+			taObserverMessage.setText(taMsg);
+			player[index].getPlayerPanel().lbMessage3.setText(values[2]);
+			
+		} else {
+			taMsg += taObserverMessage.getText()+"\n"+message+"\n";
+			taObserverMessage.setText(taMsg);
+		}
+		
+		if(taMsg.length() >= 1000){
+			taMsg = taMsg.substring(taMsg.length()-1000, taMsg.length());
+			taObserverMessage.setText(taMsg);
 		}
 
 	}

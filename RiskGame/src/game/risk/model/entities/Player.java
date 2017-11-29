@@ -88,8 +88,8 @@ public class Player extends Observable {
 		this.strategy = strategy;
 	}
 
-	public int fortificationStrategy() {
-		return this.strategy.fortificationStrategy();
+	public int fortificationStrategy(int i, Player p, int army) {
+		return this.strategy.fortificationStrategy(i, p, army);
 	}
 
 	public int placeInfantoryStrategy(int i, Player player, int army) {
@@ -422,10 +422,7 @@ public class Player extends Observable {
 		player[0].setMessage("Player - " + player[0].getName() + " entered into Reinforcement Phase");
 		player[0].notifyObservers();
 		player[0].getPlayerPanel().btReinforcement.setEnabled(true);
-
-		CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
-				"Player - " + player[0].getName() + "entered into Reinforcement Phase");
-		LoggerUtility.consoleHandler.publish(logRecord);
+		
 		i = 0;
 	}
 
@@ -474,7 +471,6 @@ public class Player extends Observable {
 		
 		player[0].attackStrategy(player, i, player[i], mapDetails);
 		return true;
-		
 	}
 
 	/**
@@ -522,6 +518,22 @@ public class Player extends Observable {
 		}
 	}
 
+	private void updatePercentage(Player p, String phase){
+		String percentageString = "";
+		int totalTerritories = mapDetails.getTerritories().size();
+		for (int i2 = 0; i2 < player.length; i2++) {
+			double per = (player[i2].currentGameStaticsList.size() * 100.0) / totalTerritories;
+			DecimalFormat df = new DecimalFormat("##.##");
+			per = Double.parseDouble(df.format(per));
+			if (i < player.length - 1)
+				percentageString += per + ",";
+			else
+				percentageString += per;
+		}
+
+		p.setMessage("Percentage " + percentageString);
+		p.setMessage("Player - " + p.getName() + " entered into "+phase+" Phase");
+	}
 	/**
 	 * Method to get the next player turn
 	 * 
@@ -531,31 +543,23 @@ public class Player extends Observable {
 	public void nextPlayerTurn(int i) {
 
 		for (int k = 1; k < player.length; k++) {
-			if (player[k].infantriesAvailable > 0) {
-				for (int kk = 0; kk < player[k].infantriesAvailable; kk++) {
+			
+			updatePercentage(player[k], "REINFORCEMENT");
+			player[k].reinforcementStrategy(k, player[k], player[k].infantriesAvailable);
+			player[k].currentGameStaticsTableModel.fireTableDataChanged();
+			player[k].notifyObservers();
+			
+			updatePercentage(player[k], "ATTACK");
+			player[k].attackStrategy(player, k, player[k], mapDetails);
+			player[k].currentGameStaticsTableModel.fireTableDataChanged();
+			player[k].notifyObservers();
+			
+			updatePercentage(player[k], "FORTIFICATION");
+			player[k].fortificationStrategy(k, player[k], player[k].infantriesAvailable);
+			player[k].currentGameStaticsTableModel.fireTableDataChanged();
+			player[k].notifyObservers();
+			
 
-					player[kk].reinforcementStrategy(k, player[k], player[k].infantriesAvailable);
-					// player[kk].getPlayerPanel().btReinforcement.setEnabled(true);
-					player[kk].setMessage("Player - " + player[kk].getName() + " entered into Reinforcement Phase");
-					player[kk].notifyObservers();
-
-					CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
-							"Player - " + player[kk].getName() + " entered into Reinforcement Phase");
-					LoggerUtility.consoleHandler.publish(logRecord);
-				}
-
-				for (int kk = 0; kk < player[k].infantriesAvailable; kk++) {
-
-					player[kk].fortificationStrategy();
-					// player[kk].getPlayerPanel().btReinforcement.setEnabled(true);
-					player[kk].setMessage("Player - " + player[kk].getName() + " entered into Reinforcement Phase");
-					player[kk].notifyObservers();
-
-					CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
-							"Player - " + player[kk].getName() + " entered into Reinforcement Phase");
-					LoggerUtility.consoleHandler.publish(logRecord);
-				}
-			}
 		}
 
 		player[i].getPlayerPanel().lbMessage1.setText("");
@@ -609,7 +613,7 @@ public class Player extends Observable {
 				.addListSelectionListener(new MyListSelectionListener(myIndex, player));
 		playerPanel.btFortification.addActionListener(new FortificationClickListener(myIndex, player));
 		playerPanel.btOk.addActionListener(new OkClickListener(myIndex, player));
-		playerPanel.btReinforcement.addActionListener(new ReinforcementClickListener(myIndex, player, riskGame));
+		playerPanel.btReinforcement.addActionListener(new ReinforcementClickListener(myIndex, player));
 	}
 
 	private String message;

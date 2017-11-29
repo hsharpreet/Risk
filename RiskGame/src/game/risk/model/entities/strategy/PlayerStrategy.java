@@ -15,7 +15,7 @@ public interface PlayerStrategy {
 
 	public int attackStrategy(Player player[],int i, Player player2, RiskMap mapDetails);
 
-	public int fortificationStrategy();
+	public int fortificationStrategy(int i, Player player, int army);
 	
 	public default int randomNumber(int size) {
 		double d = Math.random();

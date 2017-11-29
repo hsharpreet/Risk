@@ -11,6 +11,7 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import game.risk.gui.AttackGUIPanel;
+import game.risk.model.AttackPhase;
 import game.risk.model.entities.Player;
 import game.risk.model.entities.RiskMap;
 import game.risk.util.CustomLogRecord;
@@ -39,13 +40,6 @@ public class RandomPlayerStrategy implements PlayerStrategy {
 				LoggerUtility.consoleHandler.publish(logRecord);
 			}
 			for (int x = 0; x < loop; x++) {
-                try {
-					TimeUnit.MILLISECONDS.sleep(1000);
-					System.out.println("waiting for 1 sec");
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 
 				index = randomNumber(player.currentGameStaticsList.size());
 				player.currentGameStaticsList.get(index).infantries++;
@@ -57,11 +51,6 @@ public class RandomPlayerStrategy implements PlayerStrategy {
 						+ player.currentGameStaticsList.get(index).territory.getName().toUpperCase()
 						+ " and turn switched to next player");
 				player.notifyObservers();
-				CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
-						"Player - " + player.getName() + " has placed infantry in "
-								+ player.currentGameStaticsList.get(index).territory.getName().toUpperCase()
-								+ " and turn switched to next player");
-				LoggerUtility.consoleHandler.publish(logRecord);
 			}
 
 			player.getPlayerPanel().btPlaceInfantry.setEnabled(false);
@@ -77,7 +66,6 @@ public class RandomPlayerStrategy implements PlayerStrategy {
 		int loop = (player.infantriesAvailable > 0) ? 1 : 0;
 
 		if (army > 0) {
-			//loop = (player.infantriesAvailable > 0) ? 1 : player.infantriesAvailable;
 			loop = army;
 			CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Human has finished with reinforcing armies, "
 					+ player.getName() + " will place all their left armies now!");
@@ -85,10 +73,9 @@ public class RandomPlayerStrategy implements PlayerStrategy {
 		}
 
 		if (player.infantriesAvailable > 0) {
-		for (int x = 0; x < loop; x++) {
+			for (int x = 0; x < loop; x++) {
 
-			
-				int index = randomNumber(player.currentGameStaticsList.size());// player.getPlayerPanel().jtCountriesAndArmies.getSelectedRow();
+				int index = randomNumber(player.currentGameStaticsList.size());
 
 				player.currentGameStaticsList.get(index).infantries++;
 				player.infantriesAvailable--;
@@ -100,68 +87,85 @@ public class RandomPlayerStrategy implements PlayerStrategy {
 						+ player.currentGameStaticsList.get(index).territory.getName().toUpperCase());
 				player.notifyObservers();
 
-				CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
-						"Player - " + player.getName() + " has placed infantry in "
-								+ player.currentGameStaticsList.get(index).territory.getName().toUpperCase());
-				LoggerUtility.consoleHandler.publish(logRecord);
-
 				if (player.infantriesAvailable == 0) {
-					// player.getPlayerPanel().btReinforcement.setEnabled(false);
-					// player.attack(i);
 					return 1;
 				}
 
-		}
-		}else {
-			JOptionPane.showMessageDialog(player.getPlayerPanel(), "No army available");
+			}
+		} else {
+			CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
+					"No army available");
+			LoggerUtility.consoleHandler.publish(logRecord);
 		}
 		return 0;
 
 	}
 
 	@Override
-	public int attackStrategy(Player player[],int ii, Player player2, RiskMap mapDetails) {
+	public int attackStrategy(Player player[], int ii, Player random, RiskMap mapDetails) {
 
-				String percentageString = "";
-				int totalTerritories = mapDetails.getTerritories().size();
-				for (int i = 0; i < player.length; i++) {
-					double per = (player2.currentGameStaticsList.size() * 100.0) / totalTerritories;
-					DecimalFormat df = new DecimalFormat("##.##");
-					per = Double.parseDouble(df.format(per));
-					if (i < player.length - 1)
-						percentageString += per + ",";
-					else
-						percentageString += per;
+		random.setMessage("Player " + random.getName() + " entered into ATTACK Phase");
+		random.notifyObservers();
+
+		JDialog dialog = new JDialog();
+		dialog.add(new AttackGUIPanel(dialog, player, ii, random.currentGameStaticsTableModel,
+				random.currentGameStaticsList, mapDetails));
+		dialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
+		//dialog.setSize(1020, 600);
+		// dialog.setVisible(true);
+		// new AttackPhase(player, ii, random.currentGameStaticsTableModel,
+		// random.currentGameStaticsList, mapDetails);
+		return 0;
+	}
+
+	@Override
+	public int fortificationStrategy(int i, Player random, int army) {
+
+
+		int tableIndex = random.getPlayerPanel().jtCountriesAndArmies.getSelectedRow();
+		int listIndex = random.getPlayerPanel().lsNeighbour.getSelectedIndex();
+		
+			String destinationTerritory = random.getPlayerPanel().lsNeighbour.getSelectedValue();
+			boolean isDestinationMyOwnCountry = false;
+			for (int j = 0; j < random.currentGameStaticsList.size(); j++) {
+				if (random.currentGameStaticsList.get(j).territory.getName().equals(destinationTerritory)) {
+					isDestinationMyOwnCountry = true;
+					break;
 				}
+			}
+			if (isDestinationMyOwnCountry) {
+				if (random.currentGameStaticsList.get(tableIndex).infantries > 1) {
 
-				player2.setMessage("Percentage " + percentageString);
+					random.currentGameStaticsList.get(tableIndex).infantries--;
 
-				int ans = JOptionPane.showConfirmDialog(player2.getPlayerPanel(),
-						"Player - " + (ii + 1) + "\nDo you want to do fortification ?", "Fortification Confirmition",
-						JOptionPane.YES_NO_OPTION);
+					for (int j = 0; j < random.currentGameStaticsList.size(); j++) {
+						if (random.currentGameStaticsList.get(j).territory.getName().equals(destinationTerritory)) {
+							random.currentGameStaticsList.get(j).infantries++;
+							random.setMessage(
+									"Fortification Phase\r\nPlayer - " + (i + 1) + " has transfered 1 infantry from "
+											+ random.currentGameStaticsList.get(tableIndex).territory.getName()
+											+ " to " + destinationTerritory);
+							random.notifyObservers();
 
-				if (ans == JOptionPane.YES_OPTION) {
-					player2.getPlayerPanel().btFortification.setEnabled(true);
-					player2.getPlayerPanel().btOk.setEnabled(true);
+							CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
+									"Player - " + (i + 1) + " has transfered 1 infantry from "
+											+ random.currentGameStaticsList.get(tableIndex).territory.getName()
+											+ " to " + destinationTerritory);
+							LoggerUtility.consoleHandler.publish(logRecord);
 
-					player2.setMessage("Player " + (ii + 1) + " entered into Fortification Phase");
-					player2.notifyObservers();
-
-					CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
-							"Player " + (ii + 1) + " entered into Fortification Phase");
-					LoggerUtility.consoleHandler.publish(logRecord);
-
+							random.currentGameStaticsTableModel.fireTableDataChanged();
+							break;
+						}
+					}
 				} else {
-					player2.nextPlayerTurn(ii);
+					JOptionPane.showMessageDialog(random.getPlayerPanel(),
+							"Source territory must have more that 1 infantries for fortification");
 				}
-			
+			} else {
+				JOptionPane.showMessageDialog(random.getPlayerPanel(),
+						"Destination territory must be your territory");
+			}
 	
-		return 0;
-	}
-
-	@Override
-	public int fortificationStrategy() {
-		System.out.println("Random Player strategy fortify");
 		return 0;
 	}
 }
