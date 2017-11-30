@@ -414,10 +414,7 @@ public class Player extends Observable implements Serializable {
 
 			player[i].infantriesTotal += (n + m);
 			player[i].getPlayerPanel().lbTotalArmies.setText("Total Infantry : " + player[i].infantriesTotal);
-			player[i].infantriesAvailable = n + m +10;
-			if(!player[i].isComputer){
-				player[i].infantriesAvailable = 2;
-			}
+			player[i].infantriesAvailable = n + m;
 			player[i].getPlayerPanel().lbMessage1.setText("Got infantries from continent " + (n - nVal));
 			player[i].getPlayerPanel().lbMessage2.setText("Got infantries from terrotries " + nVal);
 			player[i].getPlayerPanel().lbMessage3.setText("Got infantries from risk card " + m);
