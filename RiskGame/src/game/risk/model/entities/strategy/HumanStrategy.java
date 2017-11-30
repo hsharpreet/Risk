@@ -17,21 +17,40 @@ import game.risk.model.entities.RiskMap;
 import game.risk.util.CustomLogRecord;
 import game.risk.util.LoggerUtility;
 
-public class HumanStrategy implements PlayerStrategy , Serializable  {
+/**
+ * Class to create human strategy
+ * 
+ * @author Team
+ *
+ */
+public class HumanStrategy implements PlayerStrategy, Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * A constructor
+	 */
 	public HumanStrategy() {
-		CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
-				"Strategy: Human Strategy");
+		CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Strategy: Human Strategy");
 		LoggerUtility.consoleHandler.publish(logRecord);
 	}
+
 	@Override
+	/**
+	 *
+	 * Method to place available infantry
+	 * 
+	 * @param i
+	 *            Player Index
+	 * @param player
+	 *            Object Of Player Class
+	 * @param army
+	 *            no. of armies
+	 * @return an integer value
+	 */
+
 	public int placeInfantoryStrategy(int i, Player player, int army) {
-		
+
 		int index = player.getPlayerPanel().jtCountriesAndArmies.getSelectedRow();
 		if (index == -1) {
 			JOptionPane.showMessageDialog(player.getPlayerPanel(), "Select terriotary first");
@@ -55,6 +74,17 @@ public class HumanStrategy implements PlayerStrategy , Serializable  {
 	}
 
 	@Override
+	/**
+	 * Method For Reinforcement
+	 * 
+	 * @param i
+	 *            Player Index
+	 * @param player
+	 *            Object Of Player Class
+	 * @param army
+	 *            no. of armies
+	 * @return an integer value
+	 */
 	public int reinforcementStrategy(int i, Player player, int army) {
 		if (player.infantriesAvailable > 0) {
 			int index = player.getPlayerPanel().jtCountriesAndArmies.getSelectedRow();
@@ -83,6 +113,19 @@ public class HumanStrategy implements PlayerStrategy , Serializable  {
 	}
 
 	@Override
+	/**
+	 * Method for attack strategy
+	 * 
+	 * @param player
+	 *            array of player class
+	 * @param i
+	 *            Player index
+	 * @param benevolent
+	 *            attribute of Player class
+	 * @param mapDetails
+	 *            an object of RiskMap
+	 * @return an integer value
+	 */
 	public int attackStrategy(Player[] player, int i, Player player2, RiskMap mapDetails) {
 		int ans = JOptionPane.showConfirmDialog(player[i].getPlayerPanel(),
 				"Player : " + player[i].getName() + "\nDo you want to do attack ?", "Attack Confirmition",
@@ -110,41 +153,54 @@ public class HumanStrategy implements PlayerStrategy , Serializable  {
 						player[i].setMessage("Player " + player[i].getName() + " entered into Fortification Phase");
 						player[i].notifyObservers();
 
-					} 
+					}
 				}
 			});
 			dialog.setVisible(true);
-		}else{
+		} else {
 			return 0;
 		}
 		return 0;
 	}
 
 	@Override
+	/**
+	 * Method for fortification
+	 * 
+	 * @param i
+	 *            Player index
+	 * @param player
+	 *            an object of Player class
+	 * @param army
+	 *            Number of armies
+	 * @return an integer value
+	 */
 	public int fortificationStrategy(int i, Player human, int army) {
 
 		int tableIndex = human.getPlayerPanel().jtCountriesAndArmies.getSelectedRow();
 		int listIndex = human.getPlayerPanel().lsNeighbour.getSelectedIndex();
-		
+
 		ArrayList<String> terrList = new ArrayList<String>();
 		ArrayList<String> list = new ArrayList<String>();
-		
-		for(int j=0; j< human.currentGameStaticsList.size(); j++){
+
+		for (int j = 0; j < human.currentGameStaticsList.size(); j++) {
 			list.add(human.currentGameStaticsList.get(j).territory.getName());
 		}
-		
-		for(int j=0; j< list.size(); j++){
 
-			for(int jj=0; jj< human.currentGameStaticsList.get(j).territory.getNeighbouringTerritories().size(); jj++){
-				String destinationTerritory = human.currentGameStaticsList.get(j).territory.getNeighbouringTerritories().get(jj);
-				if(list.contains(destinationTerritory) && human.currentGameStaticsList.get(j).infantries >1){
-					terrList.add(j+":"+jj);
+		for (int j = 0; j < list.size(); j++) {
+
+			for (int jj = 0; jj < human.currentGameStaticsList.get(j).territory.getNeighbouringTerritories()
+					.size(); jj++) {
+				String destinationTerritory = human.currentGameStaticsList.get(j).territory.getNeighbouringTerritories()
+						.get(jj);
+				if (list.contains(destinationTerritory) && human.currentGameStaticsList.get(j).infantries > 1) {
+					terrList.add(j + ":" + jj);
 				}
 			}
 		}
 		int possibleMoves = terrList.size();
-		
-		System.out.println("HUMAN "+possibleMoves+" - "+terrList+" - "+list.size());
+
+		System.out.println("HUMAN " + possibleMoves + " - " + terrList + " - " + list.size());
 
 		if (tableIndex == -1) {
 			JOptionPane.showMessageDialog(human.getPlayerPanel(), "Select source territory first");
@@ -153,8 +209,7 @@ public class HumanStrategy implements PlayerStrategy , Serializable  {
 		} else {
 			String destinationTerritory = human.getPlayerPanel().lsNeighbour.getSelectedValue();
 			boolean isDestinationMyOwnCountry = false;
-			 
-			
+
 			for (int j = 0; j < human.currentGameStaticsList.size(); j++) {
 				if (human.currentGameStaticsList.get(j).territory.getName().equals(destinationTerritory)) {
 					isDestinationMyOwnCountry = true;
@@ -171,14 +226,14 @@ public class HumanStrategy implements PlayerStrategy , Serializable  {
 							human.currentGameStaticsList.get(j).infantries++;
 							human.setMessage(
 									"Fortification Phase\r\nPlayer - " + (i + 1) + " has transfered 1 infantry from "
-											+ human.currentGameStaticsList.get(tableIndex).territory.getName()
-											+ " to " + destinationTerritory);
+											+ human.currentGameStaticsList.get(tableIndex).territory.getName() + " to "
+											+ destinationTerritory);
 							human.notifyObservers();
 
 							CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
 									"Player - " + (i + 1) + " has transfered 1 infantry from "
-											+ human.currentGameStaticsList.get(tableIndex).territory.getName()
-											+ " to " + destinationTerritory);
+											+ human.currentGameStaticsList.get(tableIndex).territory.getName() + " to "
+											+ destinationTerritory);
 							LoggerUtility.consoleHandler.publish(logRecord);
 
 							human.currentGameStaticsTableModel.fireTableDataChanged();
@@ -190,11 +245,10 @@ public class HumanStrategy implements PlayerStrategy , Serializable  {
 							"Source territory must have more that 1 infantries for fortification");
 				}
 			} else {
-				JOptionPane.showMessageDialog(human.getPlayerPanel(),
-						"Destination territory must be your territory");
+				JOptionPane.showMessageDialog(human.getPlayerPanel(), "Destination territory must be your territory");
 			}
 		}
-	
+
 		return 0;
 	}
 
