@@ -581,6 +581,12 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 		}
 	}
 
+	/**
+	 * Method for Load button
+	 * 
+	 * @param evt
+	 *            an action event component
+	 */
 	private void btLoadGameActionPerformed(java.awt.event.ActionEvent evt) {
 		JFileChooser ch = new JFileChooser();
 		int ans = ch.showOpenDialog(this);
@@ -593,6 +599,12 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 		}
 	}
 
+	/**
+	 * Method for tournament button
+	 * 
+	 * @param evt
+	 *            an action event component
+	 */
 	private void btTournamentActionPerformed(java.awt.event.ActionEvent evt) {
 		// TournamentTest tour=new TournamentTest();
 		java.awt.EventQueue.invokeLater(new Runnable() {
@@ -608,8 +620,11 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 	 * load button action performed, loads map to playground
 	 * 
 	 * @param playerCount
-	 * 
+	 *            number of players
+	 * @param playerType
+	 *            a hashMap
 	 * @param evt
+	 *            an action event component
 	 */
 	private void btLoadActionPerformed(int playerCount, HashMap<Integer, String> playerType) {
 		if (mapFile != null) {

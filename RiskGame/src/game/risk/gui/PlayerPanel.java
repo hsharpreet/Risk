@@ -15,6 +15,7 @@ public class PlayerPanel extends javax.swing.JPanel implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
 	/**
 	 * Constructor to Initialize object and it has the fields which saves the
 	 * present panel of the player playing
@@ -45,10 +46,10 @@ public class PlayerPanel extends javax.swing.JPanel implements Serializable {
 		btFortification = new javax.swing.JButton();
 
 		lbMessage4 = new javax.swing.JLabel();
-        lbMessage2 = new javax.swing.JLabel();
-        lbMessage3 = new javax.swing.JLabel();
-        lbMessage5 = new javax.swing.JLabel();
-        
+		lbMessage2 = new javax.swing.JLabel();
+		lbMessage3 = new javax.swing.JLabel();
+		lbMessage5 = new javax.swing.JLabel();
+
 		setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 		setLayout(null);
 
@@ -106,30 +107,30 @@ public class PlayerPanel extends javax.swing.JPanel implements Serializable {
 		btFortification.setText("Fortification");
 		add(btFortification);
 		btFortification.setBounds(250, 290, 110, 30);
-		
-		 lbMessage4.setBackground(new java.awt.Color(255, 255, 153));
-	        lbMessage4.setForeground(new java.awt.Color(204, 0, 0));
-	        lbMessage4.setText("-----");
-	        add(lbMessage4);
-	        lbMessage4.setBounds(10, 410, 280, 20);
 
-	        lbMessage2.setBackground(new java.awt.Color(255, 255, 153));
-	        lbMessage2.setForeground(new java.awt.Color(204, 0, 0));
-	        lbMessage2.setText("-----");
-	        add(lbMessage2);
-	        lbMessage2.setBounds(10, 350, 280, 20);
+		lbMessage4.setBackground(new java.awt.Color(255, 255, 153));
+		lbMessage4.setForeground(new java.awt.Color(204, 0, 0));
+		lbMessage4.setText("-----");
+		add(lbMessage4);
+		lbMessage4.setBounds(10, 410, 280, 20);
 
-	        lbMessage3.setBackground(new java.awt.Color(255, 255, 153));
-	        lbMessage3.setForeground(new java.awt.Color(204, 0, 0));
-	        lbMessage3.setText("-----");
-	        add(lbMessage3);
-	        lbMessage3.setBounds(10, 370, 280, 20);
+		lbMessage2.setBackground(new java.awt.Color(255, 255, 153));
+		lbMessage2.setForeground(new java.awt.Color(204, 0, 0));
+		lbMessage2.setText("-----");
+		add(lbMessage2);
+		lbMessage2.setBounds(10, 350, 280, 20);
 
-	        lbMessage5.setBackground(new java.awt.Color(255, 255, 153));
-	        lbMessage5.setForeground(new java.awt.Color(0, 0, 255));
-	        lbMessage5.setText("-------------------------");
-	        add(lbMessage5);
-	        lbMessage5.setBounds(10, 390, 280, 20);
+		lbMessage3.setBackground(new java.awt.Color(255, 255, 153));
+		lbMessage3.setForeground(new java.awt.Color(204, 0, 0));
+		lbMessage3.setText("-----");
+		add(lbMessage3);
+		lbMessage3.setBounds(10, 370, 280, 20);
+
+		lbMessage5.setBackground(new java.awt.Color(255, 255, 153));
+		lbMessage5.setForeground(new java.awt.Color(0, 0, 255));
+		lbMessage5.setText("-------------------------");
+		add(lbMessage5);
+		lbMessage5.setBounds(10, 390, 280, 20);
 	}
 
 	// Variables declaration
@@ -143,10 +144,10 @@ public class PlayerPanel extends javax.swing.JPanel implements Serializable {
 	public javax.swing.JTable jtCountriesAndArmies;
 	public javax.swing.JLabel lbAvailableArmies;
 	public javax.swing.JLabel lbMessage1;
-    public javax.swing.JLabel lbMessage2;
-    public javax.swing.JLabel lbMessage3;
-    public javax.swing.JLabel lbMessage4;
-    public javax.swing.JLabel lbMessage5;
+	public javax.swing.JLabel lbMessage2;
+	public javax.swing.JLabel lbMessage3;
+	public javax.swing.JLabel lbMessage4;
+	public javax.swing.JLabel lbMessage5;
 	public javax.swing.JLabel lbPlayer;
 	public javax.swing.JLabel lbTotalArmies;
 	public javax.swing.JList<String> lsNeighbour;

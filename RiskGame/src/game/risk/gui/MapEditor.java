@@ -36,7 +36,7 @@ public class MapEditor {
 	private LinkedHashSet<String> adjacentCountriesToNewCountry;
 
 	public MapEditor(String mapFile) {
-		
+
 		this.mapFile = mapFile;
 
 		mapReader = new MapReader();
@@ -50,7 +50,8 @@ public class MapEditor {
 	/**
 	 * Method that loads the riskMap object on GUI
 	 * 
-	 * @throws Exception runtime exception
+	 * @throws Exception
+	 *             runtime exception
 	 */
 	public void loadMap() throws Exception {
 		JFrame mapEditorFrame = new JFrame("MAP GUI");
@@ -69,7 +70,7 @@ public class MapEditor {
 				countrySelectedToShowLinksToDeleteTF;
 
 		JComboBox selectContinentForNewCountry, selectAdjacentCountry, selectModifiedContinentCB,
-				countriesOfSelectedContinentCB, linksOfSelectedCountryCB, continentsComboBox, countryComboBox  ;
+				countriesOfSelectedContinentCB, linksOfSelectedCountryCB, continentsComboBox, countryComboBox;
 
 		// Creating the GUI
 		addCountry = new JButton("Add New Country");
@@ -243,20 +244,20 @@ public class MapEditor {
 			public void actionPerformed(ActionEvent e) {
 				MapWriter mapWriter = new MapWriter(mapFile);
 				LinkedHashSet<String> neighbouringCountryList = new LinkedHashSet<>();
-				String newCountryEntry="";
+				String newCountryEntry = "";
 				JTextField name = new JTextField();
 				JTextField value = new JTextField();
 				JTextField newCountry = new JTextField();
-				
+
 				JComboBox neighbours = new JComboBox(riskMap.getTerritories().keySet().toArray());
-				Object[] message = { "Name:", name, "Value:", value , "New Country:",newCountry , "Neighbour:" ,neighbours};
+				Object[] message = { "Name:", name, "Value:", value, "New Country:", newCountry, "Neighbour:",
+						neighbours };
 
 				int option = JOptionPane.showConfirmDialog(mapEditorFrame, message, "Continent Details",
 						JOptionPane.OK_CANCEL_OPTION);
-				if (option == JOptionPane.OK_OPTION) 
-				{ // if user selects ok option
-					// if user selects ok option
-					// if field value or name is empty show this message
+				if (option == JOptionPane.OK_OPTION) { // if user selects ok option
+														// if user selects ok option
+														// if field value or name is empty show this message
 					if (name.getText().trim().isEmpty() || value.getText().trim().isEmpty()) {
 						JOptionPane.showMessageDialog(mapEditorFrame, "Field cannot be empty.");
 
@@ -267,31 +268,30 @@ public class MapEditor {
 
 					} else {
 						// if field value not empty write field value in file
-						
+
 						try {
 							mapWriter.addContinent(name.getText(), value.getText());
 							continentComboBoxModel.addElement(name.getText());
 							neighbouringCountryList.add((String) neighbours.getSelectedItem());
-						     	newCountryEntry = newCountry.getText() + "," + "0" + "," + "0" + "," + name.getText() +","+ neighbours.getSelectedItem();
-						     	mapWriter.addTerritory(newCountryEntry);
-						     	mapWriter.addNewCountryLinkToTerritories(newCountry.getText(),
-										neighbouringCountryList);
-								
-								countriesComboBoxModel.addElement(newCountry.getText());
-							
-							JOptionPane.showMessageDialog(mapEditorFrame, "Continent Added Sucessfully");
-							riskMap= mapReader.readMap(mapFile);
+							newCountryEntry = newCountry.getText() + "," + "0" + "," + "0" + "," + name.getText() + ","
+									+ neighbours.getSelectedItem();
+							mapWriter.addTerritory(newCountryEntry);
+							mapWriter.addNewCountryLinkToTerritories(newCountry.getText(), neighbouringCountryList);
 
-							
+							countriesComboBoxModel.addElement(newCountry.getText());
+
+							JOptionPane.showMessageDialog(mapEditorFrame, "Continent Added Sucessfully");
+							riskMap = mapReader.readMap(mapFile);
+
 						} catch (Exception e1) {
-							
+
 							e1.printStackTrace();
 						}
 					}
 				}
 
 				else {
-					
+
 				}
 			}
 
@@ -328,8 +328,7 @@ public class MapEditor {
 								}
 								JOptionPane.showMessageDialog(mapEditorFrame, "Continent deleted");
 								riskMap = mapReader.readMap(mapFile);
-							}
-							else{
+							} else {
 								JOptionPane.showMessageDialog(mapEditorFrame,
 										"Cannot proceed : Deletion of some country will lead to invalid map");
 							}
@@ -406,8 +405,12 @@ public class MapEditor {
 				}
 
 				else {
-					JOptionPane.showMessageDialog(mapEditorFrame, "Please fill something in country name");// if the field is empty show this message
-					
+					JOptionPane.showMessageDialog(mapEditorFrame, "Please fill something in country name");// if the
+																											// field is
+																											// empty
+																											// show this
+																											// message
+
 				}
 
 			}
@@ -471,7 +474,10 @@ public class MapEditor {
 				}
 
 				else {
-					JOptionPane.showMessageDialog(mapEditorFrame, "Please fill something in country name"); // if field is empty show this message.
+					JOptionPane.showMessageDialog(mapEditorFrame, "Please fill something in country name"); // if field
+																											// is empty
+																											// show this
+																											// message.
 
 				}
 			}
@@ -499,12 +505,11 @@ public class MapEditor {
 						JOptionPane.showMessageDialog(mapEditorFrame, "Territory Deleted");
 						countriesComboBoxModel.removeElementAt(countryComboBox.getSelectedIndex());
 						riskMap = mapReader.readMap(mapFile);
-					} else if(status.equalsIgnoreCase("ERROR_UNCONNECTED_CONTINENT")) {
+					} else if (status.equalsIgnoreCase("ERROR_UNCONNECTED_CONTINENT")) {
 						// if territory deletion results in unconnected continent
-						JOptionPane.showMessageDialog(mapEditorFrame,
-								"Action cannot be performed as deletion of "+terittoryToDelete+" results in unconnected continent");
-					}
-					else {
+						JOptionPane.showMessageDialog(mapEditorFrame, "Action cannot be performed as deletion of "
+								+ terittoryToDelete + " results in unconnected continent");
+					} else {
 						// if territory is still linked with another territory.
 						JOptionPane.showMessageDialog(mapEditorFrame,
 								"Action cannot be performed as some territory has just one link to this territory");
@@ -569,13 +574,13 @@ public class MapEditor {
 							"This continent is already assigned , please select other");
 				} else {
 					try {
-						String status =mp.assignNewContinent((String) selectModifiedContinentCB.getSelectedItem(),
+						String status = mp.assignNewContinent((String) selectModifiedContinentCB.getSelectedItem(),
 								territorySelected.getText());
-						if(status.equalsIgnoreCase("OK")){
-						JOptionPane.showMessageDialog(mapEditorFrame, "Territory " + territorySelected.getText()
-								+ " is assigned new continent " + selectModifiedContinentCB.getSelectedItem());
-						riskMap = mapReader.readMap(mapFile);
-						} else{
+						if (status.equalsIgnoreCase("OK")) {
+							JOptionPane.showMessageDialog(mapEditorFrame, "Territory " + territorySelected.getText()
+									+ " is assigned new continent " + selectModifiedContinentCB.getSelectedItem());
+							riskMap = mapReader.readMap(mapFile);
+						} else {
 							// if change continent leads to unconnected continent
 							JOptionPane.showMessageDialog(mapEditorFrame,
 									"Action cannot be performed as it results in unconnected continent");
@@ -708,7 +713,8 @@ public class MapEditor {
 
 					if (s.equalsIgnoreCase("OK")) {
 
-						JOptionPane.showMessageDialog(mapEditorFrame, "Territory link Deleted");// confirmation of link deletion
+						JOptionPane.showMessageDialog(mapEditorFrame, "Territory link Deleted");// confirmation of link
+																								// deletion
 						riskMap = mapReader.readMap(mapFile);
 						countrySelectedToShowLinksToDeleteButton.setVisible(false);
 						countrySelectedToShowLinksToDeleteTF.setVisible(false);
@@ -716,12 +722,12 @@ public class MapEditor {
 						linksOfSelectedCountryCB.setVisible(false);
 						linksOfSelectedCountryLabel.setVisible(false);
 						countrySelectedToShowLinksToDeleteButton.setVisible(false);
-					} else if(s.equalsIgnoreCase("ERROR_UNCONNECTED_CONTINENT")){
+					} else if (s.equalsIgnoreCase("ERROR_UNCONNECTED_CONTINENT")) {
 						// if link cannot be deleted due to unconnected graph
 						JOptionPane.showMessageDialog(mapEditorFrame,
 								"Action cannot be performed as deletion result in unconnected continent");
 
-					} else{
+					} else {
 						// if link cannot be deleted
 						JOptionPane.showMessageDialog(mapEditorFrame,
 								"Action cannot be performed as some territory has just one link to this territory or this territory just have one link");
@@ -776,8 +782,9 @@ public class MapEditor {
 
 				try {
 					for (int i = 0; i < riskMap.getTerritories().keySet().toArray().length; i++) {
-						linksOfSelectedCountryCB.addItem(riskMap.getTerritories().keySet().toArray()[i]);// adding the links
-																											
+						linksOfSelectedCountryCB.addItem(riskMap.getTerritories().keySet().toArray()[i]);// adding the
+																											// links
+
 					}
 
 				} catch (Exception e1) {
