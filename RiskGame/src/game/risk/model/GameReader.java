@@ -21,14 +21,31 @@ import game.risk.model.entities.Territory;
 import game.risk.model.entities.strategy.AggressivePlayerStrategy;
 import game.risk.model.entities.strategy.HumanStrategy;
 
+/**
+ * Class to create Game Reader
+ * 
+ * @author Team
+ *
+ */
 public class GameReader {
 
 	String fileName;
 
+	/**
+	 * a constructor
+	 * 
+	 * @param mapFileName
+	 *            the name of the map file
+	 */
 	public GameReader(String mapFileName) {
 		fileName = mapFileName + "_Game_Status.ser";
 	}
 
+	/**
+	 * Method to read the game file
+	 * 
+	 * @return an array of player class
+	 */
 	public Player[] readGame() {
 		Player[] loadedPlayers = null;
 		try {
@@ -51,9 +68,15 @@ public class GameReader {
 		return loadedPlayers;
 	}
 
+	/**
+	 * The main class
+	 * 
+	 * @param args
+	 *            a String parameter
+	 */
 	public static void main(String[] args) {
 		GameWriter gameWriter = new GameWriter("World_testingReinforcement");
-		
+
 		Player[] playerLoaded = gameWriter.readGame();
 		if (playerLoaded != null) {
 			for (Player player : playerLoaded) {
