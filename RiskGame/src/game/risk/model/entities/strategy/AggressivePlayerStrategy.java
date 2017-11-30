@@ -14,21 +14,32 @@ import game.risk.model.entities.Player;
 import game.risk.model.entities.RiskMap;
 import game.risk.util.CustomLogRecord;
 import game.risk.util.LoggerUtility;
-
+/**
+ * The Class to create Aggressive player strategy
+ * @author Team
+ *
+ */
 public class AggressivePlayerStrategy  implements PlayerStrategy, Serializable  {
 
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
-
+	
+	/**
+	 * Constructor
+	 */
 	public AggressivePlayerStrategy(){
 		CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
 				"Strategy: Aggressive Player Strategy");
 		LoggerUtility.consoleHandler.publish(logRecord);
 	}
-	
+
 	@Override
+	/**
+	 * Function to place available infantry
+	 * @param i Player Index
+	 * @param player Object Of Player Class
+	 * @param army no. of armies
+	 */
 	public int placeInfantoryStrategy(int i, Player player, int army) {
 		
 		if (player.infantriesAvailable > 0) {
@@ -63,6 +74,12 @@ public class AggressivePlayerStrategy  implements PlayerStrategy, Serializable  
 	}
 	
 	@Override
+	/**
+	 * Function For Reinforcement
+	 * @param i Player Index
+	 * @param player Object Of Player Class
+	 * @param army no. of armies
+	 */
 	public int reinforcementStrategy(int i, Player player, int army) {
 		int loop = (player.infantriesAvailable > 0) ? 1 : 0;
 
@@ -117,6 +134,9 @@ public class AggressivePlayerStrategy  implements PlayerStrategy, Serializable  
 	}
 
 	@Override
+	/**
+	 * 
+	 */
 	public int attackStrategy(Player[] player, int i, Player aggressive, RiskMap mapDetails) {
 
 		aggressive.setMessage("Player " + aggressive.getName() + " entered into ATTACK Phase");
