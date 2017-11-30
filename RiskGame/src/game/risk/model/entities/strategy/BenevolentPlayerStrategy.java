@@ -13,41 +13,45 @@ import game.risk.model.entities.Player;
 import game.risk.model.entities.RiskMap;
 import game.risk.util.CustomLogRecord;
 import game.risk.util.LoggerUtility;
+
 /**
  * Class to create Benevolent Player Strategy
+ * 
  * @author Team
  *
  */
-public class BenevolentPlayerStrategy implements PlayerStrategy, Serializable   {
+public class BenevolentPlayerStrategy implements PlayerStrategy, Serializable {
 
-	
 	private static final long serialVersionUID = 1L;
-/**
- * A constructor to initialize the objects 
- */
+
+	/**
+	 * A constructor to initialize the objects
+	 */
 	public BenevolentPlayerStrategy() {
-		CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
-				"Strategy: Benevolent Player Strategy");
+		CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Strategy: Benevolent Player Strategy");
 		LoggerUtility.consoleHandler.publish(logRecord);
 	}
-	
+
 	@Override
 	/**
-	 * 
 	 * Method to place available infantry
-	 * @param i Player Index
-	 * @param player Object Of Player Class
-	 * @param army no. of armies
-	 * @return an integer value  
+	 * 
+	 * @param i
+	 *            Player Index
+	 * @param player
+	 *            Object Of Player Class
+	 * @param army
+	 *            no. of armies
+	 * @return an integer value
 	 */
 	public int placeInfantoryStrategy(int i, Player player, int army) {
-		
+
 		if (player.infantriesAvailable > 0) {
 			int loop = (player.infantriesAvailable > 0) ? 1 : 0;
 			int index = 0;
-			//int army = loop= 1;
+			// int army = loop= 1;
 			if (army > 0) {
-				//loop = (player.infantriesAvailable > 0) ? 1 : player.infantriesAvailable;
+				// loop = (player.infantriesAvailable > 0) ? 1 : player.infantriesAvailable;
 				loop = army;
 				CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
 						"Player has finished with armies, comp will place all their left armies now!");
@@ -62,8 +66,8 @@ public class BenevolentPlayerStrategy implements PlayerStrategy, Serializable   
 				player.currentGameStaticsTableModel.fireTableDataChanged();
 			}
 
-			//player.getPlayerPanel().btPlaceInfantry.setEnabled(false);
-			//player.nextIndexToEnableButton(i);
+			// player.getPlayerPanel().btPlaceInfantry.setEnabled(false);
+			// player.nextIndexToEnableButton(i);
 
 			player.setMessage("Startup Phase\r\nPlayer - " + player.getName() + " has placed infantry in "
 					+ player.currentGameStaticsList.get(index).territory.getName().toUpperCase()
@@ -71,24 +75,27 @@ public class BenevolentPlayerStrategy implements PlayerStrategy, Serializable   
 			player.notifyObservers();
 
 		}
-		
-	
+
 		return 0;
 	}
 
 	@Override
 	/**
 	 * Method For Reinforcement
-	 * @param i Player Index
-	 * @param player Object Of Player Class
-	 * @param army no. of armies
+	 * 
+	 * @param i
+	 *            Player Index
+	 * @param player
+	 *            Object Of Player Class
+	 * @param army
+	 *            no. of armies
 	 * @return an integer value
 	 */
 	public int reinforcementStrategy(int i, Player player, int army) {
 		int loop = (player.infantriesAvailable > 0) ? 1 : 0;
 
 		if (army > 0) {
-			//loop = (player.infantriesAvailable > 0) ? 1 : player.infantriesAvailable;
+			// loop = (player.infantriesAvailable > 0) ? 1 : player.infantriesAvailable;
 			loop = army;
 			CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Human has finished with reinforcing armies, "
 					+ player.getName() + " will place all their left armies now!");
@@ -96,28 +103,30 @@ public class BenevolentPlayerStrategy implements PlayerStrategy, Serializable   
 		}
 
 		if (player.infantriesAvailable > 0) {
-			while(player.infantriesAvailable>0){
+			while (player.infantriesAvailable > 0) {
 				int minArmy = Integer.MAX_VALUE;
 				int minArmyIndex = -1;
 				for (int j = 0; j < player.currentGameStaticsList.size(); j++) {
 					if (player.currentGameStaticsList.get(j).infantries < minArmy) {
-							minArmy = player.currentGameStaticsList.get(j).infantries;
-							minArmyIndex = j;
+						minArmy = player.currentGameStaticsList.get(j).infantries;
+						minArmyIndex = j;
 					}
 				}
 				player.currentGameStaticsList.get(minArmyIndex).infantries++;
 				player.infantriesAvailable--;
-				player.getPlayerPanel().lbAvailableArmies.setText("Available Infantries : " + player.infantriesAvailable);
+				player.getPlayerPanel().lbAvailableArmies
+						.setText("Available Infantries : " + player.infantriesAvailable);
 				player.setMessage("Reinforcement Phase\r\nPlayer - " + player.getName() + " has placed infantry in "
 						+ player.currentGameStaticsList.get(minArmyIndex).territory.getName().toUpperCase());
 				player.notifyObservers();
 				player.currentGameStaticsTableModel.fireTableDataChanged();
 			}
-			CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Reinforcement Phase\r\nPlayer - " + player.getName() + " has placed all its infantries");
+			CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
+					"Reinforcement Phase\r\nPlayer - " + player.getName() + " has placed all its infantries");
 			LoggerUtility.consoleHandler.publish(logRecord);
-		}
-		else {
-			CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Reinforcement Phase\r\nPlayer - " + player.getName() + " has no armies available");
+		} else {
+			CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
+					"Reinforcement Phase\r\nPlayer - " + player.getName() + " has no armies available");
 			LoggerUtility.consoleHandler.publish(logRecord);
 			player.setMessage("Reinforcement Phase\r\nPlayer - " + player.getName() + " has no armies available");
 			player.notifyObservers();
@@ -129,10 +138,15 @@ public class BenevolentPlayerStrategy implements PlayerStrategy, Serializable   
 	@Override
 	/**
 	 * Method for attack strategy
-	 * @param player array of player class
-	 * @param i Player index
-	 * @param benevolent attribute of Player class
-	 * @param mapDetails an object of RiskMap 
+	 * 
+	 * @param player
+	 *            array of player class
+	 * @param i
+	 *            Player index
+	 * @param benevolent
+	 *            attribute of Player class
+	 * @param mapDetails
+	 *            an object of RiskMap
 	 * @return an integer value
 	 */
 	public int attackStrategy(Player[] player, int i, Player benevolent, RiskMap mapDetails) {
@@ -152,23 +166,27 @@ public class BenevolentPlayerStrategy implements PlayerStrategy, Serializable   
 	@Override
 	/**
 	 * Method for fortification
-	 * @param i Player index
-	 * @param player an object of Player class
-	 * @param army Number of armies
+	 * 
+	 * @param i
+	 *            Player index
+	 * @param player
+	 *            an object of Player class
+	 * @param army
+	 *            Number of armies
 	 * @return an integer value
 	 */
 	public int fortificationStrategy(int i, Player player, int army) {
-		
+
 		List<String> playerAllNeighbours = new ArrayList<>();
 		for (int j = 0; j < player.currentGameStaticsList.size(); j++) {
 			for (int jj = 0; jj < player.currentGameStaticsList.get(j).territory.getNeighbouringTerritories()
 					.size(); jj++) {
 				String destinationTerritory = player.currentGameStaticsList.get(j).territory
 						.getNeighbouringTerritories().get(jj);
-                playerAllNeighbours.add(destinationTerritory);
+				playerAllNeighbours.add(destinationTerritory);
 			}
 		}
-		boolean flag=true;
+		boolean flag = true;
 		while (flag) {
 			int maxArmy = 0;
 			int maxArmyIndex = -1;
@@ -192,16 +210,20 @@ public class BenevolentPlayerStrategy implements PlayerStrategy, Serializable   
 			if ((maxArmy - minArmy) > 1) {
 				player.currentGameStaticsList.get(maxArmyIndex).infantries--;
 				player.currentGameStaticsList.get(minArmyIndex).infantries++;
-				CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Fortification Phase\r\nPlayer - " + player.getName() + " has transfered 1 infantry from "
-						+ player.currentGameStaticsList.get(maxArmyIndex).territory.getName() + " to " + player.currentGameStaticsList.get(minArmyIndex).territory.getName());
+				CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
+						"Fortification Phase\r\nPlayer - " + player.getName() + " has transfered 1 infantry from "
+								+ player.currentGameStaticsList.get(maxArmyIndex).territory.getName() + " to "
+								+ player.currentGameStaticsList.get(minArmyIndex).territory.getName());
 				LoggerUtility.consoleHandler.publish(logRecord);
-				player.setMessage("Fortification Phase\r\nPlayer - " + player.getName() + " has transfered 1 infantry from "
-						+ player.currentGameStaticsList.get(maxArmyIndex).territory.getName() + " to " + player.currentGameStaticsList.get(minArmyIndex).territory.getName());
+				player.setMessage(
+						"Fortification Phase\r\nPlayer - " + player.getName() + " has transfered 1 infantry from "
+								+ player.currentGameStaticsList.get(maxArmyIndex).territory.getName() + " to "
+								+ player.currentGameStaticsList.get(minArmyIndex).territory.getName());
 				player.notifyObservers();
 
 				player.currentGameStaticsTableModel.fireTableDataChanged();
-			} else{
-				flag=false;
+			} else {
+				flag = false;
 				player.setMessage("Fortification Phase\r\nPlayer - " + player.getName() + " can't fortify ");
 				player.notifyObservers();
 			}
