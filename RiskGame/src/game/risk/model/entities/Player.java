@@ -405,7 +405,7 @@ public class Player extends Observable implements Serializable {
 				dialog.addWindowListener(new WindowAdapter() {
 					public void windowClosed(WindowEvent e) {
 						setMessage(
-								"RiskCardInfantries, Player" + i + ",Got infantries from risk card " + armiesFromCard);
+								"RiskCardInfantries," + i + ",Got infantries from risk card " + armiesFromCard);
 						notifyObservers();
 					}
 				});
@@ -581,12 +581,11 @@ public class Player extends Observable implements Serializable {
 			}
 		}
 
-		player[i].getPlayerPanel().lbMessage1.setText("");
-		i++;
+		reinforcementInitialization();
 		/*if (i == player.length) {
 			reinforcementInitialization();
 		} else {*/
-			for (int j = 0; j < player.length; j++) {
+			for (int j = 1; j < player.length; j++) {
 				player[j].getPlayerPanel().btReinforcement.setEnabled(false);
 				player[j].getPlayerPanel().btFortification.setEnabled(false);
 				player[j].getPlayerPanel().btOk.setEnabled(false);

@@ -448,7 +448,9 @@ public class AttackPhase {
 		LoggerUtility.consoleHandler.publish(logRecord);
 
 		// Update Combo boxes
-		updateComboboxes();
+		//updateComboboxes();
+		AttackPhase.this.attackPanel.cbplayer1.removeAllItems();
+		AttackPhase.this.attackPanel.cbplayer2.removeAllItems();
 
 		AttackPhase.this.attackPanel.lbInfantriesPlayer1.setText(list.get(index1).infantries + "");
 		AttackPhase.this.attackPanel.lbInfantriesPlayer2.setText(tempGameStaticsList.get(index2).infantries + "");
@@ -541,7 +543,8 @@ public class AttackPhase {
 			this.index1 = index1;
 			this.index2 = index2;
 			
-			updateComboboxes();
+			AttackPhase.this.attackPanel.cbplayer1.removeAllItems();
+			AttackPhase.this.attackPanel.cbplayer2.removeAllItems();
 		}
 		AttackPhase.this.tempTableModel.fireTableDataChanged();
 		AttackPhase.this.currentGameStaticsTableModel.fireTableDataChanged();

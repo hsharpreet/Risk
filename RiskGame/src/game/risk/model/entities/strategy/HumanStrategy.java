@@ -114,11 +114,13 @@ public class HumanStrategy implements PlayerStrategy , Serializable  {
 						player[i].notifyObservers();
 
 					} else {
-						player[i].nextPlayerTurn(i);
+						player[i].nextPlayerTurn(1);
 					}
 				}
 			});
 			dialog.setVisible(true);
+		}else{
+			player2.nextPlayerTurn(1);
 		}
 		return 0;
 	}
