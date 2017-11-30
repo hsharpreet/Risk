@@ -13,14 +13,18 @@ import game.risk.model.entities.Player;
 import game.risk.model.entities.RiskMap;
 import game.risk.util.CustomLogRecord;
 import game.risk.util.LoggerUtility;
-
+/**
+ * Class to create Benevolent Player Strategy
+ * @author Team
+ *
+ */
 public class BenevolentPlayerStrategy implements PlayerStrategy, Serializable   {
 
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
-
+/**
+ * A constructor to initialize the objects 
+ */
 	public BenevolentPlayerStrategy() {
 		CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
 				"Strategy: Benevolent Player Strategy");
@@ -28,6 +32,14 @@ public class BenevolentPlayerStrategy implements PlayerStrategy, Serializable   
 	}
 	
 	@Override
+	/**
+	 * 
+	 * Method to place available infantry
+	 * @param i Player Index
+	 * @param player Object Of Player Class
+	 * @param army no. of armies
+	 * @return an integer value  
+	 */
 	public int placeInfantoryStrategy(int i, Player player, int army) {
 		
 		if (player.infantriesAvailable > 0) {
@@ -65,6 +77,13 @@ public class BenevolentPlayerStrategy implements PlayerStrategy, Serializable   
 	}
 
 	@Override
+	/**
+	 * Method For Reinforcement
+	 * @param i Player Index
+	 * @param player Object Of Player Class
+	 * @param army no. of armies
+	 * @return an integer value
+	 */
 	public int reinforcementStrategy(int i, Player player, int army) {
 		int loop = (player.infantriesAvailable > 0) ? 1 : 0;
 
@@ -108,6 +127,14 @@ public class BenevolentPlayerStrategy implements PlayerStrategy, Serializable   
 	}
 
 	@Override
+	/**
+	 * Method for attack strategy
+	 * @param player array of player class
+	 * @param i Player index
+	 * @param benevolent attribute of Player class
+	 * @param mapDetails an object of RiskMap 
+	 * @return an integer value
+	 */
 	public int attackStrategy(Player[] player, int i, Player benevolent, RiskMap mapDetails) {
 
 		benevolent.setMessage("Player " + benevolent.getName() + " entered into ATTACK Phase");
@@ -123,6 +150,13 @@ public class BenevolentPlayerStrategy implements PlayerStrategy, Serializable   
 	}
 
 	@Override
+	/**
+	 * Method for fortification
+	 * @param i Player index
+	 * @param player an object of Player class
+	 * @param army Number of armies
+	 * @return an integer value
+	 */
 	public int fortificationStrategy(int i, Player player, int army) {
 		
 		List<String> playerAllNeighbours = new ArrayList<>();
