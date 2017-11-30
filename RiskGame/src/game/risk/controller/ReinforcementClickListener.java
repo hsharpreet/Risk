@@ -44,14 +44,12 @@ public class ReinforcementClickListener implements ActionListener {
 		boolean flag = false;
 
 		int j = 0;
-		if (player[j].infantriesAvailable > 0) {
-			if (!player[j].isComputer()) {
-				if (player[j].reinforcementStrategy(j, player[j], 0) == 1) {
+		if (player[0].infantriesAvailable > 0) {
+				if (player[0].reinforcementStrategy(j, player[j], 0) == 1) {
 					//reinforcement for Human is finished
 					player[0].attackInitialization(0);
 					flag = true;
 				}
-			}
 			if (flag) {
 				player[0].getPlayerPanel().btReinforcement.setEnabled(false);
 				player[0].nextPlayerTurn(1);

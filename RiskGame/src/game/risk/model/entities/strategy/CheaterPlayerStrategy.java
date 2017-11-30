@@ -50,7 +50,7 @@ public class CheaterPlayerStrategy implements PlayerStrategy, Serializable   {
 				player.currentGameStaticsTableModel.fireTableDataChanged();
 			}
 
-			player.getPlayerPanel().btPlaceInfantry.setEnabled(false);
+			//player.getPlayerPanel().btPlaceInfantry.setEnabled(false);
 			//player.nextIndexToEnableButton(i);
 
 			player.setMessage("Startup Phase\r\nPlayer - " + player.getName() + " has placed infantry in "
