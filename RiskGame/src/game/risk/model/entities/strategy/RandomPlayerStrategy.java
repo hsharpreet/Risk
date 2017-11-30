@@ -149,30 +149,29 @@ public class RandomPlayerStrategy implements PlayerStrategy, Serializable  {
 				}
 			}
 		}
-		int possibleMoves = 0;
-		if(terrList.size() > 0){
-			possibleMoves = terrList.size();
+		int possibleMoves = terrList.size();
+		int randomMoves = 0;
+		if(possibleMoves >0){
+			randomMoves = new Random().nextInt(possibleMoves);
 		}
-		int randomMoves = new Random().nextInt(possibleMoves);
 
 		for (int k = 0; k < randomMoves; k++) {
 			int minus = Integer.parseInt(terrList.get(k).split(":")[0]);
 
 			String destinationTerritory = terrList.get(k).split(":")[1];
 			int plus = list.indexOf(destinationTerritory);
-            if(random.currentGameStaticsList.get(minus).infantries>1) {
-			random.currentGameStaticsList.get(minus).infantries--;
-			random.currentGameStaticsList.get(plus).infantries++;
-            
-			random.setMessage("Fortification Phase\r\nPlayer - " + random.getName() + " has transfered 1 infantry from "
-					+ random.currentGameStaticsList.get(minus).territory.getName() + " to " + destinationTerritory);
-			random.notifyObservers();
 
-			random.currentGameStaticsTableModel.fireTableDataChanged();
-            }
-            else {
-            	continue;
-            }
+			if(random.currentGameStaticsList.get(minus).infantries > 1){
+				random.currentGameStaticsList.get(minus).infantries--;
+				random.currentGameStaticsList.get(plus).infantries++;
+
+				random.setMessage("Fortification Phase\r\nPlayer - " + random.getName() + " has transfered 1 infantry from "
+						+ random.currentGameStaticsList.get(minus).territory.getName() + " to " + destinationTerritory);
+				random.notifyObservers();
+
+				random.currentGameStaticsTableModel.fireTableDataChanged();
+			}
+			
 		}
 
 		return 0;
