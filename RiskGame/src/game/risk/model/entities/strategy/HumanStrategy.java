@@ -172,7 +172,7 @@ public class HumanStrategy implements PlayerStrategy, Serializable {
 	 * @param player
 	 *            an object of Player class
 	 * @param army
-	 *            Number of armies
+	 *            Number of armies.
 	 * @return an integer value
 	 */
 	public int fortificationStrategy(int i, Player human, int army) {

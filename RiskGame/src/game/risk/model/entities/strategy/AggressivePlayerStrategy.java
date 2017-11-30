@@ -172,7 +172,7 @@ public class AggressivePlayerStrategy implements PlayerStrategy, Serializable {
 
 	@Override
 	/**
-	 * Function to fortify countries
+	 * Method to fortify countries
 	 * 
 	 * @param i
 	 *            No. of players
