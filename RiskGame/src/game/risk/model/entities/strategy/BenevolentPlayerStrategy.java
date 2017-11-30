@@ -165,6 +165,7 @@ public class BenevolentPlayerStrategy implements PlayerStrategy, Serializable {
 
 	@Override
 	/**
+	 * 
 	 * Method for fortification
 	 * 
 	 * @param i

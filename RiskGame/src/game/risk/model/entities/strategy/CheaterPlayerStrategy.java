@@ -34,6 +34,7 @@ public class CheaterPlayerStrategy implements PlayerStrategy, Serializable {
 
 	@Override
 	/**
+	 * 
 	 * Method to place available infantry
 	 * 
 	 * @param i
