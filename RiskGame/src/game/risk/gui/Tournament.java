@@ -1,7 +1,11 @@
 package game.risk.gui;
 
-public class Tournament extends javax.swing.JPanel {
+import java.io.File;
 
+import javax.swing.JFileChooser;
+
+public class Tournament extends javax.swing.JPanel {
+File mapFile;
 	/**
 	 * Creates new form Tournament
 	 */
@@ -264,23 +268,48 @@ public class Tournament extends javax.swing.JPanel {
 	}
 
 	private void btMap1ActionPerformed(java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
+		JFileChooser ch = new JFileChooser();
+		int ans = ch.showOpenDialog(this);
+		if (ans == JFileChooser.APPROVE_OPTION) {
+			mapFile = ch.getSelectedFile();
+			tfMap1.setText(mapFile.getName());
+			tfMap1.setToolTipText(mapFile.getPath());}
 	}
 
 	private void btMap2ActionPerformed(java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
+		JFileChooser ch = new JFileChooser();
+		int ans = ch.showOpenDialog(this);
+		if (ans == JFileChooser.APPROVE_OPTION) {
+			mapFile = ch.getSelectedFile();
+			tfMap2.setText(mapFile.getName());
+			tfMap2.setToolTipText(mapFile.getPath());}
 	}
 
 	private void btMap3ActionPerformed(java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
+		JFileChooser ch = new JFileChooser();
+		int ans = ch.showOpenDialog(this);
+		if (ans == JFileChooser.APPROVE_OPTION) {
+			mapFile = ch.getSelectedFile();
+			tfMap3.setText(mapFile.getName());
+			tfMap3.setToolTipText(mapFile.getPath());}
 	}
 
 	private void btMap4ActionPerformed(java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
+		JFileChooser ch = new JFileChooser();
+		int ans = ch.showOpenDialog(this);
+		if (ans == JFileChooser.APPROVE_OPTION) {
+			mapFile = ch.getSelectedFile();
+			tfMap4.setText(mapFile.getName());
+			tfMap4.setToolTipText(mapFile.getPath());}
 	}
 
 	private void btMap5ActionPerformed(java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
+		JFileChooser ch = new JFileChooser();
+		int ans = ch.showOpenDialog(this);
+		if (ans == JFileChooser.APPROVE_OPTION) {
+			mapFile = ch.getSelectedFile();
+			tfMap5.setText(mapFile.getName());
+			tfMap5.setToolTipText(mapFile.getPath());}
 	}
 
 	private void btPlayTournamentActionPerformed(java.awt.event.ActionEvent evt) {
