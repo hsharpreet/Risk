@@ -149,7 +149,10 @@ public class RandomPlayerStrategy implements PlayerStrategy, Serializable  {
 				}
 			}
 		}
-		int possibleMoves = terrList.size();
+		int possibleMoves = 0;
+		if(terrList.size() > 0){
+			possibleMoves = terrList.size();
+		}
 		int randomMoves = new Random().nextInt(possibleMoves);
 
 		for (int k = 0; k < randomMoves; k++) {

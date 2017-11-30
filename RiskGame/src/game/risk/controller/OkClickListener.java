@@ -34,6 +34,6 @@ public class OkClickListener implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 
-		player[i].nextPlayerTurn(i);
+		player[i].nextPlayerTurn(1);
 	}
 }
