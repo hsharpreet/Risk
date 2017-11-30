@@ -14,38 +14,42 @@ import game.risk.model.entities.Player;
 import game.risk.model.entities.RiskMap;
 import game.risk.util.CustomLogRecord;
 import game.risk.util.LoggerUtility;
+
 /**
  * The Class to create Aggressive player strategy
+ * 
  * @author Team
  *
  */
-public class AggressivePlayerStrategy  implements PlayerStrategy, Serializable  {
+public class AggressivePlayerStrategy implements PlayerStrategy, Serializable {
 
-	
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * Constructor
 	 */
-	public AggressivePlayerStrategy(){
-		CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
-				"Strategy: Aggressive Player Strategy");
+	public AggressivePlayerStrategy() {
+		CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Strategy: Aggressive Player Strategy");
 		LoggerUtility.consoleHandler.publish(logRecord);
 	}
 
 	@Override
 	/**
 	 * Function to place available infantry
-	 * @param i Player Index
-	 * @param player Object Of Player Class
-	 * @param army no. of armies
+	 * 
+	 * @param i
+	 *            Player Index
+	 * @param player
+	 *            Object Of Player Class
+	 * @param army
+	 *            no. of armies
 	 */
 	public int placeInfantoryStrategy(int i, Player player, int army) {
-		
+
 		if (player.infantriesAvailable > 0) {
 			int loop = (player.infantriesAvailable > 0) ? 1 : 0;
 			int index = 0;
-			//int army = loop= 1;
+			// int army = loop= 1;
 			if (army > 0) {
 				loop = army;
 				player.setMessage("Player has finished with armies, comp will place all their left armies now!");
@@ -59,8 +63,8 @@ public class AggressivePlayerStrategy  implements PlayerStrategy, Serializable  
 				player.currentGameStaticsTableModel.fireTableDataChanged();
 			}
 
-			//player.getPlayerPanel().btPlaceInfantry.setEnabled(false);
-			//player.nextIndexToEnableButton(i);
+			// player.getPlayerPanel().btPlaceInfantry.setEnabled(false);
+			// player.nextIndexToEnableButton(i);
 
 			player.setMessage("Startup Phase\r\nPlayer - " + player.getName() + " has placed infantry in "
 					+ player.currentGameStaticsList.get(index).territory.getName().toUpperCase()
@@ -68,23 +72,26 @@ public class AggressivePlayerStrategy  implements PlayerStrategy, Serializable  
 			player.notifyObservers();
 
 		}
-		
-	
+
 		return 0;
 	}
-	
+
 	@Override
 	/**
 	 * Function For Reinforcement
-	 * @param i Player Index
-	 * @param player Object Of Player Class
-	 * @param army no. of armies
+	 * 
+	 * @param i
+	 *            Player Index
+	 * @param player
+	 *            Object Of Player Class
+	 * @param army
+	 *            no. of armies
 	 */
 	public int reinforcementStrategy(int i, Player player, int army) {
 		int loop = (player.infantriesAvailable > 0) ? 1 : 0;
 
 		if (army > 0) {
-			//loop = (player.infantriesAvailable > 0) ? 1 : player.infantriesAvailable;
+			// loop = (player.infantriesAvailable > 0) ? 1 : player.infantriesAvailable;
 			loop = army;
 			CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Human has finished with reinforcing armies, "
 					+ player.getName() + " will place all their left armies now!");
@@ -93,26 +100,26 @@ public class AggressivePlayerStrategy  implements PlayerStrategy, Serializable  
 
 		if (player.infantriesAvailable > 0) {
 			for (int x = 0; x < loop; x++) {
-				
+
 				ArrayList<Integer> val = new ArrayList<Integer>();
 				ArrayList<Integer> valIndex = new ArrayList<Integer>();
-				
-				for(int j=0; j<player.currentGameStaticsList.size();j++){
-						val.add(j);
-						valIndex.add(player.currentGameStaticsList.get(j).infantries);
+
+				for (int j = 0; j < player.currentGameStaticsList.size(); j++) {
+					val.add(j);
+					valIndex.add(player.currentGameStaticsList.get(j).infantries);
 				}
-				
+
 				int index = 0;
-				if(val.size() > 0){
+				if (val.size() > 0) {
 					int max = Collections.max(valIndex);
 					index = val.get(valIndex.indexOf(max));
 				}
-				
+
 				player.currentGameStaticsList.get(index).infantries++;
 				player.infantriesAvailable--;
 				player.getPlayerPanel().lbAvailableArmies
 						.setText("Available Infantries : " + player.infantriesAvailable);
-				
+
 				player.setMessage("Player - " + player.getName() + " has placed infantry in "
 						+ player.currentGameStaticsList.get(index).territory.getName().toUpperCase());
 
@@ -125,7 +132,6 @@ public class AggressivePlayerStrategy  implements PlayerStrategy, Serializable  
 		player.setMessage("Player - " + player.getName() + " has reinforced his strongest territory. ");
 		player.currentGameStaticsTableModel.fireTableDataChanged();
 
-		
 		player.notifyObservers();
 		return 0;
 
@@ -133,7 +139,16 @@ public class AggressivePlayerStrategy  implements PlayerStrategy, Serializable  
 
 	@Override
 	/**
+	 * Function of attack Strategy of aggressive player
 	 * 
+	 * @param player
+	 *            List of all the player
+	 * @param i
+	 *            No. of players
+	 * @param aggressive
+	 *            aggressive player from all the player list
+	 * @param mapDetails
+	 *            Detail of map
 	 */
 	public int attackStrategy(Player[] player, int i, Player aggressive, RiskMap mapDetails) {
 
@@ -153,6 +168,16 @@ public class AggressivePlayerStrategy  implements PlayerStrategy, Serializable  
 	}
 
 	@Override
+	/**
+	 * Function to fortify countries
+	 * 
+	 * @param i
+	 *            No. of players
+	 * @param aggresivePlayer
+	 *            Aggressive Player from all the player list
+	 * @param army
+	 *            no. of armies
+	 */
 	public int fortificationStrategy(int i, Player aggresivePlayer, int army) {
 		List<String> playerTerritoriesNames = new ArrayList<>();
 		for (int j = 0; j < aggresivePlayer.currentGameStaticsList.size(); j++) {
@@ -208,5 +233,5 @@ public class AggressivePlayerStrategy  implements PlayerStrategy, Serializable  
 		aggresivePlayer.notifyObservers();
 		return 0;
 	}
-	
+
 }
