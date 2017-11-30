@@ -47,6 +47,7 @@ import javax.swing.JLabel;
 public class RiskGame extends javax.swing.JFrame implements Observer {
 
 	File mapFile;
+	File savedFile;
 	RiskMap mapDetails;
 	int totalArmies[] = { 40, 35, 30, 25, 20 };
 	Color colors[] = new Color[6];
@@ -98,15 +99,20 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 
 		jPanelTop = new javax.swing.JPanel(); // swing Components
 		tfMapFile = new javax.swing.JTextField();
+		tfLoad = new javax.swing.JTextField();
 		jLabelSelectMap = new javax.swing.JLabel();
 		btBrowse = new javax.swing.JButton();
 		jLabelPlayerCount = new javax.swing.JLabel();
 		cbPlayerCount = new javax.swing.JComboBox<>();
 
 		btLoad = new javax.swing.JButton();
+		btLoadGame = new javax.swing.JButton("Load Game");
 		btMapEditor = new javax.swing.JButton();
 		btmapFromScratch = new JButton("M.F.S.");
 		btmapFromScratch.setToolTipText("Map from Scratch");
+		btSave = new JButton("Save Game");
+		btSave.setEnabled(false);
+		
 
 		jScrollPane1 = new javax.swing.JScrollPane();
 		jpPlayground = new javax.swing.JPanel();
@@ -133,7 +139,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 		jPanelTop.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
 		tfMapFile.setFocusable(false);
-
+		tfLoad.setFocusable(false);
 		jLabelSelectMap.setText("Select Map File");
 
 		btBrowse.setText("...");
@@ -145,7 +151,11 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 				btBrowseActionPerformed(evt);
 			}
 		});
-
+		btLoadGame.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				btLoadGameActionPerformed(evt);
+			}
+		});
 		jLabelPlayerCount.setText("Players count");
 
 		cbPlayerCount.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2", "3", "4", "5", "6" }));
@@ -177,6 +187,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 
 				if (tfMapFile.getText().toLowerCase().endsWith(".map")) {
+					btSave.setEnabled(true);
 					int playerCount = Integer.parseInt((String) cbPlayerCount.getSelectedItem());
 					HashMap<Integer, String> playerType = new HashMap<Integer, String>();
 					if(selectPlayerTypes(playerCount, playerType)){
@@ -184,6 +195,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 					}
 					
 				} else {
+					btSave.setEnabled(false);
 					JOptionPane.showMessageDialog(jpPlayground, "Map File could not read or invalid file. Try again !");
 				}
 			}
@@ -370,27 +382,38 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 				.addGroup(jPanel1Layout.createSequentialGroup().addGap(9, 9, 9)
 						.addComponent(jLabelSelectMap, javax.swing.GroupLayout.PREFERRED_SIZE, 84,
 								javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addGap(10, 10, 10)
+						.addGap(5, 5, 5)
 						.addComponent(tfMapFile, javax.swing.GroupLayout.PREFERRED_SIZE, 132,
 								javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addGap(12, 12, 12)
+						.addGap(5, 5, 5)
 						.addComponent(btBrowse, javax.swing.GroupLayout.PREFERRED_SIZE, 29,
 								javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addGap(58, 58, 58)
+						.addGap(20, 20, 20)
 						.addComponent(jLabelPlayerCount, javax.swing.GroupLayout.PREFERRED_SIZE, 97,
 								javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addGap(10, 10, 10)
+						.addGap(5, 5, 5)
 						.addComponent(cbPlayerCount, javax.swing.GroupLayout.PREFERRED_SIZE, 51,
 								javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addGap(59, 59, 59)
+						.addGap(10, 10, 10)
 						.addComponent(btLoad, javax.swing.GroupLayout.PREFERRED_SIZE, 93,
 								javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addGap(59, 59, 59)
+						.addGap(20, 20, 20)
 						.addComponent(btMapEditor, javax.swing.GroupLayout.PREFERRED_SIZE, 93,
 								javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addGap(59, 59, 59).addComponent(btmapFromScratch, javax.swing.GroupLayout.PREFERRED_SIZE, 93,
+						.addGap(20, 20, 20)
+						
+						.addGap(20, 20, 20)
+						.addComponent(btmapFromScratch, javax.swing.GroupLayout.PREFERRED_SIZE, 93,
 								javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addGap(59, 59, 59)));
+						.addGap(50, 50, 50)
+						.addComponent(btSave, javax.swing.GroupLayout.PREFERRED_SIZE, 93,
+								javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addGap(20, 20, 20)
+						.addComponent(tfLoad, javax.swing.GroupLayout.PREFERRED_SIZE, 132,
+								javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addGap(12, 12, 12)
+						.addComponent(btLoadGame, javax.swing.GroupLayout.PREFERRED_SIZE, 93,
+								javax.swing.GroupLayout.PREFERRED_SIZE)));
 		jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel1Layout.createSequentialGroup().addGap(13, 13, 13)
 						.addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -408,13 +431,20 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 										javax.swing.GroupLayout.PREFERRED_SIZE)
 								.addComponent(btMapEditor, javax.swing.GroupLayout.PREFERRED_SIZE, 31,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
+								
 								.addComponent(btmapFromScratch, javax.swing.GroupLayout.PREFERRED_SIZE, 31,
+										javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addComponent(btSave, javax.swing.GroupLayout.PREFERRED_SIZE, 31,
+										javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addComponent(tfLoad, javax.swing.GroupLayout.PREFERRED_SIZE, 31,
+										javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addComponent(btLoadGame, javax.swing.GroupLayout.PREFERRED_SIZE, 31,
 										javax.swing.GroupLayout.PREFERRED_SIZE))
 
 						.addGap(312, 312, 312)));
 
 		getContentPane().add(jPanelTop);
-		jPanelTop.setBounds(10, 10, 960, 60);
+		jPanelTop.setBounds(10, 10, 1250, 60);
 
 		jScrollPane1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -538,8 +568,19 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 			tfMapFile.setText(mapFile.getName());
 			tfMapFile.setToolTipText(mapFile.getPath());
 			CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Map File Loaded into Game");
-			LoggerUtility.consoleHandler.publish(logRecord);
+			LoggerUtility.consoleHandler.publish(logRecord);}
 		}
+		
+		private void btLoadGameActionPerformed(java.awt.event.ActionEvent evt) {
+			JFileChooser ch = new JFileChooser();
+			int ans = ch.showOpenDialog(this);
+			if (ans == JFileChooser.APPROVE_OPTION) {
+				savedFile = ch.getSelectedFile();
+				tfLoad.setText(savedFile.getName());
+				tfLoad.setToolTipText(savedFile.getPath());
+				CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Map File Loaded into Game");
+				LoggerUtility.consoleHandler.publish(logRecord);
+			}
 	}
 
 	/**
@@ -735,7 +776,9 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 
 	// Variables declaration
 	private javax.swing.JButton btBrowse;
+	private javax.swing.JButton btSave;
 	private javax.swing.JButton btLoad;
+	private javax.swing.JButton btLoadGame;
 	private javax.swing.JButton btMapEditor;
 	private javax.swing.JButton btmapFromScratch;
 	private javax.swing.JComboBox<String> cbPlayerCount;
@@ -756,6 +799,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 	private javax.swing.JLabel lbPlayer6;
 	public javax.swing.JTextArea taObserverMessage;
 	private javax.swing.JTextField tfMapFile;
+	private javax.swing.JTextField tfLoad;
 
 	/**
 	 * A method to implement observable pattern
