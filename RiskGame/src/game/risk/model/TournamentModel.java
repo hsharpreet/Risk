@@ -109,11 +109,11 @@ public class TournamentModel
 						player[playerIndex].currentGameStaticsList);
 					player[playerIndex].infantriesTotal = totalArmies[playersTypes.size() - 2];
 					
-				
+					player[playerIndex].setPlayerPanel(new PlayerPanel());
 				
 				
 			}
-			
+			//Placing random territories to each player
 			HashMap<String, Territory> territories = mapDetails.getTerritories();
 			ArrayList<String> keyList = new ArrayList<>(territories.keySet());
 			Collections.shuffle(keyList);
@@ -132,24 +132,36 @@ public class TournamentModel
 					break;
 				}
 			}
-         	
+         	//placing infantries to all players
          	for (int i = 0; i < playersTypes.size(); i++)
          	{
          		player[i].infantriesAvailable = (totalArmies[playersTypes.size() - 2])
 				- (player[i].currentGameStaticsList.size());
 			player[i].placeInfantoryStrategy(i, player[i], player[i].infantriesAvailable)	;
-				System.out.println("playerrr  ---" +player[i].getName());
+				System.out.println("player Name  ---" +player[i].getName());
 				for(CurrentGameStatics cgs: player[i].currentGameStaticsList) {
-				System.out.println("playerrr  ---" +cgs.territory.getName()+" "+cgs.infantries);
+				System.out.println("player territory  ---" +cgs.territory.getName()+" "+cgs.infantries);
 				}
 				
 				
 			}
-         	
+         	System.out.println("------------End of Startup Phase-----------") ;
          
-
+         	//Start of the turn and start of reinforcement
+         while(playerTurns > 0)
+         {
+         	for (int i = 0; i < playersTypes.size(); i++)
+         	{
+         		player[i].calculateReinformentArmiesInitially(i);
+         		player[i].reinforcementStrategy(i, player[i], player[i].infantriesAvailable)	;
+				System.out.println("player Name  ---" +player[i].getName());
+				for(CurrentGameStatics cgs: player[i].currentGameStaticsList) {
+				System.out.println("player territory  ---" +cgs.territory.getName()+" "+cgs.infantries);
+				}
 
 		}
+         }
 		}
 	}
+}
 }
