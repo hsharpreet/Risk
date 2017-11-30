@@ -5,6 +5,8 @@ import java.io.File;
 
 import javax.swing.JFileChooser;
 
+import game.risk.model.TournamentModel;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -146,8 +148,25 @@ File mapFile;
 
         btPlayTournament.setText("Play Tournament");
         btPlayTournament.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btPlayTournamentActionPerformed(evt);
+            public void actionPerformed(java.awt.event.ActionEvent evt) 
+            { 
+            	String[] players = {cbPlayer1.getSelectedItem().toString(),
+            			cbPlayer2.getSelectedItem().toString() ,
+            			cbPlayer3.getSelectedItem().toString(), 
+            			cbPlayer4.getSelectedItem().toString()
+           	};
+            	
+             	String[] maps = {tfMap1.getToolTipText(),
+             			tfMap2.getToolTipText(),
+             			tfMap3.getToolTipText(), 
+             			tfMap4.getToolTipText()
+           	};
+             	int game_count = Integer.parseInt((String) cbGames.getSelectedItem());
+             	int turns = Integer.parseInt((String) cbTurns.getSelectedItem());
+            	
+             	System.out.println(tfMap1.getToolTipText());
+             	TournamentModel t = new TournamentModel(players , maps , game_count , turns);
+             	t.startTournament();
             }
         });
 
