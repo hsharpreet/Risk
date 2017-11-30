@@ -153,7 +153,9 @@ public class AttackPhase {
 				player[myIndex].setMessage("Player - " + player[myIndex].getName() + " into attack phase");
 			}
 		}
-
+		/**
+		 * Method for creating listeners for attack Panel
+		 */
 		this.attackPanel.jtMain.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
@@ -399,6 +401,15 @@ public class AttackPhase {
 
 	}
 
+	/**
+	 * Method to get index from the Main table
+	 * 
+	 * @param list
+	 *            an array list
+	 * @param index11
+	 *            index number
+	 * @return an integer value
+	 */
 	private int getIndexFromMainTable(List<CurrentGameStatics> list, int index11) {
 
 		if (index11 != -1) {
@@ -410,6 +421,15 @@ public class AttackPhase {
 		return index11 < 0 ? 0 : index11;
 	}
 
+	/**
+	 * Method to get index from other table
+	 * 
+	 * @param list
+	 *            an array list
+	 * @param index22
+	 *            index number
+	 * @return an integer value
+	 */
 	private int getIndexFromOtherTable(List<CurrentGameStatics> list, int index22) {
 		if (index22 != -1) {
 			AttackPhase.this.attackPanel.cbplayer1.removeAllItems();
@@ -419,6 +439,16 @@ public class AttackPhase {
 		return index22;
 	}
 
+	/**
+	 * Method to automate the attack button
+	 * 
+	 * @param list
+	 *            an array list
+	 * @param index1
+	 *            index number
+	 * @param index2
+	 *            index number
+	 */
 	private void automateAttackButton(List<CurrentGameStatics> list, int index1, int index2) {
 
 		AttackPhase.this.attackPanel.lbplayer1.setText("Player - " + player[myIndex].getName());
@@ -434,6 +464,16 @@ public class AttackPhase {
 		AttackPhase.this.attackPanel.lbInfantriesPlayer2.setText(tempGameStaticsList.get(index2).infantries + "");
 	}
 
+	/**
+	 * Method to create button for rolling the dice
+	 * 
+	 * @param list
+	 *            an array list
+	 * @param index1
+	 *            index number
+	 * @param index2
+	 *            index number
+	 */
 	private void performBtRoleDiceClick(List<CurrentGameStatics> list, int index1, int index2) {
 
 		int n1 = AttackPhase.this.attackPanel.cbplayer1.getItemCount();
