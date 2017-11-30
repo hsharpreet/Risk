@@ -95,19 +95,17 @@ public class AggressivePlayerStrategy  implements PlayerStrategy, Serializable  
 			for (int x = 0; x < loop; x++) {
 				
 				ArrayList<Integer> val = new ArrayList<Integer>();
+				ArrayList<Integer> valIndex = new ArrayList<Integer>();
 				
 				for(int j=0; j<player.currentGameStaticsList.size();j++){
-					if(player.currentGameStaticsList.get(j).infantries < 6){
 						val.add(j);
-					}else{
-						player.setMessage("Player - " + player.getName() + " has made "
-								+ player.currentGameStaticsList.get(j).territory.getName().toUpperCase()+" strogest with 6 armies.");
-					}
+						valIndex.add(player.currentGameStaticsList.get(j).infantries);
 				}
 				
 				int index = 0;
 				if(val.size() > 0){
-					index = Collections.max(val);
+					int max = Collections.max(valIndex);
+					index = val.get(valIndex.indexOf(max));
 				}
 				
 				player.currentGameStaticsList.get(index).infantries++;
