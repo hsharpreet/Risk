@@ -62,7 +62,7 @@ public class RandomPlayerStrategy implements PlayerStrategy, Serializable  {
 				player.notifyObservers();
 			}
 
-			player.getPlayerPanel().btPlaceInfantry.setEnabled(false);
+			//player.getPlayerPanel().btPlaceInfantry.setEnabled(false);
 			
 		}
 		
