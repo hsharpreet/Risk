@@ -8,10 +8,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-
 import game.risk.gui.AttackGUIPanel;
-import game.risk.model.entities.CurrentGameStatics;
 import game.risk.model.entities.Player;
 import game.risk.model.entities.RiskMap;
 import game.risk.util.CustomLogRecord;
