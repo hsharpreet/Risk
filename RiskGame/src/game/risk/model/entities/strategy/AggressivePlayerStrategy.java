@@ -43,6 +43,7 @@ public class AggressivePlayerStrategy implements PlayerStrategy, Serializable {
 	 *            Object Of Player Class
 	 * @param army
 	 *            no. of armies
+	 * @return An integer value           
 	 */
 	public int placeInfantoryStrategy(int i, Player player, int army) {
 
@@ -86,6 +87,7 @@ public class AggressivePlayerStrategy implements PlayerStrategy, Serializable {
 	 *            Object Of Player Class
 	 * @param army
 	 *            no. of armies
+	 * @return An integer value           
 	 */
 	public int reinforcementStrategy(int i, Player player, int army) {
 		int loop = (player.infantriesAvailable > 0) ? 1 : 0;
@@ -149,6 +151,7 @@ public class AggressivePlayerStrategy implements PlayerStrategy, Serializable {
 	 *            aggressive player from all the player list
 	 * @param mapDetails
 	 *            Detail of map
+	 * @return An integer value           
 	 */
 	public int attackStrategy(Player[] player, int i, Player aggressive, RiskMap mapDetails) {
 
@@ -177,6 +180,7 @@ public class AggressivePlayerStrategy implements PlayerStrategy, Serializable {
 	 *            Aggressive Player from all the player list
 	 * @param army
 	 *            no. of armies
+	 * @return An integer value           
 	 */
 	public int fortificationStrategy(int i, Player aggresivePlayer, int army) {
 		List<String> playerTerritoriesNames = new ArrayList<>();
