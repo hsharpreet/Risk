@@ -148,20 +148,22 @@ public class TournamentModel
          	System.out.println("------------End of Startup Phase-----------") ;
          
          	//Start of the turn and start of reinforcement
-         while(playerTurns > 0)
-         {
-         	for (int i = 0; i < playersTypes.size(); i++)
-         	{
-         		player[i].calculateReinformentArmiesInitially(i);
-         		player[i].reinforcementStrategy(i, player[i], player[i].infantriesAvailable)	;
-				System.out.println("player Name  ---" +player[i].getName());
-				for(CurrentGameStatics cgs: player[i].currentGameStaticsList) {
-				System.out.println("player territory  ---" +cgs.territory.getName()+" "+cgs.infantries);
-				}
+		    while (playerTurns > 0) {
+					for (int i = 0; i < playersTypes.size(); i++) {
+						int reinforcedArmies = player[i].calculateReinformentArmiesInitially(i);
+						player[i].infantriesTotal += reinforcedArmies;
+						player[i].infantriesAvailable = reinforcedArmies;
+						player[i].reinforcementStrategy(i, player[i], player[i].infantriesAvailable);
+						System.out.println("player Name  ---" + player[i].getName());
+						for (CurrentGameStatics cgs : player[i].currentGameStaticsList) {
+							System.out
+									.println("player territory  ---" + cgs.territory.getName() + " " + cgs.infantries);
+						}
 
-		}
-         }
+					}
+					playerTurns-- ;
+				}
+			}
 		}
 	}
-}
 }
