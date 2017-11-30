@@ -160,15 +160,19 @@ public class RandomPlayerStrategy implements PlayerStrategy, Serializable  {
 
 			String destinationTerritory = terrList.get(k).split(":")[1];
 			int plus = list.indexOf(destinationTerritory);
-
+            if(random.currentGameStaticsList.get(minus).infantries>1) {
 			random.currentGameStaticsList.get(minus).infantries--;
 			random.currentGameStaticsList.get(plus).infantries++;
-
+            
 			random.setMessage("Fortification Phase\r\nPlayer - " + random.getName() + " has transfered 1 infantry from "
 					+ random.currentGameStaticsList.get(minus).territory.getName() + " to " + destinationTerritory);
 			random.notifyObservers();
 
 			random.currentGameStaticsTableModel.fireTableDataChanged();
+            }
+            else {
+            	continue;
+            }
 		}
 
 		return 0;
