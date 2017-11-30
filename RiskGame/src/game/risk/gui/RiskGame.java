@@ -47,7 +47,7 @@ import javax.swing.JLabel;
 public class RiskGame extends javax.swing.JFrame implements Observer {
 
 	File mapFile;
-	File savedFile;
+	File savedFile; //file of saved game
 	RiskMap mapDetails;
 	int totalArmies[] = { 40, 35, 30, 25, 20 };
 	Color colors[] = new Color[6];
