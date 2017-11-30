@@ -1,4 +1,5 @@
 package game.risk.gui;
+
 import game.risk.gui.PlayerPanel;
 import game.risk.model.MapReader;
 import game.risk.model.MapWriter;
@@ -47,13 +48,13 @@ import javax.swing.JLabel;
 public class RiskGame extends javax.swing.JFrame implements Observer {
 
 	File mapFile;
-	File savedFile; //file of saved game
+	File savedFile; // file of saved game
 	RiskMap mapDetails;
 	int totalArmies[] = { 40, 35, 30, 25, 20 };
 	Color colors[] = new Color[6];
 
 	public int cardTurnIndex = 1;
-	 
+
 	Player player[];
 	public ArrayList<Card> alCards;
 	JLabel labels[] = new JLabel[6];
@@ -86,7 +87,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 		colors[5] = new Color(210, 194, 130);
 
 		alCards = new ArrayList<>();
-		 
+
 		CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Risk Game Started");
 		LoggerUtility.consoleHandler.publish(logRecord);
 	}
@@ -107,12 +108,12 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 
 		btLoad = new javax.swing.JButton();
 		btLoadGame = new javax.swing.JButton("Load Game");
+		btTournament = new javax.swing.JButton("Play T.M.");
 		btMapEditor = new javax.swing.JButton();
 		btmapFromScratch = new JButton("M.F.S.");
 		btmapFromScratch.setToolTipText("Map from Scratch");
 		btSave = new JButton("Save Game");
 		btSave.setEnabled(false);
-		
 
 		jScrollPane1 = new javax.swing.JScrollPane();
 		jpPlayground = new javax.swing.JPanel();
@@ -149,6 +150,11 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 		btBrowse.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btBrowseActionPerformed(evt);
+			}
+		});
+		btTournament.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				btTournamentActionPerformed(evt);
 			}
 		});
 		btLoadGame.addActionListener(new java.awt.event.ActionListener() {
@@ -190,10 +196,10 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 					btSave.setEnabled(true);
 					int playerCount = Integer.parseInt((String) cbPlayerCount.getSelectedItem());
 					HashMap<Integer, String> playerType = new HashMap<Integer, String>();
-					if(selectPlayerTypes(playerCount, playerType)){
+					if (selectPlayerTypes(playerCount, playerType)) {
 						btLoadActionPerformed(playerCount, playerType);
 					}
-					
+
 				} else {
 					btSave.setEnabled(false);
 					JOptionPane.showMessageDialog(jpPlayground, "Map File could not read or invalid file. Try again !");
@@ -202,17 +208,17 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 
 			private boolean selectPlayerTypes(int playerCount, HashMap<Integer, String> playerType) {
 				boolean retr = false;
-				
-				   javax.swing.ButtonGroup[] groups = new javax.swing.ButtonGroup[playerCount];
+
+				javax.swing.ButtonGroup[] groups = new javax.swing.ButtonGroup[playerCount];
 
 				javax.swing.JPanel panel = new javax.swing.JPanel(new GridLayout(0, 5));
 				for (int i = 1; i < playerCount; i++) {
-					//javax.swing.ButtonGroup group = new javax.swing.ButtonGroup();
+					// javax.swing.ButtonGroup group = new javax.swing.ButtonGroup();
 					javax.swing.JRadioButton aggressive = new javax.swing.JRadioButton("Aggressive", true);
 					javax.swing.JRadioButton benevolent = new javax.swing.JRadioButton("Benevolent");
 					javax.swing.JRadioButton random = new javax.swing.JRadioButton("Random");
 					javax.swing.JRadioButton cheater = new javax.swing.JRadioButton("Cheater");
-					
+
 					aggressive.setActionCommand("Aggressive");
 					benevolent.setActionCommand("Benevolent");
 					random.setActionCommand("Random");
@@ -222,27 +228,26 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 					groups[i].add(benevolent);
 					groups[i].add(random);
 					groups[i].add(cheater);
-					//group.add(new JButton());
-					
-					panel.add(new JLabel("Computer "+i+": "));
+					// group.add(new JButton());
+
+					panel.add(new JLabel("Computer " + i + ": "));
 					panel.add(aggressive);
 					panel.add(benevolent);
 					panel.add(random);
 					panel.add(cheater);
 				}
-				
+
 				panel.setVisible(true);
 				Object[] map = { "Select player type: ", panel };
 
-				
 				if (JOptionPane.showConfirmDialog(jpPlayground, map, "Map from Scratch",
 						JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
 					Component[] c = panel.getComponents();
-					
-					for(int j=0; j<groups.length; j++){
+
+					for (int j = 0; j < groups.length; j++) {
 						javax.swing.ButtonGroup group = groups[j];
-						if(group != null){
-							//System.out.println(group.getSelection().getActionCommand());
+						if (group != null) {
+							// System.out.println(group.getSelection().getActionCommand());
 							String player = group.getSelection().getActionCommand();
 							playerType.put(j, player);
 						}
@@ -401,11 +406,11 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 						.addComponent(btMapEditor, javax.swing.GroupLayout.PREFERRED_SIZE, 93,
 								javax.swing.GroupLayout.PREFERRED_SIZE)
 						.addGap(20, 20, 20)
-						
+
 						.addGap(20, 20, 20)
 						.addComponent(btmapFromScratch, javax.swing.GroupLayout.PREFERRED_SIZE, 93,
 								javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addGap(50, 50, 50)
+						.addGap(10, 10, 10)
 						.addComponent(btSave, javax.swing.GroupLayout.PREFERRED_SIZE, 93,
 								javax.swing.GroupLayout.PREFERRED_SIZE)
 						.addGap(20, 20, 20)
@@ -413,6 +418,8 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 								javax.swing.GroupLayout.PREFERRED_SIZE)
 						.addGap(12, 12, 12)
 						.addComponent(btLoadGame, javax.swing.GroupLayout.PREFERRED_SIZE, 93,
+								javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addComponent(btTournament, javax.swing.GroupLayout.PREFERRED_SIZE, 93,
 								javax.swing.GroupLayout.PREFERRED_SIZE)));
 		jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel1Layout.createSequentialGroup().addGap(13, 13, 13)
@@ -431,7 +438,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 										javax.swing.GroupLayout.PREFERRED_SIZE)
 								.addComponent(btMapEditor, javax.swing.GroupLayout.PREFERRED_SIZE, 31,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
-								
+
 								.addComponent(btmapFromScratch, javax.swing.GroupLayout.PREFERRED_SIZE, 31,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
 								.addComponent(btSave, javax.swing.GroupLayout.PREFERRED_SIZE, 31,
@@ -439,6 +446,8 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 								.addComponent(tfLoad, javax.swing.GroupLayout.PREFERRED_SIZE, 31,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
 								.addComponent(btLoadGame, javax.swing.GroupLayout.PREFERRED_SIZE, 31,
+										javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addComponent(btTournament, javax.swing.GroupLayout.PREFERRED_SIZE, 31,
 										javax.swing.GroupLayout.PREFERRED_SIZE))
 
 						.addGap(312, 312, 312)));
@@ -568,24 +577,37 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 			tfMapFile.setText(mapFile.getName());
 			tfMapFile.setToolTipText(mapFile.getPath());
 			CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Map File Loaded into Game");
-			LoggerUtility.consoleHandler.publish(logRecord);}
+			LoggerUtility.consoleHandler.publish(logRecord);
 		}
-		
-		private void btLoadGameActionPerformed(java.awt.event.ActionEvent evt) {
-			JFileChooser ch = new JFileChooser();
-			int ans = ch.showOpenDialog(this);
-			if (ans == JFileChooser.APPROVE_OPTION) {
-				savedFile = ch.getSelectedFile();
-				tfLoad.setText(savedFile.getName());
-				tfLoad.setToolTipText(savedFile.getPath());
-				CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Map File Loaded into Game");
-				LoggerUtility.consoleHandler.publish(logRecord);
+	}
+
+	private void btLoadGameActionPerformed(java.awt.event.ActionEvent evt) {
+		JFileChooser ch = new JFileChooser();
+		int ans = ch.showOpenDialog(this);
+		if (ans == JFileChooser.APPROVE_OPTION) {
+			savedFile = ch.getSelectedFile();
+			tfLoad.setText(savedFile.getName());
+			tfLoad.setToolTipText(savedFile.getPath());
+			CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Map File Loaded into Game");
+			LoggerUtility.consoleHandler.publish(logRecord);
+		}
+	}
+
+	private void btTournamentActionPerformed(java.awt.event.ActionEvent evt) {
+		// TournamentTest tour=new TournamentTest();
+		java.awt.EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				new TournamentTest().setVisible(true);
+
 			}
+		});
+
 	}
 
 	/**
 	 * load button action performed, loads map to playground
-	 * @param playerCount 
+	 * 
+	 * @param playerCount
 	 * 
 	 * @param evt
 	 */
@@ -593,14 +615,14 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 		if (mapFile != null) {
 			mapDetails = MapReader.readMapFile(mapFile.getPath());
 			if (mapDetails != null) {
-				
+
 				btMapEditor.setVisible(false);
 				btmapFromScratch.setVisible(false);
-				
+
 				for (int i = 0; i < labels.length; i++) {
 					labels[i].setVisible(false);
 				}
-				
+
 				for (int i = 0; i < playerCount; i++) {
 					labels[i].setVisible(true);
 				}
@@ -608,54 +630,49 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 				player = new Player[playerCount];
 				jpPlayground.removeAll();
 				jpPlayground.setPreferredSize(new Dimension(370 * playerCount, 400));
-				CustomLogRecord logRecord =null;
+				CustomLogRecord logRecord = null;
 
 				for (int i = 0; i < playerCount; i++) {
 					if (i == 0) {
 						// human for player index 0
-						player[i] = new Player(RiskGame.this, i, player, mapDetails); 
+						player[i] = new Player(RiskGame.this, i, player, mapDetails);
 						player[i].setComputer(false);
 						player[i].setName("Human");
 						player[i].setStrategy(new HumanStrategy());
-						logRecord = new CustomLogRecord(Level.INFO,
-								"Strategy: HUMAN");
-						//LoggerUtility.consoleHandler.publish(logRecord);
+						logRecord = new CustomLogRecord(Level.INFO, "Strategy: HUMAN");
+						// LoggerUtility.consoleHandler.publish(logRecord);
 					} else {
-						player[i] = new Player(RiskGame.this, i, player, mapDetails); 
+						player[i] = new Player(RiskGame.this, i, player, mapDetails);
 						player[i].setComputer(true);
-						player[i].setName(playerType.get(i)+""+i);
-						
-						if(playerType.get(i).equalsIgnoreCase("aggressive")){
-							logRecord = new CustomLogRecord(Level.INFO,
-									"Strategy: Aggressive");
-							//LoggerUtility.consoleHandler.publish(logRecord);
+						player[i].setName(playerType.get(i) + "" + i);
+
+						if (playerType.get(i).equalsIgnoreCase("aggressive")) {
+							logRecord = new CustomLogRecord(Level.INFO, "Strategy: Aggressive");
+							// LoggerUtility.consoleHandler.publish(logRecord);
 							player[i].setStrategy(new AggressivePlayerStrategy());
-							
-						}else if(playerType.get(i).equalsIgnoreCase("benevolent")){
-							logRecord = new CustomLogRecord(Level.INFO,
-									"Strategy: Benevolent Player Strategy");
-							//LoggerUtility.consoleHandler.publish(logRecord);
+
+						} else if (playerType.get(i).equalsIgnoreCase("benevolent")) {
+							logRecord = new CustomLogRecord(Level.INFO, "Strategy: Benevolent Player Strategy");
+							// LoggerUtility.consoleHandler.publish(logRecord);
 							player[i].setStrategy(new BenevolentPlayerStrategy());
-							
-						}else if(playerType.get(i).equalsIgnoreCase("random")){
-							logRecord = new CustomLogRecord(Level.INFO,
-									"Strategy: Random Player Strategy");
-							//LoggerUtility.consoleHandler.publish(logRecord);
+
+						} else if (playerType.get(i).equalsIgnoreCase("random")) {
+							logRecord = new CustomLogRecord(Level.INFO, "Strategy: Random Player Strategy");
+							// LoggerUtility.consoleHandler.publish(logRecord);
 							player[i].setStrategy(new RandomPlayerStrategy());
-							
-						}else{
-							logRecord = new CustomLogRecord(Level.INFO,
-									"Strategy: Cheater Player Strategy");
-							//LoggerUtility.consoleHandler.publish(logRecord);
+
+						} else {
+							logRecord = new CustomLogRecord(Level.INFO, "Strategy: Cheater Player Strategy");
+							// LoggerUtility.consoleHandler.publish(logRecord);
 							player[i].setStrategy(new CheaterPlayerStrategy());
-							
+
 						}
-						
+
 					}
-					//player[i] = new Player(RiskGame.this, i, player, mapDetails);
+					// player[i] = new Player(RiskGame.this, i, player, mapDetails);
 					player[i].addObserver(RiskGame.this);
 					player[i].setPlayerPanel(new PlayerPanel());
-					
+
 					player[i].currentGameStaticsList = new ArrayList<>();
 					player[i].currentGameStaticsTableModel = new CurrentGameStaticsTableModel(
 							player[i].currentGameStaticsList);
@@ -667,14 +684,14 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 
 					player[i].getPlayerPanel().lsNeighbour.setModel(player[i].neighbourListModel);
 					player[i].getPlayerPanel().setBackground(colors[i]);
-					
+
 					player[i].infantriesTotal = totalArmies[playerCount - 2];
 					player[i].getPlayerPanel().lbTotalArmies.setText("Total Infantries : " + player[i].infantriesTotal);
-					if(i==0){
+					if (i == 0) {
 						player[i].bindListeners();
 						player[i].getPlayerPanel().lbPlayer.setText("Human Player : " + (i + 1));
-					}else{
-						player[i].getPlayerPanel().lbPlayer.setText(playerType.get(i)+" Player: " + (i + 1));
+					} else {
+						player[i].getPlayerPanel().lbPlayer.setText(playerType.get(i) + " Player: " + (i + 1));
 					}
 					jpPlayground.add(player[i].getPlayerPanel());
 
@@ -686,7 +703,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 
 				int p = 0;
 				int m = 0;
-                String cardDesigns[] = {"infantry" , "cavalry" , "artillery"};
+				String cardDesigns[] = { "infantry", "cavalry", "artillery" };
 				while (true) {
 					try {
 						for (int i = 0; i < playerCount; i++) {
@@ -704,8 +721,8 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 					}
 				}
 				for (int i = 0; i < playerCount; i++) {
-					player[i].infantriesAvailable = 2;//(totalArmies[playerCount - 2])
-							//- (player[i].currentGameStaticsList.size());
+					player[i].infantriesAvailable = 2;// (totalArmies[playerCount - 2])
+					// - (player[i].currentGameStaticsList.size());
 					player[i].getPlayerPanel().lbAvailableArmies
 							.setText("Available Infantries : 2=" + player[i].infantriesAvailable);
 					player[i].currentGameStaticsTableModel.fireTableDataChanged(); // Display data in table
@@ -718,20 +735,19 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 					double per = (player[i].currentGameStaticsList.size() * 100.0) / territories.size();
 					DecimalFormat df = new DecimalFormat("##.##");
 					per = Double.parseDouble(df.format(per));
-					if(per != 100) {
+					if (per != 100) {
 						labels[i].setText("Player " + (i + 1) + " - " + per + "%");
-					}else {
+					} else {
 						labels[i].setText("Player " + (i + 1) + " - " + "WINS");
 						jpPlayground.removeAll();
 						jpPlayground.revalidate();
 						jpPlayground.repaint();
 					}
 				}
-				
+
 				player[0].getPlayerPanel().btPlaceInfantry.setEnabled(true);
 
-				logRecord = new CustomLogRecord(Level.INFO,
-						"Territories are distributed randomly among players");
+				logRecord = new CustomLogRecord(Level.INFO, "Territories are distributed randomly among players");
 				LoggerUtility.consoleHandler.publish(logRecord);
 
 			} else {
@@ -779,6 +795,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 	private javax.swing.JButton btSave;
 	private javax.swing.JButton btLoad;
 	private javax.swing.JButton btLoadGame;
+	private javax.swing.JButton btTournament;
 	private javax.swing.JButton btMapEditor;
 	private javax.swing.JButton btmapFromScratch;
 	private javax.swing.JComboBox<String> cbPlayerCount;
@@ -834,17 +851,17 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 		} else if (message.startsWith("RiskCardInfantries")) {
 			String values[] = message.split(",");
 			int index = Integer.parseInt(values[1]);
-			taMsg += taObserverMessage.getText()+"\n"+message+"\n";
+			taMsg += taObserverMessage.getText() + "\n" + message + "\n";
 			taObserverMessage.setText(taMsg);
 			player[index].getPlayerPanel().lbMessage3.setText(values[2]);
-			
+
 		} else {
-			taMsg += taObserverMessage.getText()+"\n"+message+"\n";
+			taMsg += taObserverMessage.getText() + "\n" + message + "\n";
 			taObserverMessage.setText(taMsg);
 		}
-		
-		if(taMsg.length() >= 1000){
-			taMsg = taMsg.substring(taMsg.length()-1000, taMsg.length());
+
+		if (taMsg.length() >= 1000) {
+			taMsg = taMsg.substring(taMsg.length() - 1000, taMsg.length());
 			taObserverMessage.setText(taMsg);
 		}
 
