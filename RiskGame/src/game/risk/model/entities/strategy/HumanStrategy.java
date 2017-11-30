@@ -120,7 +120,7 @@ public class HumanStrategy implements PlayerStrategy, Serializable {
 	 *            array of player class
 	 * @param i
 	 *            Player index
-	 * @param benevolent
+	 * @param player2
 	 *            attribute of Player class
 	 * @param mapDetails
 	 *            an object of RiskMap
@@ -169,7 +169,7 @@ public class HumanStrategy implements PlayerStrategy, Serializable {
 	 * 
 	 * @param i
 	 *            Player index
-	 * @param player
+	 * @param human
 	 *            an object of Player class
 	 * @param army
 	 *            Number of armies.

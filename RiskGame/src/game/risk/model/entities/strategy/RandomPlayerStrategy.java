@@ -21,28 +21,44 @@ import game.risk.model.entities.RiskMap;
 import game.risk.util.CustomLogRecord;
 import game.risk.util.LoggerUtility;
 
-public class RandomPlayerStrategy implements PlayerStrategy, Serializable  {
+/**
+ * class to create Random Player strategy
+ * 
+ * @author Team
+ *
+ */
+public class RandomPlayerStrategy implements PlayerStrategy, Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * A constructor
+	 */
 	public RandomPlayerStrategy() {
-		CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
-				"Strategy: Random Player Strategy");
+		CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Strategy: Random Player Strategy");
 		LoggerUtility.consoleHandler.publish(logRecord);
 	}
-	
+
 	@Override
+	/**
+	 * Method to place available infantry
+	 * 
+	 * @param i
+	 *            Player Index
+	 * @param player
+	 *            Object Of Player Class
+	 * @param army
+	 *            no. of armies
+	 * @return an integer value
+	 */
 	public int placeInfantoryStrategy(int i, Player player, int army) {
-		
+
 		if (player.infantriesAvailable > 0) {
 			int loop = (player.infantriesAvailable > 0) ? 1 : 0;
 			int index = 0;
-			//int army = loop= 1;
+			// int army = loop= 1;
 			if (army > 0) {
-				//loop = (player.infantriesAvailable > 0) ? 1 : player.infantriesAvailable;
+				// loop = (player.infantriesAvailable > 0) ? 1 : player.infantriesAvailable;
 				loop = army;
 				CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
 						"Human has finished with armies, computers will place all their left armies now!");
@@ -62,15 +78,25 @@ public class RandomPlayerStrategy implements PlayerStrategy, Serializable  {
 				player.notifyObservers();
 			}
 
-			//player.getPlayerPanel().btPlaceInfantry.setEnabled(false);
-			
+			// player.getPlayerPanel().btPlaceInfantry.setEnabled(false);
+
 		}
-		
-	
+
 		return 0;
 	}
-	
+
 	@Override
+	/**
+	 * Method For Reinforcement
+	 * 
+	 * @param i
+	 *            Player Index
+	 * @param player
+	 *            Object Of Player Class
+	 * @param army
+	 *            no. of armies
+	 * @return an integer value
+	 */
 	public int reinforcementStrategy(int i, Player player, int army) {
 		int loop = (player.infantriesAvailable > 0) ? 1 : 0;
 
@@ -102,8 +128,7 @@ public class RandomPlayerStrategy implements PlayerStrategy, Serializable  {
 
 			}
 		} else {
-			CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
-					"No army available");
+			CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "No army available");
 			LoggerUtility.consoleHandler.publish(logRecord);
 		}
 		return 0;
@@ -111,6 +136,19 @@ public class RandomPlayerStrategy implements PlayerStrategy, Serializable  {
 	}
 
 	@Override
+	/**
+	 * Method for attack strategy
+	 * 
+	 * @param player
+	 *            array of player class
+	 * @param i
+	 *            Player index
+	 * @param random
+	 *            attribute of Player class
+	 * @param mapDetails
+	 *            an object of RiskMap
+	 * @return an integer value
+	 */
 	public int attackStrategy(Player player[], int ii, Player random, RiskMap mapDetails) {
 
 		random.setMessage("Player " + random.getName() + " entered into ATTACK Phase");
@@ -120,7 +158,7 @@ public class RandomPlayerStrategy implements PlayerStrategy, Serializable  {
 		dialog.add(new AttackGUIPanel(dialog, player, ii, random.currentGameStaticsTableModel,
 				random.currentGameStaticsList, mapDetails));
 		dialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
-		//dialog.setSize(1020, 600);
+		// dialog.setSize(1020, 600);
 		// dialog.setVisible(true);
 		// new AttackPhase(player, ii, random.currentGameStaticsTableModel,
 		// random.currentGameStaticsList, mapDetails);
@@ -128,6 +166,17 @@ public class RandomPlayerStrategy implements PlayerStrategy, Serializable  {
 	}
 
 	@Override
+	/**
+	 * Method for fortification
+	 * 
+	 * @param i
+	 *            Player index
+	 * @param random
+	 *            an object of Player class
+	 * @param army
+	 *            Number of armies
+	 * @return an integer value
+	 */
 	public int fortificationStrategy(int i, Player random, int army) {
 
 		ArrayList<String> terrList = new ArrayList<String>();
@@ -151,7 +200,7 @@ public class RandomPlayerStrategy implements PlayerStrategy, Serializable  {
 		}
 		int possibleMoves = terrList.size();
 		int randomMoves = 0;
-		if(possibleMoves >0){
+		if (possibleMoves > 0) {
 			randomMoves = new Random().nextInt(possibleMoves);
 		}
 
@@ -161,17 +210,18 @@ public class RandomPlayerStrategy implements PlayerStrategy, Serializable  {
 			String destinationTerritory = terrList.get(k).split(":")[1];
 			int plus = list.indexOf(destinationTerritory);
 
-			if(random.currentGameStaticsList.get(minus).infantries > 1){
+			if (random.currentGameStaticsList.get(minus).infantries > 1) {
 				random.currentGameStaticsList.get(minus).infantries--;
 				random.currentGameStaticsList.get(plus).infantries++;
 
-				random.setMessage("Fortification Phase\r\nPlayer - " + random.getName() + " has transfered 1 infantry from "
+				random.setMessage("Fortification Phase\r\nPlayer - " + random.getName()
+						+ " has transfered 1 infantry from "
 						+ random.currentGameStaticsList.get(minus).territory.getName() + " to " + destinationTerritory);
 				random.notifyObservers();
 
 				random.currentGameStaticsTableModel.fireTableDataChanged();
 			}
-			
+
 		}
 
 		return 0;

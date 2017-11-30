@@ -118,7 +118,7 @@ public class CheaterPlayerStrategy implements PlayerStrategy, Serializable {
 	 *            array of player class
 	 * @param i
 	 *            Player index
-	 * @param benevolent
+	 * @param cheater
 	 *            attribute of Player class
 	 * @param mapDetails
 	 *            an object of RiskMap
@@ -147,7 +147,7 @@ public class CheaterPlayerStrategy implements PlayerStrategy, Serializable {
 	 * 
 	 * @param i
 	 *            Player index
-	 * @param player
+	 * @param cheater
 	 *            an object of Player class
 	 * @param army
 	 *            Number of armies
