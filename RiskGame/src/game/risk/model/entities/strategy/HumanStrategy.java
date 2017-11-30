@@ -72,11 +72,8 @@ public class HumanStrategy implements PlayerStrategy , Serializable  {
 				player.notifyObservers();
 
 				if (player.infantriesAvailable == 0) {
-					//player.getPlayerPanel().btReinforcement.setEnabled(false);
-					//player.attack(i);
 					return 1;
 				}
-
 			}
 		} else {
 			JOptionPane.showMessageDialog(player.getPlayerPanel(), "No army available");
@@ -113,14 +110,12 @@ public class HumanStrategy implements PlayerStrategy , Serializable  {
 						player[i].setMessage("Player " + player[i].getName() + " entered into Fortification Phase");
 						player[i].notifyObservers();
 
-					} else {
-						player[i].nextPlayerTurn(1);
-					}
+					} 
 				}
 			});
 			dialog.setVisible(true);
 		}else{
-			player2.nextPlayerTurn(1);
+			return 0;
 		}
 		return 0;
 	}

@@ -66,7 +66,7 @@ public class PlayerTest {
 	 */
 	@Test
 	public void testReinforcementArmies_occupiedTerritories() {
-		assertEquals(3, players[0].calculateReinformentArmies(0));
+		assertEquals(3, players[0].calculateReinformentArmiesInitially(0));
 	}
 
 	/***
@@ -80,7 +80,7 @@ public class PlayerTest {
 		t5.setContinent("hello");
 		CurrentGameStatics gamestat5 = new CurrentGameStatics(2, t5);
 		players[0].currentGameStaticsList.add(gamestat5);
-		assertEquals(4, players[0].calculateReinformentArmies(0));
+		assertEquals(4, players[0].calculateReinformentArmiesInitially(0));
 	}
 	
 	/***
