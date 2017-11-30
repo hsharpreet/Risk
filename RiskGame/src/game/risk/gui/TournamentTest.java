@@ -7,14 +7,15 @@ import javax.swing.JFileChooser;
 import game.risk.model.TournamentModel;
 
 /**
- *
+ * Class to create GUI for Tournament
+ * 
  * @author Team
  */
 public class TournamentTest extends javax.swing.JFrame {
 	File mapFile;
 
 	/**
-	 * Creates new form Tournamnet
+	 * A constructor
 	 */
 	public TournamentTest() {
 
@@ -22,7 +23,9 @@ public class TournamentTest extends javax.swing.JFrame {
 	}
 
 	@SuppressWarnings("unchecked")
-	
+	/**
+	 * A method to initialize the variables
+	 */
 	private void initComponents() {
 
 		jPanel2 = new javax.swing.JPanel();
@@ -100,41 +103,53 @@ public class TournamentTest extends javax.swing.JFrame {
 		lbMap5.setText("Map 5");
 
 		lbResult.setText("Tournament Result");
-
+		/**
+		 * A listener for textfield
+		 */
 		tfMap2.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				tfMap2ActionPerformed(evt);
 			}
 		});
-
+		/**
+		 * A listener for Browse button
+		 */
 		btMap1.setText("Browse");
 		btMap1.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btMap1ActionPerformed(evt);
 			}
 		});
-
+		/**
+		 * A listener for Browse button
+		 */
 		btMap2.setText("Browse");
 		btMap2.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btMap2ActionPerformed(evt);
 			}
 		});
-
+		/**
+		 * A listener for Browse button
+		 */
 		btMap3.setText("Browse");
 		btMap3.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btMap3ActionPerformed(evt);
 			}
 		});
-
+		/**
+		 * A listener for Browse button
+		 */
 		btMap4.setText("Browse");
 		btMap4.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btMap4ActionPerformed(evt);
 			}
 		});
-
+		/**
+		 * A listener for Browse button
+		 */
 		btMap5.setText("Browse");
 		btMap5.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -157,6 +172,9 @@ public class TournamentTest extends javax.swing.JFrame {
 						"17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30" }));
 
 		btPlayTournament.setText("Play Tournament");
+		/**
+		 * A listener for Play Tournament button
+		 */
 		btPlayTournament.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				String[] players = { cbPlayer1.getSelectedItem().toString(), cbPlayer2.getSelectedItem().toString(),
@@ -349,10 +367,22 @@ public class TournamentTest extends javax.swing.JFrame {
 		pack();
 	}
 
+	/**
+	 * Method to create event handler for text field
+	 * 
+	 * @param evt
+	 *            an action event component
+	 */
 	private void tfMap2ActionPerformed(java.awt.event.ActionEvent evt) {
-		
+
 	}
 
+	/**
+	 * Method to create event handler for map button
+	 * 
+	 * @param evt
+	 *            an action event component
+	 */
 	private void btMap1ActionPerformed(java.awt.event.ActionEvent evt) {
 		JFileChooser ch = new JFileChooser();
 		int ans = ch.showOpenDialog(this);
@@ -363,6 +393,13 @@ public class TournamentTest extends javax.swing.JFrame {
 		}
 	}
 
+	/**
+	 * Method to create event handler for map button
+	 * 
+	 * @param evt
+	 *            an action event component
+	 * 
+	 */
 	private void btMap2ActionPerformed(java.awt.event.ActionEvent evt) {
 		JFileChooser ch = new JFileChooser();
 		int ans = ch.showOpenDialog(this);
@@ -373,6 +410,13 @@ public class TournamentTest extends javax.swing.JFrame {
 		}
 	}
 
+	/**
+	 * Method to create event handler for map button
+	 * 
+	 * @param evt
+	 *            an action event component
+	 *
+	 */
 	private void btMap3ActionPerformed(java.awt.event.ActionEvent evt) {
 		JFileChooser ch = new JFileChooser();
 		int ans = ch.showOpenDialog(this);
@@ -383,6 +427,13 @@ public class TournamentTest extends javax.swing.JFrame {
 		}
 	}
 
+	/**
+	 * 
+	 * Method to create event handler for map button
+	 * 
+	 * @param evt
+	 *            an action event component
+	 */
 	private void btMap4ActionPerformed(java.awt.event.ActionEvent evt) {
 		JFileChooser ch = new JFileChooser();
 		int ans = ch.showOpenDialog(this);
@@ -392,6 +443,14 @@ public class TournamentTest extends javax.swing.JFrame {
 			tfMap4.setToolTipText(mapFile.getPath());
 		}
 	}
+
+	/**
+	 * Method to create event handler for map button
+	 * 
+	 * @param evt
+	 *            an action event component
+	 * 
+	 */
 
 	private void btMap5ActionPerformed(java.awt.event.ActionEvent evt) {
 		JFileChooser ch = new JFileChooser();
@@ -403,12 +462,18 @@ public class TournamentTest extends javax.swing.JFrame {
 		}
 	}
 
+	/**
+	 * Method to create event handler for play tournament button
+	 * 
+	 * @param evt
+	 *            an action
+	 */
 	private void btPlayTournamentActionPerformed(java.awt.event.ActionEvent evt) {
-		
+
 	}
 
 	public static void main(String args[]) {
-	
+
 		try {
 			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
 				if ("Nimbus".equals(info.getName())) {
@@ -429,7 +494,7 @@ public class TournamentTest extends javax.swing.JFrame {
 			java.util.logging.Logger.getLogger(TournamentTest.class.getName()).log(java.util.logging.Level.SEVERE, null,
 					ex);
 		}
-		
+
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				new TournamentTest().setVisible(true);
