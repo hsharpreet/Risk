@@ -796,6 +796,15 @@ public class MapEditor {
 
 		});
 
+
+
+		saveMap.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// setting the visibility of components
+				mapEditorFrame.dispose();
+			}
+		});
+		
 		/**
 		 * Method to create a button to show neighbors of the selected country
 		 */
@@ -826,14 +835,6 @@ public class MapEditor {
 			}
 
 		});
-
-		saveMap.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// setting the visibility of components
-				mapEditorFrame.dispose();
-			}
-		});
-
 		mapEditorFrame.setSize(1000, 600);
 		mapEditorFrame.setLayout(null);
 		mapEditorFrame.setVisible(true);
