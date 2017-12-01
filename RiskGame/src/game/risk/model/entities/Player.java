@@ -48,8 +48,8 @@ public class Player extends Observable implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	int myIndex;
-	transient Player player[];
-	transient RiskMap mapDetails;
+    Player player[];
+    RiskMap mapDetails;
 	public int infantriesAvailable;
 	public int infantriesTotal;
 	public CurrentGameStaticsTableModel currentGameStaticsTableModel;
@@ -67,6 +67,7 @@ public class Player extends Observable implements Serializable {
 	transient public RiskGame riskGame;
 	private int nVal = 0;
 	private PlayerStrategy strategy;
+	private String phase;
 
 	/**
 	 * A constructor to initialize myIndex, Player and MapDetails
@@ -314,6 +315,14 @@ public class Player extends Observable implements Serializable {
 		return strategy;
 	}
 
+	public String getPhase() {
+		return phase;
+	}
+
+	public void setPhase(String phase) {
+		this.phase = phase;
+	}
+
 	/**
 	 * A method to get the continents which are occupied by the player
 	 * 
@@ -524,7 +533,7 @@ public class Player extends Observable implements Serializable {
 	 *            an integer value
 	 */
 	public boolean attackInitialization(int i) {
-
+		player[0].setPhase(GamePhaseEnum.ATTACK.name());
 		player[0].attackStrategy(player, i, player[i], mapDetails);
 		return true;
 	}
@@ -668,6 +677,7 @@ public class Player extends Observable implements Serializable {
 					"Startup Phase Done.\nIn next phase every player has option of \nreinforcement, attack and fortification.");
 			setMessage(
 					"Startup Phase Done.\nIn next phase every player has option of \nreinforcement, attack and fortification.");
+			player[i].setPhase(GamePhaseEnum.REINFORCEMENT.name());
 			reinforcementInitialization();
 		}
 		return flag;
