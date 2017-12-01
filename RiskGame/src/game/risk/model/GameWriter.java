@@ -21,14 +21,32 @@ import game.risk.model.entities.Territory;
 import game.risk.model.entities.strategy.AggressivePlayerStrategy;
 import game.risk.model.entities.strategy.HumanStrategy;
 
+/**
+ * Class to create Game writer
+ * 
+ * @author Team
+ *
+ */
 public class GameWriter {
 
 	String fileName;
 
+	/**
+	 * A constructor
+	 * 
+	 * @param mapFileName
+	 *            The name of the map file
+	 */
 	public GameWriter(String mapFileName) {
 		fileName = mapFileName + "_Game_Status.ser";
 	}
 
+	/**
+	 * Method to create a method to save the game.
+	 * 
+	 * @param players
+	 *            an array of player class
+	 */
 	public void saveGame(Player[] players) {
 		try {
 			OutputStream file = new FileOutputStream(fileName);
@@ -49,6 +67,11 @@ public class GameWriter {
 		}
 	}
 
+	/**
+	 * Method to read the game
+	 * 
+	 * @return an array of player class
+	 */
 	public Player[] readGame() {
 		Player[] loadedPlayers = null;
 		try {
@@ -71,6 +94,12 @@ public class GameWriter {
 		return loadedPlayers;
 	}
 
+	/**
+	 * The Main method
+	 * 
+	 * @param args
+	 *            a String parameter
+	 */
 	public static void main(String[] args) {
 		Player players[];
 		RiskMap mapDetails = MapReader.readMapFile("World_testingReinforcement.map");
@@ -89,7 +118,7 @@ public class GameWriter {
 		Territory t4 = new Territory();
 		t4.setName("Brazil");
 		t4.setContinent("South America");
-		
+
 		Territory t5 = new Territory();
 		t5.setName("Argentina");
 		t5.setContinent("South America");
@@ -99,7 +128,7 @@ public class GameWriter {
 		CurrentGameStatics gamestat3 = new CurrentGameStatics(3, t3);
 		CurrentGameStatics gamestat4 = new CurrentGameStatics(2, t4);
 		CurrentGameStatics gamestat5 = new CurrentGameStatics(2, t5);
-		
+
 		players = new Player[2];
 		players[0] = new Player(new RiskGame(), 0, players, mapDetails);
 		players[0].setComputer(false);
@@ -110,15 +139,15 @@ public class GameWriter {
 		players[1].setStrategy(new AggressivePlayerStrategy());
 		players[1].setName("Aggressive");
 		players[0].currentGameStaticsList = new ArrayList<>();
-		players[1].currentGameStaticsList= new ArrayList<>();
+		players[1].currentGameStaticsList = new ArrayList<>();
 		players[0].currentGameStaticsList.add(gamestat1);
 		players[0].currentGameStaticsList.add(gamestat2);
 		players[0].currentGameStaticsList.add(gamestat3);
-		//players[0].currentGameStaticsList.add(gamestat4);
+		// players[0].currentGameStaticsList.add(gamestat4);
 		players[1].currentGameStaticsList.add(gamestat5);
-		
+
 		GameWriter gameWriter = new GameWriter("World_testingReinforcement");
 		gameWriter.saveGame(players);
-		
+
 	}
 }
