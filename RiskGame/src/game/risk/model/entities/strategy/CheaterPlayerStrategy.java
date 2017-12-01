@@ -50,7 +50,10 @@ public class CheaterPlayerStrategy implements PlayerStrategy, Serializable {
 		if (player.infantriesAvailable > 0) {
 			int loop = (player.infantriesAvailable > 0) ? 1 : 0;
 			int index = 0;
+			// int army = loop= 1;
 			if (army > 0) {
+				// loop = (player.infantriesAvailable > 0) ? 1 :
+				// player.infantriesAvailable;
 				loop = army;
 				CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
 						"Player has finished with armies, comp will place all their left armies now!");
@@ -137,6 +140,9 @@ public class CheaterPlayerStrategy implements PlayerStrategy, Serializable {
 				cheater.currentGameStaticsList, mapDetails));
 		dialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
 		dialog.setSize(1020, 600);
+		// dialog.setVisible(true);
+		// new AttackPhase(player, ii, random.currentGameStaticsTableModel,
+		// random.currentGameStaticsList, mapDetails);
 		return 0;
 
 	}

@@ -121,7 +121,6 @@ public class AttackPhase {
 										}
 									}
 								}
-								// break;
 							}
 
 							// Assign Card to player
@@ -142,6 +141,70 @@ public class AttackPhase {
 			updateList();
 			return;
 		}
+		if (player[myIndex].isComputer() && player[myIndex].getName().toLowerCase().contains("aggressive")) {
+
+			ArrayList<String> attackList = new ArrayList<String>();
+
+			for (int x = 0; x < list.size(); x++) {
+				if (list.get(x).infantries > 1) {
+					// attacker.add(x);
+
+					getIndexFromMainTable(list, x);
+					for (int xx = 0; xx < tempGameStaticsList.size(); xx++) {
+						if (!tempGameStaticsList.get(xx).isOwn) {
+							attackList.add(x + ":" + xx);
+						}
+					}
+				}
+			}
+			if (attackList.size() < 1) {
+				player[myIndex].setMessage("Computer - " + player[myIndex].getName() + "NO possible attacks");
+				return;
+			}else{
+				player[myIndex].setMessage("Computer - " + player[myIndex].getName() + " will do"+ attackList.size() +" possible attacks");
+			}
+			
+
+			for(int kk=0; kk< attackList.size(); kk++){
+				String choice = attackList.get(kk);
+				if (attackList.size() != 0) {
+					int index11 = Integer.valueOf(choice.split(":")[0]);
+					int index22 = Integer.valueOf(choice.split(":")[1]);
+					this.index1 = index11;
+					this.index2 = index22;
+
+					AttackPhase.this.tempGameStaticsList.clear();
+					getIndexFromMainTable(list, index11);
+
+					if (checkIfMoreAttackPossible()) {
+						try {
+							automateAttackButton(list, index11, index22);
+							updateComboboxes();
+							performBtRoleDiceClick(list, index11, index22);
+							TimeUnit.MILLISECONDS.sleep(10);
+							attackList.remove(choice);
+
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+
+					} else {
+						player[myIndex]
+								.setMessage("Computer - " + player[myIndex].getName() + " more attacks not possible.");
+						return;
+					}
+				} else {
+					player[myIndex].setMessage("Computer - " + player[myIndex].getName() + " NO attacks possible.");
+					return;
+				}
+			}
+
+			updateOriginalListFromTempList();
+			AttackPhase.this.dialog.dispose();
+
+			player[myIndex].setMessage("Player - " + player[myIndex].getName() + " into attack phase");
+		}
+
 		if (player[myIndex].isComputer() && player[myIndex].getName().toLowerCase().contains("random")) {
 
 			ArrayList<String> attackList = new ArrayList<String>();
@@ -200,7 +263,6 @@ public class AttackPhase {
 
 			player[myIndex].setMessage("Player - " + player[myIndex].getName() + " into attack phase");
 		}
-
 		/**
 		 * Method for creating listeners for attack Panel
 		 */

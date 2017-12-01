@@ -156,6 +156,10 @@ public class HumanStrategy implements PlayerStrategy, Serializable {
 						human.setMessage("Player " + human.getName() + " entered into Fortification Phase");
 						human.notifyObservers();
 
+					} else {
+						if (!Player.endOfGame) {
+							player[0].nextPlayerTurn(1);
+						}
 					}
 				}
 			});
@@ -172,7 +176,9 @@ public class HumanStrategy implements PlayerStrategy, Serializable {
 
 				human.setMessage("Player " + human.getName() + " entered into Fortification Phase");
 			} else {
-				player[0].nextPlayerTurn(1);
+				if (!Player.endOfGame) {
+					player[0].nextPlayerTurn(1);
+				}
 			}
 		}
 		return 0;

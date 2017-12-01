@@ -49,7 +49,10 @@ public class BenevolentPlayerStrategy implements PlayerStrategy, Serializable {
 		if (player.infantriesAvailable > 0) {
 			int loop = (player.infantriesAvailable > 0) ? 1 : 0;
 			int index = 0;
+			// int army = loop= 1;
 			if (army > 0) {
+				// loop = (player.infantriesAvailable > 0) ? 1 :
+				// player.infantriesAvailable;
 				loop = army;
 				CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
 						"Player has finished with armies, comp will place all their left armies now!");
@@ -65,6 +68,9 @@ public class BenevolentPlayerStrategy implements PlayerStrategy, Serializable {
 					player.currentGameStaticsTableModel.fireTableDataChanged();
 				}
 			}
+
+			// player.getPlayerPanel().btPlaceInfantry.setEnabled(false);
+			// player.nextIndexToEnableButton(i);
 
 			player.setMessage("Startup Phase\r\nPlayer - " + player.getName() + " has placed infantry in "
 					+ player.currentGameStaticsList.get(index).territory.getName().toUpperCase()
@@ -92,6 +98,8 @@ public class BenevolentPlayerStrategy implements PlayerStrategy, Serializable {
 		int loop = (player.infantriesAvailable > 0) ? 1 : 0;
 
 		if (army > 0) {
+			// loop = (player.infantriesAvailable > 0) ? 1 :
+			// player.infantriesAvailable;
 			loop = army;
 			CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Human has finished with reinforcing armies, "
 					+ player.getName() + " will place all their left armies now!");

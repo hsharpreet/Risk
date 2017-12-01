@@ -166,6 +166,9 @@ public class AggressivePlayerStrategy implements PlayerStrategy, Serializable {
 				aggressive.currentGameStaticsList, mapDetails));
 		dialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
 		dialog.setSize(1020, 600);
+		// dialog.setVisible(true);
+		// new AttackPhase(player, ii, random.currentGameStaticsTableModel,
+		// random.currentGameStaticsList, mapDetails);
 		return 0;
 
 	}

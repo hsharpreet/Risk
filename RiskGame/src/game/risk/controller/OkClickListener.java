@@ -36,7 +36,8 @@ public class OkClickListener implements ActionListener {
 	 *            Object of ActionEvent
 	 */
 	public void actionPerformed(ActionEvent e) {
-
-		player[i].nextPlayerTurn(1);
+		if(!Player.endOfGame){
+			player[i].nextPlayerTurn(1);
+		}
 	}
 }

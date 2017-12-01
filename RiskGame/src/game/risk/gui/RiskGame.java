@@ -762,6 +762,9 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 			mapDetails = MapReader.readMapFile(mapFile.getPath());
 			if (mapDetails != null) {
 
+				Player.endOfGame = false;
+				alCards.clear();
+				
 				btMapEditor.setVisible(false);
 				btmapFromScratch.setVisible(false);
 
@@ -994,6 +997,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 						labels[ik].setText("Player " + (i + 1) + " - " + "LOST");
 					}
 					labels[i].setText("Player " + (i + 1) + " - " + "WINS");
+					Player.endOfGame = true;
 					jpPlayground.removeAll();
 					jpPlayground.revalidate();
 					jpPlayground.repaint();

@@ -56,7 +56,10 @@ public class RandomPlayerStrategy implements PlayerStrategy, Serializable {
 		if (player.infantriesAvailable > 0) {
 			int loop = (player.infantriesAvailable > 0) ? 1 : 0;
 			int index = 0;
+			// int army = loop= 1;
 			if (army > 0) {
+				// loop = (player.infantriesAvailable > 0) ? 1 :
+				// player.infantriesAvailable;
 				loop = army;
 				CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
 						"Human has finished with armies, computers will place all their left armies now!");
@@ -146,12 +149,20 @@ public class RandomPlayerStrategy implements PlayerStrategy, Serializable {
 	 */
 	public int attackStrategy(Player player[], int ii, Player random, RiskMap mapDetails) {
 
-		random.setMessage("Player " + random.getName() + " entered into ATTACK Phase");
+		
 		random.notifyObservers();
 
 		JDialog dialog = new JDialog();
-		dialog.add(new AttackGUIPanel(dialog, player, ii, random.currentGameStaticsTableModel,
-				random.currentGameStaticsList, mapDetails));
+		int noOfAttacks = 0;
+		noOfAttacks = new Random().nextInt(10);
+		if(noOfAttacks <=0){
+			noOfAttacks = 1;
+		}
+		random.setMessage("Player " + random.getName() + " entered into ATTACK Phase, will do "+noOfAttacks+" attacks.");
+		for(int i=0; i< noOfAttacks; i++){
+			dialog.add(new AttackGUIPanel(dialog, player, ii, random.currentGameStaticsTableModel,
+					random.currentGameStaticsList, mapDetails));
+		}
 		dialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
 		return 0;
 	}

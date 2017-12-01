@@ -68,6 +68,7 @@ public class Player extends Observable implements Serializable {
 	private int nVal = 0;
 	private PlayerStrategy strategy;
 	private String phase;
+	public static boolean endOfGame = false;
 
 	/**
 	 * A constructor to initialize myIndex, Player and MapDetails
@@ -481,7 +482,7 @@ public class Player extends Observable implements Serializable {
 				dialog.addWindowListener(new WindowAdapter() {
 					public void windowClosed(WindowEvent e) {
 						setMessage(
-								"RiskCardInfantries," + (i - 1) + ",Got infantries from risk card " + armiesFromCard);
+								"RiskCardInfantries," + ((i-1 <0) ? i:i-1) + ",Got infantries from risk card " + armiesFromCard);
 						notifyObservers();
 					}
 				});
@@ -511,7 +512,9 @@ public class Player extends Observable implements Serializable {
 
 		if(player[0].currentGameStaticsList.size() == 0){
 			player[0].getPlayerPanel().btReinforcement.setEnabled(false);
-			player[0].nextPlayerTurn(100);
+			if(!Player.endOfGame){
+				player[0].nextPlayerTurn(100);
+			}
 		}
 	}
 
@@ -709,10 +712,11 @@ public class Player extends Observable implements Serializable {
 					e.printStackTrace();
 				}
 			}
+			reinforcementInitialization();
 		}
 
 		if (automatic) {
-			
+			player[0].setMessage("Player - AUTOMATION entered into Phase");
 			boolean check = true;
 			while (check) {
 				for (int k = 1; k < player.length; k++) {
@@ -726,7 +730,7 @@ public class Player extends Observable implements Serializable {
 					updateTables();
 
 					updatePercentage(player[k], "FORTIFICATION");
-					player[k].fortificationStrategy(k, player[k], player[k].infantriesAvailable);
+					//player[k].fortificationStrategy(k, player[k], player[k].infantriesAvailable);
 					updateTables();
 
 				}
@@ -743,8 +747,6 @@ public class Player extends Observable implements Serializable {
 				}
 			}
 		}
-
-		reinforcementInitialization();
 	}
 
 	/**
