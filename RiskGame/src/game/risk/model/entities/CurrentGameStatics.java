@@ -12,9 +12,6 @@ import java.io.Serializable;
  */
 public class CurrentGameStatics implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	public int infantries; // available infantries
 	public Territory territory;

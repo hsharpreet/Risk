@@ -16,9 +16,6 @@ import javax.swing.table.AbstractTableModel;
  */
 public class CurrentGameStaticsTableModel extends AbstractTableModel implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public List<CurrentGameStatics> list;
@@ -74,6 +71,7 @@ public class CurrentGameStaticsTableModel extends AbstractTableModel implements 
 	 *            the row index
 	 * @param columnIndex
 	 *            the column index
+	 * 
 	 */
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		if (columnIndex == 0) {

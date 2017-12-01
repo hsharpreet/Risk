@@ -9,9 +9,7 @@ import java.util.HashMap;
  * @author team
  */
 public class RiskMap implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	// Declaration
 	HashMap<String, String> map;

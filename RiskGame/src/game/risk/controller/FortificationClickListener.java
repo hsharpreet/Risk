@@ -34,6 +34,9 @@ public class FortificationClickListener implements ActionListener {
 
 	/**
 	 * Method to move the armies to the players territories
+	 * 
+	 * @param e
+	 *            object of Action event
 	 */
 	public void actionPerformed(ActionEvent e) {
 		player[0].fortificationStrategy(i, player[0], player[0].infantriesAvailable);

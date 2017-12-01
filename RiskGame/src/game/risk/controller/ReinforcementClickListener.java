@@ -38,6 +38,9 @@ public class ReinforcementClickListener implements ActionListener {
 
 	/**
 	 * Method to perform the action of reinforcement
+	 * 
+	 * @param e
+	 *            Object of ActionEvent
 	 */
 	public void actionPerformed(ActionEvent e) {
 
@@ -45,11 +48,11 @@ public class ReinforcementClickListener implements ActionListener {
 
 		int j = 0;
 		if (player[0].infantriesAvailable > 0) {
-				if (player[0].reinforcementStrategy(j, player[j], 0) == 1) {
-					//reinforcement for Human is finished
-					player[0].attackInitialization(0);
-					flag = true;
-				}
+			if (player[0].reinforcementStrategy(j, player[j], 0) == 1) {
+				// reinforcement for Human is finished
+				player[0].attackInitialization(0);
+				flag = true;
+			}
 			if (flag) {
 				player[0].getPlayerPanel().btReinforcement.setEnabled(false);
 				player[0].nextPlayerTurn(1);

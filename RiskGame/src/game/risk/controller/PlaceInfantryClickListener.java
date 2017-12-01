@@ -37,17 +37,20 @@ public class PlaceInfantryClickListener implements ActionListener {
 	/**
 	 * Method to change and place the infantry in the territories owned by the
 	 * player
+	 * 
+	 * @param e
+	 *            Object of ActionEvent
 	 */
 	public void actionPerformed(ActionEvent e) {
 		boolean flag = false;
 		for (int j = 0; j < player.length; j++) {
 			if (player[j].infantriesAvailable > 0) {
 				player[j].placeInfantoryStrategy(j, player[j], 0);
-				
+
 			}
 			if (player[0].infantriesAvailable == 0)
 				flag = true;
-			else{
+			else {
 				player[0].getPlayerPanel().btPlaceInfantry.setEnabled(true);
 			}
 		}
@@ -55,11 +58,11 @@ public class PlaceInfantryClickListener implements ActionListener {
 			for (int j = 1; j < player.length; j++) {
 				if (player[j].infantriesAvailable > 0) {
 					player[j].placeInfantoryStrategy(j, player[j], player[j].infantriesAvailable);
-					//player[j].nextIndexToEnableButton(j);
+					// player[j].nextIndexToEnableButton(j);
 				}
 			}
 			player[0].nextIndexToEnableButton(0);
 		}
-			
+
 	}
 }

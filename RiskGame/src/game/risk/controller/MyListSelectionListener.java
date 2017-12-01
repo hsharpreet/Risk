@@ -32,6 +32,9 @@ public class MyListSelectionListener implements ListSelectionListener {
 	@Override
 	/**
 	 * Method which is called whenever a selection is changed
+	 * 
+	 * @param e
+	 *            object of event that characterize change in selection
 	 */
 	public void valueChanged(ListSelectionEvent e) {
 		if (e.getValueIsAdjusting()) {

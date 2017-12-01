@@ -42,7 +42,6 @@ public class AttackPhase {
 	TempTableModel tempTableModel;
 	RiskMap mapDetails;
 	List<CurrentGameStatics> currentGameStaticsList;
-
 	int index1, index2;
 
 	/**
@@ -77,17 +76,73 @@ public class AttackPhase {
 		this.tempTableModel = new TempTableModel(tempGameStaticsList);
 		this.attackPanel.jtOther.setModel(tempTableModel);
 		this.attackPanel.btRoleDice.setEnabled(false);
+
 		/**
 		 * A listener for main jtable
 		 */
 
-		if (!player[myIndex].getName().toLowerCase().contains("random") && player[myIndex].isComputer()) {
-			player[myIndex].setMessage("Computer - " + player[myIndex].getName() + " I don't want to attack");
-			System.out.println("I don't want to attack");
+		if (player[myIndex].getName().toLowerCase().contains("benevolent") && player[myIndex].isComputer()) {
+			player[myIndex].setMessage("Player - " + player[myIndex].getName() + " I don't want to attack");
 			return;
 		}
 
-		if (player[myIndex].isComputer()) {
+		if (player[myIndex].getName().toLowerCase().contains("cheater") && player[myIndex].isComputer()) {
+			ArrayList<String> attackList = new ArrayList<String>();
+
+			for (int index11 = 0; index11 < list.size(); index11++) {
+				if (list.get(index11).infantries > 1) {
+
+					getIndexFromMainTable(list, index11);
+					for (int index22 = 0; index22 < tempGameStaticsList.size(); index22++) {
+						if (!tempGameStaticsList.get(index22).isOwn) {
+							attackList.add(list.get(index11).territory.getName() + " : "
+									+ tempGameStaticsList.get(index22).territory.getName());
+							tempGameStaticsList.get(index22).infantries = 0;
+
+							// remove from old list and add this to current
+							// player's list
+							for (int a = 0; a < player.length; a++) {
+								for (int b = 0; b < player[a].currentGameStaticsList.size(); b++) {
+									if (player[a].currentGameStaticsList.get(b).territory.getName()
+											.equals(tempGameStaticsList.get(index22).territory.getName())) {
+										if (AttackPhase.this.currentGameStaticsList.get(index11).infantries > 1) {
+											if (a != myIndex) {
+												player[a].currentGameStaticsList
+														.get(b).player = AttackPhase.this.myIndex;
+												player[a].currentGameStaticsList
+														.get(b).infantries = AttackPhase.this.currentGameStaticsList
+																.get(index11).infantries - 1;
+												AttackPhase.this.currentGameStaticsList.get(index11).infantries = 1;
+												player[myIndex].currentGameStaticsList
+														.add(player[a].currentGameStaticsList.get(b));
+												player[a].currentGameStaticsList.remove(b);
+												break;
+											}
+										}
+									}
+								}
+								// break;
+							}
+
+							// Assign Card to player
+							for (int p = 0; p < player[myIndex].riskGame.alCards.size(); p++) {
+								if (player[myIndex].riskGame.alCards.get(p).getPlayer() == -1) {
+									player[myIndex].riskGame.alCards.get(p).setPlayer(myIndex);
+									break;
+								}
+							}
+
+							tempGameStaticsList.remove(index22);
+							updateList();
+						}
+					}
+				}
+			}
+
+			updateList();
+			return;
+		}
+		if (player[myIndex].isComputer() && player[myIndex].getName().toLowerCase().contains("random")) {
 
 			ArrayList<String> attackList = new ArrayList<String>();
 
@@ -103,56 +158,49 @@ public class AttackPhase {
 					}
 				}
 			}
-			int noOfAttacks = 0;
 			if (attackList.size() < 1) {
+				player[myIndex].setMessage("Computer - " + player[myIndex].getName() + "NO possible attacks");
 				return;
-			} else {
-				noOfAttacks = new Random().nextInt(attackList.size());
 			}
+			int choice = new Random().nextInt(attackList.size());
 
-			player[myIndex].setMessage("Computer - " + player[myIndex].getName() + " into attack phase, will do "
-					+ noOfAttacks + " random attacks, out of " + attackList.size() + " possible attacks");
+			if (attackList.size() != 0) {
+				int index11 = Integer.valueOf(attackList.get(choice).split(":")[0]);
+				int index22 = Integer.valueOf(attackList.get(choice).split(":")[1]);
+				this.index1 = index11;
+				this.index2 = index22;
 
-			for (int i = 0; i < noOfAttacks;) {
-				int choice = new Random().nextInt(attackList.size());
+				AttackPhase.this.tempGameStaticsList.clear();
+				getIndexFromMainTable(list, index11);
 
-				if (attackList.size() != 0) {
-					int index11 = Integer.valueOf(attackList.get(choice).split(":")[0]);
-					int index22 = Integer.valueOf(attackList.get(choice).split(":")[1]);
-					this.index1 = index11;
-					this.index2 = index22;
+				if (checkIfMoreAttackPossible()) {
+					try {
+						automateAttackButton(list, index11, index22);
+						updateComboboxes();
+						performBtRoleDiceClick(list, index11, index22);
+						TimeUnit.MILLISECONDS.sleep(10);
+						attackList.remove(choice);
 
-					AttackPhase.this.tempGameStaticsList.clear();
-					getIndexFromMainTable(list, index11);
-
-					if (checkIfMoreAttackPossible()) {
-						try {
-							automateAttackButton(list, index11, index22);
-							updateComboboxes();
-							performBtRoleDiceClick(list, index11, index22);
-							TimeUnit.MILLISECONDS.sleep(200);
-							attackList.remove(choice);
-
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-
-						i++;
-					} else {
-						return;
+					} catch (InterruptedException e) {
+						e.printStackTrace();
 					}
+
 				} else {
+					player[myIndex]
+							.setMessage("Computer - " + player[myIndex].getName() + " more attacks not possible.");
 					return;
 				}
-
-				updateOriginalListFromTempList();
-				AttackPhase.this.dialog.dispose();
-
-				player[myIndex].notifyObservers();
-
-				player[myIndex].setMessage("Player - " + player[myIndex].getName() + " into attack phase");
+			} else {
+				player[myIndex].setMessage("Computer - " + player[myIndex].getName() + " NO attacks possible.");
+				return;
 			}
+
+			updateOriginalListFromTempList();
+			AttackPhase.this.dialog.dispose();
+
+			player[myIndex].setMessage("Player - " + player[myIndex].getName() + " into attack phase");
 		}
+
 		/**
 		 * Method for creating listeners for attack Panel
 		 */
@@ -422,24 +470,6 @@ public class AttackPhase {
 	}
 
 	/**
-	 * Method to get index from other table
-	 * 
-	 * @param list
-	 *            an array list
-	 * @param index22
-	 *            index number
-	 * @return an integer value
-	 */
-	private int getIndexFromOtherTable(List<CurrentGameStatics> list, int index22) {
-		if (index22 != -1) {
-			AttackPhase.this.attackPanel.cbplayer1.removeAllItems();
-			AttackPhase.this.attackPanel.cbplayer2.removeAllItems();
-		}
-
-		return index22;
-	}
-
-	/**
 	 * Method to automate the attack button
 	 * 
 	 * @param list
@@ -476,11 +506,33 @@ public class AttackPhase {
 	 */
 	private void performBtRoleDiceClick(List<CurrentGameStatics> list, int index1, int index2) {
 
-		int n1 = AttackPhase.this.attackPanel.cbplayer1.getItemCount();
-		int n2 = AttackPhase.this.attackPanel.cbplayer2.getItemCount();
+		AttackPhase.this.attackPanel.cbplayer1.removeAllItems();
+		AttackPhase.this.attackPanel.cbplayer2.removeAllItems();
+		int forN1 = 0, forN2 = 0;
 
-		Integer[] diceValuesPlayer1 = new Integer[1];
-		Integer[] diceValuesPlayer2 = new Integer[1];
+		if (currentGameStaticsList.get(index1).infantries == 2) {
+			forN1 = 1;
+		} else if (currentGameStaticsList.get(index1).infantries == 3) {
+			forN1 = 2;
+		} else {
+			forN1 = 3;
+		}
+		if (tempGameStaticsList.get(index2).infantries == 1) {
+			forN2 = 1;
+		} else {
+			forN2 = 2;
+		}
+
+		if (currentGameStaticsList.get(index1).infantries - 1 > tempGameStaticsList.get(index2).infantries) {
+			forN1 = currentGameStaticsList.get(index1).infantries - 1;
+			forN2 = tempGameStaticsList.get(index2).infantries;
+		}
+
+		// int n1 = AttackPhase.this.attackPanel.cbplayer1.getItemCount();
+		// int n2 = AttackPhase.this.attackPanel.cbplayer2.getItemCount();
+
+		Integer[] diceValuesPlayer1 = new Integer[forN1];
+		Integer[] diceValuesPlayer2 = new Integer[forN2];
 
 		String s1 = "";
 		String s2 = "";
@@ -506,16 +558,14 @@ public class AttackPhase {
 		int smallArrayLength = diceValuesPlayer1.length < diceValuesPlayer2.length ? diceValuesPlayer1.length
 				: diceValuesPlayer2.length;
 
-		for (int i = 0; i < 1; i++) {
-			String attacker = currentGameStaticsList.get(index1).territory.getName();
-			String underAttack = tempGameStaticsList.get(index2).territory.getName();
+		for (int i = 0; i < smallArrayLength; i++) {
 			if (diceValuesPlayer1[i] > diceValuesPlayer2[i]) {
 
 				tempGameStaticsList.get(index2).infantries--;
 				AttackPhase.this.attackPanel.lbInfantriesPlayer2
 						.setText(tempGameStaticsList.get(index2).infantries + "");
 
-				player[myIndex].setMessage("Player - " + player[myIndex].getName() + " won and placed " + n1
+				player[myIndex].setMessage("Player - " + player[myIndex].getName() + " won and placed " + forN1
 						+ " infantries on " + (tempGameStaticsList.get(index2).territory.getName()));
 
 				if (tempGameStaticsList.get(index2).infantries == 0) {
@@ -527,11 +577,11 @@ public class AttackPhase {
 							if (player[a].currentGameStaticsList.get(b).territory.getName()
 									.equals(tempGameStaticsList.get(index2).territory.getName())) {
 								player[a].currentGameStaticsList.get(b).player = AttackPhase.this.myIndex;
-								player[a].currentGameStaticsList.get(b).infantries = n1;
-								AttackPhase.this.currentGameStaticsList.get(index1).infantries -= n1;
+								player[a].currentGameStaticsList.get(b).infantries = forN1;
+								AttackPhase.this.currentGameStaticsList.get(index1).infantries -= forN1;
 								player[myIndex].currentGameStaticsList.add(player[a].currentGameStaticsList.get(b));
 								player[a].currentGameStaticsList.remove(b);
-								break;
+								// break;
 							}
 						}
 						break;
@@ -546,25 +596,33 @@ public class AttackPhase {
 					}
 
 					tempGameStaticsList.remove(index2);
+					updateList();
 					break;
 				}
 			} else {
-				currentGameStaticsList.get(index1).infantries--;
-				tempGameStaticsList.get(index2).infantries++;
+				currentGameStaticsList.get(index1).infantries -= forN1;
+				tempGameStaticsList.get(index2).infantries += forN1;
 
-				player[myIndex].setMessage("Player - " + player[myIndex].getName() + " LOST " + n1 + " infantries to "
-						+ (tempGameStaticsList.get(index2).territory.getName()));
+				player[myIndex].setMessage("Player - " + player[myIndex].getName() + " LOST " + forN1
+						+ " infantries to " + (tempGameStaticsList.get(index2).territory.getName()));
 
 				if (list.get(index1).infantries == 1) {
 					player[myIndex].setMessage("Player - " + player[myIndex].getName()
 							+ " has left only 1 infantry, so no more dice rolling possible for this territory");
 					break;
 				}
+				updateList();
 				break;
 			}
 
 		}
+		updateList();
+	}
+
+	private void updateList() {
+		tempTableModel.fireTableDataChanged();
 		AttackPhase.this.tempTableModel.fireTableDataChanged();
+		currentGameStaticsTableModel.fireTableDataChanged();
 		AttackPhase.this.currentGameStaticsTableModel.fireTableDataChanged();
 	}
 
@@ -657,10 +715,6 @@ public class AttackPhase {
 					TempGameStatics tgs = tempGameStaticsList.get(j);
 
 					if (cgs.territory.getName().equals(tgs.territory.getName())) {
-						// System.out.println(cgs.territory.getName() + " -cgs-
-						// "+ cgs.infantries);
-						// System.out.println(tgs.territory.getName() + " -tgs-
-						// "+ tgs.infantries);
 						cgs.infantries = tgs.infantries;
 						cgs.player = tgs.player;
 					}

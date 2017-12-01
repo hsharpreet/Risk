@@ -478,7 +478,10 @@ public class Tournament extends javax.swing.JFrame {
 	private void btPlayTournamentActionPerformed(java.awt.event.ActionEvent evt) {
 
 	}
-
+/**
+ * The main Method
+ * @param args a String parameter
+ */
 	public static void main(String args[]) {
 
 		try {

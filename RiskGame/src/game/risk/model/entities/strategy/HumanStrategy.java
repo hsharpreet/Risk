@@ -171,6 +171,8 @@ public class HumanStrategy implements PlayerStrategy, Serializable {
 				human.getPlayerPanel().btOk.setEnabled(true);
 
 				human.setMessage("Player " + human.getName() + " entered into Fortification Phase");
+			}else{
+				player[0].nextPlayerTurn(1);
 			}
 		}
 		return 0;
