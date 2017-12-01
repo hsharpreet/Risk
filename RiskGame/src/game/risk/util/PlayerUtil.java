@@ -15,13 +15,19 @@ import game.risk.model.entities.Territory;
  *
  */
 public class PlayerUtil {
-	
+
 	Player[] players;
 
-	public PlayerUtil(Player[] player){
+	public PlayerUtil(Player[] player) {
 		this.players = player;
 	}
-	
+
+	/**
+	 * Method to assign Random territories
+	 * 
+	 * @param territories
+	 *            a hashMap to store territories
+	 */
 	public void assignRandomTerritories(HashMap<String, Territory> territories) {
 		ArrayList<String> keyList = new ArrayList<>(territories.keySet());
 		Collections.shuffle(keyList);
@@ -40,6 +46,11 @@ public class PlayerUtil {
 		}
 	}
 
+	/**
+	 * Method to get players
+	 * 
+	 * @return the players
+	 */
 	public Player[] getPlayers() {
 		return players;
 	}
