@@ -1,10 +1,13 @@
 package game.risk.gui;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFileChooser;
 
 import game.risk.model.TournamentModel;
+import game.risk.model.entities.TournamentResult;
 
 /**
  * Class to create GUI for Tournament
@@ -180,14 +183,21 @@ public class Tournament extends javax.swing.JFrame {
 				String[] players = { cbPlayer1.getSelectedItem().toString(), cbPlayer2.getSelectedItem().toString(),
 						cbPlayer3.getSelectedItem().toString(), cbPlayer4.getSelectedItem().toString() };
 
-				String[] maps = { tfMap1.getToolTipText(), tfMap2.getToolTipText(), tfMap3.getToolTipText(),
-						tfMap4.getToolTipText() };
+				String[] maps = { tfMap1.getText(), tfMap2.getText(), tfMap3.getText(),
+						tfMap4.getText() };
 				int game_count = Integer.parseInt((String) cbGames.getSelectedItem());
 				int turns = Integer.parseInt((String) cbTurns.getSelectedItem());
 
-				System.out.println(tfMap1.getToolTipText());
 				TournamentModel t = new TournamentModel(players, maps, game_count, turns);
 				t.startTournament();
+				List<TournamentResult> resultList = t.getTournamentResult();
+				StringBuffer resultString = new StringBuffer();
+				for(TournamentResult tr: resultList){
+					resultString.append(tr.getMapName()).append(" ").append("Game:").append(tr.getGameIndex())
+					.append(" ").append(tr.getWinnerName()).append("\n");
+				}
+				taResult.setText(resultString.toString());
+				
 			}
 		});
 
