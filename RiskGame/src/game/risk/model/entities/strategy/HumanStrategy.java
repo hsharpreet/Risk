@@ -127,9 +127,9 @@ public class HumanStrategy implements PlayerStrategy, Serializable {
 	 *            an object of RiskMap
 	 * @return an integer value
 	 */
-	public int attackStrategy(Player[] player, int i, Player player2, RiskMap mapDetails) {
+	public int attackStrategy(Player[] player, int i, Player human, RiskMap mapDetails) {
 		int ans = JOptionPane.showConfirmDialog(player[i].getPlayerPanel(),
-				"Player : " + player[i].getName() + "\nDo you want to do attack ?", "Attack Confirmition",
+				"Player : " + human.getName() + "\nDo you want to do attack ?", "Attack Confirmition",
 				JOptionPane.YES_NO_OPTION);
 		if (ans == JOptionPane.YES_OPTION) {
 
@@ -141,26 +141,37 @@ public class HumanStrategy implements PlayerStrategy, Serializable {
 			dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 			dialog.addWindowListener(new WindowAdapter() {
 				public void windowClosed(WindowEvent e) {
-					player2.currentGameStaticsTableModel.fireTableDataChanged();
+					human.currentGameStaticsTableModel.fireTableDataChanged();
 
 					int ans = JOptionPane.showConfirmDialog(player[i].getPlayerPanel(),
-							"Player - " + (i + 1) + "\nDo you want to do fortification ?", "Fortification Confirmition",
+							"Player - " + human.getName() + "\nDo you want to do fortification ?", "Fortification Confirmition",
 							JOptionPane.YES_NO_OPTION);
 
 					if (ans == JOptionPane.YES_OPTION) {
-						player[i].setPhase(GamePhaseEnum.FORTIFICATION.name());
-						player[i].getPlayerPanel().btFortification.setEnabled(true);
-						player[i].getPlayerPanel().btOk.setEnabled(true);
+						human.setPhase(GamePhaseEnum.FORTIFICATION.name());
 
-						player[i].setMessage("Player " + player[i].getName() + " entered into Fortification Phase");
-						player[i].notifyObservers();
+						human.getPlayerPanel().btFortification.setEnabled(true);
+						human.getPlayerPanel().btOk.setEnabled(true);
+
+						human.setMessage("Player " + human.getName() + " entered into Fortification Phase");
+						human.notifyObservers();
 
 					}
 				}
 			});
 			dialog.setVisible(true);
-		} else {
-			return 0;
+		}  else {
+			int ans1 = JOptionPane.showConfirmDialog(human.getPlayerPanel(),
+					"Player - " + human.getName() + "\nDo you want to do fortification ?", "Fortification Confirmition",
+					JOptionPane.YES_NO_OPTION);
+
+			if (ans1 == JOptionPane.YES_OPTION) {
+				player[0].getPlayerPanel().btReinforcement.setEnabled(false);
+				human.getPlayerPanel().btFortification.setEnabled(true);
+				human.getPlayerPanel().btOk.setEnabled(true);
+
+				human.setMessage("Player " + human.getName() + " entered into Fortification Phase");
+			}
 		}
 		return 0;
 	}
