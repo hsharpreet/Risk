@@ -31,6 +31,9 @@ public class OkClickListener implements ActionListener {
 
 	/**
 	 * Method to pass the turn to the next player
+	 * 
+	 * @param e
+	 *            Object of ActionEvent
 	 */
 	public void actionPerformed(ActionEvent e) {
 
