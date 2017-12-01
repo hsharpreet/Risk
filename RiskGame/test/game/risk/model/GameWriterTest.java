@@ -16,8 +16,16 @@ import game.risk.model.entities.Territory;
 import game.risk.model.entities.strategy.AggressivePlayerStrategy;
 import game.risk.model.entities.strategy.HumanStrategy;
 
+/**
+ * Class to create test cases for Game Writer
+ * 
+ * @author author
+ *
+ */
 public class GameWriterTest {
-
+	/**
+	 * Method to test the save option
+	 */
 	@Test
 	public void testSave() {
 		Player players[];
@@ -65,10 +73,9 @@ public class GameWriterTest {
 		players[0].currentGameStaticsList.add(gamestat3);
 		players[0].currentGameStaticsList.add(gamestat4);
 		players[1].currentGameStaticsList.add(gamestat5);
-		players[1].currentGameStaticsTableModel = new CurrentGameStaticsTableModel(
-				players[1].currentGameStaticsList);
+		players[1].currentGameStaticsTableModel = new CurrentGameStaticsTableModel(players[1].currentGameStaticsList);
 		gameWriter.saveGame(players);
-		
+
 		Player[] playerLoaded = gameWriter.readGame();
 		assertNotNull(playerLoaded);
 		assertEquals("Human", playerLoaded[0].getName());
