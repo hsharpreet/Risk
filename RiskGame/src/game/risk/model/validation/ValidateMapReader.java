@@ -140,6 +140,17 @@ public class ValidateMapReader {
 		return true;
 	}
 
+	/**
+	 * a method to check continents are connected or not
+	 * 
+	 * @param continents
+	 *            a hashmap of continents
+	 * @param territories
+	 *            a hashmap of continents
+	 * @return true if continents are connected
+	 * @return false if size of territories is less than1
+	 */
+
 	private boolean checkConnectedContinent(HashMap<String, String> continents,
 			HashMap<String, Territory> territories) {
 		for (String continent : continents.keySet()) {
@@ -162,6 +173,13 @@ public class ValidateMapReader {
 		return true;
 	}
 
+	/**
+	 * a method to check extension name of file
+	 * 
+	 * @param mapfileName
+	 * @return true if extension name of file is valid
+	 * @return false if extension name of file is not valid
+	 */
 	public boolean isValidMapFileExtention(String mapfileName) {
 		if (mapfileName == null || !mapfileName.endsWith(".map")) {
 			return false;
