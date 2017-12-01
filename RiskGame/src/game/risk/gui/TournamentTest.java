@@ -164,12 +164,11 @@ public class TournamentTest extends javax.swing.JFrame {
 		lbTurns.setText("No. Of Turns");
 
 		cbGames.setModel(new javax.swing.DefaultComboBoxModel(
-				new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
+				new String[] { "1", "2", "3", "4", "5"}));
 		cbGames.setToolTipText("");
 
 		cbTurns.setModel(new javax.swing.DefaultComboBoxModel(
-				new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16",
-						"17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30" }));
+				new String[] { "10", "20", "30", "40", "50"}));
 
 		btPlayTournament.setText("Play Tournament");
 		/**
