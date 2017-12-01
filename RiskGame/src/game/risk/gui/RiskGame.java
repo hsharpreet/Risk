@@ -1,11 +1,14 @@
 package game.risk.gui;
 
 import game.risk.gui.PlayerPanel;
+import game.risk.model.GameReader;
+import game.risk.model.GameWriter;
 import game.risk.model.MapReader;
 import game.risk.model.MapWriter;
 import game.risk.model.entities.Card;
 import game.risk.model.entities.CurrentGameStatics;
 import game.risk.model.entities.CurrentGameStaticsTableModel;
+import game.risk.model.entities.GamePhaseEnum;
 import game.risk.model.entities.NeighbourListModel;
 import game.risk.model.entities.Player;
 import game.risk.model.entities.RiskMap;
@@ -100,7 +103,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 
 		jPanelTop = new javax.swing.JPanel(); // swing Components
 		tfMapFile = new javax.swing.JTextField();
-		tfLoad = new javax.swing.JTextField();
+		tfLoadedGameFile = new javax.swing.JTextField();
 		jLabelSelectMap = new javax.swing.JLabel();
 		btBrowse = new javax.swing.JButton();
 		jLabelPlayerCount = new javax.swing.JLabel();
@@ -140,7 +143,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 		jPanelTop.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
 		tfMapFile.setFocusable(false);
-		tfLoad.setFocusable(false);
+		tfLoadedGameFile.setFocusable(false);
 		jLabelSelectMap.setText("Select Map File");
 
 		btBrowse.setText("...");
@@ -160,6 +163,13 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 		btLoadGame.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btLoadGameActionPerformed(evt);
+			}
+		});
+		btSave.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				GameWriter gameWriter = new GameWriter(tfMapFile.getText());
+				gameWriter.saveGame(player);
+				JOptionPane.showMessageDialog(jpPlayground, "All Players state have saved");
 			}
 		});
 		jLabelPlayerCount.setText("Players count");
@@ -414,7 +424,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 						.addComponent(btSave, javax.swing.GroupLayout.PREFERRED_SIZE, 93,
 								javax.swing.GroupLayout.PREFERRED_SIZE)
 						.addGap(20, 20, 20)
-						.addComponent(tfLoad, javax.swing.GroupLayout.PREFERRED_SIZE, 132,
+						.addComponent(tfLoadedGameFile, javax.swing.GroupLayout.PREFERRED_SIZE, 132,
 								javax.swing.GroupLayout.PREFERRED_SIZE)
 						.addGap(12, 12, 12)
 						.addComponent(btLoadGame, javax.swing.GroupLayout.PREFERRED_SIZE, 93,
@@ -443,7 +453,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 										javax.swing.GroupLayout.PREFERRED_SIZE)
 								.addComponent(btSave, javax.swing.GroupLayout.PREFERRED_SIZE, 31,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addComponent(tfLoad, javax.swing.GroupLayout.PREFERRED_SIZE, 31,
+								.addComponent(tfLoadedGameFile, javax.swing.GroupLayout.PREFERRED_SIZE, 31,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
 								.addComponent(btLoadGame, javax.swing.GroupLayout.PREFERRED_SIZE, 31,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -592,11 +602,93 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 		int ans = ch.showOpenDialog(this);
 		if (ans == JFileChooser.APPROVE_OPTION) {
 			savedFile = ch.getSelectedFile();
-			tfLoad.setText(savedFile.getName());
-			tfLoad.setToolTipText(savedFile.getPath());
-			CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Map File Loaded into Game");
+			tfLoadedGameFile.setText(savedFile.getName());
+			tfLoadedGameFile.setToolTipText(savedFile.getPath());
+			if (tfLoadedGameFile.getText().toLowerCase().endsWith(".ser")) {
+				GameReader gameReader = new GameReader(tfLoadedGameFile.getText());
+				player=gameReader.readGame();
+				String mapFileName = savedFile.getName().split("_")[0];
+				mapFileName+=".map";
+				mapFile = new File(mapFileName);
+				mapDetails = MapReader.readMapFile(mapFile.getPath());
+				loadSavedPlayersOnPanel();
+			} else {
+				JOptionPane.showMessageDialog(jpPlayground, "Loaded Game File could not read or invalid file. Try again !");
+			}
+			CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Saved File Loaded into Game");
 			LoggerUtility.consoleHandler.publish(logRecord);
 		}
+	}
+	
+	private void loadSavedPlayersOnPanel() {
+
+		btMapEditor.setVisible(false);
+		btmapFromScratch.setVisible(false);
+
+		for (int i = 0; i < labels.length; i++) {
+			labels[i].setVisible(false);
+		}
+
+		for (int i = 0; i < player.length; i++) {
+			labels[i].setVisible(true);
+		}
+
+		jpPlayground.removeAll();
+		jpPlayground.setPreferredSize(new Dimension(370 * player.length, 400));
+		CustomLogRecord logRecord = null;
+
+		for (int i = 0; i < player.length; i++) {
+
+			// player[i] = new Player(RiskGame.this, i, player, mapDetails);
+			player[i].addObserver(RiskGame.this);
+			// player[i].getPlayerPanel().lbTotalArmies.setText("Total
+			// Infantries : " + player[i].infantriesTotal);
+			if (i == 0) {
+				player[i].bindListeners();
+				player[i].getPlayerPanel().lbPlayer.setText("Human Player : " + (i + 1));
+			} else {
+				player[i].getPlayerPanel().lbPlayer.setText(player[i].getName() + " Player: " + (i + 1));
+			}
+			jpPlayground.add(player[i].getPlayerPanel());
+
+		}
+
+		for (int i = 0; i < player.length; i++) {
+			/*player[i].getPlayerPanel().lbAvailableArmies
+					.setText("Available Infantries : " + player[i].infantriesAvailable);*/
+			player[i].getPlayerPanel().btPlaceInfantry.setEnabled(false);
+			player[i].getPlayerPanel().btReinforcement.setEnabled(false);
+			player[i].getPlayerPanel().btFortification.setEnabled(false);
+			player[i].getPlayerPanel().btOk.setEnabled(false);
+			// Display data in table
+			player[i].currentGameStaticsTableModel.fireTableDataChanged();
+			if (i == 0) {
+				if (player[i].infantriesAvailable > 0) {
+					if (player[i].getPhase().equalsIgnoreCase(GamePhaseEnum.STARTUP.name())) {
+						player[i].getPlayerPanel().btPlaceInfantry.setEnabled(true);
+					} else if (player[i].getPhase().equalsIgnoreCase(GamePhaseEnum.REINFORCEMENT.name())) {
+						player[i].getPlayerPanel().btReinforcement.setEnabled(true);
+					}
+				}
+				if (player[i].getPhase().equalsIgnoreCase(GamePhaseEnum.FORTIFICATION.name())) {
+					player[i].getPlayerPanel().btFortification.setEnabled(true);
+					player[i].getPlayerPanel().btOk.setEnabled(true);
+				}
+			}
+			
+			double per = (player[i].currentGameStaticsList.size() * 100.0) / mapDetails.getTerritories().size();
+			DecimalFormat df = new DecimalFormat("##.##");
+			per = Double.parseDouble(df.format(per));
+			if (per != 100) {
+				labels[i].setText("Player " + (i + 1) + " - " + per + "%");
+			} else {
+				labels[i].setText("Player " + (i + 1) + " - " + "WINS");
+				jpPlayground.removeAll();
+				jpPlayground.revalidate();
+				jpPlayground.repaint();
+			}
+		}
+
 	}
 
 	/**
@@ -807,8 +899,10 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 
 	// Variables declaration
 	private javax.swing.JButton btBrowse;
+	//button to save game
 	private javax.swing.JButton btSave;
 	private javax.swing.JButton btLoad;
+	//button to load game
 	private javax.swing.JButton btLoadGame;
 	private javax.swing.JButton btTournament;
 	private javax.swing.JButton btMapEditor;
@@ -831,7 +925,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 	private javax.swing.JLabel lbPlayer6;
 	public javax.swing.JTextArea taObserverMessage;
 	private javax.swing.JTextField tfMapFile;
-	private javax.swing.JTextField tfLoad;
+	private javax.swing.JTextField tfLoadedGameFile;
 
 	/**
 	 * A method to implement observable pattern

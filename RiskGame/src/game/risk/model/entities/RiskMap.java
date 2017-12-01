@@ -1,5 +1,6 @@
 package game.risk.model.entities;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -7,7 +8,11 @@ import java.util.HashMap;
  * 
  * @author team
  */
-public class RiskMap {
+public class RiskMap implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// Declaration
 	HashMap<String, String> map;
 	HashMap<String, String> continents;

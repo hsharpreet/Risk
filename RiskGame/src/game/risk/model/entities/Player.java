@@ -52,7 +52,7 @@ public class Player extends Observable implements Serializable {
 	private static final long serialVersionUID = 1L;
 	int myIndex;
 	transient Player player[];
-	transient RiskMap mapDetails;
+    RiskMap mapDetails;
 	public int infantriesAvailable;
 	public int infantriesTotal;
 	public CurrentGameStaticsTableModel currentGameStaticsTableModel;
@@ -70,6 +70,7 @@ public class Player extends Observable implements Serializable {
 	transient public RiskGame riskGame;
 	private int nVal = 0;
 	private PlayerStrategy strategy;
+	private String phase;
 
 	/**
 	 * A constructor to initialize myIndex, Player and MapDetails
@@ -265,6 +266,14 @@ public class Player extends Observable implements Serializable {
 
 	public PlayerStrategy getStrategy() {
 		return strategy;
+	}
+
+	public String getPhase() {
+		return phase;
+	}
+
+	public void setPhase(String phase) {
+		this.phase = phase;
 	}
 
 	/**
