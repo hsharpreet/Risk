@@ -39,12 +39,12 @@ public class PlayerTest {
 		Territory t1 = new Territory();
 		t1.setName("test1");
 		t1.setContinent("hello");
-		t1.setNeighbouringTerritories(Arrays.asList("test2","test3","Peru"));
+		t1.setNeighbouringTerritories(Arrays.asList("test2", "test3", "Peru"));
 
 		Territory t2 = new Territory();
 		t2.setName("test2");
 		t2.setContinent("hello");
-		t2.setNeighbouringTerritories(Arrays.asList("test1","Brazil"));
+		t2.setNeighbouringTerritories(Arrays.asList("test1", "Brazil"));
 
 		Territory t3 = new Territory();
 		t3.setName("Peru");
@@ -64,10 +64,9 @@ public class PlayerTest {
 		players[1] = new Player(new RiskGame(), 1, players, mapDetails);
 		players[2] = new Player(new RiskGame(), 2, players, mapDetails);
 		players[2].setStrategy(new CheaterPlayerStrategy());
-		players[2].currentGameStaticsList= new ArrayList<>();
+		players[2].currentGameStaticsList = new ArrayList<>();
 		players[2].setPlayerPanel(new PlayerPanel());
-		players[2].currentGameStaticsTableModel = new CurrentGameStaticsTableModel(
-				players[2].currentGameStaticsList);
+		players[2].currentGameStaticsTableModel = new CurrentGameStaticsTableModel(players[2].currentGameStaticsList);
 		players[0].currentGameStaticsList = new ArrayList<>();
 		players[0].currentGameStaticsList.add(gamestat1);
 		players[0].currentGameStaticsList.add(gamestat2);
@@ -99,9 +98,9 @@ public class PlayerTest {
 		players[0].currentGameStaticsList.add(gamestat5);
 		assertEquals(4, players[0].calculateReinformentArmiesInitially(0));
 	}
-	
+
 	/***
-	 * Method to test a valid fortification 
+	 * Method to test a valid fortification
 	 */
 	@Test
 	public void testFortification_true() {
@@ -111,10 +110,10 @@ public class PlayerTest {
 		assertEquals(2, armiesInSourceCountry);
 		assertEquals(2, armiesInDestinationCountry);
 	}
-	
+
 	/***
-	 * Method to test a invalid fortification in case destination country is not
-	 * the one player occupies
+	 * Method to test a invalid fortification in case destination country is not the
+	 * one player occupies
 	 */
 	@Test
 	public void testFortification_destinationCountryInvalid() {
@@ -126,7 +125,8 @@ public class PlayerTest {
 	}
 
 	/***
-	 * Method to test a invalid fortification in case source country is having 1 army on it
+	 * Method to test a invalid fortification in case source country is having 1
+	 * army on it
 	 */
 	@Test
 	public void testFortification_sourceCountryInsufficient() {
@@ -137,64 +137,84 @@ public class PlayerTest {
 		assertEquals(3, armiesInDestinationCountry);
 	}
 
+	/**
+	 * Method to test reinforcement armies of cheater strategy
+	 */
 	@Test
 	public void testReinforcementArmies_CheaterStrategy() {
-		 players[2].reinforcementStrategy(2, players[2], players[2].infantriesAvailable);
-		 assertEquals(2, players[2].currentGameStaticsList.get(0).infantries);
-		 assertEquals(4, players[2].currentGameStaticsList.get(1).infantries);
-		 assertEquals(6, players[2].currentGameStaticsList.get(2).infantries);
+		players[2].reinforcementStrategy(2, players[2], players[2].infantriesAvailable);
+		assertEquals(2, players[2].currentGameStaticsList.get(0).infantries);
+		assertEquals(4, players[2].currentGameStaticsList.get(1).infantries);
+		assertEquals(6, players[2].currentGameStaticsList.get(2).infantries);
 	}
-	
+
+	/**
+	 * Method to test fortify armies of cheater strategy
+	 */
 	@Test
 	public void testFortifyArmies_CheaterStrategy_success() {
-		int playerCountry1Infantry =  players[2].currentGameStaticsList.get(0).infantries;
+		int playerCountry1Infantry = players[2].currentGameStaticsList.get(0).infantries;
 		int playerCountry2Infantry = players[2].currentGameStaticsList.get(1).infantries;
-		 players[2].fortificationStrategy(2, players[2], players[2].infantriesAvailable);
-		 assertEquals(playerCountry1Infantry*2, players[2].currentGameStaticsList.get(0).infantries);
-		 assertEquals(playerCountry2Infantry*2, players[2].currentGameStaticsList.get(1).infantries);
+		players[2].fortificationStrategy(2, players[2], players[2].infantriesAvailable);
+		assertEquals(playerCountry1Infantry * 2, players[2].currentGameStaticsList.get(0).infantries);
+		assertEquals(playerCountry2Infantry * 2, players[2].currentGameStaticsList.get(1).infantries);
 	}
-	
+
+	/**
+	 * Method to test fortify armies of cheater strategy
+	 */
 	@Test
 	public void testFortifyArmies_CheaterStrategy_fail() {
-		int playerCountry3Infantry =  players[2].currentGameStaticsList.get(2).infantries;
-		 players[2].fortificationStrategy(2, players[2], players[2].infantriesAvailable);
-		 assertEquals(playerCountry3Infantry, players[2].currentGameStaticsList.get(2).infantries);
+		int playerCountry3Infantry = players[2].currentGameStaticsList.get(2).infantries;
+		players[2].fortificationStrategy(2, players[2], players[2].infantriesAvailable);
+		assertEquals(playerCountry3Infantry, players[2].currentGameStaticsList.get(2).infantries);
 	}
-	
+
+	/**
+	 * Method to test reinforcement armies of benevolent strategy
+	 */
 	@Test
 	public void testReinforcementArmies_BenevolentStrategy_infantryAvailable1() {
-		 players[2].setStrategy(new BenevolentPlayerStrategy());
-		 players[2].infantriesAvailable = 1;
-		 players[2].reinforcementStrategy(2, players[2], players[2].infantriesAvailable);
-		 assertEquals(2, players[2].currentGameStaticsList.get(0).infantries);
-		 
+		players[2].setStrategy(new BenevolentPlayerStrategy());
+		players[2].infantriesAvailable = 1;
+		players[2].reinforcementStrategy(2, players[2], players[2].infantriesAvailable);
+		assertEquals(2, players[2].currentGameStaticsList.get(0).infantries);
+
 	}
-	
+
+	/**
+	 * Method to test reinforcement armies of benevolent strategy
+	 */
 	@Test
 	public void testReinforcementArmies_BenevolentStrategy_infantryAvailable2() {
-		 players[2].setStrategy(new BenevolentPlayerStrategy());
-		 players[2].infantriesAvailable = 2;
-		 players[2].reinforcementStrategy(2, players[2], players[2].infantriesAvailable);
-		 assertEquals(3, players[2].currentGameStaticsList.get(0).infantries);
-		 
+		players[2].setStrategy(new BenevolentPlayerStrategy());
+		players[2].infantriesAvailable = 2;
+		players[2].reinforcementStrategy(2, players[2], players[2].infantriesAvailable);
+		assertEquals(3, players[2].currentGameStaticsList.get(0).infantries);
+
 	}
-	
+
+	/**
+	 * Method to test reinforcement armies of aggregation strategy
+	 */
 	@Test
 	public void testReinforcementArmies_AggregationStrategy_infantry2() {
-		 players[2].setStrategy(new AggressivePlayerStrategy());
-		 players[2].infantriesAvailable = 2;
-		 players[2].reinforcementStrategy(2, players[2], players[2].infantriesAvailable);
-		 assertEquals(5, players[2].currentGameStaticsList.get(2).infantries);
-		 
+		players[2].setStrategy(new AggressivePlayerStrategy());
+		players[2].infantriesAvailable = 2;
+		players[2].reinforcementStrategy(2, players[2], players[2].infantriesAvailable);
+		assertEquals(5, players[2].currentGameStaticsList.get(2).infantries);
+
 	}
-	
-	
+
+	/**
+	 * Method to test reinforcement armies of aggregation strategy
+	 */
 	@Test
 	public void testReinforcementArmies_AggregationStrategy_infantry1() {
-		 players[2].setStrategy(new AggressivePlayerStrategy());
-		 players[2].infantriesAvailable = 1;
-		 players[2].reinforcementStrategy(2, players[2], players[2].infantriesAvailable);
-		 assertEquals(4, players[2].currentGameStaticsList.get(2).infantries);
-		 
+		players[2].setStrategy(new AggressivePlayerStrategy());
+		players[2].infantriesAvailable = 1;
+		players[2].reinforcementStrategy(2, players[2], players[2].infantriesAvailable);
+		assertEquals(4, players[2].currentGameStaticsList.get(2).infantries);
+
 	}
 }
