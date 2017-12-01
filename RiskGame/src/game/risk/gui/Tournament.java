@@ -92,7 +92,7 @@ public class Tournament extends javax.swing.JFrame {
 				new String[] { "Select", "Aggressive", "Benevolent", "Random", "Cheater" }));
 
 		cbPlayer4.setModel(new javax.swing.DefaultComboBoxModel(
-				new String[] { "Select", "Aggressive", "Benevolent", "Random", "Cheater4" }));
+				new String[] { "Select", "Aggressive", "Benevolent", "Random", "Cheater" }));
 		cbPlayer4.setToolTipText("");
 
 		lbMap1.setText("Map 1");
@@ -166,13 +166,11 @@ public class Tournament extends javax.swing.JFrame {
 
 		lbTurns.setText("No. Of Turns");
 
-		cbGames.setModel(new javax.swing.DefaultComboBoxModel(
-				new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
+		cbGames.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5" }));
 		cbGames.setToolTipText("");
 
 		cbTurns.setModel(new javax.swing.DefaultComboBoxModel(
-				new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16",
-						"17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30" }));
+				new String[] { "10", "15", "20", "25", "30", "35", "40", "45", "50" }));
 
 		btPlayTournament.setText("Play Tournament");
 		/**
@@ -183,8 +181,7 @@ public class Tournament extends javax.swing.JFrame {
 				String[] players = { cbPlayer1.getSelectedItem().toString(), cbPlayer2.getSelectedItem().toString(),
 						cbPlayer3.getSelectedItem().toString(), cbPlayer4.getSelectedItem().toString() };
 
-				String[] maps = { tfMap1.getText(), tfMap2.getText(), tfMap3.getText(),
-						tfMap4.getText() };
+				String[] maps = { tfMap1.getText(), tfMap2.getText(), tfMap3.getText(), tfMap4.getText() };
 				int game_count = Integer.parseInt((String) cbGames.getSelectedItem());
 				int turns = Integer.parseInt((String) cbTurns.getSelectedItem());
 
@@ -192,15 +189,15 @@ public class Tournament extends javax.swing.JFrame {
 				t.startTournament();
 				List<TournamentResult> resultList = t.getTournamentResult();
 				StringBuffer resultString = new StringBuffer();
-				for(TournamentResult tr: resultList){
+				for (TournamentResult tr : resultList) {
 					resultString.append(tr.getMapName()).append(" ").append("Game:").append(tr.getGameIndex())
-					.append(" ").append(tr.getWinnerName()).append("\n");
+							.append(" ").append(tr.getWinnerName()).append("\n");
 				}
 				taResult.setText(resultString.toString());
-				
+
 			}
 		});
-
+		// adding swing components into panel
 		javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
 		jPanel2.setLayout(jPanel2Layout);
 		jPanel2Layout.setHorizontalGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
