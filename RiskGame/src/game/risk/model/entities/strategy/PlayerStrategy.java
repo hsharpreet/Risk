@@ -26,7 +26,7 @@ public interface PlayerStrategy {
 	/**
 	 * Method to generate a random number
 	 * 
-	 * @param size
+	 * @param size maximum size of random number
 	 * @return a random number
 	 */
 	public default int randomNumber(int size) {

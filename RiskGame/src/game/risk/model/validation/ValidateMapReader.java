@@ -175,7 +175,7 @@ public class ValidateMapReader {
 	/**
 	 * a method to check extension name of file
 	 * 
-	 * @param mapfileName
+	 * @param mapfileName name of map file
 	 * @return true if extension name of file is valid
 	 * @return false if extension name of file is not valid
 	 */

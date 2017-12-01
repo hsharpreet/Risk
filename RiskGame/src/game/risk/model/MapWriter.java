@@ -567,8 +567,8 @@ public class MapWriter {
 	 * @param mfs
 	 *            an object of MapFromScratch
 	 * @return a String variable
-	 * @throws run-time
-	 *             Exception
+	 * @throws Exception run-time
+	 *             
 	 */
 	public String saveNewMapFromSracth(MapFromScratch mfs) throws Exception {
 		String status = "";

@@ -118,7 +118,7 @@ public class Player extends Observable implements Serializable {
 	 * 
 	 * @param i
 	 *            index number
-	 * @param p
+	 * @param player
 	 *            an object of player class
 	 * @param army
 	 *            number of armies
@@ -134,7 +134,7 @@ public class Player extends Observable implements Serializable {
 	 * 
 	 * @param i
 	 *            index number
-	 * @param p
+	 * @param player
 	 *            an object of player class
 	 * @param army
 	 *            number of armies
