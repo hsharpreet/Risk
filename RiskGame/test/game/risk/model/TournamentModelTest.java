@@ -20,8 +20,8 @@ public class TournamentModelTest {
 	/**
 	 * Method to run before all test cases
 	 * 
-	 * @throws run-time
-	 *             Exception
+	 * @throws Exception run-time
+	 *             
 	 */
 	@Before
 	public void setUp() throws Exception {
