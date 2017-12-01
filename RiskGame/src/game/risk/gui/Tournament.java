@@ -11,13 +11,13 @@ import game.risk.model.TournamentModel;
  * 
  * @author Team
  */
-public class TournamentTest extends javax.swing.JFrame {
+public class Tournament extends javax.swing.JFrame {
 	File mapFile;
 
 	/**
 	 * A constructor
 	 */
-	public TournamentTest() {
+	public Tournament() {
 
 		initComponents();
 	}
@@ -482,22 +482,22 @@ public class TournamentTest extends javax.swing.JFrame {
 				}
 			}
 		} catch (ClassNotFoundException ex) {
-			java.util.logging.Logger.getLogger(TournamentTest.class.getName()).log(java.util.logging.Level.SEVERE, null,
+			java.util.logging.Logger.getLogger(Tournament.class.getName()).log(java.util.logging.Level.SEVERE, null,
 					ex);
 		} catch (InstantiationException ex) {
-			java.util.logging.Logger.getLogger(TournamentTest.class.getName()).log(java.util.logging.Level.SEVERE, null,
+			java.util.logging.Logger.getLogger(Tournament.class.getName()).log(java.util.logging.Level.SEVERE, null,
 					ex);
 		} catch (IllegalAccessException ex) {
-			java.util.logging.Logger.getLogger(TournamentTest.class.getName()).log(java.util.logging.Level.SEVERE, null,
+			java.util.logging.Logger.getLogger(Tournament.class.getName()).log(java.util.logging.Level.SEVERE, null,
 					ex);
 		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
-			java.util.logging.Logger.getLogger(TournamentTest.class.getName()).log(java.util.logging.Level.SEVERE, null,
+			java.util.logging.Logger.getLogger(Tournament.class.getName()).log(java.util.logging.Level.SEVERE, null,
 					ex);
 		}
 
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				new TournamentTest().setVisible(true);
+				new Tournament().setVisible(true);
 			}
 		});
 	}

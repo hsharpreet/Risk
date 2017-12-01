@@ -714,7 +714,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 		// TournamentTest tour=new TournamentTest();
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				new TournamentTest().setVisible(true);
+				new Tournament().setVisible(true);
 
 			}
 		});
