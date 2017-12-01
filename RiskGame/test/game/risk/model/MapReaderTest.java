@@ -75,7 +75,7 @@ public class MapReaderTest {
 		String path = "World_AsymmetricNeighbours.map";
 		RiskMap riskMap = mapReader.readMap(path);
 		System.out.println("testReadMapCountrieswithAsymmetricNeighbours" + riskMap);
-		assertNull(riskMap);
+		assertNotNull(riskMap);
 
 	}
 	

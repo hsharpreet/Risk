@@ -16,6 +16,8 @@ import game.risk.model.entities.CurrentGameStatics;
 import game.risk.model.entities.Player;
 import game.risk.model.entities.RiskMap;
 import game.risk.model.entities.Territory;
+import game.risk.model.entities.strategy.AggressivePlayerStrategy;
+import game.risk.model.entities.strategy.BenevolentPlayerStrategy;
 import game.risk.model.entities.strategy.CheaterPlayerStrategy;
 
 /**
@@ -159,4 +161,40 @@ public class PlayerTest {
 		 assertEquals(playerCountry3Infantry, players[2].currentGameStaticsList.get(2).infantries);
 	}
 	
+	@Test
+	public void testReinforcementArmies_BenevolentStrategy_infantryAvailable1() {
+		 players[2].setStrategy(new BenevolentPlayerStrategy());
+		 players[2].infantriesAvailable = 1;
+		 players[2].reinforcementStrategy(2, players[2], players[2].infantriesAvailable);
+		 assertEquals(2, players[2].currentGameStaticsList.get(0).infantries);
+		 
+	}
+	
+	@Test
+	public void testReinforcementArmies_BenevolentStrategy_infantryAvailable2() {
+		 players[2].setStrategy(new BenevolentPlayerStrategy());
+		 players[2].infantriesAvailable = 2;
+		 players[2].reinforcementStrategy(2, players[2], players[2].infantriesAvailable);
+		 assertEquals(3, players[2].currentGameStaticsList.get(0).infantries);
+		 
+	}
+	
+	@Test
+	public void testReinforcementArmies_AggregationStrategy_infantry2() {
+		 players[2].setStrategy(new AggressivePlayerStrategy());
+		 players[2].infantriesAvailable = 2;
+		 players[2].reinforcementStrategy(2, players[2], players[2].infantriesAvailable);
+		 assertEquals(5, players[2].currentGameStaticsList.get(2).infantries);
+		 
+	}
+	
+	
+	@Test
+	public void testReinforcementArmies_AggregationStrategy_infantry1() {
+		 players[2].setStrategy(new AggressivePlayerStrategy());
+		 players[2].infantriesAvailable = 1;
+		 players[2].reinforcementStrategy(2, players[2], players[2].infantriesAvailable);
+		 assertEquals(4, players[2].currentGameStaticsList.get(2).infantries);
+		 
+	}
 }
