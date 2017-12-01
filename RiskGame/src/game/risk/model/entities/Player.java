@@ -46,9 +46,6 @@ import javax.swing.event.ListSelectionListener;
  */
 public class Player extends Observable implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	int myIndex;
 	transient Player player[];
@@ -90,23 +87,74 @@ public class Player extends Observable implements Serializable {
 		this.player = player;
 	}
 
+	/**
+	 * Method to set the value into class attributes
+	 * 
+	 * @param strategy
+	 *            the value of strategy
+	 */
 	public void setStrategy(PlayerStrategy strategy) {
 		this.strategy = strategy;
 	}
 
+	/**
+	 * Method for fortification startegy
+	 * 
+	 * @param i
+	 *            index number
+	 * @param p
+	 *            an object of player class
+	 * @param army
+	 *            number of armies
+	 * @return
+	 */
 	public int fortificationStrategy(int i, Player p, int army) {
 		return this.strategy.fortificationStrategy(i, p, army);
 	}
 
+	/**
+	 * Method for place infantory strategy
+	 * 
+	 * @param i
+	 *            index number
+	 * @param p
+	 *            an object of player class
+	 * @param army
+	 *            number of armies
+	 */
 	public int placeInfantoryStrategy(int i, Player player, int army) {
 		return this.strategy.placeInfantoryStrategy(i, player, army);
 	}
-	
+
+	/**
+	 * 
+	 * Method for reinforcement strategy
+	 * 
+	 * @param i
+	 *            index number
+	 * @param p
+	 *            an object of player class
+	 * @param army
+	 *            number of armies
+	 */
 	public int reinforcementStrategy(int i, Player player, int army) {
 		return this.strategy.reinforcementStrategy(i, player, army);
 	}
 
-	public int attackStrategy(Player[] player,int i, Player player2, RiskMap mapDetails) {
+	/**
+	 * Method for attack strategy
+	 * 
+	 * @param player
+	 *            array of player class
+	 * @param i
+	 *            index number
+	 * @param player2
+	 *            an object of player class
+	 * @param mapDetails
+	 *            an object of riskMap
+	 * @return An integer
+	 */
+	public int attackStrategy(Player[] player, int i, Player player2, RiskMap mapDetails) {
 		return this.strategy.attackStrategy(player, i, player2, mapDetails);
 	}
 
@@ -120,8 +168,7 @@ public class Player extends Observable implements Serializable {
 	}
 
 	/**
-	 * A method to set the color of territories and armies in the class
-	 * attributes
+	 * A method to set the color of territories and armies in the class attributes
 	 * 
 	 * @param territorAndArmiesColor
 	 *            the class attribute
@@ -404,8 +451,7 @@ public class Player extends Observable implements Serializable {
 				dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 				dialog.addWindowListener(new WindowAdapter() {
 					public void windowClosed(WindowEvent e) {
-						setMessage(
-								"RiskCardInfantries," + i + ",Got infantries from risk card " + armiesFromCard);
+						setMessage("RiskCardInfantries," + i + ",Got infantries from risk card " + armiesFromCard);
 						notifyObservers();
 					}
 				});
@@ -432,7 +478,7 @@ public class Player extends Observable implements Serializable {
 		player[0].setMessage("Player - " + player[0].getName() + " entered into Reinforcement Phase");
 		player[0].notifyObservers();
 		player[0].getPlayerPanel().btReinforcement.setEnabled(true);
-		
+
 		i = 0;
 	}
 
@@ -478,7 +524,7 @@ public class Player extends Observable implements Serializable {
 	 *            an integer value
 	 */
 	public boolean attackInitialization(int i) {
-		
+
 		player[0].attackStrategy(player, i, player[i], mapDetails);
 		return true;
 	}
@@ -528,7 +574,15 @@ public class Player extends Observable implements Serializable {
 		}
 	}
 
-	private void updatePercentage(Player p, String phase){
+	/**
+	 * Method to update percentage
+	 * 
+	 * @param p
+	 *            an object of player class
+	 * @param phase
+	 *            a string attribute
+	 */
+	private void updatePercentage(Player p, String phase) {
 		String percentageString = "";
 		int totalTerritories = mapDetails.getTerritories().size();
 		for (int i2 = 0; i2 < player.length; i2++) {
@@ -542,8 +596,9 @@ public class Player extends Observable implements Serializable {
 		}
 
 		p.setMessage("Percentage " + percentageString);
-		p.setMessage("Player - " + p.getName() + " entered into "+phase+" Phase");
+		p.setMessage("Player - " + p.getName() + " entered into " + phase + " Phase");
 	}
+
 	/**
 	 * Method to get the next player turn
 	 * 
@@ -553,25 +608,25 @@ public class Player extends Observable implements Serializable {
 	public void nextPlayerTurn(int i) {
 
 		for (int k = 1; k < player.length; k++) {
-			
+
 			try {
 				TimeUnit.MILLISECONDS.sleep(100);
-			updatePercentage(player[k], "REINFORCEMENT");
-			player[k].reinforcementStrategy(k, player[k], player[k].infantriesAvailable);
-			player[k].currentGameStaticsTableModel.fireTableDataChanged();
-			player[k].notifyObservers();
-			
-			updatePercentage(player[k], "ATTACK");
-			player[k].attackStrategy(player, k, player[k], mapDetails);
-			player[k].currentGameStaticsTableModel.fireTableDataChanged();
-			player[k].notifyObservers();
-			
-			TimeUnit.MILLISECONDS.sleep(100);
-			updatePercentage(player[k], "FORTIFICATION");
-			player[k].fortificationStrategy(k, player[k], player[k].infantriesAvailable);
-			player[k].currentGameStaticsTableModel.fireTableDataChanged();
-			player[k].notifyObservers();
-			
+				updatePercentage(player[k], "REINFORCEMENT");
+				player[k].reinforcementStrategy(k, player[k], player[k].infantriesAvailable);
+				player[k].currentGameStaticsTableModel.fireTableDataChanged();
+				player[k].notifyObservers();
+
+				updatePercentage(player[k], "ATTACK");
+				player[k].attackStrategy(player, k, player[k], mapDetails);
+				player[k].currentGameStaticsTableModel.fireTableDataChanged();
+				player[k].notifyObservers();
+
+				TimeUnit.MILLISECONDS.sleep(100);
+				updatePercentage(player[k], "FORTIFICATION");
+				player[k].fortificationStrategy(k, player[k], player[k].infantriesAvailable);
+				player[k].currentGameStaticsTableModel.fireTableDataChanged();
+				player[k].notifyObservers();
+
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -579,16 +634,16 @@ public class Player extends Observable implements Serializable {
 		}
 
 		reinforcementInitialization();
-		/*if (i == player.length) {
-			reinforcementInitialization();
-		} else {*/
-			for (int j = 1; j < player.length; j++) {
-				player[j].getPlayerPanel().btReinforcement.setEnabled(false);
-				player[j].getPlayerPanel().btFortification.setEnabled(false);
-				player[j].getPlayerPanel().btOk.setEnabled(false);
-			}
-			
-		//}
+		/*
+		 * if (i == player.length) { reinforcementInitialization(); } else {
+		 */
+		for (int j = 1; j < player.length; j++) {
+			player[j].getPlayerPanel().btReinforcement.setEnabled(false);
+			player[j].getPlayerPanel().btFortification.setEnabled(false);
+			player[j].getPlayerPanel().btOk.setEnabled(false);
+		}
+
+		// }
 	}
 
 	/**
@@ -603,7 +658,7 @@ public class Player extends Observable implements Serializable {
 		for (int j = 0; j < player.length; j++) {
 			if (player[j].infantriesAvailable > 0) {
 				player[0].getPlayerPanel().btPlaceInfantry.setEnabled(true);
-				i=0;
+				i = 0;
 				flag = false;
 				break;
 			}

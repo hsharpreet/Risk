@@ -27,6 +27,12 @@ import game.risk.model.entities.strategy.RandomPlayerStrategy;
 import game.risk.util.CustomLogRecord;
 import game.risk.util.LoggerUtility;
 
+/**
+ * Class to create tournament model
+ * 
+ * @author Team
+ *
+ */
 public class TournamentModel implements Observer
 
 {
@@ -37,6 +43,18 @@ public class TournamentModel implements Observer
 	int totalArmies[] = { 40, 35, 30, 25, 20 };
 	List<TournamentResult> tournamentResult;
 
+	/**
+	 * A constructor
+	 * 
+	 * @param players
+	 *            a string array of name of the players
+	 * @param maps
+	 *            a string array
+	 * @param game_count
+	 *            an integer to calculate the game count
+	 * @param turns
+	 *            an integer
+	 */
 	public TournamentModel(String[] players, String[] maps, int game_count, int turns) {
 		getRealPlayers(players);
 		getRealMaps(maps);
@@ -46,6 +64,12 @@ public class TournamentModel implements Observer
 
 	}
 
+	/**
+	 * Method to get the players playing the game in the current time
+	 * 
+	 * @param p
+	 *            a string array
+	 */
 	private void getRealPlayers(String[] p) {
 
 		for (int i = 0; i < p.length; i++) {
@@ -57,23 +81,36 @@ public class TournamentModel implements Observer
 		}
 	}
 
+	/**
+	 * Method to get the real map being used in the game in the current time
+	 * 
+	 * @param m
+	 *            a string array
+	 */
 	private void getRealMaps(String[] m) {
-		
-		
-	for (int i = 0; i < m.length; i++) {
-		if (m[i]!=null&&(m[i].endsWith(".map"))) {
-		 this.mapNames.add(m[i]);
-		 
-		 } 
-		
-	}
-		 
+
+		for (int i = 0; i < m.length; i++) {
+			if (m[i] != null && (m[i].endsWith(".map"))) {
+				this.mapNames.add(m[i]);
+
+			}
+
+		}
+
 	}
 
+	/**
+	 * Method to get the tournament result
+	 * 
+	 * @return an array list
+	 */
 	public List<TournamentResult> getTournamentResult() {
 		return tournamentResult;
 	}
 
+	/**
+	 * Method to start the tournament
+	 */
 	public void startTournament()
 
 	{
@@ -82,15 +119,16 @@ public class TournamentModel implements Observer
 
 		for (String mapName : mapNames) {
 			mapDetails = MapReader.readMapFile(mapName);
-			CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,"-------------Map" + mapName + "--------------");
+			CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
+					"-------------Map" + mapName + "--------------");
 			LoggerUtility.consoleHandler.publish(logRecord);
-			
-				for (int gameIndex = 0; gameIndex < gameCount; gameIndex++) {
-		    
-			    logRecord = new CustomLogRecord(Level.INFO,"----------Game+" + (gameIndex + 1) + "--------------");
-			    LoggerUtility.consoleHandler.publish(logRecord);
-			
-			    TournamentResult tResult = new TournamentResult();
+
+			for (int gameIndex = 0; gameIndex < gameCount; gameIndex++) {
+
+				logRecord = new CustomLogRecord(Level.INFO, "----------Game+" + (gameIndex + 1) + "--------------");
+				LoggerUtility.consoleHandler.publish(logRecord);
+
+				TournamentResult tResult = new TournamentResult();
 				tResult.setMapName(mapName);
 				tResult.setGameIndex(gameIndex + 1);
 				int currentTurn = playerTurns;
@@ -102,7 +140,7 @@ public class TournamentModel implements Observer
 					player[playerIndex].setComputer(true);
 					player[playerIndex].setName(playersTypes.get(playerIndex) + "" + playerIndex);
 					player[playerIndex].addObserver(TournamentModel.this);
-					
+
 					if (playersTypes.get(playerIndex).equalsIgnoreCase("Aggressive")) {
 						// logRecord = new CustomLogRecord(Level.INFO, "Strategy: Aggressive");
 						// LoggerUtility.consoleHandler.publish(logRecord);
@@ -161,61 +199,65 @@ public class TournamentModel implements Observer
 					player[i].infantriesAvailable = (totalArmies[playersTypes.size() - 2])
 							- (player[i].currentGameStaticsList.size());
 					player[i].placeInfantoryStrategy(i, player[i], player[i].infantriesAvailable);
-					//System.out.println("player Name  ---" + player[i].getName());
+					// System.out.println("player Name ---" + player[i].getName());
 					for (CurrentGameStatics cgs : player[i].currentGameStaticsList) {
-						//System.out.println("player territory  ---" + cgs.territory.getName() + " " + cgs.infantries);
+						// System.out.println("player territory ---" + cgs.territory.getName() + " " +
+						// cgs.infantries);
 					}
 
 				}
-				
 
-			    logRecord = new CustomLogRecord(Level.INFO,"----------END OF START UP PHASE--------------");
-			    LoggerUtility.consoleHandler.publish(logRecord);
-			
+				logRecord = new CustomLogRecord(Level.INFO, "----------END OF START UP PHASE--------------");
+				LoggerUtility.consoleHandler.publish(logRecord);
+
 				// Start of the turn and start of reinforcement
 				while (currentTurn > 0) {
-					
-					   logRecord = new CustomLogRecord(Level.INFO,"------------Turn" + currentTurn + "-----------");
-				    LoggerUtility.consoleHandler.publish(logRecord);
-				 
-				
+
+					logRecord = new CustomLogRecord(Level.INFO, "------------Turn" + currentTurn + "-----------");
+					LoggerUtility.consoleHandler.publish(logRecord);
+
 					boolean winner = false;
 					for (int i = 0; i < playersTypes.size(); i++) {
-					    logRecord = new CustomLogRecord(Level.INFO,"-------Start of Reinforcement Phase--------");
-					    LoggerUtility.consoleHandler.publish(logRecord);
-					
+						logRecord = new CustomLogRecord(Level.INFO, "-------Start of Reinforcement Phase--------");
+						LoggerUtility.consoleHandler.publish(logRecord);
+
 						int reinforcedArmies = player[i].calculateReinformentArmiesInitially(i);
 						player[i].infantriesTotal += reinforcedArmies;
 						player[i].infantriesAvailable = reinforcedArmies;
 						player[i].reinforcementStrategy(i, player[i], player[i].infantriesAvailable);
-						//System.out.println("player Name  ---" + player[i].getName());
+						// System.out.println("player Name ---" + player[i].getName());
 						for (CurrentGameStatics cgs : player[i].currentGameStaticsList) {
-							//System.out.println("player territory  ---" + cgs.territory.getName() + " " + cgs.infantries);
+							// System.out.println("player territory ---" + cgs.territory.getName() + " " +
+							// cgs.infantries);
 						}
-						
-						logRecord = new CustomLogRecord(Level.INFO,"------------End of Reinforcement Phase-----------");
-					    LoggerUtility.consoleHandler.publish(logRecord);
-					    
-					    logRecord = new CustomLogRecord(Level.INFO,"------------Start of Attack Phase-----------");
-					    LoggerUtility.consoleHandler.publish(logRecord);
-					
+
+						logRecord = new CustomLogRecord(Level.INFO,
+								"------------End of Reinforcement Phase-----------");
+						LoggerUtility.consoleHandler.publish(logRecord);
+
+						logRecord = new CustomLogRecord(Level.INFO, "------------Start of Attack Phase-----------");
+						LoggerUtility.consoleHandler.publish(logRecord);
+
 						player[i].attackStrategy(player, i, player[i], mapDetails);
 
-						logRecord = new CustomLogRecord(Level.INFO,"------------End of Attack Phase-----------");
-					    LoggerUtility.consoleHandler.publish(logRecord);
-					
-					    if (player[i].currentGameStaticsList.size() == mapDetails.getTerritories().size()) {
+						logRecord = new CustomLogRecord(Level.INFO, "------------End of Attack Phase-----------");
+						LoggerUtility.consoleHandler.publish(logRecord);
+
+						if (player[i].currentGameStaticsList.size() == mapDetails.getTerritories().size()) {
 							winner = true;
 							tResult.setWinnerName(player[i].getName());
 							break;
 						}
-					    logRecord = new CustomLogRecord(Level.INFO,"------------Start of Fortification Phase-----------");
-					    LoggerUtility.consoleHandler.publish(logRecord);
-					    logRecord = new CustomLogRecord(Level.INFO,"------------End of Fortification Phase-----------");
-					    LoggerUtility.consoleHandler.publish(logRecord);
+						logRecord = new CustomLogRecord(Level.INFO,
+								"------------Start of Fortification Phase-----------");
+						LoggerUtility.consoleHandler.publish(logRecord);
+						logRecord = new CustomLogRecord(Level.INFO,
+								"------------End of Fortification Phase-----------");
+						LoggerUtility.consoleHandler.publish(logRecord);
 						player[i].fortificationStrategy(i, player[i], player[i].infantriesAvailable);
 						for (CurrentGameStatics cgs : player[i].currentGameStaticsList) {
-							//System.out	.println("player territory  ---" + cgs.territory.getName() + " " + cgs.infantries);
+							// System.out .println("player territory ---" + cgs.territory.getName() + " " +
+							// cgs.infantries);
 						}
 					}
 					currentTurn--;
@@ -232,12 +274,19 @@ public class TournamentModel implements Observer
 	}
 
 	@Override
-	public void update(Observable o, Object arg) 
-	{
+	/**
+	 * Method to create observer pattern
+	 * 
+	 * @param o
+	 *            an object of observable class
+	 * @param arg
+	 *            an object of object class
+	 */
+	public void update(Observable o, Object arg) {
 		Player playerObservable = (Player) o;
 		String message = playerObservable.getMessage();
 		CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Observable : " + message);
 		LoggerUtility.consoleHandler.publish(logRecord);
-		
+
 	}
 }
