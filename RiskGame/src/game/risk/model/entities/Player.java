@@ -48,8 +48,8 @@ public class Player extends Observable implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	int myIndex;
-    Player player[];
-    RiskMap mapDetails;
+	Player player[];
+	RiskMap mapDetails;
 	public int infantriesAvailable;
 	public int infantriesTotal;
 	public CurrentGameStaticsTableModel currentGameStaticsTableModel;
@@ -80,6 +80,7 @@ public class Player extends Observable implements Serializable {
 	 *            an array of player class
 	 * @param mapDetails
 	 *            an object of RiskMap class
+	 * @return modified objects
 	 */
 	public Player(RiskGame riskGame, int myIndex, Player player[], RiskMap mapDetails) {
 		this.riskGame = riskGame;
@@ -99,7 +100,7 @@ public class Player extends Observable implements Serializable {
 	}
 
 	/**
-	 * Method for fortification startegy
+	 * Method for fortification strategy
 	 * 
 	 * @param i
 	 *            index number
@@ -107,7 +108,7 @@ public class Player extends Observable implements Serializable {
 	 *            an object of player class
 	 * @param army
 	 *            number of armies
-	 * @return
+	 * @return Fortification Strategy
 	 */
 	public int fortificationStrategy(int i, Player p, int army) {
 		return this.strategy.fortificationStrategy(i, p, army);
@@ -122,6 +123,7 @@ public class Player extends Observable implements Serializable {
 	 *            an object of player class
 	 * @param army
 	 *            number of armies
+	 * @return place Infantory Strategy
 	 */
 	public int placeInfantoryStrategy(int i, Player player, int army) {
 		return this.strategy.placeInfantoryStrategy(i, player, army);
@@ -137,6 +139,7 @@ public class Player extends Observable implements Serializable {
 	 *            an object of player class
 	 * @param army
 	 *            number of armies
+	 * @return reinforcement strategy
 	 */
 	public int reinforcementStrategy(int i, Player player, int army) {
 		return this.strategy.reinforcementStrategy(i, player, army);
@@ -276,7 +279,7 @@ public class Player extends Observable implements Serializable {
 	/**
 	 * method to check if the player is a computer
 	 * 
-	 * @return isComputer a boolean variable
+	 * @return isComputer when player is computer
 	 */
 	public boolean isComputer() {
 		return isComputer;
@@ -286,7 +289,7 @@ public class Player extends Observable implements Serializable {
 	 * method to set the value of Computer
 	 * 
 	 * @param isComputer
-	 *            a boolean variable
+	 *            player is computer
 	 */
 	public void setComputer(boolean isComputer) {
 		this.isComputer = isComputer;
@@ -311,14 +314,30 @@ public class Player extends Observable implements Serializable {
 		this.playerPanel = playerPanel;
 	}
 
+	/**
+	 * Method to get Strategy
+	 * 
+	 * @return strategy type of strategy
+	 */
 	public PlayerStrategy getStrategy() {
 		return strategy;
 	}
 
+	/**
+	 * Method to get phase of player
+	 * 
+	 * @return phase phase of player
+	 */
 	public String getPhase() {
 		return phase;
 	}
 
+	/**
+	 * Method to set phase of player
+	 * 
+	 * @param phase
+	 *            phase of player
+	 */
 	public void setPhase(String phase) {
 		this.phase = phase;
 	}
@@ -512,6 +531,16 @@ public class Player extends Observable implements Serializable {
 		return reinformentArmies;
 	}
 
+	/**
+	 * Method for adding Cards
+	 * 
+	 * @param panel
+	 *            card panel
+	 * @param alcheckbox
+	 *            selected cards
+	 * @param i
+	 *            player no.
+	 */
 	public void addCards(ExchangeCardPanel panel, ArrayList<JCheckBox> alcheckbox, int i) {
 		panel.jpAvailableCards.removeAll();
 		panel.jpAvailableCards.repaint();
@@ -530,7 +559,8 @@ public class Player extends Observable implements Serializable {
 	 * a method for the attack phase
 	 * 
 	 * @param i
-	 *            an integer value
+	 *            player no.
+	 * @return true on existing attack strategy
 	 */
 	public boolean attackInitialization(int i) {
 		player[0].setPhase(GamePhaseEnum.ATTACK.name());
@@ -612,7 +642,7 @@ public class Player extends Observable implements Serializable {
 	 * Method to get the next player turn
 	 * 
 	 * @param i
-	 *            an integer value
+	 *            player no.
 	 */
 	public void nextPlayerTurn(int i) {
 
@@ -659,7 +689,8 @@ public class Player extends Observable implements Serializable {
 	 * Method to check the next index to enable the start phase button
 	 * 
 	 * @param i
-	 *            an integer value
+	 *            player no.
+	 * @return flag to enable buttons
 	 */
 	public boolean nextIndexToEnableButton(int i) {
 		// if all players have 0 available infantries.. means startup phase done
