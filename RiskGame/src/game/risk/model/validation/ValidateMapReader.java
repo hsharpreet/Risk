@@ -30,8 +30,7 @@ public class ValidateMapReader {
 		if (continents.size() == 1 && territories.size() == 1) {
 			return checkSingleContinentValid(continents, territories);
 		} else if (checkCountriesExistInValidContinent(continents, territories)
-				&& checkNeighbouringCountriesExist(territories) && checkNeighbouringCountriesSymmetric(territories)
-				&& checkConnectedContinent(continents, territories)) {
+				&& checkNeighbouringCountriesExist(territories) && checkConnectedContinent(continents, territories)) {
 			return true;
 		}
 		return false;

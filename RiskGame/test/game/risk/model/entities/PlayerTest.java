@@ -3,6 +3,7 @@ package game.risk.model.entities;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
@@ -36,14 +37,17 @@ public class PlayerTest {
 		Territory t1 = new Territory();
 		t1.setName("test1");
 		t1.setContinent("hello");
+		t1.setNeighbouringTerritories(Arrays.asList("test2","test3","Peru"));
 
 		Territory t2 = new Territory();
 		t2.setName("test2");
 		t2.setContinent("hello");
+		t2.setNeighbouringTerritories(Arrays.asList("test1","Brazil"));
 
 		Territory t3 = new Territory();
 		t3.setName("Peru");
 		t3.setContinent("South America");
+		t3.setNeighbouringTerritories(Arrays.asList("test1"));
 
 		Territory t4 = new Territory();
 		t4.setName("Brazil");
@@ -69,6 +73,7 @@ public class PlayerTest {
 		players[0].currentGameStaticsList.add(gamestat4);
 		players[2].currentGameStaticsList.add(gamestat1);
 		players[2].currentGameStaticsList.add(gamestat2);
+		players[2].currentGameStaticsList.add(gamestat3);
 	}
 
 	/**
@@ -135,6 +140,23 @@ public class PlayerTest {
 		 players[2].reinforcementStrategy(2, players[2], players[2].infantriesAvailable);
 		 assertEquals(2, players[2].currentGameStaticsList.get(0).infantries);
 		 assertEquals(4, players[2].currentGameStaticsList.get(1).infantries);
+		 assertEquals(6, players[2].currentGameStaticsList.get(2).infantries);
+	}
+	
+	@Test
+	public void testFortifyArmies_CheaterStrategy_success() {
+		int playerCountry1Infantry =  players[2].currentGameStaticsList.get(0).infantries;
+		int playerCountry2Infantry = players[2].currentGameStaticsList.get(1).infantries;
+		 players[2].fortificationStrategy(2, players[2], players[2].infantriesAvailable);
+		 assertEquals(playerCountry1Infantry*2, players[2].currentGameStaticsList.get(0).infantries);
+		 assertEquals(playerCountry2Infantry*2, players[2].currentGameStaticsList.get(1).infantries);
+	}
+	
+	@Test
+	public void testFortifyArmies_CheaterStrategy_fail() {
+		int playerCountry3Infantry =  players[2].currentGameStaticsList.get(2).infantries;
+		 players[2].fortificationStrategy(2, players[2], players[2].infantriesAvailable);
+		 assertEquals(playerCountry3Infantry, players[2].currentGameStaticsList.get(2).infantries);
 	}
 	
 }

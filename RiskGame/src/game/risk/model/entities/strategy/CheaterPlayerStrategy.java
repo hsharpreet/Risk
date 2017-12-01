@@ -164,7 +164,7 @@ public class CheaterPlayerStrategy implements PlayerStrategy, Serializable {
 		}
 
 		for (int j = 0; j < list.size(); j++) {
-
+            neighlist = new ArrayList<>();
 			for (int jj = 0; jj < cheater.currentGameStaticsList.get(j).territory.getNeighbouringTerritories()
 					.size(); jj++) {
 				String neighbour = cheater.currentGameStaticsList.get(j).territory.getNeighbouringTerritories().get(jj);
