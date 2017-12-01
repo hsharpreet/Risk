@@ -4,8 +4,11 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+import game.risk.model.GameReaderTest;
+import game.risk.model.GameWriterTest;
 import game.risk.model.MapReaderTest;
 import game.risk.model.MapWriterTest;
+import game.risk.model.TournamentModelTest;
 import game.risk.model.entities.PlayerTest;
 import game.risk.model.validation.ValidateMapWriterTest;
 import game.risk.util.PlayerUtilTest;
@@ -17,7 +20,8 @@ import game.risk.util.PlayerUtilTest;
  *
  */
 @RunWith(Suite.class)
-@SuiteClasses({ValidateMapWriterTest.class,MapReaderTest.class,MapWriterTest.class,PlayerTest.class,PlayerUtilTest.class})
+@SuiteClasses({ValidateMapWriterTest.class,MapReaderTest.class,MapWriterTest.class,PlayerTest.class,PlayerUtilTest.class
+	,GameWriterTest.class,GameReaderTest.class,TournamentModelTest.class})
 public class RiskGameAllTests {
 
 }

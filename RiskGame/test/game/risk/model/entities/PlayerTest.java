@@ -8,12 +8,14 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import game.risk.gui.PlayerPanel;
 import game.risk.gui.RiskGame;
 import game.risk.model.MapReader;
 import game.risk.model.entities.CurrentGameStatics;
 import game.risk.model.entities.Player;
 import game.risk.model.entities.RiskMap;
 import game.risk.model.entities.Territory;
+import game.risk.model.entities.strategy.CheaterPlayerStrategy;
 
 /**
  * Class to Test reinforcement
@@ -51,14 +53,22 @@ public class PlayerTest {
 		CurrentGameStatics gamestat2 = new CurrentGameStatics(2, t2);
 		CurrentGameStatics gamestat3 = new CurrentGameStatics(3, t3);
 		CurrentGameStatics gamestat4 = new CurrentGameStatics(2, t4);
-		players = new Player[2];
+		players = new Player[3];
 		players[0] = new Player(new RiskGame(), 0, players, mapDetails);
 		players[1] = new Player(new RiskGame(), 1, players, mapDetails);
+		players[2] = new Player(new RiskGame(), 2, players, mapDetails);
+		players[2].setStrategy(new CheaterPlayerStrategy());
+		players[2].currentGameStaticsList= new ArrayList<>();
+		players[2].setPlayerPanel(new PlayerPanel());
+		players[2].currentGameStaticsTableModel = new CurrentGameStaticsTableModel(
+				players[2].currentGameStaticsList);
 		players[0].currentGameStaticsList = new ArrayList<>();
 		players[0].currentGameStaticsList.add(gamestat1);
 		players[0].currentGameStaticsList.add(gamestat2);
 		players[0].currentGameStaticsList.add(gamestat3);
 		players[0].currentGameStaticsList.add(gamestat4);
+		players[2].currentGameStaticsList.add(gamestat1);
+		players[2].currentGameStaticsList.add(gamestat2);
 	}
 
 	/**
@@ -120,4 +130,11 @@ public class PlayerTest {
 		assertEquals(3, armiesInDestinationCountry);
 	}
 
+	@Test
+	public void testReinforcementArmies_CheaterStrategy() {
+		 players[2].reinforcementStrategy(2, players[2], players[2].infantriesAvailable);
+		 assertEquals(2, players[2].currentGameStaticsList.get(0).infantries);
+		 assertEquals(4, players[2].currentGameStaticsList.get(1).infantries);
+	}
+	
 }
