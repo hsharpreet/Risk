@@ -56,32 +56,27 @@ public class RandomPlayerStrategy implements PlayerStrategy, Serializable {
 		if (player.infantriesAvailable > 0) {
 			int loop = (player.infantriesAvailable > 0) ? 1 : 0;
 			int index = 0;
-			// int army = loop= 1;
 			if (army > 0) {
-				// loop = (player.infantriesAvailable > 0) ? 1 : player.infantriesAvailable;
 				loop = army;
 				CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
 						"Human has finished with armies, computers will place all their left armies now!");
 				LoggerUtility.consoleHandler.publish(logRecord);
 			}
 			for (int x = 0; x < loop; x++) {
-
-				index = randomNumber(player.currentGameStaticsList.size());
-				player.currentGameStaticsList.get(index).infantries++;
-				player.infantriesAvailable--;
-				player.getPlayerPanel().lbAvailableArmies
-						.setText("Available Infantries : " + player.infantriesAvailable);
-				player.currentGameStaticsTableModel.fireTableDataChanged();
-				player.setMessage("Startup Phase\r\nPlayer - " + player.getName() + " has placed infantry in "
-						+ player.currentGameStaticsList.get(index).territory.getName().toUpperCase()
-						+ " and turn switched to next player");
-				player.notifyObservers();
+				if (player.currentGameStaticsList.size() > 0) {
+					index = randomNumber(player.currentGameStaticsList.size());
+					player.currentGameStaticsList.get(index).infantries++;
+					player.infantriesAvailable--;
+					player.getPlayerPanel().lbAvailableArmies
+							.setText("Available Infantries : " + player.infantriesAvailable);
+					player.currentGameStaticsTableModel.fireTableDataChanged();
+					player.setMessage("Startup Phase\r\nPlayer - " + player.getName() + " has placed infantry in "
+							+ player.currentGameStaticsList.get(index).territory.getName().toUpperCase()
+							+ " and turn switched to next player");
+					player.notifyObservers();
+				}
 			}
-
-			// player.getPlayerPanel().btPlaceInfantry.setEnabled(false);
-
 		}
-
 		return 0;
 	}
 
@@ -109,23 +104,23 @@ public class RandomPlayerStrategy implements PlayerStrategy, Serializable {
 
 		if (player.infantriesAvailable > 0) {
 			for (int x = 0; x < loop; x++) {
+				if (player.currentGameStaticsList.size() > 0) {
+					int index = randomNumber(player.currentGameStaticsList.size());
 
-				int index = randomNumber(player.currentGameStaticsList.size());
+					player.currentGameStaticsList.get(index).infantries++;
+					player.infantriesAvailable--;
+					player.getPlayerPanel().lbAvailableArmies
+							.setText("Available Infantries : " + player.infantriesAvailable);
+					player.currentGameStaticsTableModel.fireTableDataChanged();
 
-				player.currentGameStaticsList.get(index).infantries++;
-				player.infantriesAvailable--;
-				player.getPlayerPanel().lbAvailableArmies
-						.setText("Available Infantries : " + player.infantriesAvailable);
-				player.currentGameStaticsTableModel.fireTableDataChanged();
+					player.setMessage("Reinforcement Phase\r\nPlayer - " + player.getName() + " has placed infantry in "
+							+ player.currentGameStaticsList.get(index).territory.getName().toUpperCase());
+					player.notifyObservers();
 
-				player.setMessage("Reinforcement Phase\r\nPlayer - " + player.getName() + " has placed infantry in "
-						+ player.currentGameStaticsList.get(index).territory.getName().toUpperCase());
-				player.notifyObservers();
-
-				if (player.infantriesAvailable == 0) {
-					return 1;
+					if (player.infantriesAvailable == 0) {
+						return 1;
+					}
 				}
-
 			}
 		} else {
 			CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "No army available");
@@ -158,10 +153,6 @@ public class RandomPlayerStrategy implements PlayerStrategy, Serializable {
 		dialog.add(new AttackGUIPanel(dialog, player, ii, random.currentGameStaticsTableModel,
 				random.currentGameStaticsList, mapDetails));
 		dialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
-		// dialog.setSize(1020, 600);
-		// dialog.setVisible(true);
-		// new AttackPhase(player, ii, random.currentGameStaticsTableModel,
-		// random.currentGameStaticsList, mapDetails);
 		return 0;
 	}
 
@@ -181,49 +172,52 @@ public class RandomPlayerStrategy implements PlayerStrategy, Serializable {
 
 		ArrayList<String> terrList = new ArrayList<String>();
 		ArrayList<String> list = new ArrayList<String>();
+		if (random.currentGameStaticsList.size() > 0) {
+			for (int j = 0; j < random.currentGameStaticsList.size(); j++) {
+				list.add(random.currentGameStaticsList.get(j).territory.getName());
+			}
 
-		for (int j = 0; j < random.currentGameStaticsList.size(); j++) {
-			list.add(random.currentGameStaticsList.get(j).territory.getName());
-		}
+			for (int j = 0; j < list.size(); j++) {
 
-		for (int j = 0; j < list.size(); j++) {
+				for (int jj = 0; jj < random.currentGameStaticsList.get(j).territory.getNeighbouringTerritories()
+						.size(); jj++) {
+					String destinationTerritory = random.currentGameStaticsList.get(j).territory
+							.getNeighbouringTerritories().get(jj);
 
-			for (int jj = 0; jj < random.currentGameStaticsList.get(j).territory.getNeighbouringTerritories()
-					.size(); jj++) {
-				String destinationTerritory = random.currentGameStaticsList.get(j).territory
-						.getNeighbouringTerritories().get(jj);
-
-				if (list.contains(destinationTerritory) && random.currentGameStaticsList.get(j).infantries > 1) {
-					terrList.add(j + ":" + destinationTerritory);
+					if (list.contains(destinationTerritory) && random.currentGameStaticsList.get(j).infantries > 1) {
+						terrList.add(j + ":" + destinationTerritory);
+					}
 				}
 			}
-		}
-		int possibleMoves = terrList.size();
-		int randomMoves = 0;
-		if (possibleMoves > 0) {
-			randomMoves = new Random().nextInt(possibleMoves);
-		}
-
-		for (int k = 0; k < randomMoves; k++) {
-			int minus = Integer.parseInt(terrList.get(k).split(":")[0]);
-
-			String destinationTerritory = terrList.get(k).split(":")[1];
-			int plus = list.indexOf(destinationTerritory);
-
-			if (random.currentGameStaticsList.get(minus).infantries > 1) {
-				random.currentGameStaticsList.get(minus).infantries--;
-				random.currentGameStaticsList.get(plus).infantries++;
-
-				random.setMessage("Fortification Phase\r\nPlayer - " + random.getName()
-						+ " has transfered 1 infantry from "
-						+ random.currentGameStaticsList.get(minus).territory.getName() + " to " + destinationTerritory);
-				random.notifyObservers();
-
-				random.currentGameStaticsTableModel.fireTableDataChanged();
+			int possibleMoves = terrList.size();
+			int randomMoves = 0;
+			if (possibleMoves > 0) {
+				randomMoves = new Random().nextInt(possibleMoves);
 			}
 
-		}
+			for (int k = 0; k < randomMoves; k++) {
+				int minus = Integer.parseInt(terrList.get(k).split(":")[0]);
 
+				String destinationTerritory = terrList.get(k).split(":")[1];
+				int plus = list.indexOf(destinationTerritory);
+
+				if (random.currentGameStaticsList.get(minus).infantries > 1) {
+					random.currentGameStaticsList.get(minus).infantries--;
+					random.currentGameStaticsList.get(plus).infantries++;
+
+					random.setMessage(
+							"Fortification Phase\r\nPlayer - " + random.getName() + " has transfered 1 infantry from "
+									+ random.currentGameStaticsList.get(minus).territory.getName() + " to "
+									+ destinationTerritory);
+					random.notifyObservers();
+
+					random.currentGameStaticsTableModel.fireTableDataChanged();
+				}
+
+			}
+
+			return 1;
+		}
 		return 0;
 	}
 }

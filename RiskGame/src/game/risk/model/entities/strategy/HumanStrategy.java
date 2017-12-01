@@ -144,8 +144,8 @@ public class HumanStrategy implements PlayerStrategy, Serializable {
 					human.currentGameStaticsTableModel.fireTableDataChanged();
 
 					int ans = JOptionPane.showConfirmDialog(player[i].getPlayerPanel(),
-							"Player - " + human.getName() + "\nDo you want to do fortification ?", "Fortification Confirmition",
-							JOptionPane.YES_NO_OPTION);
+							"Player - " + human.getName() + "\nDo you want to do fortification ?",
+							"Fortification Confirmition", JOptionPane.YES_NO_OPTION);
 
 					if (ans == JOptionPane.YES_OPTION) {
 						human.setPhase(GamePhaseEnum.FORTIFICATION.name());
@@ -160,7 +160,7 @@ public class HumanStrategy implements PlayerStrategy, Serializable {
 				}
 			});
 			dialog.setVisible(true);
-		}  else {
+		} else {
 			int ans1 = JOptionPane.showConfirmDialog(human.getPlayerPanel(),
 					"Player - " + human.getName() + "\nDo you want to do fortification ?", "Fortification Confirmition",
 					JOptionPane.YES_NO_OPTION);
@@ -171,7 +171,7 @@ public class HumanStrategy implements PlayerStrategy, Serializable {
 				human.getPlayerPanel().btOk.setEnabled(true);
 
 				human.setMessage("Player " + human.getName() + " entered into Fortification Phase");
-			}else{
+			} else {
 				player[0].nextPlayerTurn(1);
 			}
 		}
@@ -197,74 +197,76 @@ public class HumanStrategy implements PlayerStrategy, Serializable {
 
 		ArrayList<String> terrList = new ArrayList<String>();
 		ArrayList<String> list = new ArrayList<String>();
-
-		for (int j = 0; j < human.currentGameStaticsList.size(); j++) {
-			list.add(human.currentGameStaticsList.get(j).territory.getName());
-		}
-
-		for (int j = 0; j < list.size(); j++) {
-
-			for (int jj = 0; jj < human.currentGameStaticsList.get(j).territory.getNeighbouringTerritories()
-					.size(); jj++) {
-				String destinationTerritory = human.currentGameStaticsList.get(j).territory.getNeighbouringTerritories()
-						.get(jj);
-				if (list.contains(destinationTerritory) && human.currentGameStaticsList.get(j).infantries > 1) {
-					terrList.add(j + ":" + jj);
-				}
-			}
-		}
-		int possibleMoves = terrList.size();
-
-		System.out.println("HUMAN " + possibleMoves + " - " + terrList + " - " + list.size());
-
-		if (tableIndex == -1) {
-			JOptionPane.showMessageDialog(human.getPlayerPanel(), "Select source territory first");
-		} else if (listIndex == -1) {
-			JOptionPane.showMessageDialog(human.getPlayerPanel(), "Select destination territory first");
-		} else {
-			String destinationTerritory = human.getPlayerPanel().lsNeighbour.getSelectedValue();
-			boolean isDestinationMyOwnCountry = false;
-
+		if (human.currentGameStaticsList.size() > 0) {
 			for (int j = 0; j < human.currentGameStaticsList.size(); j++) {
-				if (human.currentGameStaticsList.get(j).territory.getName().equals(destinationTerritory)) {
-					isDestinationMyOwnCountry = true;
-					break;
+				list.add(human.currentGameStaticsList.get(j).territory.getName());
+			}
+
+			for (int j = 0; j < list.size(); j++) {
+
+				for (int jj = 0; jj < human.currentGameStaticsList.get(j).territory.getNeighbouringTerritories()
+						.size(); jj++) {
+					String destinationTerritory = human.currentGameStaticsList.get(j).territory
+							.getNeighbouringTerritories().get(jj);
+					if (list.contains(destinationTerritory) && human.currentGameStaticsList.get(j).infantries > 1) {
+						terrList.add(j + ":" + jj);
+					}
 				}
 			}
-			if (isDestinationMyOwnCountry) {
-				if (human.currentGameStaticsList.get(tableIndex).infantries > 1) {
+			int possibleMoves = terrList.size();
 
-					human.currentGameStaticsList.get(tableIndex).infantries--;
+			System.out.println("HUMAN " + possibleMoves + " - " + terrList + " - " + list.size());
 
-					for (int j = 0; j < human.currentGameStaticsList.size(); j++) {
-						if (human.currentGameStaticsList.get(j).territory.getName().equals(destinationTerritory)) {
-							human.currentGameStaticsList.get(j).infantries++;
-							human.setMessage(
-									"Fortification Phase\r\nPlayer - " + (i + 1) + " has transfered 1 infantry from "
-											+ human.currentGameStaticsList.get(tableIndex).territory.getName() + " to "
-											+ destinationTerritory);
-							human.notifyObservers();
+			if (tableIndex == -1) {
+				JOptionPane.showMessageDialog(human.getPlayerPanel(), "Select source territory first");
+			} else if (listIndex == -1) {
+				JOptionPane.showMessageDialog(human.getPlayerPanel(), "Select destination territory first");
+			} else {
+				String destinationTerritory = human.getPlayerPanel().lsNeighbour.getSelectedValue();
+				boolean isDestinationMyOwnCountry = false;
 
-							CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
-									"Player - " + (i + 1) + " has transfered 1 infantry from "
-											+ human.currentGameStaticsList.get(tableIndex).territory.getName() + " to "
-											+ destinationTerritory);
-							LoggerUtility.consoleHandler.publish(logRecord);
+				for (int j = 0; j < human.currentGameStaticsList.size(); j++) {
+					if (human.currentGameStaticsList.get(j).territory.getName().equals(destinationTerritory)) {
+						isDestinationMyOwnCountry = true;
+						break;
+					}
+				}
+				if (isDestinationMyOwnCountry) {
+					if (human.currentGameStaticsList.get(tableIndex).infantries > 1) {
 
-							human.currentGameStaticsTableModel.fireTableDataChanged();
-							break;
+						human.currentGameStaticsList.get(tableIndex).infantries--;
+
+						for (int j = 0; j < human.currentGameStaticsList.size(); j++) {
+							if (human.currentGameStaticsList.get(j).territory.getName().equals(destinationTerritory)) {
+								human.currentGameStaticsList.get(j).infantries++;
+								human.setMessage("Fortification Phase\r\nPlayer - " + (i + 1)
+										+ " has transfered 1 infantry from "
+										+ human.currentGameStaticsList.get(tableIndex).territory.getName() + " to "
+										+ destinationTerritory);
+								human.notifyObservers();
+
+								CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
+										"Player - " + (i + 1) + " has transfered 1 infantry from "
+												+ human.currentGameStaticsList.get(tableIndex).territory.getName()
+												+ " to " + destinationTerritory);
+								LoggerUtility.consoleHandler.publish(logRecord);
+
+								human.currentGameStaticsTableModel.fireTableDataChanged();
+								break;
+							}
 						}
+					} else {
+						JOptionPane.showMessageDialog(human.getPlayerPanel(),
+								"Source territory must have more that 1 infantries for fortification");
 					}
 				} else {
 					JOptionPane.showMessageDialog(human.getPlayerPanel(),
-							"Source territory must have more that 1 infantries for fortification");
+							"Destination territory must be your territory");
 				}
-			} else {
-				JOptionPane.showMessageDialog(human.getPlayerPanel(), "Destination territory must be your territory");
 			}
-		}
 
+			return 1;
+		}
 		return 0;
 	}
-
 }

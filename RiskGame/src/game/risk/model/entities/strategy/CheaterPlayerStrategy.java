@@ -50,25 +50,23 @@ public class CheaterPlayerStrategy implements PlayerStrategy, Serializable {
 		if (player.infantriesAvailable > 0) {
 			int loop = (player.infantriesAvailable > 0) ? 1 : 0;
 			int index = 0;
-			// int army = loop= 1;
 			if (army > 0) {
-				// loop = (player.infantriesAvailable > 0) ? 1 : player.infantriesAvailable;
 				loop = army;
 				CustomLogRecord logRecord = new CustomLogRecord(Level.INFO,
 						"Player has finished with armies, comp will place all their left armies now!");
 				LoggerUtility.consoleHandler.publish(logRecord);
 			}
 			for (int x = 0; x < loop; x++) {
-				index = randomNumber(player.currentGameStaticsList.size());
-				player.currentGameStaticsList.get(index).infantries++;
-				player.infantriesAvailable--;
-				player.getPlayerPanel().lbAvailableArmies
-						.setText("Available Infantries : " + player.infantriesAvailable);
-				player.currentGameStaticsTableModel.fireTableDataChanged();
-			}
+				if (player.currentGameStaticsList.size() > 0) {
+					index = randomNumber(player.currentGameStaticsList.size());
+					player.currentGameStaticsList.get(index).infantries++;
+					player.infantriesAvailable--;
+					player.getPlayerPanel().lbAvailableArmies
+							.setText("Available Infantries : " + player.infantriesAvailable);
+					player.currentGameStaticsTableModel.fireTableDataChanged();
+				}
 
-			// player.getPlayerPanel().btPlaceInfantry.setEnabled(false);
-			// player.nextIndexToEnableButton(i);
+			}
 
 			player.setMessage("Startup Phase\r\nPlayer - " + player.getName() + " has placed infantry in "
 					+ player.currentGameStaticsList.get(index).territory.getName().toUpperCase()
@@ -92,22 +90,27 @@ public class CheaterPlayerStrategy implements PlayerStrategy, Serializable {
 	 * @return an integer value
 	 */
 	public int reinforcementStrategy(int i, Player player, int army) {
-		for (int x = 0; x < player.currentGameStaticsList.size(); x++) {
 
-			if (player.currentGameStaticsList.get(x).infantries == 0) {
-				player.currentGameStaticsList.get(x).infantries = 1;
-			} else {
-				player.currentGameStaticsList.get(x).infantries = player.currentGameStaticsList.get(x).infantries * 2;
+		if (player.currentGameStaticsList.size() > 0) {
+			for (int x = 0; x < player.currentGameStaticsList.size(); x++) {
+
+				if (player.currentGameStaticsList.get(x).infantries == 0) {
+					player.currentGameStaticsList.get(x).infantries = 1;
+				} else {
+					player.currentGameStaticsList.get(x).infantries = player.currentGameStaticsList.get(x).infantries
+							* 2;
+				}
+				player.infantriesAvailable = 0;
+				player.getPlayerPanel().lbAvailableArmies
+						.setText("Available Infantries : " + player.infantriesAvailable);
+				player.currentGameStaticsTableModel.fireTableDataChanged();
 			}
-			player.infantriesAvailable = 0;
-			player.getPlayerPanel().lbAvailableArmies.setText("Available Infantries : " + player.infantriesAvailable);
-			player.currentGameStaticsTableModel.fireTableDataChanged();
+			player.setMessage("Reinforcement Phase\r\nPlayer - " + player.getName() + " has doubled his armies.");
+			player.notifyObservers();
+
+			return 1;
 		}
-		player.setMessage("Reinforcement Phase\r\nPlayer - " + player.getName() + " has doubled his armies.");
-		player.notifyObservers();
-
-		return 1;
-
+		return 0;
 	}
 
 	@Override
@@ -134,9 +137,6 @@ public class CheaterPlayerStrategy implements PlayerStrategy, Serializable {
 				cheater.currentGameStaticsList, mapDetails));
 		dialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
 		dialog.setSize(1020, 600);
-		// dialog.setVisible(true);
-		// new AttackPhase(player, ii, random.currentGameStaticsTableModel,
-		// random.currentGameStaticsList, mapDetails);
 		return 0;
 
 	}
@@ -159,40 +159,43 @@ public class CheaterPlayerStrategy implements PlayerStrategy, Serializable {
 		ArrayList<String> list = new ArrayList<String>();
 		ArrayList<String> neighlist = new ArrayList<String>();
 
-		for (int j = 0; j < cheater.currentGameStaticsList.size(); j++) {
-			list.add(cheater.currentGameStaticsList.get(j).territory.getName());
-		}
-
-		for (int j = 0; j < list.size(); j++) {
-            neighlist = new ArrayList<>();
-			for (int jj = 0; jj < cheater.currentGameStaticsList.get(j).territory.getNeighbouringTerritories()
-					.size(); jj++) {
-				String neighbour = cheater.currentGameStaticsList.get(j).territory.getNeighbouringTerritories().get(jj);
-				neighlist.add(neighbour);
+		if (cheater.currentGameStaticsList.size() > 0) {
+			for (int j = 0; j < cheater.currentGameStaticsList.size(); j++) {
+				list.add(cheater.currentGameStaticsList.get(j).territory.getName());
 			}
-			boolean allMine = true;
-			for (int jj = 0; jj < neighlist.size(); jj++) {
-				if (!list.contains(neighlist.get(jj))) {
-					int infant = cheater.currentGameStaticsList.get(j).infantries;
-					if (infant > 0) {
-						cheater.setMessage(
-								"Fortification Phase\r\nPlayer - " + cheater.getName() + " has doubled infantries on "
-										+ cheater.currentGameStaticsList.get(j).territory.getName() + " from " + infant
-										+ " to " + infant * 2);
-						cheater.currentGameStaticsList.get(j).infantries = infant * 2;
+
+			for (int j = 0; j < list.size(); j++) {
+				neighlist = new ArrayList<>();
+				for (int jj = 0; jj < cheater.currentGameStaticsList.get(j).territory.getNeighbouringTerritories()
+						.size(); jj++) {
+					String neighbour = cheater.currentGameStaticsList.get(j).territory.getNeighbouringTerritories()
+							.get(jj);
+					neighlist.add(neighbour);
+				}
+				boolean allMine = true;
+				for (int jj = 0; jj < neighlist.size(); jj++) {
+					if (!list.contains(neighlist.get(jj))) {
+						int infant = cheater.currentGameStaticsList.get(j).infantries;
+						if (infant > 0) {
+							cheater.setMessage("Fortification Phase\r\nPlayer - " + cheater.getName()
+									+ " has doubled infantries on "
+									+ cheater.currentGameStaticsList.get(j).territory.getName() + " from " + infant
+									+ " to " + infant * 2);
+							cheater.currentGameStaticsList.get(j).infantries = infant * 2;
+						}
+						cheater.notifyObservers();
+						cheater.currentGameStaticsTableModel.fireTableDataChanged();
+						allMine = false;
+						break;
 					}
-					cheater.notifyObservers();
-					cheater.currentGameStaticsTableModel.fireTableDataChanged();
-					allMine = false;
-					break;
+				}
+
+				if (allMine) {
+					nonList.add(j + ":" + list.get(j));
 				}
 			}
-
-			if (allMine) {
-				nonList.add(j + ":" + list.get(j));
-			}
+			return 1;
 		}
-		System.out.println(nonList);
 		return 0;
 	}
 

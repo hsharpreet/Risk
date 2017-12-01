@@ -990,6 +990,9 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 				if (!values[i].contains("100")) {
 					labels[i].setText("Player " + (i + 1) + " - " + values[i] + "%");
 				} else {
+					for (int ik = 0; ik < player.length; ik++) {
+						labels[ik].setText("Player " + (i + 1) + " - " + "LOST");
+					}
 					labels[i].setText("Player " + (i + 1) + " - " + "WINS");
 					jpPlayground.removeAll();
 					jpPlayground.revalidate();

@@ -56,21 +56,21 @@ public class AggressivePlayerStrategy implements PlayerStrategy, Serializable {
 				player.setMessage("Player has finished with armies, comp will place all their left armies now!");
 			}
 			for (int x = 0; x < loop; x++) {
-				index = randomNumber(player.currentGameStaticsList.size());
-				player.currentGameStaticsList.get(index).infantries++;
-				player.infantriesAvailable--;
-				player.getPlayerPanel().lbAvailableArmies
-						.setText("Available Infantries : " + player.infantriesAvailable);
-				player.currentGameStaticsTableModel.fireTableDataChanged();
+				if (player.currentGameStaticsList.size() > 0) {
+					index = randomNumber(player.currentGameStaticsList.size());
+					player.currentGameStaticsList.get(index).infantries++;
+					player.infantriesAvailable--;
+					player.getPlayerPanel().lbAvailableArmies
+							.setText("Available Infantries : " + player.infantriesAvailable);
+					player.currentGameStaticsTableModel.fireTableDataChanged();
+					player.setMessage("Startup Phase\r\nPlayer - " + player.getName() + " has placed infantry in "
+							+ player.currentGameStaticsList.get(index).territory.getName().toUpperCase()
+							+ " and turn switched to next player");
+					player.notifyObservers();
+				} else {
+					return 0;
+				}
 			}
-
-			// player.getPlayerPanel().btPlaceInfantry.setEnabled(false);
-			// player.nextIndexToEnableButton(i);
-
-			player.setMessage("Startup Phase\r\nPlayer - " + player.getName() + " has placed infantry in "
-					+ player.currentGameStaticsList.get(index).territory.getName().toUpperCase()
-					+ " and turn switched to next player");
-			player.notifyObservers();
 
 		}
 
@@ -93,7 +93,8 @@ public class AggressivePlayerStrategy implements PlayerStrategy, Serializable {
 		int loop = (player.infantriesAvailable > 0) ? 1 : 0;
 
 		if (army > 0) {
-			// loop = (player.infantriesAvailable > 0) ? 1 : player.infantriesAvailable;
+			// loop = (player.infantriesAvailable > 0) ? 1 :
+			// player.infantriesAvailable;
 			loop = army;
 			CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Human has finished with reinforcing armies, "
 					+ player.getName() + " will place all their left armies now!");
@@ -102,31 +103,33 @@ public class AggressivePlayerStrategy implements PlayerStrategy, Serializable {
 
 		if (player.infantriesAvailable > 0) {
 			for (int x = 0; x < loop; x++) {
+				if (player.currentGameStaticsList.size() > 0) {
+					ArrayList<Integer> val = new ArrayList<Integer>();
+					ArrayList<Integer> valIndex = new ArrayList<Integer>();
 
-				ArrayList<Integer> val = new ArrayList<Integer>();
-				ArrayList<Integer> valIndex = new ArrayList<Integer>();
+					for (int j = 0; j < player.currentGameStaticsList.size(); j++) {
+						val.add(j);
+						valIndex.add(player.currentGameStaticsList.get(j).infantries);
+					}
 
-				for (int j = 0; j < player.currentGameStaticsList.size(); j++) {
-					val.add(j);
-					valIndex.add(player.currentGameStaticsList.get(j).infantries);
-				}
+					int index = 0;
+					if (val.size() > 0) {
+						int max = Collections.max(valIndex);
+						index = val.get(valIndex.indexOf(max));
+					}
 
-				int index = 0;
-				if (val.size() > 0) {
-					int max = Collections.max(valIndex);
-					index = val.get(valIndex.indexOf(max));
-				}
+					player.currentGameStaticsList.get(index).infantries++;
+					player.infantriesAvailable--;
+					player.getPlayerPanel().lbAvailableArmies
+							.setText("Available Infantries : " + player.infantriesAvailable);
 
-				player.currentGameStaticsList.get(index).infantries++;
-				player.infantriesAvailable--;
-				player.getPlayerPanel().lbAvailableArmies
-						.setText("Available Infantries : " + player.infantriesAvailable);
+					player.setMessage("Player - " + player.getName() + " has placed infantry in "
+							+ player.currentGameStaticsList.get(index).territory.getName().toUpperCase());
 
-				player.setMessage("Player - " + player.getName() + " has placed infantry in "
-						+ player.currentGameStaticsList.get(index).territory.getName().toUpperCase());
+					if (player.infantriesAvailable == 0) {
+						return 1;
+					}
 
-				if (player.infantriesAvailable == 0) {
-					return 1;
 				}
 
 			}
@@ -163,9 +166,6 @@ public class AggressivePlayerStrategy implements PlayerStrategy, Serializable {
 				aggressive.currentGameStaticsList, mapDetails));
 		dialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
 		dialog.setSize(1020, 600);
-		// dialog.setVisible(true);
-		// new AttackPhase(player, ii, random.currentGameStaticsTableModel,
-		// random.currentGameStaticsList, mapDetails);
 		return 0;
 
 	}
@@ -184,58 +184,60 @@ public class AggressivePlayerStrategy implements PlayerStrategy, Serializable {
 	 */
 	public int fortificationStrategy(int i, Player aggresivePlayer, int army) {
 		List<String> playerTerritoriesNames = new ArrayList<>();
-		for (int j = 0; j < aggresivePlayer.currentGameStaticsList.size(); j++) {
-			playerTerritoriesNames.add(aggresivePlayer.currentGameStaticsList.get(j).territory.getName());
-		}
-		boolean flag = true;
-		// Array of territories which have highest army but dont get fortified
-		List<String> highestArmyTerritories = new ArrayList<>();
-		while (flag) {
-			int maxArmy = 0;
-			int maxArmyIndex = -1;
+		if(aggresivePlayer.currentGameStaticsList.size() > 0){
 			for (int j = 0; j < aggresivePlayer.currentGameStaticsList.size(); j++) {
-				if (aggresivePlayer.currentGameStaticsList.get(j).infantries > maxArmy && !highestArmyTerritories
-						.contains(aggresivePlayer.currentGameStaticsList.get(j).territory.getName())) {
-					maxArmy = aggresivePlayer.currentGameStaticsList.get(j).infantries;
-					maxArmyIndex = j;
-				}
+				playerTerritoriesNames.add(aggresivePlayer.currentGameStaticsList.get(j).territory.getName());
 			}
-			int count = 0;
-			if (maxArmyIndex == -1) {
-				aggresivePlayer.setMessage("Fortification Phase\r\nPlayer - " + aggresivePlayer.getName()
-						+ " cant fortify as it has no country which can move its armies to neighbours  ");
-				aggresivePlayer.notifyObservers();
-				return 0;
-			} else {
-				for (String neighbour : aggresivePlayer.currentGameStaticsList.get(maxArmyIndex).territory
-						.getNeighbouringTerritories()) {
-					if (playerTerritoriesNames.contains(neighbour)) {
-						int index = playerTerritoriesNames.indexOf(neighbour);
-						if (aggresivePlayer.currentGameStaticsList.get(index).infantries > 1) {
-							count++;
-							aggresivePlayer.currentGameStaticsList.get(index).infantries--;
-							aggresivePlayer.currentGameStaticsList.get(maxArmyIndex).infantries++;
-							aggresivePlayer.setMessage("Fortification Phase\r\nPlayer - " + aggresivePlayer.getName()
-									+ " has transfered 1 infantry from "
-									+ aggresivePlayer.currentGameStaticsList.get(index).territory.getName() + " to "
-									+ aggresivePlayer.currentGameStaticsList.get(maxArmyIndex).territory.getName());
-							aggresivePlayer.notifyObservers();
-						}
+			boolean flag = true;
+			// Array of territories which have highest army but dont get fortified
+			List<String> highestArmyTerritories = new ArrayList<>();
+			while (flag) {
+				int maxArmy = 0;
+				int maxArmyIndex = -1;
+				for (int j = 0; j < aggresivePlayer.currentGameStaticsList.size(); j++) {
+					if (aggresivePlayer.currentGameStaticsList.get(j).infantries > maxArmy && !highestArmyTerritories
+							.contains(aggresivePlayer.currentGameStaticsList.get(j).territory.getName())) {
+						maxArmy = aggresivePlayer.currentGameStaticsList.get(j).infantries;
+						maxArmyIndex = j;
 					}
 				}
-				if (count > 0) {
-					flag = false;
+				int count = 0;
+				if (maxArmyIndex == -1) {
+					aggresivePlayer.setMessage("Fortification Phase\r\nPlayer - " + aggresivePlayer.getName()
+							+ " cant fortify as it has no country which can move its armies to neighbours  ");
+					aggresivePlayer.notifyObservers();
+					return 0;
+				} else {
+					for (String neighbour : aggresivePlayer.currentGameStaticsList.get(maxArmyIndex).territory
+							.getNeighbouringTerritories()) {
+						if (playerTerritoriesNames.contains(neighbour)) {
+							int index = playerTerritoriesNames.indexOf(neighbour);
+							if (aggresivePlayer.currentGameStaticsList.get(index).infantries > 1) {
+								count++;
+								aggresivePlayer.currentGameStaticsList.get(index).infantries--;
+								aggresivePlayer.currentGameStaticsList.get(maxArmyIndex).infantries++;
+								aggresivePlayer.setMessage("Fortification Phase\r\nPlayer - " + aggresivePlayer.getName()
+										+ " has transfered 1 infantry from "
+										+ aggresivePlayer.currentGameStaticsList.get(index).territory.getName() + " to "
+										+ aggresivePlayer.currentGameStaticsList.get(maxArmyIndex).territory.getName());
+								aggresivePlayer.notifyObservers();
+							}
+						}
+					}
+					if (count > 0) {
+						flag = false;
 
-				} else if (count == 0) {
-					highestArmyTerritories
-							.add(aggresivePlayer.currentGameStaticsList.get(maxArmyIndex).territory.getName());
+					} else if (count == 0) {
+						highestArmyTerritories
+								.add(aggresivePlayer.currentGameStaticsList.get(maxArmyIndex).territory.getName());
+					}
 				}
 			}
+			aggresivePlayer.currentGameStaticsTableModel.fireTableDataChanged();
+			aggresivePlayer.setMessage("Player - " + aggresivePlayer.getName() + " fortification phase ended  ");
+			aggresivePlayer.notifyObservers();
+			return 0;
 		}
-		aggresivePlayer.currentGameStaticsTableModel.fireTableDataChanged();
-		aggresivePlayer.setMessage("Player - " + aggresivePlayer.getName() + " fortification phase ended  ");
-		aggresivePlayer.notifyObservers();
 		return 0;
-	}
-
+		}
 }

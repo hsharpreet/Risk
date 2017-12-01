@@ -509,6 +509,10 @@ public class Player extends Observable implements Serializable {
 		player[0].setMessage("Player - " + player[0].getName() + " entered into Reinforcement Phase");
 		player[0].notifyObservers();
 
+		if(player[0].currentGameStaticsList.size() == 0){
+			player[0].getPlayerPanel().btReinforcement.setEnabled(false);
+			player[0].nextPlayerTurn(100);
+		}
 	}
 
 	/**
@@ -614,9 +618,16 @@ public class Player extends Observable implements Serializable {
 		}
 	}
 
-	private void updateTables() {
+	public void updateTables() {
 		for (int i = 0; i < player.length; i++) {
-			player[i].currentGameStaticsTableModel.fireTableDataChanged();
+			try {
+				TimeUnit.MILLISECONDS.sleep(10);
+				player[i].currentGameStaticsTableModel.fireTableDataChanged();
+				TimeUnit.MILLISECONDS.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
 		}
 	}
 
@@ -652,7 +663,18 @@ public class Player extends Observable implements Serializable {
 	 *            player no.
 	 */
 	public void nextPlayerTurn(int i) {
+		int total = 0;
+		for (int j = 0; j < player.length; j++) {
+			if (player[j].currentGameStaticsList.size() > 0) {
+				total +=0;
+			}
+		}
+		
 		boolean automatic = false;
+		
+		if(i == 100){
+			automatic = true;
+		}
 		for (int j = 1; j < player.length; j++) {
 			player[j].getPlayerPanel().btReinforcement.setEnabled(false);
 			player[j].getPlayerPanel().btFortification.setEnabled(false);
@@ -661,39 +683,42 @@ public class Player extends Observable implements Serializable {
 
 		player[0].getPlayerPanel().btReinforcement.setEnabled(true);
 
-		for (int k = 1; k < player.length; k++) {
+		if (!automatic) {
+			for (int k = 1; k < player.length; k++) {
 
-			try {
-				TimeUnit.MILLISECONDS.sleep(10);
-				updatePercentage(player[k], "REINFORCEMENT");
-				player[k].reinforcementStrategy(k, player[k], player[k].infantriesAvailable);
-				updateTables();
-
-				updatePercentage(player[k], "ATTACK");
-				player[k].attackStrategy(player, k, player[k], mapDetails);
-				updateTables();
-
-				TimeUnit.MILLISECONDS.sleep(10);
-				updatePercentage(player[k], "FORTIFICATION");
-				player[k].fortificationStrategy(k, player[k], player[k].infantriesAvailable);
-				updateTables();
-
-				if (player[0].infantriesAvailable == 0) {
+				try {
+					TimeUnit.MILLISECONDS.sleep(10);
+					updatePercentage(player[k], "REINFORCEMENT");
+					player[k].reinforcementStrategy(k, player[k], player[k].infantriesAvailable);
 					updateTables();
-					automatic = true;
+
+					updatePercentage(player[k], "ATTACK");
+					player[k].attackStrategy(player, k, player[k], mapDetails);
+					updateTables();
+
+					TimeUnit.MILLISECONDS.sleep(10);
+					updatePercentage(player[k], "FORTIFICATION");
+					player[k].fortificationStrategy(k, player[k], player[k].infantriesAvailable);
+					updateTables();
+
+					if (player[0].currentGameStaticsList.size() == 0) {
+						updateTables();
+						automatic = true;
+					}
+				} catch (InterruptedException e) {
+					e.printStackTrace();
 				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
 			}
 		}
 
 		if (automatic) {
+			
 			boolean check = true;
 			while (check) {
 				for (int k = 1; k < player.length; k++) {
 
 					updatePercentage(player[k], "REINFORCEMENT");
-					player[k].reinforcementStrategy(k, player[k], player[k].infantriesAvailable);
+					//player[k].reinforcementStrategy(k, player[k], player[k].infantriesAvailable);
 					updateTables();
 
 					updatePercentage(player[k], "ATTACK");
@@ -708,6 +733,10 @@ public class Player extends Observable implements Serializable {
 
 				for (int j = 1; j < player.length; j++) {
 					if (player[j].infantriesAvailable > 0) {
+						check = false;
+						break;
+					}
+					if(total == player[j].currentGameStaticsList.size()){
 						check = false;
 						break;
 					}
