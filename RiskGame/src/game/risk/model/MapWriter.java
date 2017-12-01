@@ -240,7 +240,9 @@ public class MapWriter {
 	 *            the list of the territories
 	 * @param territoryToDelete
 	 *            the territory to be deleted
-	 * @throws Exception
+	 * @throws run-time
+	 *             Exception
+	 * @return A String type variable
 	 */
 	private String deleteLinksOfDeletedTerritoryFromOthers(ArrayList<String> territoryList, String territoryToDelete)
 			throws Exception {
@@ -300,7 +302,7 @@ public class MapWriter {
 	 *            the selected continent
 	 * @param territory
 	 *            the territory to which the continent has to be assigned
-	 * @return String
+	 * @return a String type variable
 	 */
 	public String assignNewContinent(String selectedItem, String territory) {
 		try {
@@ -359,7 +361,7 @@ public class MapWriter {
 	 *            the link to be deleted
 	 * @param country
 	 *            the country whose link has to be deleted
-	 * @return status
+	 * @return status a String type variable
 	 */
 
 	public String deleteLink(String link, String country) {
@@ -388,7 +390,9 @@ public class MapWriter {
 	 *            an array list of links
 	 * @param country
 	 *            the country whose link will be deleted
-	 * @throws Exception
+	 * @throws Run-Time
+	 *             Exception
+	 * @return a String variable
 	 */
 	private String deleteLinksOfmodifiedTerritory(ArrayList<String> link, String country) throws Exception {
 		ArrayList<String> link_name = link;
@@ -557,6 +561,15 @@ public class MapWriter {
 		outFile.renameTo(inputFile);
 	}
 
+	/**
+	 * Method to save new maps made from Scratch
+	 * 
+	 * @param mfs
+	 *            an object of MapFromScratch
+	 * @return a String variable
+	 * @throws run-time
+	 *             Exception
+	 */
 	public String saveNewMapFromSracth(MapFromScratch mfs) throws Exception {
 		String status = "";
 
