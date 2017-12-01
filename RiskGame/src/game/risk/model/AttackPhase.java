@@ -587,7 +587,8 @@ public class AttackPhase {
 						break;
 					}
 
-					// Assign Card to player
+					
+					// Assign Card to players
 					for (int p = 0; p < player[myIndex].riskGame.alCards.size(); p++) {
 						if (player[myIndex].riskGame.alCards.get(p).getPlayer() == -1) {
 							player[myIndex].riskGame.alCards.get(p).setPlayer(myIndex);
@@ -595,6 +596,9 @@ public class AttackPhase {
 						}
 					}
 
+					
+					
+	
 					tempGameStaticsList.remove(index2);
 					updateList();
 					break;
@@ -727,7 +731,7 @@ public class AttackPhase {
 	/**
 	 * A method to check if more attack is possible by checking the infantries
 	 * 
-	 * @return flag a boolean variable
+	 * @return flag a boolean variable at end
 	 */
 	boolean checkIfMoreAttackPossible() {
 		boolean flag = false;
@@ -738,6 +742,7 @@ public class AttackPhase {
 			}
 		}
 		if (!flag) {
+			
 			AttackPhase.this.attackPanel.btAttack.setEnabled(false);
 			AttackPhase.this.attackPanel.btCloseAttackPhase.setEnabled(false);
 			AttackPhase.this.attackPanel.btRoleDice.setEnabled(false);
