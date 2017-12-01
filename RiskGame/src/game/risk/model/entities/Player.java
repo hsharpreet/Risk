@@ -80,7 +80,6 @@ public class Player extends Observable implements Serializable {
 	 *            an array of player class
 	 * @param mapDetails
 	 *            an object of RiskMap class
-	 * 
 	 */
 	public Player(RiskGame riskGame, int myIndex, Player player[], RiskMap mapDetails) {
 		this.riskGame = riskGame;
@@ -279,7 +278,7 @@ public class Player extends Observable implements Serializable {
 	/**
 	 * method to check if the player is a computer
 	 * 
-	 * @return isComputer when player is computer
+	 * @return isComputer true when player is computer
 	 */
 	public boolean isComputer() {
 		return isComputer;
@@ -313,7 +312,7 @@ public class Player extends Observable implements Serializable {
 	public void setPlayerPanel(PlayerPanel playerPanel) {
 		this.playerPanel = playerPanel;
 	}
-
+	
 	/**
 	 * Method to get Strategy
 	 * 
@@ -341,6 +340,7 @@ public class Player extends Observable implements Serializable {
 	public void setPhase(String phase) {
 		this.phase = phase;
 	}
+
 
 	/**
 	 * A method to get the continents which are occupied by the player
@@ -384,6 +384,7 @@ public class Player extends Observable implements Serializable {
 	 */
 	public void reinforcementInitialization() {
 
+		setMessage("Reinforcement Initialization");
 		for (i = 0; i < player.length; i++) {
 			int n = calculateReinformentArmiesInitially(i);
 
@@ -479,7 +480,8 @@ public class Player extends Observable implements Serializable {
 				dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 				dialog.addWindowListener(new WindowAdapter() {
 					public void windowClosed(WindowEvent e) {
-						setMessage("RiskCardInfantries," + i + ",Got infantries from risk card " + armiesFromCard);
+						setMessage(
+								"RiskCardInfantries," + (i - 1) + ",Got infantries from risk card " + armiesFromCard);
 						notifyObservers();
 					}
 				});
@@ -503,11 +505,10 @@ public class Player extends Observable implements Serializable {
 			n = 0;
 			m = 0;
 		}
+		player[0].getPlayerPanel().btReinforcement.setEnabled(true);
 		player[0].setMessage("Player - " + player[0].getName() + " entered into Reinforcement Phase");
 		player[0].notifyObservers();
-		player[0].getPlayerPanel().btReinforcement.setEnabled(true);
 
-		i = 0;
 	}
 
 	/**
@@ -530,7 +531,7 @@ public class Player extends Observable implements Serializable {
 		}
 		return reinformentArmies;
 	}
-
+	
 	/**
 	 * Method for adding Cards
 	 * 
@@ -558,12 +559,12 @@ public class Player extends Observable implements Serializable {
 	/**
 	 * a method for the attack phase
 	 * 
-	 * @param i
-	 *            player no.
+	 * @param i player no.
 	 * @return true on existing attack strategy
 	 */
 	public boolean attackInitialization(int i) {
 		player[0].setPhase(GamePhaseEnum.ATTACK.name());
+		player[0].getPlayerPanel().btReinforcement.setEnabled(false);
 		player[0].attackStrategy(player, i, player[i], mapDetails);
 		return true;
 	}
@@ -613,6 +614,12 @@ public class Player extends Observable implements Serializable {
 		}
 	}
 
+	private void updateTables() {
+		for (int i = 0; i < player.length; i++) {
+			player[i].currentGameStaticsTableModel.fireTableDataChanged();
+		}
+	}
+
 	/**
 	 * Method to update percentage
 	 * 
@@ -628,7 +635,7 @@ public class Player extends Observable implements Serializable {
 			double per = (player[i2].currentGameStaticsList.size() * 100.0) / totalTerritories;
 			DecimalFormat df = new DecimalFormat("##.##");
 			per = Double.parseDouble(df.format(per));
-			if (i < player.length - 1)
+			if (i2 < player.length - 1)
 				percentageString += per + ",";
 			else
 				percentageString += per;
@@ -645,48 +652,76 @@ public class Player extends Observable implements Serializable {
 	 *            player no.
 	 */
 	public void nextPlayerTurn(int i) {
-
-		for (int k = 1; k < player.length; k++) {
-
-			try {
-				TimeUnit.MILLISECONDS.sleep(100);
-				updatePercentage(player[k], "REINFORCEMENT");
-				player[k].reinforcementStrategy(k, player[k], player[k].infantriesAvailable);
-				player[k].currentGameStaticsTableModel.fireTableDataChanged();
-				player[k].notifyObservers();
-
-				updatePercentage(player[k], "ATTACK");
-				player[k].attackStrategy(player, k, player[k], mapDetails);
-				player[k].currentGameStaticsTableModel.fireTableDataChanged();
-				player[k].notifyObservers();
-
-				TimeUnit.MILLISECONDS.sleep(100);
-				updatePercentage(player[k], "FORTIFICATION");
-				player[k].fortificationStrategy(k, player[k], player[k].infantriesAvailable);
-				player[k].currentGameStaticsTableModel.fireTableDataChanged();
-				player[k].notifyObservers();
-
-			} catch (InterruptedException e) {
-
-				e.printStackTrace();
-			}
-		}
-
-		reinforcementInitialization();
-
+		boolean automatic = false;
 		for (int j = 1; j < player.length; j++) {
 			player[j].getPlayerPanel().btReinforcement.setEnabled(false);
 			player[j].getPlayerPanel().btFortification.setEnabled(false);
 			player[j].getPlayerPanel().btOk.setEnabled(false);
 		}
 
+		player[0].getPlayerPanel().btReinforcement.setEnabled(true);
+
+		for (int k = 1; k < player.length; k++) {
+
+			try {
+				TimeUnit.MILLISECONDS.sleep(10);
+				updatePercentage(player[k], "REINFORCEMENT");
+				player[k].reinforcementStrategy(k, player[k], player[k].infantriesAvailable);
+				updateTables();
+
+				updatePercentage(player[k], "ATTACK");
+				player[k].attackStrategy(player, k, player[k], mapDetails);
+				updateTables();
+
+				TimeUnit.MILLISECONDS.sleep(10);
+				updatePercentage(player[k], "FORTIFICATION");
+				player[k].fortificationStrategy(k, player[k], player[k].infantriesAvailable);
+				updateTables();
+
+				if (player[0].infantriesAvailable == 0) {
+					updateTables();
+					automatic = true;
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+
+		if (automatic) {
+			boolean check = true;
+			while (check) {
+				for (int k = 1; k < player.length; k++) {
+
+					updatePercentage(player[k], "REINFORCEMENT");
+					player[k].reinforcementStrategy(k, player[k], player[k].infantriesAvailable);
+					updateTables();
+
+					updatePercentage(player[k], "ATTACK");
+					player[k].attackStrategy(player, k, player[k], mapDetails);
+					updateTables();
+
+					updatePercentage(player[k], "FORTIFICATION");
+					player[k].fortificationStrategy(k, player[k], player[k].infantriesAvailable);
+					updateTables();
+
+				}
+
+				for (int j = 1; j < player.length; j++) {
+					if (player[j].infantriesAvailable > 0) {
+						check = false;
+						break;
+					}
+				}
+			}
+		}
+
+		reinforcementInitialization();
 	}
 
 	/**
 	 * Method to check the next index to enable the start phase button
 	 * 
-	 * @param i
-	 *            player no.
+	 * @param i player no.
 	 * @return flag to enable buttons
 	 */
 	public boolean nextIndexToEnableButton(int i) {

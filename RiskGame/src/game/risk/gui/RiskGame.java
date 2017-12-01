@@ -1,5 +1,6 @@
 package game.risk.gui;
 
+import game.risk.controller.MyListSelectionListener;
 import game.risk.gui.PlayerPanel;
 import game.risk.model.GameReader;
 import game.risk.model.GameWriter;
@@ -269,7 +270,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 				panel.setVisible(true);
 				Object[] map = { "Select player type: ", panel };
 
-				if (JOptionPane.showConfirmDialog(jpPlayground, map, "Map from Scratch",
+				if (JOptionPane.showConfirmDialog(RiskGame.this, map, "Select player types",
 						JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
 					Component[] c = panel.getComponents();
 
@@ -999,9 +1000,10 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 			}
 		} else if (message.startsWith("RiskCardInfantries")) {
 			String values[] = message.split(",");
-			int index = Integer.parseInt(values[1]);
 			taMsg += taObserverMessage.getText() + "\n" + message + "\n";
 			taObserverMessage.setText(taMsg);
+			
+			int index = Integer.parseInt(values[1]);
 			player[index].getPlayerPanel().lbMessage3.setText(values[2]);
 
 		} else {
