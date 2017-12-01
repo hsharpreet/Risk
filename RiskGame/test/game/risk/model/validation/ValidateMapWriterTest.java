@@ -208,4 +208,23 @@ public class ValidateMapWriterTest {
 
 		assertTrue(result);
 	}
+	
+	/**
+	 * Method to test list of countries are having a continent for successful
+	 * deletion of continent
+	 * 
+	 * @throws Exception read map exception
+	 */
+	@Test
+	public void testCheckLinkedTerritoriesWithContinent_True() throws Exception {
+
+		List<String> neighbouringCountries = new ArrayList<>();
+		neighbouringCountries.add("Alaska");
+
+		ValidateMapWriter validateMapWriter = new ValidateMapWriter();
+		boolean result = validateMapWriter.checkLinkedTerritoriesWithSelectedContinent("North America",
+				neighbouringCountries, "World.map");
+
+		assertTrue(result);
+	}
 }

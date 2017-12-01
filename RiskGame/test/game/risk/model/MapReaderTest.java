@@ -80,6 +80,21 @@ public class MapReaderTest {
 	}
 	
 	/**
+	 * Method to test Read map countries if the country has asymmetric neighbors
+	 * 
+	 * @throws Exception runtime exception
+	 */
+	@Test
+	public void testReadMapCountrieswithSymmetricNeighbours() throws Exception {
+		MapReader mapReader = new MapReader();
+		String path = "World_AsymmetricNeighbours.map";
+		RiskMap riskMap = mapReader.readMap(path);
+		System.out.println("testReadMapCountrieswithSymmetricNeighbours" + riskMap);
+		assertNotNull(riskMap);
+
+	}
+	
+	/**
 	 * Method to test whether any continent in map is unconnected or not
 	 * 
 	 * @throws Exception runtime exception
