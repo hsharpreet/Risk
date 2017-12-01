@@ -155,16 +155,25 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 				btBrowseActionPerformed(evt);
 			}
 		});
+		/**
+		 * A listener for tournament button
+		 */
 		btTournament.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btTournamentActionPerformed(evt);
 			}
 		});
+		/**
+		 * A listener for Load Game Button
+		 */
 		btLoadGame.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btLoadGameActionPerformed(evt);
 			}
 		});
+		/**
+		 * A listener for save button
+		 */
 		btSave.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				GameWriter gameWriter = new GameWriter(tfMapFile.getText());
@@ -216,6 +225,16 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 				}
 			}
 
+			/**
+			 * Method to create option to select player type
+			 * 
+			 * @param playerCount
+			 *            The number of players
+			 * @param playerType
+			 *            a HashMap
+			 * @return A boolean value
+			 * 
+			 */
 			private boolean selectPlayerTypes(int playerCount, HashMap<Integer, String> playerType) {
 				boolean retr = false;
 
@@ -606,21 +625,25 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 			tfLoadedGameFile.setToolTipText(savedFile.getPath());
 			if (tfLoadedGameFile.getText().toLowerCase().endsWith(".ser")) {
 				GameReader gameReader = new GameReader(tfLoadedGameFile.getText());
-				player=gameReader.readGame();
+				player = gameReader.readGame();
 				String mapFileName = savedFile.getName().split("_")[0];
-				mapFileName+=".map";
+				mapFileName += ".map";
 				mapFile = new File(mapFileName);
 				mapDetails = MapReader.readMapFile(mapFile.getPath());
 				loadSavedPlayersOnPanel();
 				btSave.setEnabled(true);
 			} else {
-				JOptionPane.showMessageDialog(jpPlayground, "Loaded Game File could not read or invalid file. Try again !");
+				JOptionPane.showMessageDialog(jpPlayground,
+						"Loaded Game File could not read or invalid file. Try again !");
 			}
 			CustomLogRecord logRecord = new CustomLogRecord(Level.INFO, "Saved File Loaded into Game");
 			LoggerUtility.consoleHandler.publish(logRecord);
 		}
 	}
-	
+
+	/**
+	 * Method to load saved players on the display panel
+	 */
 	private void loadSavedPlayersOnPanel() {
 
 		btMapEditor.setVisible(false);
@@ -658,17 +681,19 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 		int p = 0;
 		int m = 0;
 		String cardDesigns[] = { "infantry", "cavalry", "artillery" };
-				for (Territory t : mapDetails.getTerritories().values()) {
-					alCards.add(new Card(t, cardDesigns[m]));
-					p++;
-					m++;
-					if (m == 3)
-						m = 0;
-				}
+		for (Territory t : mapDetails.getTerritories().values()) {
+			alCards.add(new Card(t, cardDesigns[m]));
+			p++;
+			m++;
+			if (m == 3)
+				m = 0;
+		}
 
 		for (int i = 0; i < player.length; i++) {
-			/*player[i].getPlayerPanel().lbAvailableArmies
-					.setText("Available Infantries : " + player[i].infantriesAvailable);*/
+			/*
+			 * player[i].getPlayerPanel().lbAvailableArmies
+			 * .setText("Available Infantries : " + player[i].infantriesAvailable);
+			 */
 			player[i].getPlayerPanel().btPlaceInfantry.setEnabled(false);
 			player[i].getPlayerPanel().btReinforcement.setEnabled(false);
 			player[i].getPlayerPanel().btFortification.setEnabled(false);
@@ -688,7 +713,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 					player[i].getPlayerPanel().btOk.setEnabled(true);
 				}
 			}
-			
+
 			double per = (player[i].currentGameStaticsList.size() * 100.0) / mapDetails.getTerritories().size();
 			DecimalFormat df = new DecimalFormat("##.##");
 			per = Double.parseDouble(df.format(per));
@@ -843,7 +868,8 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 				}
 				for (int i = 0; i < playerCount; i++) {
 					player[i].setPhase(GamePhaseEnum.STARTUP.name());
-					player[i].infantriesAvailable =(totalArmies[playerCount - 2])- (player[i].currentGameStaticsList.size());
+					player[i].infantriesAvailable = (totalArmies[playerCount - 2])
+							- (player[i].currentGameStaticsList.size());
 					player[i].getPlayerPanel().lbAvailableArmies
 							.setText("Available Infantries : " + player[i].infantriesAvailable);
 					player[i].currentGameStaticsTableModel.fireTableDataChanged(); // Display data in table
@@ -913,10 +939,10 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 
 	// Variables declaration
 	private javax.swing.JButton btBrowse;
-	//button to save game
+	// button to save game
 	private javax.swing.JButton btSave;
 	private javax.swing.JButton btLoad;
-	//button to load game
+	// button to load game
 	private javax.swing.JButton btLoadGame;
 	private javax.swing.JButton btTournament;
 	private javax.swing.JButton btMapEditor;
