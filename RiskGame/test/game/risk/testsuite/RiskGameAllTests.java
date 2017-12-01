@@ -16,7 +16,7 @@ import game.risk.util.PlayerUtilTest;
 
 /**
  * Suite class to run all test cases of risk game
- * @author amanp
+ * @author Team
  *
  */
 @RunWith(Suite.class)
