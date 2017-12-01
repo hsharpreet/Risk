@@ -52,7 +52,7 @@ public class ReinforcementClickListener implements ActionListener {
 				}
 			if (flag) {
 				player[0].getPlayerPanel().btReinforcement.setEnabled(false);
-				player[0].nextPlayerTurn(1);
+				//player[0].nextPlayerTurn(1);
 			}
 		}
 	}
