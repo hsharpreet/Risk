@@ -33,9 +33,8 @@ import game.risk.util.LoggerUtility;
  * @author Team
  *
  */
-public class TournamentModel implements Observer
-
-{
+public class TournamentModel implements Observer{
+	
 	ArrayList<String> playersTypes = new ArrayList<>();
 	ArrayList<String> mapNames = new ArrayList<>();
 	int gameCount;
@@ -71,7 +70,6 @@ public class TournamentModel implements Observer
 	 *            a string array
 	 */
 	private void getRealPlayers(String[] p) {
-
 		for (int i = 0; i < p.length; i++) {
 			if (!(p[i].equals("Select"))) {
 				// //System.out.println("hiii");
@@ -88,7 +86,6 @@ public class TournamentModel implements Observer
 	 *            a string array
 	 */
 	private void getRealMaps(String[] m) {
-
 		for (int i = 0; i < m.length; i++) {
 			if (m[i] != null && (m[i].endsWith(".map"))) {
 				this.mapNames.add(m[i]);
@@ -111,9 +108,7 @@ public class TournamentModel implements Observer
 	/**
 	 * Method to start the tournament
 	 */
-	public void startTournament()
-
-	{
+	public void startTournament(){
 		Player player[];
 		RiskMap mapDetails;
 
@@ -142,31 +137,19 @@ public class TournamentModel implements Observer
 					player[playerIndex].addObserver(TournamentModel.this);
 
 					if (playersTypes.get(playerIndex).equalsIgnoreCase("Aggressive")) {
-						// logRecord = new CustomLogRecord(Level.INFO, "Strategy: Aggressive");
-						// LoggerUtility.consoleHandler.publish(logRecord);
 						player[playerIndex].setStrategy(new AggressivePlayerStrategy());
 
 					} else if (playersTypes.get(playerIndex).equalsIgnoreCase("Benevolent")) {
-						// logRecord = new CustomLogRecord(Level.INFO, "Strategy: Benevolent Player
-						// Strategy");
-						// LoggerUtility.consoleHandler.publish(logRecord);
 						player[playerIndex].setStrategy(new BenevolentPlayerStrategy());
 
 					} else if (playersTypes.get(playerIndex).equalsIgnoreCase("Random")) {
-						// logRecord = new CustomLogRecord(Level.INFO, "Strategy: Random Player
-						// Strategy");
-						// LoggerUtility.consoleHandler.publish(logRecord);
 						player[playerIndex].setStrategy(new RandomPlayerStrategy());
 
 					} else {
-						// logRecord = new CustomLogRecord(Level.INFO, "Strategy: Cheater Player
-						// Strategy");
-						// LoggerUtility.consoleHandler.publish(logRecord);
 						player[playerIndex].setStrategy(new CheaterPlayerStrategy());
 
 					}
 
-					// player[playerIndex] = new Player(RiskGame.this, i, player, mapDetails);
 					player[playerIndex].currentGameStaticsList = new ArrayList<>();
 					player[playerIndex].currentGameStaticsTableModel = new CurrentGameStaticsTableModel(
 							player[playerIndex].currentGameStaticsList);
@@ -199,11 +182,6 @@ public class TournamentModel implements Observer
 					player[i].infantriesAvailable = (totalArmies[playersTypes.size() - 2])
 							- (player[i].currentGameStaticsList.size());
 					player[i].placeInfantoryStrategy(i, player[i], player[i].infantriesAvailable);
-					// System.out.println("player Name ---" + player[i].getName());
-					for (CurrentGameStatics cgs : player[i].currentGameStaticsList) {
-						// System.out.println("player territory ---" + cgs.territory.getName() + " " +
-						// cgs.infantries);
-					}
 
 				}
 
@@ -225,11 +203,6 @@ public class TournamentModel implements Observer
 						player[i].infantriesTotal += reinforcedArmies;
 						player[i].infantriesAvailable = reinforcedArmies;
 						player[i].reinforcementStrategy(i, player[i], player[i].infantriesAvailable);
-						// System.out.println("player Name ---" + player[i].getName());
-						for (CurrentGameStatics cgs : player[i].currentGameStaticsList) {
-							// System.out.println("player territory ---" + cgs.territory.getName() + " " +
-							// cgs.infantries);
-						}
 
 						logRecord = new CustomLogRecord(Level.INFO,
 								"------------End of Reinforcement Phase-----------");
@@ -255,10 +228,6 @@ public class TournamentModel implements Observer
 								"------------End of Fortification Phase-----------");
 						LoggerUtility.consoleHandler.publish(logRecord);
 						player[i].fortificationStrategy(i, player[i], player[i].infantriesAvailable);
-						for (CurrentGameStatics cgs : player[i].currentGameStaticsList) {
-							// System.out .println("player territory ---" + cgs.territory.getName() + " " +
-							// cgs.infantries);
-						}
 					}
 					currentTurn--;
 					if (winner == true) {
