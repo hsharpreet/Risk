@@ -12,6 +12,7 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import game.risk.gui.AttackGUIPanel;
+import game.risk.model.entities.GamePhaseEnum;
 import game.risk.model.entities.Player;
 import game.risk.model.entities.RiskMap;
 import game.risk.util.CustomLogRecord;
@@ -147,6 +148,7 @@ public class HumanStrategy implements PlayerStrategy, Serializable {
 							JOptionPane.YES_NO_OPTION);
 
 					if (ans == JOptionPane.YES_OPTION) {
+						player[i].setPhase(GamePhaseEnum.FORTIFICATION.name());
 						player[i].getPlayerPanel().btFortification.setEnabled(true);
 						player[i].getPlayerPanel().btOk.setEnabled(true);
 

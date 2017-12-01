@@ -39,7 +39,7 @@ public class GameWriter {
 	 *            The name of the map file
 	 */
 	public GameWriter(String mapFileName) {
-		fileName = mapFileName + "_Game_Status.ser";
+		fileName = mapFileName.split(".map")[0]+ "_Game_Status.ser";
 	}
 
 	/**

@@ -34,11 +34,11 @@ public class GameReader {
 	/**
 	 * a constructor
 	 * 
-	 * @param mapFileName
-	 *            the name of the map file
+	 * @param fileName
+	 *            name of game file
 	 */
-	public GameReader(String mapFileName) {
-		fileName = mapFileName + "_Game_Status.ser";
+	public GameReader(String fileName) {
+		this.fileName = fileName;
 	}
 
 	/**

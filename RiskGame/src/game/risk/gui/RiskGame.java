@@ -612,6 +612,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 				mapFile = new File(mapFileName);
 				mapDetails = MapReader.readMapFile(mapFile.getPath());
 				loadSavedPlayersOnPanel();
+				btSave.setEnabled(true);
 			} else {
 				JOptionPane.showMessageDialog(jpPlayground, "Loaded Game File could not read or invalid file. Try again !");
 			}
@@ -641,17 +642,29 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 
 			// player[i] = new Player(RiskGame.this, i, player, mapDetails);
 			player[i].addObserver(RiskGame.this);
+			player[i].riskGame = RiskGame.this;
 			// player[i].getPlayerPanel().lbTotalArmies.setText("Total
 			// Infantries : " + player[i].infantriesTotal);
 			if (i == 0) {
 				player[i].bindListeners();
 				player[i].getPlayerPanel().lbPlayer.setText("Human Player : " + (i + 1));
 			} else {
+				player[i].bindListeners();
 				player[i].getPlayerPanel().lbPlayer.setText(player[i].getName() + " Player: " + (i + 1));
 			}
 			jpPlayground.add(player[i].getPlayerPanel());
 
 		}
+		int p = 0;
+		int m = 0;
+		String cardDesigns[] = { "infantry", "cavalry", "artillery" };
+				for (Territory t : mapDetails.getTerritories().values()) {
+					alCards.add(new Card(t, cardDesigns[m]));
+					p++;
+					m++;
+					if (m == 3)
+						m = 0;
+				}
 
 		for (int i = 0; i < player.length; i++) {
 			/*player[i].getPlayerPanel().lbAvailableArmies
@@ -798,6 +811,7 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 						player[i].bindListeners();
 						player[i].getPlayerPanel().lbPlayer.setText("Human Player : " + (i + 1));
 					} else {
+						player[i].bindListeners();
 						player[i].getPlayerPanel().lbPlayer.setText(playerType.get(i) + " Player: " + (i + 1));
 					}
 					jpPlayground.add(player[i].getPlayerPanel());
@@ -828,10 +842,10 @@ public class RiskGame extends javax.swing.JFrame implements Observer {
 					}
 				}
 				for (int i = 0; i < playerCount; i++) {
-					player[i].infantriesAvailable = 2;// (totalArmies[playerCount - 2])
-					// - (player[i].currentGameStaticsList.size());
+					player[i].setPhase(GamePhaseEnum.STARTUP.name());
+					player[i].infantriesAvailable =(totalArmies[playerCount - 2])- (player[i].currentGameStaticsList.size());
 					player[i].getPlayerPanel().lbAvailableArmies
-							.setText("Available Infantries : 2=" + player[i].infantriesAvailable);
+							.setText("Available Infantries : " + player[i].infantriesAvailable);
 					player[i].currentGameStaticsTableModel.fireTableDataChanged(); // Display data in table
 
 					player[i].getPlayerPanel().btPlaceInfantry.setEnabled(false);
