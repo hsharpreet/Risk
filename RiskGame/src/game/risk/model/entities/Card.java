@@ -47,7 +47,7 @@ public class Card {
 	/**
 	 * Method to get the card design
 	 * 
-	 * @return cardDesign a String variable
+	 * @return cardDesign Type of card
 	 */
 	public String getCardDesign() {
 		return cardDesign;
@@ -57,7 +57,7 @@ public class Card {
 	 * Method to set the card Design details in the class attribute
 	 * 
 	 * @param cardDesign
-	 *            A string variable
+	 *            type of card
 	 */
 	public void setCardDesign(String cardDesign) {
 		this.cardDesign = cardDesign;

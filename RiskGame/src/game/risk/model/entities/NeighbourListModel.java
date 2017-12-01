@@ -7,11 +7,10 @@ import javax.swing.AbstractListModel;
 /**
  * This class is a list model which is used to make the displaying list dynamic
  * 
+ * @author Team
  */
 public class NeighbourListModel extends AbstractListModel implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	public List<String> neighbours;
 

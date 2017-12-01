@@ -80,7 +80,7 @@ public class Player extends Observable implements Serializable {
 	 *            an array of player class
 	 * @param mapDetails
 	 *            an object of RiskMap class
-	 * @return modified objects
+	 * 
 	 */
 	public Player(RiskGame riskGame, int myIndex, Player player[], RiskMap mapDetails) {
 		this.riskGame = riskGame;
@@ -298,7 +298,7 @@ public class Player extends Observable implements Serializable {
 	/**
 	 * Method to get the player panel
 	 * 
-	 * @return PlayerPanel The panel
+	 * @return playerPanel The panel
 	 */
 	public PlayerPanel getPlayerPanel() {
 		return playerPanel;
@@ -326,7 +326,7 @@ public class Player extends Observable implements Serializable {
 	/**
 	 * Method to get phase of player
 	 * 
-	 * @return phase phase of player
+	 * @return phase a phase of player
 	 */
 	public String getPhase() {
 		return phase;
@@ -667,22 +667,19 @@ public class Player extends Observable implements Serializable {
 				player[k].notifyObservers();
 
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			}
 		}
 
 		reinforcementInitialization();
-		/*
-		 * if (i == player.length) { reinforcementInitialization(); } else {
-		 */
+
 		for (int j = 1; j < player.length; j++) {
 			player[j].getPlayerPanel().btReinforcement.setEnabled(false);
 			player[j].getPlayerPanel().btFortification.setEnabled(false);
 			player[j].getPlayerPanel().btOk.setEnabled(false);
 		}
 
-		// }
 	}
 
 	/**
