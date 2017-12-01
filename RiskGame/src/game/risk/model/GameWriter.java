@@ -23,6 +23,7 @@ import game.risk.model.entities.strategy.HumanStrategy;
 
 /**
  * Class to create Game writer
+ *
  * 
  * @author Team
  *
@@ -68,6 +69,7 @@ public class GameWriter {
 	}
 
 	/**
+	 * 
 	 * Method to read the game
 	 * 
 	 * @return an array of player class
